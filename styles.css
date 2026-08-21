@@ -2308,8 +2308,12 @@ html[data-theme="dark"] .contact-section .hero-outline {
     margin-right: -18px;
     padding-right: 18px;
     overflow-x: auto;
+    overflow-y: hidden;
+    align-items: stretch;
     scroll-padding-left: 0;
     scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
@@ -2322,7 +2326,14 @@ html[data-theme="dark"] .contact-section .hero-outline {
     min-width: min(82vw, 310px);
     min-height: 280px;
     padding: 21px;
+    contain: layout paint;
     scroll-snap-align: start;
+  }
+
+  .repo-logo-grid .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   .repo-logo {
