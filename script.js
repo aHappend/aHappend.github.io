@@ -133,6 +133,8 @@ revealElements.forEach((element) => {
 const cursorGlow = document.querySelector(".cursor-glow");
 const finePointer = window.matchMedia("(pointer: fine)").matches;
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hero = document.querySelector(".hero");
+const heroWatercolor = document.querySelector(".hero-watercolor");
 
 if (finePointer && !reducedMotion) {
   let currentX = 0;
@@ -169,6 +171,18 @@ if (finePointer && !reducedMotion) {
     document.body.classList.remove("cursor-active");
   });
 
+  hero.addEventListener("pointermove", (event) => {
+    const bounds = hero.getBoundingClientRect();
+    const offsetX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 14;
+    const offsetY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 10;
+    heroWatercolor.style.setProperty("--hero-paint-x", `${offsetX.toFixed(2)}px`);
+    heroWatercolor.style.setProperty("--hero-paint-y", `${offsetY.toFixed(2)}px`);
+  });
+
+  hero.addEventListener("pointerleave", () => {
+    heroWatercolor.style.setProperty("--hero-paint-x", "0px");
+    heroWatercolor.style.setProperty("--hero-paint-y", "0px");
+  });
 }
 
 if (!reducedMotion) {
