@@ -128,4 +128,24 @@ if (finePointer && !reducedMotion) {
   });
 }
 
+if (!reducedMotion) {
+  document
+    .querySelectorAll("main > .section, main > .contact-section")
+    .forEach((section) => {
+      section.addEventListener("pointermove", (event) => {
+        if (event.pointerType && event.pointerType !== "mouse") {
+          return;
+        }
+        const bounds = section.getBoundingClientRect();
+        section.style.setProperty("--section-pointer-x", `${event.clientX - bounds.left}px`);
+        section.style.setProperty("--section-pointer-y", `${event.clientY - bounds.top}px`);
+        section.classList.add("pointer-lit");
+      });
+
+      section.addEventListener("pointerleave", () => {
+        section.classList.remove("pointer-lit");
+      });
+    });
+}
+
 document.getElementById("year").textContent = new Date().getFullYear();
