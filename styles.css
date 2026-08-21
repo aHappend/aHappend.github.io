@@ -336,6 +336,17 @@ body.cursor-active .cursor-glow {
   transition: transform 180ms ease;
 }
 
+html:not([data-theme="dark"]) .desktop-nav a::after {
+  height: 2px;
+  background: #005f87;
+  box-shadow: 0 1px 6px rgba(0, 95, 135, 0.28);
+}
+
+html[data-theme="dark"] .desktop-nav a::after {
+  background: var(--cyan);
+  box-shadow: 0 1px 7px rgba(110, 231, 238, 0.3);
+}
+
 .desktop-nav a:hover,
 .desktop-nav a:focus-visible {
   opacity: 1;
