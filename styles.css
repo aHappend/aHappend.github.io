@@ -17,7 +17,12 @@
   --max: 1240px;
   --radius: 24px;
   --font-sans: "Manrope", "Noto Sans SC", sans-serif;
+  --font-display: "Newsreader", "Noto Serif SC", serif;
   --font-mono: "DM Mono", monospace;
+  --paint-blue: rgba(62, 154, 214, 0.34);
+  --paint-cyan: rgba(86, 215, 226, 0.3);
+  --paint-coral: rgba(255, 125, 91, 0.25);
+  --paint-violet: rgba(133, 104, 208, 0.2);
   color-scheme: light;
 }
 
@@ -33,6 +38,10 @@ html[data-theme="dark"] {
   --glass-bg: rgba(13, 25, 34, 0.62);
   --glass-border: rgba(255, 255, 255, 0.13);
   --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+  --paint-blue: rgba(61, 161, 219, 0.2);
+  --paint-cyan: rgba(91, 220, 230, 0.16);
+  --paint-coral: rgba(255, 117, 82, 0.14);
+  --paint-violet: rgba(157, 120, 230, 0.18);
   color-scheme: dark;
 }
 
@@ -51,6 +60,7 @@ main section[id] {
 body {
   margin: 0;
   overflow-x: hidden;
+  isolation: isolate;
   color: var(--ink);
   background:
     radial-gradient(circle at 8% 20%, rgba(114, 211, 250, 0.22), transparent 28%),
@@ -59,6 +69,12 @@ body {
   background-attachment: fixed;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
 }
 
 body,
@@ -130,6 +146,76 @@ button {
   pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+}
+
+.watercolor-canvas {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.watercolor-wash {
+  position: absolute;
+  width: 52vw;
+  height: 52vw;
+  min-width: 520px;
+  min-height: 520px;
+  border-radius: 43% 57% 62% 38% / 48% 36% 64% 52%;
+  filter: blur(34px);
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+  animation: watercolor-drift 18s ease-in-out infinite alternate;
+}
+
+html[data-theme="dark"] .watercolor-wash {
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+
+.wash-cobalt {
+  top: -18vw;
+  left: -16vw;
+  background:
+    radial-gradient(ellipse at 56% 52%, var(--paint-blue), transparent 67%);
+}
+
+.wash-cyan {
+  top: 24vh;
+  right: -22vw;
+  background:
+    radial-gradient(ellipse at 44% 48%, var(--paint-cyan), transparent 68%);
+  animation-delay: -5s;
+}
+
+.wash-coral {
+  bottom: -20vw;
+  left: 10vw;
+  background:
+    radial-gradient(ellipse at 50% 46%, var(--paint-coral), transparent 66%);
+  animation-delay: -9s;
+}
+
+.wash-violet {
+  right: 12vw;
+  bottom: 15vh;
+  width: 38vw;
+  height: 38vw;
+  background:
+    radial-gradient(ellipse at 52% 48%, var(--paint-violet), transparent 65%);
+  animation-delay: -13s;
+}
+
+@keyframes watercolor-drift {
+  0% {
+    border-radius: 43% 57% 62% 38% / 48% 36% 64% 52%;
+    transform: translate3d(-2%, -1%, 0) rotate(-3deg) scale(0.98);
+  }
+  100% {
+    border-radius: 58% 42% 39% 61% / 37% 59% 41% 63%;
+    transform: translate3d(3%, 2%, 0) rotate(4deg) scale(1.06);
+  }
 }
 
 .cursor-glow {
@@ -1671,6 +1757,332 @@ html[data-theme="dark"] .social-card.pointer-card-active {
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
 }
 
+/* Watercolor editorial art direction */
+.hero h1,
+.section h2,
+.contact-section h2,
+.project-card h3,
+.publication-main strong,
+.about-intro,
+.repo-logo-card > strong,
+.social-card strong {
+  font-family: var(--font-display);
+}
+
+.hero {
+  background:
+    radial-gradient(ellipse at 78% 30%, var(--paint-cyan), transparent 36%),
+    radial-gradient(ellipse at 12% 82%, var(--paint-coral), transparent 38%),
+    color-mix(in srgb, var(--paper) 78%, transparent);
+}
+
+html[data-theme="dark"] .hero {
+  background:
+    radial-gradient(ellipse at 78% 30%, var(--paint-cyan), transparent 36%),
+    radial-gradient(ellipse at 12% 82%, var(--paint-violet), transparent 38%),
+    color-mix(in srgb, var(--night) 82%, transparent);
+}
+
+.hero-grid {
+  opacity: 0.055;
+  background-size: 86px 86px;
+}
+
+.hero h1 {
+  font-weight: 600;
+  letter-spacing: -0.052em;
+  line-height: 0.88;
+}
+
+.hero h1 .hero-outline {
+  color: #237da7;
+  font-style: italic;
+  -webkit-text-stroke: 0;
+  text-shadow: 0 10px 35px rgba(35, 125, 167, 0.13);
+}
+
+html[data-theme="dark"] .hero h1 .hero-outline {
+  color: var(--cyan);
+  text-shadow: 0 10px 38px rgba(110, 231, 238, 0.14);
+}
+
+.hero::after {
+  border-color: rgba(40, 141, 184, 0.2);
+  border-radius: 48% 52% 41% 59% / 60% 38% 62% 40%;
+  box-shadow:
+    0 0 0 90px rgba(62, 154, 214, 0.025),
+    0 0 0 180px rgba(86, 215, 226, 0.018);
+  transform: rotate(-7deg);
+}
+
+.site-header,
+.hero-panel,
+.org-strip {
+  border-radius: 24px 14px 26px 16px;
+}
+
+.hero-panel {
+  border-color: var(--glass-border);
+  border-radius: 44px 18px 36px 20px;
+}
+
+.section-heading h2 {
+  position: relative;
+  z-index: 1;
+}
+
+.section-heading h2::after {
+  position: absolute;
+  z-index: -1;
+  right: 4%;
+  bottom: 3px;
+  left: 18%;
+  height: 18px;
+  border-radius: 58% 42% 51% 49% / 65% 42% 58% 35%;
+  opacity: 0.5;
+  background: linear-gradient(90deg, var(--paint-cyan), var(--paint-blue), transparent);
+  filter: blur(2px);
+  content: "";
+  transform: rotate(-1.3deg);
+}
+
+.section h2,
+.contact-section h2 {
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+.project-grid {
+  gap: 26px;
+}
+
+.project-card,
+.repo-logo-card,
+.social-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: var(--glass-border);
+  box-shadow:
+    0 18px 50px rgba(35, 104, 136, 0.08),
+    inset 0 0 50px rgba(255, 255, 255, 0.14);
+}
+
+.project-card {
+  border-radius: 38px 13px 32px 17px;
+}
+
+.project-card:nth-child(even) {
+  border-radius: 15px 38px 18px 34px;
+}
+
+.project-card::before,
+.repo-logo-card::before,
+.social-card::before,
+.org-strip::before,
+.publication::before {
+  position: absolute;
+  z-index: 0;
+  inset: -25%;
+  pointer-events: none;
+  opacity: 0.36;
+  background:
+    radial-gradient(ellipse at 18% 22%, var(--card-paint, var(--paint-cyan)), transparent 34%),
+    radial-gradient(ellipse at 86% 78%, var(--paint-blue), transparent 31%);
+  filter: blur(20px);
+  content: "";
+  transform: rotate(-4deg);
+}
+
+.project-card:nth-child(2n),
+.repo-logo-card:nth-child(3n),
+.social-card:nth-child(2n) {
+  --card-paint: var(--paint-coral);
+}
+
+.project-card:nth-child(3n),
+.repo-logo-card:nth-child(4n),
+.social-card:nth-child(3n) {
+  --card-paint: var(--paint-violet);
+}
+
+.project-card > *,
+.repo-logo-card > *,
+.social-card > *,
+.org-strip > *,
+.publication > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project-card > .project-number {
+  position: absolute;
+  z-index: 2;
+}
+
+.project-card h3 {
+  font-weight: 600;
+}
+
+.project-card:hover,
+.repo-logo-card:hover,
+.social-card:hover {
+  border-color: color-mix(in srgb, var(--interactive-accent) 55%, transparent);
+}
+
+.org-strip {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 27px 30px;
+  border-radius: 34px 15px 30px 18px;
+}
+
+.repo-logo-grid,
+.social-grid {
+  gap: 16px;
+  border: 0;
+}
+
+.repo-logo-card {
+  border: 1px solid var(--glass-border);
+  border-radius: 30px 12px 26px 15px;
+}
+
+.repo-logo-card:nth-child(even) {
+  border-radius: 13px 28px 14px 30px;
+}
+
+.repo-logo {
+  border-radius: 50% 44% 55% 42% / 44% 57% 43% 56%;
+  box-shadow: 0 10px 28px rgba(24, 79, 104, 0.12);
+}
+
+.research-section {
+  background:
+    radial-gradient(ellipse at 15% 25%, var(--paint-blue), transparent 38%),
+    radial-gradient(ellipse at 88% 72%, var(--paint-violet), transparent 40%),
+    color-mix(in srgb, var(--paper) 78%, transparent);
+}
+
+html[data-theme="dark"] .research-section {
+  background:
+    radial-gradient(ellipse at 15% 25%, var(--paint-blue), transparent 38%),
+    radial-gradient(ellipse at 88% 72%, var(--paint-violet), transparent 40%),
+    color-mix(in srgb, var(--night) 82%, transparent);
+}
+
+.publication-list {
+  display: grid;
+  gap: 14px;
+}
+
+.publication,
+.publication:last-child {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--glass-border);
+  border-radius: 30px 12px 26px 15px;
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+
+.publication:nth-child(even) {
+  border-radius: 13px 28px 14px 30px;
+}
+
+.publication-main strong {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.about-section {
+  align-items: start;
+}
+
+.about-title {
+  position: sticky;
+  top: 125px;
+}
+
+.about-intro {
+  position: relative;
+  padding: 28px 30px;
+  border: 1px solid var(--glass-border);
+  border-radius: 42px 16px 38px 18px;
+  background:
+    radial-gradient(ellipse at 20% 20%, var(--paint-coral), transparent 44%),
+    var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  font-weight: 500;
+}
+
+.social-section {
+  background:
+    radial-gradient(ellipse at 18% 22%, var(--paint-cyan), transparent 38%),
+    radial-gradient(ellipse at 84% 80%, var(--paint-coral), transparent 42%),
+    color-mix(in srgb, var(--paper) 76%, transparent);
+}
+
+html[data-theme="dark"] .social-section {
+  background:
+    radial-gradient(ellipse at 18% 22%, var(--paint-cyan), transparent 38%),
+    radial-gradient(ellipse at 84% 80%, var(--paint-violet), transparent 42%),
+    color-mix(in srgb, var(--night) 82%, transparent);
+}
+
+.social-card {
+  border: 1px solid var(--glass-border);
+  border-radius: 32px 13px 28px 16px;
+}
+
+.social-card:nth-child(even) {
+  border-radius: 14px 30px 16px 32px;
+}
+
+.social-symbol {
+  border-radius: 50% 43% 56% 45% / 45% 58% 42% 55%;
+  box-shadow: 0 10px 26px rgba(20, 76, 101, 0.13);
+}
+
+.contact-section {
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 14% 25%, rgba(255, 255, 255, 0.62), transparent 32%),
+    radial-gradient(ellipse at 85% 74%, var(--paint-violet), transparent 38%),
+    linear-gradient(135deg, #9ddff3, #b9d7f4 55%, #e7c9e9);
+}
+
+html[data-theme="dark"] .contact-section {
+  color: white;
+  background:
+    radial-gradient(ellipse at 14% 25%, rgba(110, 231, 238, 0.16), transparent 32%),
+    radial-gradient(ellipse at 85% 74%, var(--paint-violet), transparent 38%),
+    linear-gradient(135deg, #102d3a, #17263d 55%, #2b1d39);
+}
+
+.contact-section .hero-outline {
+  color: #426f9d;
+  font-style: italic;
+  -webkit-text-stroke: 0;
+}
+
+html[data-theme="dark"] .contact-section .hero-outline {
+  color: #b6c9ff;
+  -webkit-text-stroke: 0;
+}
+
+.marquee {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 30px rgba(24, 104, 140, 0.12);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(22px);
@@ -1730,6 +2142,10 @@ html[data-theme="dark"] .social-card.pointer-card-active {
 
   .about-content {
     padding-top: 0;
+  }
+
+  .about-title {
+    position: static;
   }
 
   .repo-logo-grid,
