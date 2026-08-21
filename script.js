@@ -35,8 +35,7 @@ languageButton.addEventListener("click", () => {
 });
 
 const storedLanguage = localStorage.getItem("language");
-const preferredLanguage = navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en";
-setLanguage(storedLanguage || preferredLanguage);
+setLanguage(storedLanguage || "en");
 
 const filters = document.querySelectorAll(".filter");
 const projectCards = document.querySelectorAll(".project-card");
