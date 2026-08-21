@@ -18,7 +18,7 @@ themeButton.addEventListener("click", () => {
   setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
 });
 
-function setLanguage(language) {
+function applyLanguage(language) {
   document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
   languageLabel.textContent = language === "zh" ? "中文" : "EN";
   languageButton.lastElementChild.textContent = language === "zh" ? "/ EN" : "/ 中文";
@@ -30,12 +30,49 @@ function setLanguage(language) {
   localStorage.setItem("language", language);
 }
 
-languageButton.addEventListener("click", () => {
-  setLanguage(document.documentElement.lang.startsWith("zh") ? "en" : "zh");
-});
-
 const storedLanguage = localStorage.getItem("language");
-setLanguage(storedLanguage || "en");
+applyLanguage(storedLanguage || "en");
+
+let languageTransitioning = false;
+
+languageButton.addEventListener("click", () => {
+  if (languageTransitioning) {
+    return;
+  }
+
+  languageTransitioning = true;
+  languageButton.disabled = true;
+  const nextLanguage = document.documentElement.lang.startsWith("zh") ? "en" : "zh";
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion) {
+    applyLanguage(nextLanguage);
+    languageTransitioning = false;
+    languageButton.disabled = false;
+    return;
+  }
+
+  if (document.startViewTransition) {
+    const transition = document.startViewTransition(() => applyLanguage(nextLanguage));
+    transition.finished.finally(() => {
+      languageTransitioning = false;
+      languageButton.disabled = false;
+    });
+    return;
+  }
+
+  document.documentElement.classList.add("language-fading");
+  window.setTimeout(() => {
+    applyLanguage(nextLanguage);
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove("language-fading");
+    });
+  }, 150);
+  window.setTimeout(() => {
+    languageTransitioning = false;
+    languageButton.disabled = false;
+  }, 360);
+});
 
 const filters = document.querySelectorAll(".filter");
 const projectCards = document.querySelectorAll(".project-card");
