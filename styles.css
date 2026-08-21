@@ -128,14 +128,12 @@ button {
 @keyframes language-view-out {
   to {
     opacity: 0;
-    transform: translateY(-4px);
   }
 }
 
 @keyframes language-view-in {
   from {
     opacity: 0;
-    transform: translateY(5px);
   }
 }
 
@@ -1735,7 +1733,14 @@ html[data-theme="dark"] .social-card:hover {
 .repo-logo-card,
 .social-card {
   transform-style: preserve-3d;
-  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card,
+  .repo-logo-card,
+  .social-card {
+    will-change: transform;
+  }
 }
 
 .project-card.pointer-card-active,
@@ -2166,12 +2171,24 @@ html[data-theme="dark"] .contact-section .hero-outline {
 }
 
 @media (max-width: 680px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .watercolor-wash {
+    animation: none;
+    filter: blur(42px);
+  }
+
   .site-header {
     top: 10px;
     width: calc(100% - 20px);
     height: 60px;
     padding: 0 12px;
     border-radius: 16px;
+    backdrop-filter: blur(14px) saturate(125%);
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
+    transform: translateX(-50%) translateZ(0);
   }
 
   .header-actions {
@@ -2216,6 +2233,8 @@ html[data-theme="dark"] .contact-section .hero-outline {
     width: 100%;
     margin-top: 0;
     padding: 20px;
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
   }
 
   .section {
@@ -2290,7 +2309,7 @@ html[data-theme="dark"] .contact-section .hero-outline {
     padding-right: 18px;
     overflow-x: auto;
     scroll-padding-left: 0;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
 
@@ -2320,6 +2339,8 @@ html[data-theme="dark"] .contact-section .hero-outline {
   .project-card {
     min-height: 360px;
     padding: 22px;
+    backdrop-filter: blur(9px) saturate(115%);
+    -webkit-backdrop-filter: blur(9px) saturate(115%);
   }
 
   .project-number {
@@ -2339,6 +2360,10 @@ html[data-theme="dark"] .contact-section .hero-outline {
     padding: 24px 0;
     grid-template-columns: 38px minmax(0, 1fr) 20px;
     gap: 12px;
+  }
+
+  .publication:hover {
+    padding: 24px 0;
   }
 
   .publication-type {
@@ -2362,6 +2387,8 @@ html[data-theme="dark"] .contact-section .hero-outline {
   .social-card {
     min-height: 225px;
     padding: 18px;
+    backdrop-filter: blur(9px) saturate(115%);
+    -webkit-backdrop-filter: blur(9px) saturate(115%);
   }
 
   .social-symbol {
@@ -2405,6 +2432,31 @@ html[data-theme="dark"] .contact-section .hero-outline {
 
   footer .mono {
     display: none;
+  }
+
+  .reveal {
+    transform: translateY(10px);
+    transition-duration: 480ms;
+  }
+
+  .signal span {
+    animation: none;
+  }
+}
+
+@media (hover: none) {
+  .project-card:hover,
+  .repo-logo-card:hover,
+  .social-card:hover,
+  .org-strip:hover,
+  .publication:hover {
+    color: inherit;
+    border-color: var(--glass-border);
+    background: var(--glass-bg);
+    box-shadow:
+      0 18px 50px rgba(35, 104, 136, 0.08),
+      inset 0 0 50px rgba(255, 255, 255, 0.14);
+    transform: none;
   }
 }
 

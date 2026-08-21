@@ -76,6 +76,7 @@ languageButton.addEventListener("click", () => {
 
 const filters = document.querySelectorAll(".filter");
 const projectCards = document.querySelectorAll(".project-card");
+const mobileMotion = window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 680;
 
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
@@ -95,7 +96,10 @@ const observer = new IntersectionObserver(
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("visible");
-      } else {
+        if (mobileMotion) {
+          observer.unobserve(entry.target);
+        }
+      } else if (!mobileMotion) {
         entry.target.classList.remove("visible");
       }
     });
@@ -117,7 +121,8 @@ revealElements.forEach((element) => {
 
 revealGroups.forEach((elements) => {
   elements.forEach((element, index) => {
-    element.style.setProperty("--reveal-delay", `${index * 90}ms`);
+    const delay = mobileMotion ? Math.min(index, 4) * 45 : index * 90;
+    element.style.setProperty("--reveal-delay", `${delay}ms`);
   });
 });
 
