@@ -11,7 +11,6 @@
   --card-bg: rgba(255, 255, 255, 0.48);
   --interactive-accent: #b93d16;
   --section-glow: rgba(27, 174, 230, 0.28);
-  --section-ring: rgba(0, 112, 158, 0.2);
   --glass-bg: rgba(248, 252, 255, 0.58);
   --glass-border: rgba(255, 255, 255, 0.72);
   --glass-shadow: 0 18px 60px rgba(38, 112, 146, 0.1);
@@ -31,7 +30,6 @@ html[data-theme="dark"] {
   --card-bg: rgba(255, 255, 255, 0.025);
   --interactive-accent: #ff9368;
   --section-glow: rgba(61, 210, 244, 0.22);
-  --section-ring: rgba(110, 231, 238, 0.22);
   --glass-bg: rgba(13, 25, 34, 0.62);
   --glass-border: rgba(255, 255, 255, 0.13);
   --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
@@ -731,9 +729,7 @@ html[lang="zh-CN"] .contact-section h2 {
 }
 
 .section::before,
-.section::after,
-.contact-section::before,
-.contact-section::after {
+.contact-section::before {
   position: absolute;
   z-index: 0;
   inset: 0;
@@ -773,36 +769,9 @@ html[data-theme="dark"] .contact-section::before {
     );
 }
 
-.section::after,
-.contact-section::after {
-  background:
-    repeating-radial-gradient(
-      circle at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
-      transparent 0 54px,
-      var(--section-ring) 55px 56px
-    );
-  mask-image:
-    radial-gradient(
-      circle 380px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
-      black,
-      transparent 72%
-    );
-  -webkit-mask-image:
-    radial-gradient(
-      circle 380px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
-      black,
-      transparent 72%
-    );
-}
-
 .section.pointer-lit::before,
 .contact-section.pointer-lit::before {
   opacity: 1;
-}
-
-.section.pointer-lit::after,
-.contact-section.pointer-lit::after {
-  opacity: 0.72;
 }
 
 .section > *,
@@ -2041,9 +2010,7 @@ html[data-theme="dark"] .social-card.pointer-card-active {
   }
 
   .section::before,
-  .section::after,
-  .contact-section::before,
-  .contact-section::after {
+  .contact-section::before {
     display: none;
   }
 }
