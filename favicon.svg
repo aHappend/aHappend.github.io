@@ -1,54 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
   <title id="title">Sufeng Guo monogram</title>
   <defs>
-    <linearGradient id="paint" x1="12" y1="8" x2="116" y2="120" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#176f9f"/>
-      <stop offset=".48" stop-color="#35b6d0"/>
-      <stop offset="1" stop-color="#7460c8"/>
+    <linearGradient id="paint" x1="14" y1="10" x2="114" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#087798"/>
+      <stop offset=".5" stop-color="#22adc1"/>
+      <stop offset="1" stop-color="#6964bf"/>
     </linearGradient>
-    <radialGradient id="wash-a" cx="0" cy="0" r="1" gradientTransform="translate(36 28) rotate(52) scale(63)">
-      <stop stop-color="#8cecf1" stop-opacity=".78"/>
-      <stop offset="1" stop-color="#8cecf1" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="wash-b" cx="0" cy="0" r="1" gradientTransform="translate(93 94) rotate(-128) scale(58)">
-      <stop stop-color="#a98ce5" stop-opacity=".7"/>
-      <stop offset="1" stop-color="#a98ce5" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="paper" x="-12%" y="-12%" width="124%" height="124%">
-      <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="3" seed="8" result="noise"/>
-      <feColorMatrix in="noise" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .12 0" result="grain"/>
-      <feBlend in="SourceGraphic" in2="grain" mode="soft-light"/>
-    </filter>
   </defs>
+
   <path
-    d="M25 7C45 1 91 3 109 18c17 15 16 74-2 92-17 17-74 18-92-4C-2 85 4 28 25 7Z"
+    d="M37 7h53c20 0 31 12 31 32v50c0 21-11 32-33 32H39C18 121 7 110 7 89V39C7 18 18 7 37 7Z"
     fill="url(#paint)"
   />
   <path
-    d="M25 7C45 1 91 3 109 18c17 15 16 74-2 92-17 17-74 18-92-4C-2 85 4 28 25 7Z"
-    fill="url(#wash-a)"
+    d="M8 37C27 13 61 7 88 19 65 38 35 51 7 56V39c0-1 0-1 1-2Z"
+    fill="#a7f0ec"
+    opacity=".2"
   />
   <path
-    d="M25 7C45 1 91 3 109 18c17 15 16 74-2 92-17 17-74 18-92-4C-2 85 4 28 25 7Z"
-    fill="url(#wash-b)"
-    filter="url(#paper)"
+    d="M30 121c19-24 51-38 91-32 0 21-11 32-33 32Z"
+    fill="#a78ce0"
+    opacity=".25"
   />
+
   <path
-    d="M58 35c-6-11-26-11-31 2-5 14 13 16 23 19 13 4 12 21 1 29-10 8-28 4-33-7"
+    d="M52 35C47 26 31 25 24 34c-9 13 5 21 17 24 13 4 16 13 10 23-7 12-25 12-33 2"
     fill="none"
     stroke="#fff"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="8.5"
+    stroke-width="7.5"
   />
   <path
-    d="M101 40c-6-13-23-16-34-6-14 13-10 42 6 52 11 7 28 1 31-13V61H87"
+    d="M107 38c-7-11-24-14-34-4-13 12-9 38 6 49 11 8 24 4 28-8V63H90"
     fill="none"
     stroke="#fff"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="8.5"
+    stroke-width="7.5"
   />
-  <circle cx="105" cy="24" r="6" fill="#ff7958"/>
-  <circle cx="105" cy="24" r="2.2" fill="#ffd8c9"/>
+  <path
+    d="M90 63h17"
+    fill="none"
+    stroke="#ff8263"
+    stroke-linecap="round"
+    stroke-width="7.5"
+  />
 </svg>
