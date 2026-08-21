@@ -136,6 +136,16 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 const hero = document.querySelector(".hero");
 const heroWatercolor = document.querySelector(".hero-watercolor");
 
+if (!reducedMotion) {
+  const heroMotionObserver = new IntersectionObserver(
+    ([entry]) => {
+      hero.classList.toggle("watercolor-paused", entry.intersectionRatio === 0);
+    },
+    { threshold: 0 }
+  );
+  heroMotionObserver.observe(hero);
+}
+
 if (finePointer && !reducedMotion) {
   let currentX = 0;
   let currentY = 0;
