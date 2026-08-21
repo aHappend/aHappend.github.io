@@ -1049,6 +1049,91 @@ footer a {
   color: white;
 }
 
+/* Light mode uses bright surfaces throughout, not only in the hero. */
+html:not([data-theme="dark"]) .project-featured,
+html:not([data-theme="dark"]) .project-featured:hover {
+  color: var(--ink);
+  border-color: rgba(16, 24, 32, 0.18);
+  background: #dfeae6;
+}
+
+html:not([data-theme="dark"]) .project-featured .project-number,
+html:not([data-theme="dark"]) .project-featured p {
+  color: rgba(16, 24, 32, 0.62);
+}
+
+html:not([data-theme="dark"]) .project-featured .project-meta span,
+html:not([data-theme="dark"]) .project-featured a {
+  border-color: rgba(16, 24, 32, 0.2);
+}
+
+html:not([data-theme="dark"]) .research-section {
+  color: var(--ink);
+  background: #e5e9df;
+}
+
+html:not([data-theme="dark"]) .research-section .section-index {
+  color: #007983;
+}
+
+html:not([data-theme="dark"]) .research-section .section-lead,
+html:not([data-theme="dark"]) .publication-main span,
+html:not([data-theme="dark"]) .publication-year,
+html:not([data-theme="dark"]) .publication-type {
+  color: rgba(16, 24, 32, 0.58);
+}
+
+html:not([data-theme="dark"]) .publication,
+html:not([data-theme="dark"]) .publication:last-child {
+  border-color: rgba(16, 24, 32, 0.17);
+}
+
+html:not([data-theme="dark"]) .publication:hover {
+  color: #007983;
+}
+
+html:not([data-theme="dark"]) .contact-section {
+  color: var(--ink);
+  background: #f0d9c5;
+}
+
+html:not([data-theme="dark"]) .contact-section .hero-outline {
+  -webkit-text-stroke-color: rgba(16, 24, 32, 0.62);
+}
+
+html:not([data-theme="dark"]) .button-light {
+  color: white;
+  background: var(--ink);
+}
+
+html:not([data-theme="dark"]) .contact-section .text-link {
+  border-color: rgba(16, 24, 32, 0.45);
+}
+
+html:not([data-theme="dark"]) footer {
+  color: rgba(16, 24, 32, 0.58);
+  background: #ddd8cd;
+}
+
+html:not([data-theme="dark"]) footer a {
+  color: var(--ink);
+}
+
+/* Dark mode maps every bright accent surface to a deeper counterpart. */
+html[data-theme="dark"] .marquee {
+  color: var(--cyan);
+  background: #17262e;
+}
+
+html[data-theme="dark"] .contact-section {
+  background: #351b19;
+}
+
+html[data-theme="dark"] .button-light {
+  color: var(--night);
+  background: var(--orange);
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(22px);
