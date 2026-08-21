@@ -7,8 +7,11 @@
   --cyan: #6ee7ee;
   --orange: #ff6b35;
   --line: rgba(16, 24, 32, 0.17);
-  --muted: #657078;
+  --muted: #52616c;
   --card-bg: rgba(255, 255, 255, 0.48);
+  --interactive-accent: #b93d16;
+  --section-glow: rgba(27, 174, 230, 0.28);
+  --section-ring: rgba(0, 112, 158, 0.2);
   --glass-bg: rgba(248, 252, 255, 0.58);
   --glass-border: rgba(255, 255, 255, 0.72);
   --glass-shadow: 0 18px 60px rgba(38, 112, 146, 0.1);
@@ -26,6 +29,9 @@ html[data-theme="dark"] {
   --line: rgba(255, 255, 255, 0.16);
   --muted: #9aa6ad;
   --card-bg: rgba(255, 255, 255, 0.025);
+  --interactive-accent: #ff9368;
+  --section-glow: rgba(61, 210, 244, 0.22);
+  --section-ring: rgba(110, 231, 238, 0.22);
   --glass-bg: rgba(13, 25, 34, 0.62);
   --glass-border: rgba(255, 255, 255, 0.13);
   --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
@@ -71,6 +77,12 @@ body,
 a {
   color: inherit;
   text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 4px;
 }
 
 button {
@@ -684,30 +696,66 @@ html[lang="zh-CN"] .contact-section h2 {
 }
 
 .section::before,
-.contact-section::before {
+.section::after,
+.contact-section::before,
+.contact-section::after {
   position: absolute;
   z-index: 0;
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  background:
-    radial-gradient(
-      circle 360px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
-      rgba(255, 255, 255, 0.48),
-      rgba(114, 211, 250, 0.1) 48%,
-      transparent 72%
-    );
   content: "";
   transition: opacity 260ms ease;
+}
+
+.section::before,
+.contact-section::before {
+  background:
+    radial-gradient(
+      circle 100px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      rgba(255, 255, 255, 0.6),
+      transparent 72%
+    ),
+    radial-gradient(
+      circle 520px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      var(--section-glow),
+      transparent 70%
+    );
 }
 
 html[data-theme="dark"] .section::before,
 html[data-theme="dark"] .contact-section::before {
   background:
     radial-gradient(
-      circle 360px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
-      rgba(110, 231, 238, 0.14),
-      rgba(110, 231, 238, 0.04) 48%,
+      circle 100px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      rgba(110, 231, 238, 0.2),
+      transparent 72%
+    ),
+    radial-gradient(
+      circle 520px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      var(--section-glow),
+      transparent 70%
+    );
+}
+
+.section::after,
+.contact-section::after {
+  background:
+    repeating-radial-gradient(
+      circle at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      transparent 0 54px,
+      var(--section-ring) 55px 56px
+    );
+  mask-image:
+    radial-gradient(
+      circle 380px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      black,
+      transparent 72%
+    );
+  -webkit-mask-image:
+    radial-gradient(
+      circle 380px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      black,
       transparent 72%
     );
 }
@@ -715,6 +763,11 @@ html[data-theme="dark"] .contact-section::before {
 .section.pointer-lit::before,
 .contact-section.pointer-lit::before {
   opacity: 1;
+}
+
+.section.pointer-lit::after,
+.contact-section.pointer-lit::after {
+  opacity: 0.72;
 }
 
 .section > *,
@@ -1042,8 +1095,29 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   font-size: 11px;
 }
 
-.org-strip-arrow {
-  font-size: 20px;
+.org-strip-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.org-strip-actions a {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.org-strip-actions a:hover {
+  color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+  background: var(--card-bg);
 }
 
 .repo-logo-grid {
@@ -1069,7 +1143,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 
 .repo-logo-card:hover {
   z-index: 1;
-  color: var(--orange);
+  color: var(--interactive-accent);
   background: var(--paper-strong);
   box-shadow: 0 16px 46px rgba(16, 24, 32, 0.08);
   transform: translateY(-5px);
@@ -1315,7 +1389,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 
 .social-card:hover {
   z-index: 1;
-  color: #087aa8;
+  color: #006b96;
   background: var(--paper-strong);
   box-shadow: 0 18px 48px rgba(8, 122, 168, 0.1);
   transform: translateY(-5px);
@@ -1481,7 +1555,7 @@ html:not([data-theme="dark"]) .research-section {
 }
 
 html:not([data-theme="dark"]) .research-section .section-index {
-  color: #007983;
+  color: #005f69;
 }
 
 html:not([data-theme="dark"]) .research-section .section-lead,
@@ -1497,7 +1571,7 @@ html:not([data-theme="dark"]) .publication:last-child {
 }
 
 html:not([data-theme="dark"]) .publication:hover {
-  color: #007983;
+  color: #005f69;
 }
 
 html:not([data-theme="dark"]) .contact-section {
@@ -1550,6 +1624,47 @@ html[data-theme="dark"] .contact-section {
 html[data-theme="dark"] .button-light {
   color: var(--night);
   background: var(--orange);
+}
+
+html[data-theme="dark"] .social-card:hover {
+  color: var(--cyan);
+}
+
+.project-card,
+.repo-logo-card,
+.social-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.project-card.pointer-card-active,
+.repo-logo-card.pointer-card-active,
+.social-card.pointer-card-active {
+  z-index: 2;
+  background-image:
+    radial-gradient(
+      circle 190px at var(--card-pointer-x, 50%) var(--card-pointer-y, 50%),
+      rgba(255, 255, 255, 0.5),
+      transparent 72%
+    );
+  box-shadow: 0 24px 64px rgba(16, 91, 125, 0.16);
+  transform:
+    perspective(900px)
+    rotateX(var(--card-rotate-x, 0deg))
+    rotateY(var(--card-rotate-y, 0deg))
+    translateY(-5px);
+}
+
+html[data-theme="dark"] .project-card.pointer-card-active,
+html[data-theme="dark"] .repo-logo-card.pointer-card-active,
+html[data-theme="dark"] .social-card.pointer-card-active {
+  background-image:
+    radial-gradient(
+      circle 190px at var(--card-pointer-x, 50%) var(--card-pointer-y, 50%),
+      rgba(110, 231, 238, 0.13),
+      transparent 72%
+    );
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
 }
 
 .reveal {
@@ -1707,7 +1822,7 @@ html[data-theme="dark"] .button-light {
 
   .org-strip {
     padding: 16px;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     gap: 12px;
   }
 
@@ -1727,6 +1842,15 @@ html[data-theme="dark"] .button-light {
 
   .org-strip-copy > span:last-child {
     font-size: 9px;
+  }
+
+  .org-strip-actions {
+    grid-column: 1 / -1;
+  }
+
+  .org-strip-actions a {
+    flex: 1;
+    justify-content: center;
   }
 
   .repo-logo-grid {
@@ -1882,7 +2006,9 @@ html[data-theme="dark"] .button-light {
   }
 
   .section::before,
-  .contact-section::before {
+  .section::after,
+  .contact-section::before,
+  .contact-section::after {
     display: none;
   }
 }

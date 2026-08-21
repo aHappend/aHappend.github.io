@@ -126,9 +126,37 @@ if (finePointer && !reducedMotion) {
     tracking = false;
     document.body.classList.remove("cursor-active");
   });
+
 }
 
 if (!reducedMotion) {
+  document
+    .querySelectorAll(".project-card, .repo-logo-card, .social-card")
+    .forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        if (event.pointerType && event.pointerType !== "mouse") {
+          return;
+        }
+        const bounds = card.getBoundingClientRect();
+        const x = event.clientX - bounds.left;
+        const y = event.clientY - bounds.top;
+        const rotateX = ((y / bounds.height) - 0.5) * -4;
+        const rotateY = ((x / bounds.width) - 0.5) * 5;
+
+        card.style.setProperty("--card-pointer-x", `${x}px`);
+        card.style.setProperty("--card-pointer-y", `${y}px`);
+        card.style.setProperty("--card-rotate-x", `${rotateX.toFixed(2)}deg`);
+        card.style.setProperty("--card-rotate-y", `${rotateY.toFixed(2)}deg`);
+        card.classList.add("pointer-card-active");
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.classList.remove("pointer-card-active");
+        card.style.removeProperty("--card-rotate-x");
+        card.style.removeProperty("--card-rotate-y");
+      });
+    });
+
   document
     .querySelectorAll("main > .section, main > .contact-section")
     .forEach((section) => {
