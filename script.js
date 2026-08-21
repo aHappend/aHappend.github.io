@@ -71,4 +71,44 @@ document.querySelectorAll(".reveal").forEach((element, index) => {
   observer.observe(element);
 });
 
+const cursorGlow = document.querySelector(".cursor-glow");
+const finePointer = window.matchMedia("(pointer: fine)").matches;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (finePointer && !reducedMotion) {
+  let currentX = 0;
+  let currentY = 0;
+  let targetX = 0;
+  let targetY = 0;
+  let tracking = false;
+
+  function followPointer() {
+    currentX += (targetX - currentX) * 0.14;
+    currentY += (targetY - currentY) * 0.14;
+    cursorGlow.style.transform = `translate3d(${currentX - 140}px, ${currentY - 140}px, 0)`;
+
+    if (tracking) {
+      requestAnimationFrame(followPointer);
+    }
+  }
+
+  window.addEventListener("pointermove", (event) => {
+    targetX = event.clientX;
+    targetY = event.clientY;
+
+    if (!tracking) {
+      currentX = targetX;
+      currentY = targetY;
+      tracking = true;
+      document.body.classList.add("cursor-active");
+      requestAnimationFrame(followPointer);
+    }
+  });
+
+  document.documentElement.addEventListener("mouseleave", () => {
+    tracking = false;
+    document.body.classList.remove("cursor-active");
+  });
+}
+
 document.getElementById("year").textContent = new Date().getFullYear();

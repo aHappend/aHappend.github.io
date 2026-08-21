@@ -57,6 +57,7 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="noise" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
 
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Sufeng Guo, home">
@@ -68,6 +69,7 @@
         <a href="#ecosystem" data-en="Ecosystem" data-zh="协作">Ecosystem</a>
         <a href="#research" data-en="Research" data-zh="研究">Research</a>
         <a href="#about" data-en="About" data-zh="关于">About</a>
+        <a href="#social" data-en="Connect" data-zh="社交">Connect</a>
       </nav>
       <div class="header-actions">
         <button class="theme-toggle" type="button" aria-label="Switch to dark theme">
@@ -301,116 +303,134 @@
           </p>
         </div>
 
-        <div class="org-showcase reveal">
-          <div class="org-profile-card">
-            <div class="org-status mono">
-              <span></span>
-              <span data-en="MY OPEN-SOURCE ORGANIZATION" data-zh="我的开源组织">
-                MY OPEN-SOURCE ORGANIZATION
-              </span>
-            </div>
-            <img
-              src="https://avatars.githubusercontent.com/u/315273465?v=4"
-              alt="Argus AI Team"
-              width="112"
-              height="112"
-            >
-            <h3>Argus<span>AI Team</span></h3>
-            <p
-              data-en="A research and engineering collective building AI systems that make humans stronger."
-              data-zh="一个构建增强人类能力的 AI 系统的研究与工程团队。"
-            >
-              A research and engineering collective building AI systems that make humans stronger.
-            </p>
-            <dl class="org-stats">
-              <div>
-                <dt>07</dt>
-                <dd data-en="Public repos" data-zh="公开仓库">Public repos</dd>
-              </div>
-              <div>
-                <dt>04</dt>
-                <dd data-en="Research tracks" data-zh="研究方向">Research tracks</dd>
-              </div>
-            </dl>
-            <a class="org-profile-link" href="https://github.com/Argus-AiTeam"
-               target="_blank" rel="noreferrer">
-              <span data-en="Visit organization" data-zh="访问组织主页">Visit organization</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+        <a class="org-strip reveal" href="https://github.com/Argus-AiTeam"
+           target="_blank" rel="noreferrer">
+          <img
+            src="https://avatars.githubusercontent.com/u/315273465?v=4"
+            alt="Argus AI Team"
+            width="72"
+            height="72"
+          >
+          <span class="org-strip-copy">
+            <span class="mono" data-en="MY OPEN-SOURCE ORGANIZATION" data-zh="我的开源组织">
+              MY OPEN-SOURCE ORGANIZATION
+            </span>
+            <strong>Argus-AiTeam</strong>
+            <span
+              data-en="Building AI systems that make humans stronger."
+              data-zh="构建让人类更强大的 AI 系统。"
+            >Building AI systems that make humans stronger.</span>
+          </span>
+          <span class="org-strip-meta mono">07 PUBLIC REPOSITORIES</span>
+          <span class="org-strip-arrow" aria-hidden="true">↗</span>
+        </a>
 
-          <div class="collaboration-board">
-            <div class="board-header">
-              <span class="mono" data-en="COLLABORATION NETWORK" data-zh="协作网络">
-                COLLABORATION NETWORK
-              </span>
-              <span class="board-live mono"><i></i> OPEN SOURCE</span>
-            </div>
+        <div class="repo-logo-grid">
+          <a class="repo-logo-card reveal" href="https://github.com/lbx154/Argus"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-argus">A</span>
+            <span class="repo-owner mono">lbx154</span>
+            <strong>Argus</strong>
+            <span
+              class="repo-summary"
+              data-en="Self-evolving multi-agent system for continuous autonomous research."
+              data-zh="面向持续自主研究的自进化多智能体系统。"
+            >Self-evolving multi-agent system for continuous autonomous research.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · COLLABORATION</span><i>↗</i></span>
+          </a>
 
-            <div class="featured-collaborations">
-              <a href="https://github.com/lbx154/Argus" target="_blank" rel="noreferrer">
-                <span class="collab-repo mono">lbx154 / Argus</span>
-                <span class="collab-title">
-                  <i class="repo-glyph">A</i>
-                  <strong>Argus</strong>
-                  <span aria-hidden="true">↗</span>
-                </span>
-                <span
-                  class="collab-description"
-                  data-en="Self-evolving multi-agent system for continuous autonomous research."
-                  data-zh="面向持续自主研究的自进化多智能体系统。"
-                >Self-evolving multi-agent system for continuous autonomous research.</span>
-                <span class="collab-role mono">CORE COLLABORATION · PYTHON</span>
-              </a>
+          <a class="repo-logo-card reveal" href="https://github.com/microsoft/ArgusAgent"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-microsoft">M</span>
+            <span class="repo-owner mono">microsoft</span>
+            <strong>ArgusAgent</strong>
+            <span
+              class="repo-summary"
+              data-en="Persistent, reviewed runtime for long-horizon research and engineering."
+              data-zh="用于长时程研究与工程的持久化、可审查运行时。"
+            >Persistent, reviewed runtime for long-horizon research and engineering.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · COLLABORATION</span><i>↗</i></span>
+          </a>
 
-              <a href="https://github.com/microsoft/ArgusAgent" target="_blank" rel="noreferrer">
-                <span class="collab-repo mono">microsoft / ArgusAgent</span>
-                <span class="collab-title">
-                  <i class="repo-glyph microsoft-glyph">M</i>
-                  <strong>ArgusAgent</strong>
-                  <span aria-hidden="true">↗</span>
-                </span>
-                <span
-                  class="collab-description"
-                  data-en="Persistent, reviewed runtime for long-horizon research and engineering."
-                  data-zh="用于长时程研究与工程的持久化、可审查运行时。"
-                >Persistent, reviewed runtime for long-horizon research and engineering.</span>
-                <span class="collab-role mono">MICROSOFT · AGENTIC AI</span>
-              </a>
-            </div>
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/fla-mlx"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-fla">FLA</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>FLA-MLX</strong>
+            <span
+              class="repo-summary"
+              data-en="Flash Linear Attention kernels for MLX and Apple Metal."
+              data-zh="面向 MLX 与 Apple Metal 的 Flash Linear Attention 算子。"
+            >Flash Linear Attention kernels for MLX and Apple Metal.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · METAL</span><i>↗</i></span>
+          </a>
 
-            <div class="team-repositories">
-              <div class="team-repo-heading">
-                <span class="mono" data-en="FROM THE TEAM" data-zh="团队项目">FROM THE TEAM</span>
-                <a href="https://github.com/orgs/Argus-AiTeam/repositories"
-                   target="_blank" rel="noreferrer">
-                  <span data-en="All repositories" data-zh="全部仓库">All repositories</span> ↗
-                </a>
-              </div>
-              <div class="team-repo-list">
-                <a href="https://github.com/Argus-AiTeam/minimax-h3-mac"
-                   target="_blank" rel="noreferrer">
-                  <span><strong>MiniMax-H3 Mac</strong><small>Apple Silicon · MLX</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <a href="https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory"
-                   target="_blank" rel="noreferrer">
-                  <span><strong>Hilbert16 Observatory</strong><small>Autonomous Research</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <a href="https://github.com/Argus-AiTeam/fla-mlx"
-                   target="_blank" rel="noreferrer">
-                  <span><strong>FLA-MLX</strong><small>Metal Kernels</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-                <a href="https://github.com/Argus-AiTeam/ace-2"
-                   target="_blank" rel="noreferrer">
-                  <span><strong>ACE-2</strong><small>AI Accelerator · RTL</small></span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </div>
-          </div>
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/minimax-h3-desktop"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-h3">H3</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>MiniMax-H3 Desktop</strong>
+            <span
+              class="repo-summary"
+              data-en="Full MiniMax-H3 video and stereo audio generation on one RTX A6000."
+              data-zh="在单张 RTX A6000 上运行完整 MiniMax-H3 视频与立体声音频生成。"
+            >Full MiniMax-H3 video and stereo audio generation on one RTX A6000.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · CUDA</span><i>↗</i></span>
+          </a>
+
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/minimax-h3-mac"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-mac">M3</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>MiniMax-H3 Mac</strong>
+            <span
+              class="repo-summary"
+              data-en="Deploying and accelerating MiniMax-H3 on Apple Silicon with unified memory."
+              data-zh="在 Apple Silicon 统一内存平台上部署并加速 MiniMax-H3。"
+            >Deploying and accelerating MiniMax-H3 on Apple Silicon with unified memory.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · MLX</span><i>↗</i></span>
+          </a>
+
+          <a class="repo-logo-card reveal"
+             href="https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-hilbert">H16</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>Hilbert16 Observatory</strong>
+            <span
+              class="repo-summary"
+              data-en="A bilingual observatory for two isolated Argus mathematical research processes."
+              data-zh="观测两个相互隔离的 Argus 数学研究进程的双语平台。"
+            >A bilingual observatory for two isolated Argus mathematical research processes.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · RESEARCH</span><i>↗</i></span>
+          </a>
+
+          <a class="repo-logo-card reveal"
+             href="https://github.com/Argus-AiTeam/ComfyUI-MiniMax-H3-MLX"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-comfy">UI</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>ComfyUI MiniMax-H3</strong>
+            <span
+              class="repo-summary"
+              data-en="MLX video and stereo audio nodes for ComfyUI on Apple Silicon."
+              data-zh="面向 Apple Silicon 的 ComfyUI MLX 视频与立体声音频节点。"
+            >MLX video and stereo audio nodes for ComfyUI on Apple Silicon.</span>
+            <span class="repo-card-footer mono"><span>PYTHON · COMFYUI</span><i>↗</i></span>
+          </a>
+
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/ace-2"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-ace">A2</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>ACE-2</strong>
+            <span
+              class="repo-summary"
+              data-en="Evidence-first Qwen2.5 W4A8 accelerator with certified RTL integration."
+              data-zh="具备认证 RTL 集成的证据优先 Qwen2.5 W4A8 加速器。"
+            >Evidence-first Qwen2.5 W4A8 accelerator with certified RTL integration.</span>
+            <span class="repo-card-footer mono"><span>SYSTEMVERILOG · RTL</span><i>↗</i></span>
+          </a>
         </div>
       </section>
 
@@ -502,8 +522,82 @@
         </div>
       </section>
 
+      <section class="section social-section" id="social">
+        <div class="section-heading">
+          <div>
+            <p class="section-index mono">05 / CONNECT</p>
+            <h2 data-en="Find me around the web." data-zh="在这些平台找到我。">
+              Find me around the web.
+            </h2>
+          </div>
+          <p
+            class="section-lead"
+            data-en="Research notes, project updates, videos, and the occasional idea in progress."
+            data-zh="分享研究笔记、项目进展、视频，以及仍在生长中的想法。"
+          >
+            Research notes, project updates, videos, and the occasional idea in progress.
+          </p>
+        </div>
+
+        <div class="social-grid">
+          <a class="social-card reveal" href="https://github.com/aHappend"
+             target="_blank" rel="noreferrer">
+            <span class="social-symbol">GH</span>
+            <span class="social-name">GitHub</span>
+            <strong>@aHappend</strong>
+            <span class="social-action mono" data-en="CODE & PROJECTS ↗" data-zh="代码与项目 ↗">
+              CODE &amp; PROJECTS ↗
+            </span>
+          </a>
+          <a class="social-card reveal" href="https://x.com/hapouterwall"
+             target="_blank" rel="noreferrer">
+            <span class="social-symbol">X</span>
+            <span class="social-name">X / Twitter</span>
+            <strong>@hapouterwall</strong>
+            <span class="social-action mono" data-en="FOLLOW UPDATES ↗" data-zh="关注动态 ↗">
+              FOLLOW UPDATES ↗
+            </span>
+          </a>
+          <a class="social-card reveal" href="https://instagram.com/hapouterwall"
+             target="_blank" rel="noreferrer">
+            <span class="social-symbol social-symbol-instagram">IG</span>
+            <span class="social-name">Instagram</span>
+            <strong>@hapouterwall</strong>
+            <span class="social-action mono" data-en="VIEW PROFILE ↗" data-zh="查看主页 ↗">
+              VIEW PROFILE ↗
+            </span>
+          </a>
+          <a class="social-card reveal" href="https://www.youtube.com/@hapouterwall"
+             target="_blank" rel="noreferrer">
+            <span class="social-symbol social-symbol-youtube">YT</span>
+            <span class="social-name">YouTube</span>
+            <strong>@hapouterwall</strong>
+            <span class="social-action mono" data-en="WATCH VIDEOS ↗" data-zh="观看视频 ↗">
+              WATCH VIDEOS ↗
+            </span>
+          </a>
+          <a class="social-card reveal" href="https://linktr.ee/sufeng_guo"
+             target="_blank" rel="noreferrer">
+            <span class="social-symbol social-symbol-linktree">LT</span>
+            <span class="social-name">Linktree</span>
+            <strong>@sufeng_guo</strong>
+            <span class="social-action mono" data-en="ALL LINKS ↗" data-zh="全部链接 ↗">
+              ALL LINKS ↗
+            </span>
+          </a>
+          <a class="social-card reveal" href="mailto:sufeng_guo@smail.nju.edu.cn">
+            <span class="social-symbol social-symbol-mail">@</span>
+            <span class="social-name">Email</span>
+            <strong data-en="Say hello" data-zh="发送邮件">Say hello</strong>
+            <span class="social-action mono" data-en="GET IN TOUCH ↗" data-zh="联系我 ↗">
+              GET IN TOUCH ↗
+            </span>
+          </a>
+        </div>
+      </section>
+
       <section class="contact-section">
-        <p class="mono">05 / CONTACT</p>
+        <p class="mono">06 / CONTACT</p>
         <h2>
           <span data-en="Have an ambitious problem?" data-zh="有一个大胆的问题？">Have an ambitious problem?</span>
           <span class="hero-outline" data-en="Let's make it real." data-zh="一起把它变成现实。">
