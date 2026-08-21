@@ -66,8 +66,25 @@ const observer = new IntersectionObserver(
   { threshold: 0.12 }
 );
 
-document.querySelectorAll(".reveal").forEach((element, index) => {
-  element.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
+const revealElements = [...document.querySelectorAll(".reveal")];
+const revealGroups = new Map();
+
+revealElements.forEach((element) => {
+  const group =
+    element.closest(".hero, .project-grid, .ecosystem-section, .publication-list, .about-section, .social-grid") ||
+    element.parentElement;
+  const groupElements = revealGroups.get(group) || [];
+  groupElements.push(element);
+  revealGroups.set(group, groupElements);
+});
+
+revealGroups.forEach((elements) => {
+  elements.forEach((element, index) => {
+    element.style.setProperty("--reveal-delay", `${index * 90}ms`);
+  });
+});
+
+revealElements.forEach((element) => {
   observer.observe(element);
 });
 

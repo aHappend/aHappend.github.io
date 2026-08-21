@@ -9,6 +9,9 @@
   --line: rgba(16, 24, 32, 0.17);
   --muted: #657078;
   --card-bg: rgba(255, 255, 255, 0.48);
+  --glass-bg: rgba(248, 252, 255, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.72);
+  --glass-shadow: 0 18px 60px rgba(38, 112, 146, 0.1);
   --max: 1240px;
   --radius: 24px;
   --font-sans: "Manrope", "Noto Sans SC", sans-serif;
@@ -23,6 +26,9 @@ html[data-theme="dark"] {
   --line: rgba(255, 255, 255, 0.16);
   --muted: #9aa6ad;
   --card-bg: rgba(255, 255, 255, 0.025);
+  --glass-bg: rgba(13, 25, 34, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.13);
+  --glass-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
   color-scheme: dark;
 }
 
@@ -38,7 +44,11 @@ body {
   margin: 0;
   overflow-x: hidden;
   color: var(--ink);
-  background: var(--paper);
+  background:
+    radial-gradient(circle at 8% 20%, rgba(114, 211, 250, 0.22), transparent 28%),
+    radial-gradient(circle at 88% 55%, rgba(110, 231, 238, 0.13), transparent 25%),
+    var(--paper);
+  background-attachment: fixed;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -123,17 +133,23 @@ body.cursor-active .cursor-glow {
 }
 
 .site-header {
-  position: absolute;
-  z-index: 20;
-  top: 0;
+  position: fixed;
+  z-index: 95;
+  top: 14px;
   left: 50%;
   display: flex;
   width: min(calc(100% - 48px), var(--max));
-  height: 96px;
+  height: 68px;
+  padding: 0 18px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
   color: white;
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
   transform: translateX(-50%);
 }
 
@@ -162,7 +178,7 @@ body.cursor-active .cursor-glow {
 }
 
 .desktop-nav {
-  gap: 32px;
+  gap: 24px;
   font-size: 13px;
   font-weight: 600;
 }
@@ -382,7 +398,7 @@ html:not([data-theme="dark"]) .hero .text-link {
 
 html:not([data-theme="dark"]) .hero-panel {
   border-color: rgba(16, 24, 32, 0.2);
-  background: rgba(255, 255, 255, 0.38);
+  background: var(--glass-bg);
 }
 
 html:not([data-theme="dark"]) .avatar {
@@ -486,6 +502,9 @@ p {
   border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
@@ -514,8 +533,10 @@ p {
   margin-bottom: 10px;
   padding: 26px;
   border: 1px solid rgba(255, 255, 255, 0.17);
-  background: rgba(255, 255, 255, 0.045);
-  backdrop-filter: blur(15px);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
 .profile-top {
@@ -705,7 +726,10 @@ p {
   padding: 28px;
   flex-direction: column;
   border: 1px solid var(--line);
-  background: var(--card-bg);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
   transition: border-color 200ms ease, transform 200ms ease, background 200ms ease;
 }
 
@@ -788,6 +812,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   font-size: clamp(28px, 3vw, 44px);
   letter-spacing: -0.045em;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .project-card p {
@@ -917,8 +942,11 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   gap: 20px;
   align-items: center;
-  border: 1px solid var(--line);
-  background: var(--paper-strong);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
   transition: border-color 180ms ease, transform 180ms ease;
 }
 
@@ -949,6 +977,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 .org-strip-copy strong {
   font-size: 22px;
   letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
 
 .org-strip-copy > span:last-child {
@@ -975,7 +1004,9 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   flex-direction: column;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: var(--card-bg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
   transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
@@ -1047,18 +1078,18 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 }
 
 .repo-logo-card > strong {
-  overflow: hidden;
   margin-bottom: 12px;
   font-size: 21px;
   letter-spacing: -0.035em;
   line-height: 1.1;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
 }
 
 .repo-summary {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .repo-card-footer {
@@ -1071,6 +1102,11 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 7px;
+}
+
+.repo-card-footer > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .repo-card-footer i {
@@ -1214,7 +1250,9 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   flex-direction: column;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: var(--card-bg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
   transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
@@ -1235,9 +1273,29 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   border-radius: 16px;
   color: white;
   background: #161d24;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 500;
+}
+
+.social-symbol svg {
+  width: 27px;
+  height: 27px;
+  fill: currentColor;
+}
+
+.social-symbol .stroke-logo {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.social-symbol .logo-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+.social-symbol .youtube-play {
+  fill: #ef2b2d;
 }
 
 .social-symbol-instagram {
@@ -1266,12 +1324,10 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 }
 
 .social-card strong {
-  overflow: hidden;
   margin-bottom: 18px;
   font-size: 20px;
   letter-spacing: -0.03em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .social-action {
@@ -1279,6 +1335,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 8px;
+  overflow-wrap: anywhere;
 }
 
 .tag-list {
@@ -1439,12 +1496,15 @@ html[data-theme="dark"] .button-light {
 .reveal {
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 @media (max-width: 900px) {
