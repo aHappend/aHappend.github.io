@@ -216,53 +216,122 @@ if (!reducedMotion) {
       });
     });
 
-  document
-    .querySelectorAll("main > .section, main > .contact-section")
-    .forEach((section) => {
-      let currentSlowX = 0;
-      let currentSlowY = 0;
-      let targetSlowX = 0;
-      let targetSlowY = 0;
-      let sectionPointerFrame = null;
+  const pointerSections = [
+    ...document.querySelectorAll("main > .section, main > .contact-section"),
+  ];
+  const sectionPointerControllers = new Map();
+  let lastMouseX = null;
+  let lastMouseY = null;
+  let scrollSyncFrame = null;
 
-      function followSectionPointer() {
-        currentSlowX += (targetSlowX - currentSlowX) * 0.07;
-        currentSlowY += (targetSlowY - currentSlowY) * 0.07;
-        section.style.setProperty("--section-pointer-slow-x", `${currentSlowX.toFixed(2)}px`);
-        section.style.setProperty("--section-pointer-slow-y", `${currentSlowY.toFixed(2)}px`);
+  pointerSections.forEach((section) => {
+    let currentSlowX = 0;
+    let currentSlowY = 0;
+    let targetSlowX = 0;
+    let targetSlowY = 0;
+    let sectionPointerFrame = null;
+    let sectionPointerInitialized = false;
 
+    function followSectionPointer() {
+      currentSlowX += (targetSlowX - currentSlowX) * 0.07;
+      currentSlowY += (targetSlowY - currentSlowY) * 0.07;
+      section.style.setProperty("--section-pointer-slow-x", `${currentSlowX.toFixed(2)}px`);
+      section.style.setProperty("--section-pointer-slow-y", `${currentSlowY.toFixed(2)}px`);
+
+      if (
+        Math.abs(targetSlowX - currentSlowX) < 0.1 &&
+        Math.abs(targetSlowY - currentSlowY) < 0.1
+      ) {
+        sectionPointerFrame = null;
+        return;
+      }
+
+      sectionPointerFrame = requestAnimationFrame(followSectionPointer);
+    }
+
+    function updateSectionPointer(clientX, clientY) {
+      const bounds = section.getBoundingClientRect();
+      const pointerX = clientX - bounds.left;
+      const pointerY = clientY - bounds.top;
+      section.style.setProperty("--section-pointer-x", `${pointerX}px`);
+      section.style.setProperty("--section-pointer-y", `${pointerY}px`);
+      targetSlowX = pointerX;
+      targetSlowY = pointerY;
+
+      if (!sectionPointerInitialized) {
+        currentSlowX = pointerX;
+        currentSlowY = pointerY;
+        sectionPointerInitialized = true;
+      }
+
+      if (sectionPointerFrame === null) {
         sectionPointerFrame = requestAnimationFrame(followSectionPointer);
       }
 
-      section.addEventListener("pointermove", (event) => {
-        if (event.pointerType && event.pointerType !== "mouse") {
-          return;
-        }
-        const bounds = section.getBoundingClientRect();
-        const pointerX = event.clientX - bounds.left;
-        const pointerY = event.clientY - bounds.top;
-        section.style.setProperty("--section-pointer-x", `${pointerX}px`);
-        section.style.setProperty("--section-pointer-y", `${pointerY}px`);
-        targetSlowX = pointerX;
-        targetSlowY = pointerY;
+      section.classList.add("pointer-lit");
+    }
 
-        if (sectionPointerFrame === null) {
-          currentSlowX = pointerX;
-          currentSlowY = pointerY;
-          sectionPointerFrame = requestAnimationFrame(followSectionPointer);
-        }
+    function deactivateSectionPointer() {
+      if (sectionPointerFrame !== null) {
+        cancelAnimationFrame(sectionPointerFrame);
+        sectionPointerFrame = null;
+      }
+      sectionPointerInitialized = false;
+      section.classList.remove("pointer-lit");
+    }
 
-        section.classList.add("pointer-lit");
-      });
-
-      section.addEventListener("pointerleave", () => {
-        if (sectionPointerFrame !== null) {
-          cancelAnimationFrame(sectionPointerFrame);
-          sectionPointerFrame = null;
-        }
-        section.classList.remove("pointer-lit");
-      });
+    sectionPointerControllers.set(section, {
+      deactivate: deactivateSectionPointer,
+      update: updateSectionPointer,
     });
+
+    section.addEventListener("pointermove", (event) => {
+      if (event.pointerType && event.pointerType !== "mouse") {
+        return;
+      }
+      updateSectionPointer(event.clientX, event.clientY);
+    });
+
+    section.addEventListener("pointerleave", deactivateSectionPointer);
+  });
+
+  window.addEventListener("pointermove", (event) => {
+    if (event.pointerType && event.pointerType !== "mouse") {
+      return;
+    }
+    lastMouseX = event.clientX;
+    lastMouseY = event.clientY;
+  });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (scrollSyncFrame !== null || lastMouseX === null || lastMouseY === null) {
+        return;
+      }
+
+      scrollSyncFrame = requestAnimationFrame(() => {
+        scrollSyncFrame = null;
+        const elementAtPointer = document.elementFromPoint(lastMouseX, lastMouseY);
+        const activeSection = elementAtPointer?.closest("main > .section, main > .contact-section");
+
+        sectionPointerControllers.forEach((controller, section) => {
+          if (section === activeSection) {
+            controller.update(lastMouseX, lastMouseY);
+          } else if (section.classList.contains("pointer-lit")) {
+            controller.deactivate();
+          }
+        });
+      });
+    },
+    { passive: true }
+  );
+
+  document.documentElement.addEventListener("mouseleave", () => {
+    lastMouseX = null;
+    lastMouseY = null;
+    sectionPointerControllers.forEach((controller) => controller.deactivate());
+  });
 }
 
 document.getElementById("year").textContent = new Date().getFullYear();
