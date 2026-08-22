@@ -52,26 +52,19 @@ languageButton.addEventListener("click", () => {
     return;
   }
 
-  if (document.startViewTransition) {
-    const transition = document.startViewTransition(() => applyLanguage(nextLanguage));
-    transition.finished.finally(() => {
-      languageTransitioning = false;
-      languageButton.disabled = false;
-    });
-    return;
-  }
-
   document.documentElement.classList.add("language-fading");
   window.setTimeout(() => {
     applyLanguage(nextLanguage);
     requestAnimationFrame(() => {
-      document.documentElement.classList.remove("language-fading");
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove("language-fading");
+      });
     });
-  }, 150);
+  }, 160);
   window.setTimeout(() => {
     languageTransitioning = false;
     languageButton.disabled = false;
-  }, 360);
+  }, 400);
 });
 
 const filters = document.querySelectorAll(".filter");

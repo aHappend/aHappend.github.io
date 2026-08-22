@@ -105,36 +105,18 @@ button {
 }
 
 [data-en][data-zh] {
-  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 150ms ease,
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .language-fading [data-en][data-zh] {
   opacity: 0;
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
 .lang-toggle:disabled {
   cursor: wait;
-}
-
-::view-transition-old(root) {
-  animation: 220ms cubic-bezier(0.4, 0, 1, 1) both language-view-out;
-}
-
-::view-transition-new(root) {
-  animation: 360ms cubic-bezier(0.16, 1, 0.3, 1) both language-view-in;
-}
-
-@keyframes language-view-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes language-view-in {
-  from {
-    opacity: 0;
-  }
 }
 
 .noise {
@@ -385,8 +367,11 @@ html[data-theme="dark"] .desktop-nav a::after {
 }
 
 .lang-toggle {
+  width: 52px;
   font-family: var(--font-mono);
   font-size: 11px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .lang-toggle .lang-active {
@@ -439,6 +424,29 @@ html[data-theme="dark"] .theme-toggle .moon-icon {
   border-radius: 999px;
   font-size: 12px;
   transition: color 180ms ease, background 180ms ease;
+}
+
+@media (min-width: 901px) {
+  .desktop-nav {
+    display: grid;
+    width: 380px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+
+  .desktop-nav a {
+    text-align: center;
+  }
+
+  .header-actions {
+    width: 236px;
+    justify-content: flex-end;
+  }
+
+  .header-cta {
+    width: 112px;
+    justify-content: space-between;
+  }
 }
 
 .header-cta:hover {
@@ -853,6 +861,10 @@ html[lang="zh-CN"] .contact-section h2 {
   background: var(--acid);
 }
 
+.hero-actions .button-primary {
+  min-width: 217px;
+}
+
 .button-primary:hover {
   box-shadow: 0 12px 36px rgba(217, 255, 67, 0.2);
 }
@@ -1082,13 +1094,15 @@ html[data-theme="dark"] .contact-section::before {
 
 .project-filters {
   display: flex;
+  width: min(340px, 100%);
   padding: 5px;
   border: 1px solid var(--line);
   border-radius: 999px;
 }
 
 .filter {
-  padding: 9px 15px;
+  flex: 1 1 0;
+  padding: 9px clamp(7px, 1vw, 15px);
   border: 0;
   border-radius: 999px;
   background: transparent;
@@ -1096,6 +1110,7 @@ html[data-theme="dark"] .contact-section::before {
   font-family: var(--font-mono);
   font-size: 9px;
   transition: color 150ms ease, background 150ms ease;
+  text-align: center;
 }
 
 .filter.active {
