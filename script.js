@@ -219,17 +219,47 @@ if (!reducedMotion) {
   document
     .querySelectorAll("main > .section, main > .contact-section")
     .forEach((section) => {
+      let currentSlowX = 0;
+      let currentSlowY = 0;
+      let targetSlowX = 0;
+      let targetSlowY = 0;
+      let sectionPointerFrame = null;
+
+      function followSectionPointer() {
+        currentSlowX += (targetSlowX - currentSlowX) * 0.07;
+        currentSlowY += (targetSlowY - currentSlowY) * 0.07;
+        section.style.setProperty("--section-pointer-slow-x", `${currentSlowX.toFixed(2)}px`);
+        section.style.setProperty("--section-pointer-slow-y", `${currentSlowY.toFixed(2)}px`);
+
+        sectionPointerFrame = requestAnimationFrame(followSectionPointer);
+      }
+
       section.addEventListener("pointermove", (event) => {
         if (event.pointerType && event.pointerType !== "mouse") {
           return;
         }
         const bounds = section.getBoundingClientRect();
-        section.style.setProperty("--section-pointer-x", `${event.clientX - bounds.left}px`);
-        section.style.setProperty("--section-pointer-y", `${event.clientY - bounds.top}px`);
+        const pointerX = event.clientX - bounds.left;
+        const pointerY = event.clientY - bounds.top;
+        section.style.setProperty("--section-pointer-x", `${pointerX}px`);
+        section.style.setProperty("--section-pointer-y", `${pointerY}px`);
+        targetSlowX = pointerX;
+        targetSlowY = pointerY;
+
+        if (sectionPointerFrame === null) {
+          currentSlowX = pointerX;
+          currentSlowY = pointerY;
+          sectionPointerFrame = requestAnimationFrame(followSectionPointer);
+        }
+
         section.classList.add("pointer-lit");
       });
 
       section.addEventListener("pointerleave", () => {
+        if (sectionPointerFrame !== null) {
+          cancelAnimationFrame(sectionPointerFrame);
+          sectionPointerFrame = null;
+        }
         section.classList.remove("pointer-lit");
       });
     });

@@ -1036,7 +1036,7 @@ html[lang="zh-CN"] .contact-section h2 {
       transparent 72%
     ),
     radial-gradient(
-      circle 520px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      circle 520px at var(--section-pointer-slow-x, 50%) var(--section-pointer-slow-y, 50%),
       var(--section-glow),
       transparent 70%
     );
@@ -1051,7 +1051,7 @@ html[data-theme="dark"] .contact-section::before {
       transparent 72%
     ),
     radial-gradient(
-      circle 520px at var(--section-pointer-x, 50%) var(--section-pointer-y, 50%),
+      circle 520px at var(--section-pointer-slow-x, 50%) var(--section-pointer-slow-y, 50%),
       var(--section-glow),
       transparent 70%
     );
