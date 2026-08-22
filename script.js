@@ -140,6 +140,8 @@ if (!reducedMotion) {
 }
 
 if (finePointer && !reducedMotion) {
+  const cursorIdleDelay = 2000;
+  let cursorIdleTimer = null;
   let currentX = 0;
   let currentY = 0;
   let targetX = 0;
@@ -159,6 +161,11 @@ if (finePointer && !reducedMotion) {
   window.addEventListener("pointermove", (event) => {
     targetX = event.clientX;
     targetY = event.clientY;
+    document.body.classList.remove("cursor-idle");
+    window.clearTimeout(cursorIdleTimer);
+    cursorIdleTimer = window.setTimeout(() => {
+      document.body.classList.add("cursor-idle");
+    }, cursorIdleDelay);
 
     if (!tracking) {
       currentX = targetX;
@@ -170,8 +177,10 @@ if (finePointer && !reducedMotion) {
   });
 
   document.documentElement.addEventListener("mouseleave", () => {
+    window.clearTimeout(cursorIdleTimer);
     tracking = false;
     document.body.classList.remove("cursor-active");
+    document.body.classList.remove("cursor-idle");
   });
 
   hero.addEventListener("pointermove", (event) => {

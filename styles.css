@@ -218,7 +218,7 @@ html[data-theme="dark"] .watercolor-wash {
   background: radial-gradient(circle, rgba(32, 173, 232, 0.22), rgba(32, 173, 232, 0) 68%);
   mix-blend-mode: multiply;
   transform: translate3d(-50%, -50%, 0);
-  transition: opacity 220ms ease;
+  transition: opacity 700ms ease;
   will-change: transform;
 }
 
@@ -227,8 +227,9 @@ html[data-theme="dark"] .cursor-glow {
   mix-blend-mode: screen;
 }
 
-body.cursor-active .cursor-glow {
+body.cursor-active:not(.cursor-idle) .cursor-glow {
   opacity: 1;
+  transition-duration: 220ms;
 }
 
 .skip-link {
@@ -1024,7 +1025,7 @@ html[lang="zh-CN"] .contact-section h2 {
   pointer-events: none;
   opacity: 0;
   content: "";
-  transition: opacity 260ms ease;
+  transition: opacity 700ms ease;
 }
 
 .section::before,
@@ -1057,9 +1058,10 @@ html[data-theme="dark"] .contact-section::before {
     );
 }
 
-.section.pointer-lit::before,
-.contact-section.pointer-lit::before {
+body:not(.cursor-idle) .section.pointer-lit::before,
+body:not(.cursor-idle) .contact-section.pointer-lit::before {
   opacity: 1;
+  transition-duration: 220ms;
 }
 
 .section > *,
