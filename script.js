@@ -84,6 +84,65 @@ filters.forEach((filter) => {
   });
 });
 
+const repositoryTrack = document.querySelector(".repo-logo-grid");
+
+if (repositoryTrack) {
+  let dragStartX = 0;
+  let dragStartScrollLeft = 0;
+  let draggingRepositories = false;
+  let suppressRepositoryClick = false;
+
+  repositoryTrack.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) {
+      return;
+    }
+
+    dragStartX = event.clientX;
+    dragStartScrollLeft = repositoryTrack.scrollLeft;
+    draggingRepositories = true;
+    suppressRepositoryClick = false;
+    repositoryTrack.setPointerCapture(event.pointerId);
+  });
+
+  repositoryTrack.addEventListener("pointermove", (event) => {
+    if (!draggingRepositories) {
+      return;
+    }
+
+    const dragDistance = event.clientX - dragStartX;
+    if (Math.abs(dragDistance) > 5) {
+      suppressRepositoryClick = true;
+      repositoryTrack.classList.add("is-dragging");
+    }
+    repositoryTrack.scrollLeft = dragStartScrollLeft - dragDistance;
+  });
+
+  function stopRepositoryDrag(event) {
+    if (!draggingRepositories) {
+      return;
+    }
+    draggingRepositories = false;
+    repositoryTrack.classList.remove("is-dragging");
+    if (repositoryTrack.hasPointerCapture(event.pointerId)) {
+      repositoryTrack.releasePointerCapture(event.pointerId);
+    }
+  }
+
+  repositoryTrack.addEventListener("pointerup", stopRepositoryDrag);
+  repositoryTrack.addEventListener("pointercancel", stopRepositoryDrag);
+  repositoryTrack.addEventListener(
+    "click",
+    (event) => {
+      if (suppressRepositoryClick) {
+        event.preventDefault();
+        event.stopPropagation();
+        suppressRepositoryClick = false;
+      }
+    },
+    true
+  );
+}
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {

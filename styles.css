@@ -1419,22 +1419,39 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 
 .repo-logo-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  padding: 4px 4px 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  grid-auto-columns: clamp(290px, 27vw, 340px);
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, minmax(310px, auto));
+  gap: 16px;
+  cursor: grab;
+  scroll-padding-left: 4px;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  scrollbar-color: color-mix(in srgb, var(--interactive-accent) 42%, transparent) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.repo-logo-grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
 }
 
 .repo-logo-card {
   display: flex;
   min-width: 0;
-  min-height: 310px;
+  min-height: 0;
   padding: 24px;
   flex-direction: column;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  border: 1px solid var(--line);
   background: var(--glass-bg);
   backdrop-filter: blur(16px) saturate(130%);
   -webkit-backdrop-filter: blur(16px) saturate(130%);
+  scroll-snap-align: start;
   transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
@@ -1470,10 +1487,9 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   background: #2076d2;
 }
 
-.logo-fla {
+.logo-ace3 {
   color: var(--night);
   background: var(--cyan);
-  font-size: 13px;
 }
 
 .logo-h3 {
@@ -2403,7 +2419,6 @@ html[data-theme="dark"] .contact-section .hero-outline {
     position: static;
   }
 
-  .repo-logo-grid,
   .social-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2579,16 +2594,11 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .repo-logo-grid {
-    display: flex;
+    display: grid;
     margin-right: -18px;
     padding-right: 18px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    align-items: stretch;
-    scroll-padding-left: 0;
-    scroll-snap-type: x proximity;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
+    grid-auto-columns: min(82vw, 310px);
+    grid-template-rows: repeat(2, 290px);
     scrollbar-width: none;
   }
 
@@ -2598,11 +2608,10 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .repo-logo-card {
-    min-width: min(82vw, 310px);
-    min-height: 280px;
+    min-width: 0;
+    min-height: 0;
     padding: 21px;
     contain: layout paint;
-    scroll-snap-align: start;
   }
 
   .repo-logo-grid .reveal {
