@@ -2623,7 +2623,7 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .project-card {
-    min-height: 360px;
+    min-height: 420px;
     padding: 22px;
     backdrop-filter: blur(9px) saturate(115%);
     -webkit-backdrop-filter: blur(9px) saturate(115%);
@@ -2635,7 +2635,9 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .project-body {
+    height: auto;
     padding-top: 64px;
+    flex: 1;
   }
 
   .project-card h3 {
