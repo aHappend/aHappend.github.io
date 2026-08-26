@@ -1419,39 +1419,20 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 
 .repo-logo-grid {
   display: grid;
-  padding: 4px 4px 14px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  grid-auto-columns: clamp(290px, 27vw, 340px);
-  grid-auto-flow: column;
-  grid-template-rows: repeat(2, minmax(310px, auto));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-  cursor: grab;
-  scroll-padding-left: 4px;
-  scroll-snap-type: x proximity;
-  overscroll-behavior-x: contain;
-  scrollbar-color: color-mix(in srgb, var(--interactive-accent) 42%, transparent) transparent;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-}
-
-.repo-logo-grid.is-dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-  user-select: none;
 }
 
 .repo-logo-card {
   display: flex;
   min-width: 0;
-  min-height: 0;
+  min-height: 310px;
   padding: 24px;
   flex-direction: column;
   border: 1px solid var(--line);
   background: var(--glass-bg);
   backdrop-filter: blur(16px) saturate(130%);
   -webkit-backdrop-filter: blur(16px) saturate(130%);
-  scroll-snap-align: start;
   transition: color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
@@ -2419,6 +2400,7 @@ html[data-theme="dark"] .contact-section .hero-outline {
     position: static;
   }
 
+  .repo-logo-grid,
   .social-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2594,22 +2576,16 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .repo-logo-grid {
-    display: grid;
-    margin-right: -18px;
-    padding-right: 18px;
-    grid-auto-columns: min(82vw, 310px);
-    grid-template-rows: repeat(2, 290px);
-    scrollbar-width: none;
+    grid-template-columns: 1fr;
   }
 
-  .repo-logo-grid::-webkit-scrollbar,
   .project-filters::-webkit-scrollbar {
     display: none;
   }
 
   .repo-logo-card {
     min-width: 0;
-    min-height: 0;
+    min-height: 290px;
     padding: 21px;
     contain: layout paint;
   }
