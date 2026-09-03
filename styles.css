@@ -1362,10 +1362,34 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   transform: translateY(-3px);
 }
 
+.argus-theme-logo,
 .org-strip img {
   width: 64px;
   height: 64px;
   border-radius: 16px;
+}
+
+.argus-theme-logo {
+  display: block;
+}
+
+.argus-theme-logo img,
+.logo-argus img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.argus-logo-dark {
+  display: none !important;
+}
+
+html[data-theme="dark"] .argus-logo-light {
+  display: none !important;
+}
+
+html[data-theme="dark"] .argus-logo-dark {
+  display: block !important;
 }
 
 .org-strip-copy {
@@ -1460,8 +1484,8 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
 }
 
 .logo-argus {
-  color: var(--night);
-  background: var(--acid);
+  overflow: hidden;
+  background: transparent;
 }
 
 .logo-microsoft {
@@ -2552,6 +2576,7 @@ html[data-theme="dark"] .contact-section .hero-outline {
     display: none;
   }
 
+  .argus-theme-logo,
   .org-strip img {
     width: 50px;
     height: 50px;
