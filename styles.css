@@ -1649,6 +1649,60 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   line-height: 1.7;
 }
 
+.education-honors {
+  margin-top: 12px;
+}
+
+.about-next {
+  margin-top: 42px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.about-next > h3 {
+  margin-bottom: 18px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.about-milestones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.about-milestones > div {
+  padding: 20px;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px 10px 20px 12px;
+  background: var(--glass-bg);
+}
+
+.about-milestones > div:nth-child(even) {
+  border-radius: 10px 22px 12px 20px;
+}
+
+.about-milestones span {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--interactive-accent);
+  font-size: 8px;
+}
+
+.about-milestones strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.about-milestones p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
 .social-section {
   max-width: none;
   padding-right: max(24px, calc((100vw - var(--max)) / 2));
@@ -2677,6 +2731,10 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .about-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .about-milestones {
     grid-template-columns: 1fr;
   }
 
