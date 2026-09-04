@@ -1697,14 +1697,30 @@ html[data-theme="dark"] .argus-logo-dark {
   gap: 16px;
 }
 
-.about-milestones > div {
+.about-milestones > a {
+  position: relative;
   padding: 20px;
   border: 1px solid var(--glass-border);
   border-radius: 22px 10px 20px 12px;
   background: var(--glass-bg);
+  transition: border-color 180ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
-.about-milestones > div:nth-child(even) {
+.about-milestones > a::after {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  content: "↗";
+  font-size: 13px;
+}
+
+.about-milestones > a:hover {
+  border-color: color-mix(in srgb, var(--interactive-accent) 55%, transparent);
+  box-shadow: 0 14px 34px rgba(16, 24, 32, 0.08);
+  transform: translateY(-3px);
+}
+
+.about-milestones > a:nth-child(even) {
   border-radius: 10px 22px 12px 20px;
 }
 
