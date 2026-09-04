@@ -1443,7 +1443,7 @@ html[data-theme="dark"] .argus-logo-dark {
 
 .repo-logo-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -1495,6 +1495,12 @@ html[data-theme="dark"] .argus-logo-dark {
 .logo-ace3 {
   color: var(--night);
   background: var(--cyan);
+}
+
+.logo-math {
+  background: #315f9f;
+  font-family: var(--font-display);
+  font-size: 26px;
 }
 
 .logo-h3 {
