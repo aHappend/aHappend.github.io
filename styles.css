@@ -963,7 +963,7 @@ html[lang="zh-CN"] .contact-section h2 {
 .profile-stats dd {
   margin: 0;
   color: rgba(255, 255, 255, 0.45);
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -973,7 +973,7 @@ html[lang="zh-CN"] .contact-section h2 {
 }
 
 .profile-focus .mono {
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .profile-focus p {
@@ -1081,7 +1081,7 @@ body:not(.cursor-idle) .contact-section.pointer-lit::before {
 .section-index {
   margin-bottom: 20px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .section h2,
@@ -1110,7 +1110,7 @@ body:not(.cursor-idle) .contact-section.pointer-lit::before {
   background: transparent;
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   transition: color 150ms ease, background 150ms ease;
   text-align: center;
 }
@@ -1176,7 +1176,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   top: 26px;
   left: 28px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .project-featured .project-number {
@@ -1206,7 +1206,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   border: 1px solid var(--line);
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 9px;
   text-transform: uppercase;
 }
 
@@ -1241,7 +1241,7 @@ html[data-theme="dark"] .project-card:not(.project-featured):hover {
   justify-content: space-between;
   border-top: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -1402,7 +1402,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .org-strip-copy .mono,
 .org-strip-meta {
   color: var(--muted);
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .org-strip-copy strong {
@@ -1430,7 +1430,7 @@ html[data-theme="dark"] .argus-logo-dark {
   border: 1px solid var(--line);
   border-radius: 999px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 9px;
   text-transform: uppercase;
   transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
 }
@@ -1450,7 +1450,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .repo-logo-card {
   display: flex;
   min-width: 0;
-  min-height: 310px;
+  min-height: 326px;
   padding: 24px;
   flex-direction: column;
   border: 1px solid var(--line);
@@ -1528,7 +1528,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .repo-owner {
   margin-bottom: 7px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 9px;
   text-transform: uppercase;
 }
 
@@ -1542,7 +1542,7 @@ html[data-theme="dark"] .argus-logo-dark {
 
 .repo-summary {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
@@ -1556,7 +1556,7 @@ html[data-theme="dark"] .argus-logo-dark {
   gap: 10px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 7px;
+  font-size: 9px;
 }
 
 .repo-card-footer > span {
@@ -1610,7 +1610,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .publication-year,
 .publication-type {
   color: rgba(255, 255, 255, 0.38);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .publication-main {
@@ -1642,7 +1642,7 @@ html[data-theme="dark"] .argus-logo-dark {
   justify-content: flex-end;
   gap: 28px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .about-section {
@@ -1671,7 +1671,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .about-columns h3 {
   margin-bottom: 22px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .about-columns p {
@@ -1688,7 +1688,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .about-next > h3 {
   margin-bottom: 18px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .about-milestones {
@@ -1728,7 +1728,7 @@ html[data-theme="dark"] .argus-logo-dark {
   display: block;
   margin-bottom: 12px;
   color: var(--interactive-accent);
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .about-milestones strong {
@@ -1741,7 +1741,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .about-milestones p {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.55;
 }
 
@@ -1841,7 +1841,7 @@ html[data-theme="dark"] .argus-logo-dark {
 .social-name {
   margin: 34px 0 5px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .social-card strong {
@@ -1855,7 +1855,7 @@ html[data-theme="dark"] .argus-logo-dark {
   padding-top: 15px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 8px;
+  font-size: 10px;
   overflow-wrap: anywhere;
 }
 
@@ -1878,7 +1878,7 @@ html[data-theme="dark"] .argus-logo-dark {
 
 .contact-section > .mono {
   margin-bottom: 38px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .contact-section h2 {
@@ -1914,7 +1914,7 @@ footer {
   justify-content: space-between;
   color: rgba(255, 255, 255, 0.45);
   background: var(--night);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 footer a {
@@ -2660,7 +2660,7 @@ html[data-theme="dark"] .contact-section .hero-outline {
   }
 
   .org-strip-copy > span:last-child {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .org-strip-actions {
