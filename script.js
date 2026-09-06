@@ -376,7 +376,10 @@ function createPaintingLayer(scene, className, label) {
 }
 
 const sceneLayers = new Map([
+  ["botanical", createPaintingLayer("botanical", "bouquet-petals", "Bouquet")],
   ["mountain", createPaintingLayer("mountain", "mountain-birds", "Mountain")],
+  ["meadow", createPaintingLayer("meadow", "meadow-seeds", "Meadow")],
+  ["rose", createPaintingLayer("rose", "rose-petals", "Rose")],
   ["coast", createPaintingLayer("coast", "coast-waves", "Shoreline")],
   ["fern", createPaintingLayer("fern", "fern-growth", "Fern")],
   ["pond", createPaintingLayer("pond", "pond-waves", "Pond")],
@@ -422,12 +425,33 @@ function clearParticles() {
   clearPaintingLayers();
 }
 
+function clearPointerParticles() {
+  particles = particles.filter((particle) => particle.scene);
+  lastPetal = null;
+  if (petalContext) petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
+  if (!particles.length && particleFrame !== null) {
+    cancelAnimationFrame(particleFrame);
+    particleFrame = null;
+  }
+}
+
 function resizePetalCanvas() {
-  clearParticles();
+  clearPointerParticles();
   const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
   petalCanvas.width = Math.round(root.clientWidth * ratio);
   petalCanvas.height = Math.round(window.innerHeight * ratio);
   if (petalContext) petalContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function sizePaintingLayer(layer) {
+  const style = getComputedStyle(layer.canvas);
+  const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+  const width = Math.round(parseFloat(style.width) * ratio);
+  const height = Math.round(parseFloat(style.height) * ratio);
+  if (layer.canvas.width !== width) layer.canvas.width = width;
+  if (layer.canvas.height !== height) layer.canvas.height = height;
+  layer.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  return paintingBounds(layer.button.querySelector("img"), true);
 }
 
 function drawParticles(now) {
@@ -435,8 +459,15 @@ function drawParticles(now) {
   petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
   clearPaintingLayers();
   particles = particles.filter((particle) => now - particle.born < particle.life);
-  sceneLayers.forEach(({ button }, scene) => {
-    if (sceneSequences.has(button) && !particles.some((particle) => particle.scene === scene)) clearSceneSequence(button);
+  const renderSpaces = new Map();
+  sceneLayers.forEach((layer, scene) => {
+    const sequence = sceneSequences.get(layer.button);
+    if (!sequence) return;
+    if (!particles.some((particle) => particle.scene === scene)) {
+      clearSceneSequence(layer.button);
+      return;
+    }
+    renderSpaces.set(scene, { original: sequence.bounds, current: sizePaintingLayer(layer) });
   });
   const palette = root.dataset.theme === "dark"
     ? ["#e3afae", "#a7cbb4", "#81d6db", "#edd29c"]
@@ -446,8 +477,15 @@ function drawParticles(now) {
     if (age < 0) return;
     if (particle.scene) {
       const layer = sceneLayers.get(particle.scene);
-      const context = layer ? layer.context : petalContext;
+      const space = renderSpaces.get(particle.scene);
+      if (!space) return;
+      const context = layer.context;
       context.save();
+      // Keep the original choreography and clock while its painting reflows or scrolls.
+      const scale = space.current.width / space.original.width;
+      context.translate(space.current.x, space.current.y);
+      context.scale(scale, scale);
+      context.translate(-space.original.x, -space.original.y);
       sceneRuntime.draw(context, particle, age, root.dataset.theme === "dark", sceneResources);
       context.restore();
       return;
@@ -542,43 +580,35 @@ function playPainting(button, event) {
     updateSceneControls();
     return;
   }
+  if (sceneSequences.has(button)) return;
   if (menuButton.getAttribute("aria-expanded") === "true") setMenu(false);
   pointerScrollX = window.scrollX;
   pointerScrollY = window.scrollY;
   const scene = button.dataset.scene;
   const image = button.querySelector("img");
   const layer = sceneLayers.get(scene);
-  const bounds = paintingBounds(image, Boolean(layer));
-  let point = event.detail === 0 || layer
-    ? { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 }
-    : { x: event.clientX, y: event.clientY };
-  if (scene === "pond" && event.detail > 0) {
-    const box = layer.canvas.getBoundingClientRect();
-    point = { x: event.clientX - box.left, y: event.clientY - box.top };
-  }
-  if (layer) {
-    // Size in untransformed coordinates; CSS moves the image and its layer together.
-    const style = getComputedStyle(layer.canvas);
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-    const width = Math.round(parseFloat(style.width) * ratio);
-    const height = Math.round(parseFloat(style.height) * ratio);
-    if (layer.canvas.width !== width) layer.canvas.width = width;
-    if (layer.canvas.height !== height) layer.canvas.height = height;
-    layer.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  const bounds = sizePaintingLayer(layer);
+  let point = { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 };
+  if (event.detail > 0) {
+    const box = image.getBoundingClientRect();
+    const style = getComputedStyle(image);
+    point = {
+      x: (event.clientX - box.left) * parseFloat(style.width) / box.width,
+      y: (event.clientY - box.top) * parseFloat(style.height) / box.height,
+    };
   }
   const now = performance.now();
   const additions = sceneRuntime.spawn(scene, bounds, point, now);
-  clearSceneSequence(button);
-  // Give the painting priority over generic cursor confetti, without growing the shared pool.
-  particles = particles.filter((particle) => particle.scene && particle.scene !== scene).concat(additions).slice(-64);
+  // One sequence per painting bounds all seven to 70 actors; never evict a running scene.
+  particles = particles.filter((particle) => particle.scene && particle.scene !== scene).concat(additions);
   lastPetal = null;
   const animations = [];
   const sway = { botanical: 1.2, meadow: .5, rose: .9 }[scene];
   if (sway) {
-    animations.push(image.animate(
+    [image, layer.canvas].forEach((target) => animations.push(target.animate(
       [{ rotate: "0deg" }, { rotate: `${-sway}deg` }, { rotate: `${sway * .7}deg` }, { rotate: "0deg" }],
       { duration: 1100, easing: "ease-in-out" }
-    ));
+    )));
   }
   if (scene === "botanical") {
     animations.push(button.querySelector(".garden-butterfly").animate(
@@ -588,7 +618,7 @@ function playPainting(button, event) {
   }
   button.classList.add("is-playing");
   const duration = Math.max(...additions.map((particle) => particle.born + particle.life)) - now;
-  sceneSequences.set(button, { animations, timer: setTimeout(() => clearSceneSequence(button), duration) });
+  sceneSequences.set(button, { bounds, animations, timer: setTimeout(() => clearSceneSequence(button), duration) });
   sceneStatus.textContent = language === "zh"
     ? `已触发：${button.dataset.labelZh}` : `Playing: ${button.dataset.labelEn}`;
   if (particleFrame === null) particleFrame = requestAnimationFrame(drawParticles);
@@ -603,10 +633,15 @@ sceneButtons.forEach((button) => {
   });
 });
 
-function resetNatureEffects() {
+function resetPointerEffects() {
   artworks.forEach(resetArtwork);
   clearSpotlights();
   magneticControls.forEach(resetMagnet);
+  clearPointerParticles();
+}
+
+function resetNatureEffects() {
+  resetPointerEffects();
   clearParticles();
   sceneButtons.forEach(clearSceneSequence);
   sceneStatus.textContent = "";
@@ -633,24 +668,24 @@ document.addEventListener("click", (event) => {
   if (event.button === 0 && event.detail > 0 && !onPainting) scatterPetals(event, true);
 });
 document.addEventListener("pointerout", (event) => {
-  if (event.pointerType === "mouse" && !event.relatedTarget) resetNatureEffects();
+  if (event.pointerType === "mouse" && !event.relatedTarget) resetPointerEffects();
 });
-document.addEventListener("pointercancel", resetNatureEffects);
+document.addEventListener("pointercancel", resetPointerEffects);
 document.addEventListener("visibilitychange", resetNatureEffects);
 window.addEventListener("blur", resetNatureEffects);
 window.addEventListener("beforeprint", resetNatureEffects);
 window.addEventListener("scroll", () => {
   // A pointer event may already have sampled the new viewport before scroll is delivered.
-  if (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY) resetNatureEffects();
+  if (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY) resetPointerEffects();
   pointerScrollX = window.scrollX;
   pointerScrollY = window.scrollY;
 }, { passive: true });
 window.addEventListener("resize", () => {
-  resetNatureEffects();
+  resetPointerEffects();
   resizePetalCanvas();
 }, { passive: true });
 reducedMotion.addEventListener("change", syncNatureEffects);
-finePointer.addEventListener("change", resetNatureEffects);
+finePointer.addEventListener("change", resetPointerEffects);
 resizePetalCanvas();
 syncNatureEffects();
 

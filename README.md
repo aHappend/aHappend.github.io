@@ -51,10 +51,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   project filters, section reveals, layered illustration parallax, a fluttering
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts
-  input. Its particle count is capped at 64, pixel ratio at 1.5, and its frame loop
-  stops when the trail fades. Scroll, blur, pointer cancellation, and hidden tabs
-  clear transient effects. Painting clicks share that bounded pool and temporarily
-  take priority over generic cursor effects. The hero's garden-effects toggle persists independently
+  input. Generic cursor particles are capped at 64 and pixel ratio at 1.5; the
+  shared frame loop stops when idle. Scroll and pointer cancellation clear cursor
+  trails, not painting sequences. Each painting can have only one active sequence:
+  repeated taps do not restart it, and other paintings cannot evict its actors.
+  The seven full choreographies together are bounded at 70 actors and take
+  priority over generic cursor effects. All paintings use image-local canvases,
+  follow scrolling and parallax, and rescale without restarting during a resize
+  (including a phone's collapsing address bar). Pause, reduced motion, blur,
+  hidden tabs, and printing still clear all effects.
+  The hero's garden-effects toggle persists independently
   of theme/language, and system reduced-motion preferences always take priority.
   Phones keep mouse parallax/trails off, but support explicit taps on paintings.
   Painting controls use native clicks (including Enter/Space), never prevent

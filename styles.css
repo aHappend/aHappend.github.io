@@ -478,7 +478,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-coast { position: absolute; z-index: -1; inset: -50px -23% -20px 10%; width: 113%; height: calc(100% + 70px); }
 .scene-coast > img, .coast-waves { mask-image: linear-gradient(90deg, transparent, #000 52%); }
 .scene-coast > img { opacity: .52; }
-.painting-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.painting-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; transform-origin: 50% 88%; }
 .scene-coast .scene-hint { left: 55%; bottom: 15%; }
 .contact-section > .mono { margin-bottom: 34px; color: var(--rust); }
 .contact-section h2 { max-width: 1080px; font-size: clamp(48px, 6.1vw, 88px); }
@@ -513,6 +513,7 @@ footer a:hover { color: var(--accent); }
   transition: transform 650ms cubic-bezier(.2, .7, .3, 1);
 }
 .scene-fern > img, .fern-growth { transform: translate(var(--paint-x, 0px), var(--paint-y, 0px)) rotate(var(--paint-turn, 0deg)); transform-origin: 50% 90%; }
+.hero-watercolor .bouquet-petals { transform: translate(var(--paint-x, 0px), var(--paint-y, 0px)) rotate(var(--paint-turn, 0deg)); transform-origin: 55% 85%; transition: transform 600ms cubic-bezier(.2, .7, .3, 1); }
 .button, .theme-toggle, .lang-toggle, .filter { translate: var(--magnet-x, 0px) var(--magnet-y, 0px); transition: translate 180ms ease-out, background 180ms, box-shadow 200ms, color 180ms, border-color 180ms; }
 
 /* Content is visible without JS; only observed, below-fold elements opt in. */
