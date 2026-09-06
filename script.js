@@ -454,6 +454,62 @@ function sizePaintingLayer(layer) {
   return paintingBounds(layer.button.querySelector("img"), true);
 }
 
+function drawClickRipple(context, particle, age, dark) {
+  const ink = dark ? "#95c7c7" : "#478caa";
+  for (let wave = 0; wave < 2; wave += 1) {
+    const t = (age - wave * .14) / (wave ? .86 : .84);
+    if (t <= 0 || t >= 1) continue;
+    const fade = Math.min(1, t / .12) * (1 - t) ** 1.15 * (wave ? .6 : 1);
+    const radius = 6 + (wave ? 43 : 52) * t ** .64;
+    const wash = context.createLinearGradient(-radius, -radius * .6, radius, radius * .8);
+    wash.addColorStop(0, `${ink}00`);
+    wash.addColorStop(.22, ink);
+    wash.addColorStop(.5, `${ink}60`);
+    wash.addColorStop(.78, ink);
+    wash.addColorStop(1, `${ink}00`);
+    context.fillStyle = wash;
+    context.shadowColor = ink;
+    context.globalAlpha = fade * .04;
+    context.shadowBlur = 4;
+    context.beginPath();
+    for (const scale of [1.1, .6]) {
+      particle.contour.forEach(([x, y], index) => {
+        if (index === 0) context.moveTo(x * radius * scale, y * radius * scale);
+        else context.lineTo(x * radius * scale, y * radius * scale);
+      });
+      context.closePath();
+    }
+    context.fill("evenodd");
+    // Tapered, broken pigment edges avoid the appearance of nested bubbles.
+    context.globalAlpha = fade * .15;
+    context.shadowBlur = 1.8;
+    for (const [start, length] of [[0, 19], [31, 19], [60, 8]]) {
+      context.beginPath();
+      for (let index = 0; index <= length; index += 1) {
+        const [x, y] = particle.contour[(start + index + particle.offset + wave * 9) % 72];
+        if (index === 0) context.moveTo(x * radius, y * radius);
+        else context.lineTo(x * radius, y * radius);
+      }
+      for (let index = length; index >= 0; index -= 1) {
+        const [x, y] = particle.contour[(start + index + particle.offset + wave * 9) % 72];
+        const taper = 1 - Math.sin(index / length * Math.PI) * .095;
+        context.lineTo(x * radius * taper, y * radius * taper);
+      }
+      context.closePath();
+      context.fill();
+    }
+    context.shadowBlur = 0;
+    context.fillStyle = ink;
+    particle.contour.forEach(([x, y, grain], index) => {
+      if (index % 2 || grain < .6) return;
+      context.globalAlpha = fade * grain * .05;
+      context.beginPath();
+      context.arc(x * radius * .95, y * radius * .95, .3 + grain * .65, 0, Math.PI * 2);
+      context.fill();
+    });
+  }
+}
+
 function drawParticles(now) {
   particleFrame = null;
   petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
@@ -490,37 +546,35 @@ function drawParticles(now) {
       context.restore();
       return;
     }
+    if (particle.ripple) {
+      petalContext.save();
+      petalContext.translate(particle.x, particle.y);
+      drawClickRipple(petalContext, particle, age, root.dataset.theme === "dark");
+      petalContext.restore();
+      return;
+    }
     petalContext.save();
-    petalContext.globalAlpha = (1 - age) * (particle.ripple ? .5 : .68);
+    petalContext.globalAlpha = (1 - age) * .68;
     petalContext.translate(
-      particle.x + particle.vx * age + (particle.ripple ? 0 : Math.sin(age * 5 + particle.spin) * 10),
-      particle.y + particle.vy * age + (particle.ripple ? 0 : age * age * 28)
+      particle.x + particle.vx * age + Math.sin(age * 5 + particle.spin) * 10,
+      particle.y + particle.vy * age + age * age * 28
     );
     const color = palette[particle.color];
-    if (particle.ripple) {
-      petalContext.strokeStyle = color;
-      petalContext.lineWidth = 1.3 * (1 - age) + .4;
-      const radius = 7 + (1 - (1 - age) ** 2) * 64;
-      petalContext.beginPath();
-      petalContext.ellipse(0, 0, radius, radius * .55, -.2, 0, Math.PI * 2);
-      petalContext.stroke();
-    } else {
-      petalContext.rotate(particle.spin + age * 2);
-      const size = particle.size * (1 - age * .4);
-      petalContext.fillStyle = color;
-      petalContext.beginPath();
-      petalContext.moveTo(-size, 0);
-      petalContext.bezierCurveTo(-size, -size, size * .8, -size, size, 0);
-      petalContext.bezierCurveTo(size * .5, size * .65, -size * .35, size * .8, -size, 0);
-      petalContext.fill();
-      petalContext.strokeStyle = root.dataset.theme === "dark" ? "#f0edcf" : "#fbf0dc";
-      petalContext.globalAlpha *= .55;
-      petalContext.lineWidth = .7;
-      petalContext.beginPath();
-      petalContext.moveTo(-size * .65, 0);
-      petalContext.quadraticCurveTo(0, -size * .15, size * .7, 0);
-      petalContext.stroke();
-    }
+    petalContext.rotate(particle.spin + age * 2);
+    const size = particle.size * (1 - age * .4);
+    petalContext.fillStyle = color;
+    petalContext.beginPath();
+    petalContext.moveTo(-size, 0);
+    petalContext.bezierCurveTo(-size, -size, size * .8, -size, size, 0);
+    petalContext.bezierCurveTo(size * .5, size * .65, -size * .35, size * .8, -size, 0);
+    petalContext.fill();
+    petalContext.strokeStyle = root.dataset.theme === "dark" ? "#f0edcf" : "#fbf0dc";
+    petalContext.globalAlpha *= .55;
+    petalContext.lineWidth = .7;
+    petalContext.beginPath();
+    petalContext.moveTo(-size * .65, 0);
+    petalContext.quadraticCurveTo(0, -size * .15, size * .7, 0);
+    petalContext.stroke();
     petalContext.restore();
   });
   if (particles.length) particleFrame = requestAnimationFrame(drawParticles);
@@ -533,20 +587,26 @@ function scatterPetals(event, burst = false) {
   if (!burst && lastPetal &&
       (now - lastPetal.time < 24 || Math.hypot(event.clientX - lastPetal.x, event.clientY - lastPetal.y) < 10)) return;
   lastPetal = { x: event.clientX, y: event.clientY, time: now };
-  for (let index = 0; index < (burst ? 12 : 2); index += 1) {
+  for (let index = 0; index < (burst ? 0 : 2); index += 1) {
     const angle = Math.random() * Math.PI * 2;
     particles.push({
       x: event.clientX, y: event.clientY, born: now,
-      life: burst ? 1250 : 950, spin: angle, size: 3 + Math.random() * 4,
-      vx: Math.cos(angle) * (burst ? 52 : 15), vy: Math.sin(angle) * (burst ? 38 : 15),
+      life: 950, spin: angle, size: 3 + Math.random() * 4,
+      vx: Math.cos(angle) * 15, vy: Math.sin(angle) * 15,
       color: Math.floor(Math.random() * 4), ripple: false,
     });
   }
   if (burst) {
-    for (let index = 0; index < 2; index += 1) {
-      particles.push({ x: event.clientX, y: event.clientY, born: now + index * 110,
-        life: 900, vx: 0, vy: 0, color: 2, ripple: true });
-    }
+    const activeRipples = particles.filter((particle) => particle.ripple);
+    if (activeRipples.length >= 4) particles = particles.filter((particle) => particle !== activeRipples[0]);
+    const phase = Math.random() * Math.PI * 2;
+    const contour = Array.from({ length: 72 }, (_, index) => {
+      const angle = index / 72 * Math.PI * 2;
+      const radius = 1 + Math.sin(angle * 3 + phase) * .035 + Math.cos(angle * 7 - phase) * .018;
+      return [Math.cos(angle) * radius, Math.sin(angle) * radius * .93, Math.random()];
+    });
+    particles.push({ x: event.clientX, y: event.clientY, born: now, life: 1150,
+      ripple: true, contour, offset: Math.floor(phase / (Math.PI * 2) * 72) });
   }
   // Bound work during rapid movement; there is no animation loop when the trail fades.
   particles = particles.slice(-64);

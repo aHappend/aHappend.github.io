@@ -52,6 +52,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts
   input. Generic cursor particles are capped at 64 and pixel ratio at 1.5; the
+  click response uses softly diffused watercolor with tapered, broken pigment
+  edges and a faint delayed echo, rather than hard oval outlines and confetti.
+  Pigment contours stay stable as they expand; no more than four click ripples
+  coexist. The mouse-movement petal trail remains unchanged. The
   shared frame loop stops when idle. Scroll and pointer cancellation clear cursor
   trails, not painting sequences. Each painting can have only one active sequence:
   repeated taps do not restart it, and other paintings cannot evict its actors.
