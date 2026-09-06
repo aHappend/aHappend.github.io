@@ -22,17 +22,15 @@
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest">
-    <script src="preferences.js?v=20260906-art-atlas"></script>
+    <script src="preferences.js?v=20260906-watercolor-flow"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"
       rel="stylesheet"
     >
-    <link rel="preload" as="image" type="image/webp" href="art/natural-bridge-640.webp"
-          imagesrcset="art/natural-bridge-640.webp 640w, art/natural-bridge-1200.webp 1200w"
-          imagesizes="(max-width: 600px) 82vw, (max-width: 1120px) 40vw, 560px">
-    <link rel="stylesheet" href="styles.css?v=20260906-art-atlas">
+    <link rel="preload" as="image" type="image/svg+xml" href="art/watercolor-flow.svg">
+    <link rel="stylesheet" href="styles.css?v=20260906-watercolor-flow">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -62,6 +60,10 @@
   </head>
   <body>
     <a class="skip-link" href="#main" data-en="Skip to content" data-zh="跳转到正文">Skip to content</a>
+    <div class="watercolor-canvas" aria-hidden="true">
+      <span class="ambient-wash ambient-tide"></span>
+      <span class="ambient-wash ambient-growth"></span>
+    </div>
     <div class="noise" aria-hidden="true"></div>
     <div class="reading-progress" aria-hidden="true"></div>
 
@@ -105,6 +107,9 @@
 
     <main id="main">
       <section class="hero" id="top">
+        <div class="hero-watercolor" aria-hidden="true">
+          <img src="art/watercolor-flow.svg" alt="" width="1600" height="1050" fetchpriority="high">
+        </div>
         <div class="hero-edition mono">
           <span data-en="A PERSONAL FIELD GUIDE" data-zh="一份持续生长的研究手记">A PERSONAL FIELD GUIDE</span>
           <span>AI SYSTEMS &amp; SILICON / 2026</span>
@@ -139,40 +144,6 @@
             </a>
           </div>
         </div>
-
-        <figure class="hero-art">
-          <div class="art-canvas">
-            <span class="atlas-kicker mono" data-en="SEA, LIGHT & A DIFFERENT WAY OF SEEING"
-                  data-zh="海、光，和另一种观看的方式">SEA, LIGHT &amp; A DIFFERENT WAY OF SEEING</span>
-            <a class="art-print art-print-sea" href="https://www.metmuseum.org/art/collection/search/11129"
-               target="_blank" rel="noreferrer">
-              <img src="art/natural-bridge-640.webp"
-                   data-fullsrc="art/natural-bridge-1200.webp"
-                   srcset="art/natural-bridge-640.webp 640w, art/natural-bridge-1200.webp 1200w"
-                   sizes="(max-width: 600px) 82vw, (max-width: 1120px) 40vw, 560px"
-                   alt="Natural Bridge, Bermuda: turquoise sea and a pale rock arch, by Winslow Homer"
-                   width="1200" height="839" fetchpriority="high">
-              <span class="print-label"><span>Natural Bridge, Bermuda</span><span class="mono">c. 1901 ↗</span></span>
-            </a>
-            <a class="art-print art-print-door" href="https://www.metmuseum.org/art/collection/search/12107"
-               target="_blank" rel="noreferrer">
-              <img src="art/green-door-400.webp"
-                   data-fullsrc="art/green-door-800.webp"
-                   srcset="art/green-door-400.webp 400w, art/green-door-800.webp 800w"
-                   sizes="(max-width: 600px) 29vw, 200px"
-                   alt="Green Door, Santa Maria della Salute: a Venetian doorway painted by John Singer Sargent"
-                   width="800" height="1164">
-              <span class="print-label"><span>Venice</span><span class="mono">c. 1904 ↗</span></span>
-            </a>
-            <span class="atlas-handwriting" data-en="a world beyond the obvious."
-                  data-zh="去看见，显而易见之外。">a world beyond the obvious.</span>
-          </div>
-          <figcaption class="mono">
-            <span data-en="WATERCOLORS FROM THE MET'S OPEN COLLECTION"
-                  data-zh="来自大都会艺术博物馆开放馆藏的水彩画">WATERCOLORS FROM THE MET'S OPEN COLLECTION</span>
-            <a href="#art-credits" data-en="Credits ↗" data-zh="画作来源 ↗">Credits ↗</a>
-          </figcaption>
-        </figure>
 
         <aside class="hero-panel reveal" aria-label="Research profile">
           <div class="profile-top">
@@ -377,13 +348,6 @@
             <h2 data-en="With minds that see farther, we open the way." data-zh="与看得更远的人同行。">With minds that see farther, we open the way.</h2>
           </div>
           <div class="section-aside">
-            <a class="chapter-picture picture-garden" href="https://www.metmuseum.org/art/collection/search/11121"
-               target="_blank" rel="noreferrer">
-              <img src="art/flower-garden-640.webp" data-fullsrc="art/flower-garden-1200.webp"
-                   alt="Flower Garden and Bungalow, Bermuda, by Winslow Homer"
-                   width="640" height="427" loading="lazy" decoding="async">
-              <span class="mono">WINSLOW HOMER / 1899 ↗</span>
-            </a>
             <p
               class="section-lead"
               data-en="Open-source work spanning persistent agents, verified hardware, efficient local AI, and independently reviewed mathematics."
@@ -560,12 +524,6 @@
             <h2 data-en="Ideas stay in motion, discovering each day." data-zh="让思想继续流动。">Ideas stay in motion, discovering each day.</h2>
           </div>
           <div class="section-aside">
-            <a class="chapter-picture picture-architecture" href="https://www.metmuseum.org/art/collection/search/12107"
-               target="_blank" rel="noreferrer">
-              <img src="art/green-door-400.webp" alt="Architectural detail from Green Door, Santa Maria della Salute, by John Singer Sargent"
-                   width="400" height="582" loading="lazy" decoding="async">
-              <span class="mono">JOHN SINGER SARGENT / c. 1904 ↗</span>
-            </a>
             <p
               class="section-lead"
               data-en="My work connects agentic intelligence with the physical systems that run it."
@@ -616,15 +574,6 @@
           <h2>
             <span data-en="Across every layer, I follow each line." data-zh="在层层之间，寻找微光。">Across every layer, I follow each line.</span>
           </h2>
-          <a class="about-picture" href="https://www.metmuseum.org/art/collection/search/11121"
-             target="_blank" rel="noreferrer">
-            <img src="art/flower-garden-640.webp"
-                 srcset="art/flower-garden-640.webp 640w, art/flower-garden-1200.webp 1200w"
-                 sizes="(max-width: 900px) 80vw, 480px"
-                 alt="A sunlit flower garden beside the sea, painted by Winslow Homer in Bermuda"
-                 width="1200" height="801" loading="lazy" decoding="async">
-            <span class="picture-caption mono">FLOWER GARDEN AND BUNGALOW, BERMUDA / 1899 ↗</span>
-          </a>
         </div>
         <div class="about-content">
           <p
@@ -699,12 +648,6 @@
             <h2 data-en="Follow the signal—perhaps our paths align." data-zh="循着信号，我们终会相遇。">Follow the signal—perhaps our paths align.</h2>
           </div>
           <div class="section-aside">
-            <a class="chapter-picture picture-sea" href="https://www.metmuseum.org/art/collection/search/11129"
-               target="_blank" rel="noreferrer">
-              <img src="art/natural-bridge-640.webp" alt="The blue horizon of Natural Bridge, Bermuda, by Winslow Homer"
-                   width="640" height="447" loading="lazy" decoding="async">
-              <span class="mono">WINSLOW HOMER / c. 1901 ↗</span>
-            </a>
             <p
               class="section-lead"
               data-en="Research notes, project updates, videos, and the occasional idea in progress."
@@ -820,23 +763,6 @@
       </section>
     </main>
 
-    <details class="art-credits" id="art-credits">
-      <summary data-en="About the artwork & sources" data-zh="关于这些画作与来源">About the artwork &amp; sources</summary>
-      <p data-en="These historical watercolors are public-domain works from The Metropolitan Museum of Art's Open Access collection, not my own paintings. Reproductions are resized; some placements show cropped details."
-         data-zh="这些历史水彩画来自纽约大都会艺术博物馆的开放馆藏，属于公有领域，并非本人绘制。页面使用了缩放后的复制图，部分位置展示画作局部。">These historical watercolors are public-domain works from The Metropolitan Museum of Art's Open Access collection, not my own paintings. Reproductions are resized; some placements show cropped details.</p>
-      <div class="art-credit-list">
-        <a href="https://www.metmuseum.org/art/collection/search/11129" target="_blank" rel="noreferrer">
-          <strong>Natural Bridge, Bermuda</strong><span>Winslow Homer · ca. 1901 ↗</span>
-        </a>
-        <a href="https://www.metmuseum.org/art/collection/search/11121" target="_blank" rel="noreferrer">
-          <strong>Flower Garden and Bungalow, Bermuda</strong><span>Winslow Homer · 1899 ↗</span>
-        </a>
-        <a href="https://www.metmuseum.org/art/collection/search/12107" target="_blank" rel="noreferrer">
-          <strong>Green Door, Santa Maria della Salute</strong><span>John Singer Sargent · ca. 1904 ↗</span>
-        </a>
-      </div>
-    </details>
-
     <footer>
       <span>© <span id="year">2026</span> Sufeng Guo</span>
       <span class="mono" data-en="DESIGNED FOR CURIOSITY · BUILT WITH INTENT"
@@ -846,33 +772,6 @@
       <a href="#top" data-en="Back to top ↑" data-zh="返回顶部 ↑">Back to top ↑</a>
     </footer>
 
-    <dialog class="art-viewer" aria-labelledby="art-viewer-title">
-      <div class="viewer-shell">
-        <div class="viewer-toolbar">
-          <div class="viewer-heading">
-            <span class="mono" data-en="THE WATERCOLOR COLLECTION" data-zh="水彩画作集">THE WATERCOLOR COLLECTION</span>
-            <h2 id="art-viewer-title"></h2>
-          </div>
-          <div class="viewer-controls">
-            <button class="viewer-previous" type="button" aria-label="Previous artwork">←</button>
-            <button class="viewer-next" type="button" aria-label="Next artwork">→</button>
-            <button class="viewer-zoom" type="button" aria-label="Zoom in" aria-pressed="false">＋</button>
-            <button class="viewer-close" type="button" aria-label="Close artwork viewer">×</button>
-          </div>
-        </div>
-        <div class="viewer-stage" tabindex="0" aria-label="Artwork image">
-          <img class="viewer-image" alt="">
-        </div>
-        <div class="viewer-footer">
-          <span class="viewer-credit"></span>
-          <span class="viewer-position mono"></span>
-          <a class="viewer-source" target="_blank" rel="noreferrer"
-             data-en="View at The Met ↗" data-zh="查看博物馆原作 ↗">View at The Met ↗</a>
-        </div>
-        <p class="viewer-status sr-only" role="status" aria-live="polite"></p>
-      </div>
-    </dialog>
-
-    <script src="script.js?v=20260906-art-atlas"></script>
+    <script src="script.js?v=20260906-watercolor-flow"></script>
   </body>
 </html>

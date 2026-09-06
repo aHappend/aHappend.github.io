@@ -45,7 +45,6 @@ function applyLanguage(nextLanguage) {
   });
   updateControlLabels();
   updateFilterStatus();
-  updateGalleryLabels();
   scheduleScrollUpdate();
 }
 
@@ -208,7 +207,7 @@ if ("IntersectionObserver" in window && !reducedMotion.matches) {
   });
 }
 
-const artwork = document.querySelector(".art-canvas");
+const artwork = document.querySelector(".hero");
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 let paintFrame = null;
 
@@ -266,131 +265,6 @@ function clearSpotlights() {
 }
 reducedMotion.addEventListener("change", clearSpotlights);
 finePointer.addEventListener("change", clearSpotlights);
-
-const viewer = document.querySelector(".art-viewer");
-const viewerImage = viewer.querySelector(".viewer-image");
-const viewerStage = viewer.querySelector(".viewer-stage");
-const viewerTitle = viewer.querySelector("#art-viewer-title");
-const viewerStatus = viewer.querySelector(".viewer-status");
-const zoomButton = viewer.querySelector(".viewer-zoom");
-const artTriggers = [...document.querySelectorAll(".art-print, .chapter-picture, .about-picture")];
-const artworks = [...document.querySelectorAll(".art-credit-list a")].map((credit) => {
-  const trigger = artTriggers.find((item) => item.href === credit.href);
-  const image = trigger.querySelector("img");
-  return {
-    source: credit.href,
-    image: image.dataset.fullsrc,
-    alt: image.alt,
-    title: credit.querySelector("strong").textContent,
-    credit: credit.querySelector("span").textContent.replace("↗", "").trim(),
-  };
-});
-let artworkIndex = 0;
-let galleryTrigger = null;
-let swipeStart = null;
-
-function updateGalleryLabels() {
-  const chinese = language === "zh";
-  viewer.querySelector(".viewer-previous").setAttribute("aria-label", chinese ? "上一幅画作" : "Previous artwork");
-  viewer.querySelector(".viewer-next").setAttribute("aria-label", chinese ? "下一幅画作" : "Next artwork");
-  viewer.querySelector(".viewer-close").setAttribute("aria-label", chinese ? "关闭画作浏览器" : "Close artwork viewer");
-  viewerStage.setAttribute("aria-label", chinese ? "画作；放大后可滚动查看细节" : "Artwork; scroll to explore when zoomed");
-  const zoomed = zoomButton.getAttribute("aria-pressed") === "true";
-  zoomButton.setAttribute("aria-label", chinese
-    ? (zoomed ? "缩小至完整画面" : "放大画作")
-    : (zoomed ? "Fit artwork to view" : "Zoom in"));
-}
-
-function setGalleryZoom(zoomed) {
-  viewerStage.classList.toggle("is-zoomed", zoomed);
-  zoomButton.setAttribute("aria-pressed", String(zoomed));
-  zoomButton.textContent = zoomed ? "−" : "＋";
-  viewerStage.scrollTo(0, 0);
-  updateGalleryLabels();
-}
-
-function showArtwork(index) {
-  artworkIndex = (index + artworks.length) % artworks.length;
-  const art = artworks[artworkIndex];
-  setGalleryZoom(false);
-  viewerTitle.textContent = art.title;
-  viewer.querySelector(".viewer-credit").textContent = art.credit;
-  viewer.querySelector(".viewer-position").textContent = `${artworkIndex + 1} / ${artworks.length}`;
-  viewer.querySelector(".viewer-source").href = art.source;
-  viewerImage.alt = art.alt;
-  viewerStage.setAttribute("aria-busy", "true");
-  viewerStage.classList.remove("image-failed");
-  zoomButton.disabled = true;
-  viewerStatus.classList.add("sr-only");
-  viewerStatus.textContent = language === "zh" ? "正在加载画作。" : "Loading artwork.";
-  viewerImage.src = art.image;
-}
-
-viewerImage.addEventListener("load", () => {
-  viewerStage.setAttribute("aria-busy", "false");
-  zoomButton.disabled = false;
-  viewerStatus.textContent = `${viewerTitle.textContent}, ${artworkIndex + 1} / ${artworks.length}`;
-});
-viewerImage.addEventListener("error", () => {
-  viewerStage.setAttribute("aria-busy", "false");
-  viewerStage.classList.add("image-failed");
-  viewerStatus.classList.remove("sr-only");
-  viewerStatus.textContent = language === "zh"
-    ? "画作加载失败。请通过下方链接查看博物馆原作。"
-    : "The artwork could not load. Use the museum link below to view the original.";
-});
-
-if (typeof viewer.showModal === "function") {
-  artTriggers.forEach((trigger) => {
-    trigger.setAttribute("aria-haspopup", "dialog");
-    trigger.addEventListener("click", (event) => {
-      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
-      event.preventDefault();
-      galleryTrigger = trigger;
-      showArtwork(artworks.findIndex((art) => art.source === trigger.href));
-      viewer.showModal();
-      root.classList.add("gallery-open");
-      viewer.querySelector(".viewer-close").focus();
-    });
-  });
-}
-
-viewer.querySelector(".viewer-close").addEventListener("click", () => viewer.close());
-viewer.querySelector(".viewer-previous").addEventListener("click", () => showArtwork(artworkIndex - 1));
-viewer.querySelector(".viewer-next").addEventListener("click", () => showArtwork(artworkIndex + 1));
-zoomButton.addEventListener("click", () => setGalleryZoom(zoomButton.getAttribute("aria-pressed") !== "true"));
-viewer.addEventListener("close", () => {
-  root.classList.remove("gallery-open");
-  setGalleryZoom(false);
-  if (galleryTrigger?.isConnected) galleryTrigger.focus({ preventScroll: true });
-});
-viewer.addEventListener("click", (event) => {
-  const bounds = viewer.getBoundingClientRect();
-  if (event.target === viewer && (
-    event.clientX < bounds.left || event.clientX > bounds.right ||
-    event.clientY < bounds.top || event.clientY > bounds.bottom
-  )) viewer.close();
-});
-viewer.addEventListener("keydown", (event) => {
-  if (viewerStage.contains(event.target) && viewerStage.classList.contains("is-zoomed")) return;
-  if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-    event.preventDefault();
-    showArtwork(artworkIndex + (event.key === "ArrowRight" ? 1 : -1));
-  }
-});
-viewerStage.addEventListener("pointerdown", (event) => {
-  if (event.pointerType === "touch" && !viewerStage.classList.contains("is-zoomed")) {
-    swipeStart = { x: event.clientX, y: event.clientY };
-  }
-});
-viewerStage.addEventListener("pointerup", (event) => {
-  if (!swipeStart) return;
-  const dx = event.clientX - swipeStart.x;
-  const dy = event.clientY - swipeStart.y;
-  swipeStart = null;
-  if (Math.abs(dx) > 55 && Math.abs(dy) < 45) showArtwork(artworkIndex + (dx < 0 ? 1 : -1));
-});
-viewerStage.addEventListener("pointercancel", () => { swipeStart = null; });
 
 applyLanguage(language);
 setTheme(root.dataset.theme);

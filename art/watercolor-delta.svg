@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 700" fill="none">
+  <defs>
+    <linearGradient id="estuary" x1="165" y1="320" x2="1380" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8bcfd9" stop-opacity="0"/>
+      <stop offset=".24" stop-color="#77c6d1" stop-opacity=".42"/>
+      <stop offset=".5" stop-color="#6f9ec6" stop-opacity=".53"/>
+      <stop offset=".78" stop-color="#a59dce" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#bdc0dc" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="ochre" x1="100" y1="400" x2="1250" y2="280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f4c99f" stop-opacity="0"/>
+      <stop offset=".35" stop-color="#e0a376" stop-opacity=".5"/>
+      <stop offset=".65" stop-color="#ebbd8d" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#e6c6a7" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="wet" x="-10%" y="-40%" width="120%" height="180%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".011 .045" numOctaves="3" seed="31" result="water"/>
+      <feDisplacementMap in="SourceGraphic" in2="water" scale="22" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .2 .2 .2 0 .5" result="paper"/>
+      <feGaussianBlur in="edge" stdDeviation=".6" result="soaked"/>
+      <feComposite in="soaked" in2="paper" operator="in"/>
+    </filter>
+    <filter id="soft" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="20"/></filter>
+  </defs>
+  <path d="M82 389C306 470 432 166 691 284C921 389 1119 175 1456 274L1440 437C1107 345 931 544 656 425C414 320 234 531 82 389Z" fill="url(#estuary)" filter="url(#soft)" opacity=".7"/>
+  <g filter="url(#wet)">
+    <path d="M97 348C326 483 405 207 664 318C909 423 1096 207 1422 281C1157 249 1053 458 816 420C578 382 561 333 421 405C263 486 173 438 97 348Z" fill="url(#estuary)"/>
+    <path d="M182 467C358 471 454 359 614 407C827 471 1086 348 1381 429C1114 396 941 523 711 465C481 407 416 559 182 467Z" fill="url(#estuary)" opacity=".66"/>
+    <path d="M129 337C319 294 403 318 544 289C771 242 886 354 1088 275C967 385 802 332 660 338C417 347 365 299 129 337Z" fill="url(#ochre)" opacity=".85"/>
+    <path d="M283 385C393 411 475 310 568 339M801 427C976 456 1032 359 1120 366" stroke="url(#estuary)" stroke-width="10" stroke-linecap="round"/>
+    <path d="M402 318C484 303 536 311 588 322" stroke="#c59e7e" stroke-width="3" opacity=".4"/>
+  </g>
+  <g stroke="#739cae" stroke-linecap="round" opacity=".32">
+    <path d="M139 367C323 461 432 274 592 346C774 428 968 324 1108 320" stroke-width="1"/>
+    <path d="M444 452C607 417 665 501 857 455C1011 418 1051 392 1185 403" stroke-width=".7"/>
+  </g>
+  <g fill="#789eb6" opacity=".3">
+    <circle cx="354" cy="281" r="2.5"/><circle cx="369" cy="265" r="1.1"/><circle cx="391" cy="281" r="1.7"/>
+    <circle cx="922" cy="506" r="2"/><circle cx="945" cy="498" r="1"/><circle cx="936" cy="520" r="1.3"/>
+  </g>
+</svg>
