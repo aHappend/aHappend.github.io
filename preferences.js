@@ -1,7 +1,7 @@
 // Run before the stylesheet to avoid flashing the wrong theme.
 const sitePreferences = (() => {
   const memory = new Map();
-  const allowed = { theme: ["light", "dark"], language: ["en", "zh"] };
+  const allowed = { theme: ["light", "dark"], language: ["en", "zh"], effects: ["on", "off"] };
 
   function storageUnavailable(error) {
     if (!(error instanceof DOMException) ||

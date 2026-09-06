@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 730" fill="none">
+  <title>Wild roses reaching toward the light</title>
+  <desc>An original transparent watercolor study of an arching dog-rose branch, apricot and blush flowers, unopened buds, finely veined leaves and a tiny ladybird.</desc>
+  <defs>
+    <filter id="rose-paint" x="-12%" y="-15%" width="124%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".036 .073" numOctaves="3" seed="52" result="wet"/>
+      <feDisplacementMap in="SourceGraphic" in2="wet" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".3 .65" numOctaves="2" seed="27" result="grain"/>
+      <feColorMatrix in="grain" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .16 .16 .16 0 .64" result="paper"/>
+      <feComposite in="edge" in2="paper" operator="in"/>
+    </filter>
+    <linearGradient id="rose-leaf" x1="-35" y1="-90" x2="35" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b8bf95"/><stop offset=".44" stop-color="#82a083"/><stop offset="1" stop-color="#456e65"/>
+    </linearGradient>
+    <linearGradient id="rose-pale-leaf" x1="-35" y1="-90" x2="35" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d3d4ac"/><stop offset=".5" stop-color="#b1bea0"/><stop offset="1" stop-color="#769389"/>
+    </linearGradient>
+    <radialGradient id="rose-blush" cx=".46" cy=".13" r=".92">
+      <stop stop-color="#fae6cf"/><stop offset=".43" stop-color="#eec7bc"/><stop offset=".78" stop-color="#d79a9c"/><stop offset="1" stop-color="#ab7186"/>
+    </radialGradient>
+    <radialGradient id="rose-apricot" cx=".42" cy=".13" r=".95">
+      <stop stop-color="#fff0d4"/><stop offset=".45" stop-color="#f0d4b6"/><stop offset=".78" stop-color="#d8a599"/><stop offset="1" stop-color="#bc8793"/>
+    </radialGradient>
+    <radialGradient id="rose-heart">
+      <stop stop-color="#938453"/><stop offset=".5" stop-color="#c3a468"/><stop offset="1" stop-color="#e7cc87"/>
+    </radialGradient>
+    <linearGradient id="rose-stem-fade" x1="60" y1="650" x2="230" y2="550" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="white"/>
+    </linearGradient>
+    <mask id="rose-base"><path d="M0 0H1100V730H0Z" fill="url(#rose-stem-fade)"/></mask>
+    <path id="rose-leaf-shape" d="M0 0C-13-9-32-25-35-43L-40-45L-37-52L-42-56L-35-62L-38-68L-30-72L-31-79L-21-82L-20-90L-11-91L-5-101L3-96L10-92L13-84L21-84L23-76L29-71L28-64L35-58L31-51L36-44C30-23 14-10 0 0Z"/>
+    <g id="rose-leaflet">
+      <use href="#rose-leaf-shape" fill="url(#rose-leaf)" filter="url(#rose-paint)"/>
+      <path d="M0-4C-5-35-2-65-5-91M-3-22L-25-40M-4-40L-28-60M-3-59L-20-77M-3-28L23-47M-3-48L23-63M-4-67L11-82" stroke="#d3d9b9" stroke-width="1.05" opacity=".6"/>
+      <path d="M5-8C19-23 26-31 30-47" stroke="#3d6a60" stroke-width="1.2" opacity=".28"/>
+    </g>
+    <g id="rose-silver-leaf">
+      <use href="#rose-leaf-shape" fill="url(#rose-pale-leaf)" filter="url(#rose-paint)"/>
+      <path d="M0-4C-5-35-2-65-5-91M-3-24L-26-43M-3-46L-27-64M-4-37L23-54M-4-61L17-76" stroke="#f0e5c8" stroke-width="1.1" opacity=".6"/>
+    </g>
+    <g id="rose-petal">
+      <path d="M0 9C-19 3-41-9-43-29C-50-43-43-64-31-65C-26-76-9-73-2-68C9-76 30-68 32-55C45-44 37-21 28-11C21 2 9 10 0 9Z" fill="url(#rose-blush)" filter="url(#rose-paint)"/>
+      <path d="M-3 3C-17-17-24-29-28-52M0 1C-6-19-9-40-8-54M5 0C12-18 16-34 19-49" stroke="#b4878d" stroke-width=".7" opacity=".34"/>
+      <path d="M-35-43C-38-51-30-60-24-60" stroke="#fce8d1" stroke-width="2.5" opacity=".4"/>
+    </g>
+    <g id="rose-stamens">
+      <circle r="17" fill="url(#rose-heart)" opacity=".84"/>
+      <g stroke="#c8b77c" stroke-width="1.6" stroke-linecap="round">
+        <path d="M0 0L0-23M0 0L14-19M0 0L22-7M0 0L23 7M0 0L14 21M0 0L-1 25M0 0L-14 18M0 0L-25 6M0 0L-21-12M0 0L-12-22"/>
+      </g>
+      <g fill="#a58a56">
+        <ellipse cy="-23" rx="2.2" ry="3"/><circle cx="14" cy="-19" r="2.4"/><circle cx="22" cy="-7" r="2.6"/>
+        <ellipse cx="23" cy="7" rx="3" ry="2"/><circle cx="14" cy="21" r="2.3"/><circle cx="-1" cy="25" r="2.1"/>
+        <circle cx="-14" cy="18" r="2.5"/><circle cx="-25" cy="6" r="2.4"/><circle cx="-21" cy="-12" r="2.4"/><circle cx="-12" cy="-22" r="2.5"/>
+      </g>
+      <g fill="#707654"><circle cx="-6" cy="-3" r="2"/><circle cx="3" cy="-7" r="2.1"/><circle cx="7" cy="2" r="2.2"/><circle cx="-1" cy="7" r="2.3"/></g>
+    </g>
+    <g id="rose-open">
+      <use href="#rose-petal" transform="rotate(-7)"/><use href="#rose-petal" transform="rotate(68)"/>
+      <use href="#rose-petal" transform="rotate(142)"/><use href="#rose-petal" transform="rotate(215)"/>
+      <use href="#rose-petal" transform="rotate(286)"/><use href="#rose-stamens"/>
+    </g>
+    <g id="rose-cup">
+      <path d="M0 12C-32 2-57-24-44-49C-34-52-15-35-5-22C-1-45 14-60 25-53C39-46 36-23 31-15C42-35 56-35 59-25C55-2 29 20 0 12Z" fill="url(#rose-apricot)" filter="url(#rose-paint)"/>
+      <path d="M0 9C-12-5-25-20-34-35M6 10C4-9 14-29 20-41M17 8C31-1 42-12 46-22" stroke="#c0948c" stroke-width="1.2" opacity=".47"/>
+      <path d="M-14 8L2 30L20 16L31 8L11 15L5 6L0 17Z" fill="#7e9773"/>
+    </g>
+    <g id="rose-bud">
+      <path d="M0 1C-14-11-15-37-2-44C10-37 15-13 0 1Z" fill="url(#rose-blush)" filter="url(#rose-paint)"/>
+      <path d="M-12-13L-1 10L11-17L2-9L-1-26L-4-9Z" fill="#759075"/>
+      <path d="M-2-33C1-25 1-19 0-14" stroke="#f9debd" opacity=".6"/>
+    </g>
+  </defs>
+  <g mask="url(#rose-base)">
+    <g stroke-linecap="round">
+      <path d="M90 665C272 573 379 498 494 374C641 213 788 250 944 117" stroke="#788b6b" stroke-width="5" opacity=".8"/>
+      <path d="M89 665C256 581 390 508 495 377C652 228 808 242 944 117" stroke="#c3c5a0" stroke-width="1.8" opacity=".65"/>
+      <path d="M228 595C214 498 237 423 295 343M350 522C389 538 475 515 533 452M460 412C391 380 379 314 365 254M555 320C571 269 580 217 614 155M677 257C718 308 770 334 818 347M771 223C771 167 798 114 841 82M864 175C915 189 946 219 966 267" stroke="#82977b" stroke-width="2.9"/>
+      <path d="M282 563L312 594M391 488L409 421M494 376L543 411M605 285L627 229M706 251L741 192M813 205L823 263M902 145L934 90M224 516L175 463M259 396L235 354M785 331L766 397M941 229L1000 192" stroke="#8b9e83" stroke-width="1.8"/>
+    </g>
+    <g opacity=".7">
+      <use href="#rose-silver-leaf" transform="translate(201 602) rotate(-59) scale(1.05)"/>
+      <use href="#rose-silver-leaf" transform="translate(348 526) rotate(101) scale(1.15)"/>
+      <use href="#rose-silver-leaf" transform="translate(520 352) rotate(49) scale(1.08)"/>
+      <use href="#rose-silver-leaf" transform="translate(677 258) rotate(-42) scale(.84)"/>
+      <use href="#rose-silver-leaf" transform="translate(870 181) rotate(87) scale(.84)"/>
+    </g>
+    <g>
+      <use href="#rose-leaflet" transform="translate(222 549) rotate(-40) scale(1.06)"/>
+      <use href="#rose-leaflet" transform="translate(295 567) rotate(76) scale(.96)"/>
+      <use href="#rose-leaflet" transform="translate(328 546) rotate(41) scale(.87)"/>
+      <use href="#rose-leaflet" transform="translate(394 476) rotate(-19) scale(1.13)"/>
+      <use href="#rose-leaflet" transform="translate(428 455) rotate(96) scale(.88)"/>
+      <use href="#rose-leaflet" transform="translate(470 398) rotate(-58) scale(.9)"/>
+      <use href="#rose-leaflet" transform="translate(497 376) rotate(66) scale(.93)"/>
+      <use href="#rose-leaflet" transform="translate(582 301) rotate(-34) scale(.84)"/>
+      <use href="#rose-leaflet" transform="translate(702 267) rotate(125) scale(.77)"/>
+      <use href="#rose-leaflet" transform="translate(743 237) rotate(-13) scale(.88)"/>
+      <use href="#rose-leaflet" transform="translate(812 204) rotate(157) scale(.79)"/>
+      <use href="#rose-leaflet" transform="translate(929 157) rotate(53) scale(.7)"/>
+      <use href="#rose-leaflet" transform="translate(928 211) rotate(-70) scale(.6)"/>
+      <use href="#rose-silver-leaf" transform="translate(270 390) rotate(43) scale(.78)"/>
+      <use href="#rose-silver-leaf" transform="translate(570 253) rotate(-48) scale(.81)"/>
+    </g>
+    <use href="#rose-open" transform="translate(285 341) rotate(-12) scale(1.02)"/>
+    <use href="#rose-cup" transform="translate(362 252) rotate(-29) scale(.87)"/>
+    <use href="#rose-open" transform="translate(611 155) rotate(23) scale(1.08)"/>
+    <use href="#rose-open" transform="translate(816 345) rotate(7) scale(.91)"/>
+    <use href="#rose-cup" transform="translate(946 112) rotate(23) scale(.8)"/>
+    <use href="#rose-bud" transform="translate(840 83) rotate(27) scale(.89)"/>
+    <use href="#rose-bud" transform="translate(967 266) rotate(139) scale(.92)"/>
+    <use href="#rose-bud" transform="translate(534 451) rotate(33)"/>
+    <use href="#rose-bud" transform="translate(175 463) rotate(-37) scale(.78)"/>
+    <use href="#rose-bud" transform="translate(765 396) rotate(177) scale(.7)"/>
+    <g transform="translate(374 439) rotate(-14)">
+      <ellipse rx="7" ry="9" fill="#b86854"/><path d="M0-8V8" stroke="#665f51" stroke-width="1.1"/>
+      <circle cy="-9" r="3.1" fill="#616952"/><g fill="#675f52"><circle cx="-3" cy="-3" r="1.4"/><circle cx="3" cy="2" r="1.4"/><circle cx="-2.7" cy="4" r="1.2"/></g>
+    </g>
+  </g>
+</svg>

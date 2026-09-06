@@ -1,6 +1,7 @@
 const root = document.documentElement;
 const languageButton = document.querySelector(".lang-toggle");
 const themeButton = document.querySelector(".theme-toggle");
+const effectsButton = document.querySelector(".effects-toggle");
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".desktop-nav");
 const navLinks = [...navigation.querySelectorAll("a")];
@@ -11,6 +12,7 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileNavigation = window.matchMedia("(max-width: 900px)");
 let language = sitePreferences.get("language") === "zh" ? "zh" : "en";
 let selectedFilter = "all";
+let effectsEnabled = sitePreferences.get("effects") !== "off";
 
 function updateControlLabels() {
   const chinese = language === "zh";
@@ -25,6 +27,15 @@ function updateControlLabels() {
     : `${menuOpen ? "Close" : "Open"} navigation`);
   navigation.setAttribute("aria-label", chinese ? "主导航" : "Primary navigation");
   document.querySelector(".project-filters").setAttribute("aria-label", chinese ? "筛选项目" : "Filter projects");
+  const effectsActive = effectsEnabled && !reducedMotion.matches;
+  effectsButton.setAttribute("aria-pressed", String(effectsActive));
+  effectsButton.disabled = reducedMotion.matches;
+  effectsButton.textContent = reducedMotion.matches
+    ? (chinese ? "已减少动态效果" : "Reduced motion")
+    : (chinese ? `花园动效${effectsActive ? "开启" : "关闭"}` : `Garden effects ${effectsActive ? "on" : "off"}`);
+  effectsButton.setAttribute("aria-label", chinese
+    ? (effectsActive ? "暂停花园动效" : "开启花园动效")
+    : (effectsActive ? "Pause garden effects" : "Enable garden effects"));
 }
 
 function updateFilterStatus() {
@@ -129,6 +140,7 @@ function stopFilterAnimations() {
 filters.forEach((filter) => {
   filter.addEventListener("click", () => {
     stopFilterAnimations();
+    clearSpotlights();
     selectedFilter = filter.dataset.filter;
     filters.forEach((item) => {
       const active = item === filter;
@@ -207,34 +219,54 @@ if ("IntersectionObserver" in window && !reducedMotion.matches) {
   });
 }
 
-const artwork = document.querySelector(".hero");
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-let paintFrame = null;
+const artworks = [...document.querySelectorAll(".hero, .section, .contact-section")];
+const paintFrames = new Map();
 
-function resetPaint() {
-  if (paintFrame !== null) cancelAnimationFrame(paintFrame);
-  paintFrame = null;
-  artwork.style.removeProperty("--paint-x");
-  artwork.style.removeProperty("--paint-y");
+function canUsePointerEffects(event) {
+  return effectsEnabled && !reducedMotion.matches && finePointer.matches &&
+    !document.hidden && (!event || event.pointerType === "mouse");
 }
 
-artwork.addEventListener("pointermove", (event) => {
-  if (reducedMotion.matches || !finePointer.matches || event.pointerType !== "mouse") return;
-  if (paintFrame !== null) cancelAnimationFrame(paintFrame);
-  paintFrame = requestAnimationFrame(() => {
-    paintFrame = null;
-    const bounds = artwork.getBoundingClientRect();
-    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 12;
-    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 12;
-    artwork.style.setProperty("--paint-x", `${x.toFixed(2)}px`);
-    artwork.style.setProperty("--paint-y", `${y.toFixed(2)}px`);
-  });
-});
-artwork.addEventListener("pointerleave", resetPaint);
-reducedMotion.addEventListener("change", resetPaint);
-finePointer.addEventListener("change", resetPaint);
+function resetArtwork(artwork) {
+  const frame = paintFrames.get(artwork);
+  if (frame !== undefined) cancelAnimationFrame(frame);
+  paintFrames.delete(artwork);
+  artwork.classList.remove("nature-hovering");
+  artwork.style.removeProperty("--paint-x");
+  artwork.style.removeProperty("--paint-y");
+  artwork.style.removeProperty("--paint-turn");
+}
 
-const spotlightCards = [...document.querySelectorAll(".project-card, .repo-logo-card, .social-card")];
+function pointerPosition(event, element) {
+  const bounds = element.getBoundingClientRect();
+  return {
+    x: Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1)),
+    y: Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1)),
+    localX: event.clientX - bounds.left,
+    localY: event.clientY - bounds.top,
+  };
+}
+
+artworks.forEach((artwork) => {
+  artwork.addEventListener("pointermove", (event) => {
+    if (!canUsePointerEffects(event)) return;
+    const frame = paintFrames.get(artwork);
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    paintFrames.set(artwork, requestAnimationFrame(() => {
+      paintFrames.delete(artwork);
+      const { x, y } = pointerPosition(event, artwork);
+      artwork.style.setProperty("--paint-x", `${(x * 20).toFixed(2)}px`);
+      artwork.style.setProperty("--paint-y", `${(y * 13).toFixed(2)}px`);
+      artwork.style.setProperty("--paint-turn", `${(x * 1.8).toFixed(2)}deg`);
+      artwork.classList.add("nature-hovering");
+    }));
+  });
+  artwork.addEventListener("pointerleave", () => resetArtwork(artwork));
+  artwork.addEventListener("pointercancel", () => resetArtwork(artwork));
+});
+
+const spotlightCards = [...document.querySelectorAll(".project-card, .repo-logo-card, .social-card, .publication")];
 const spotlightFrames = new Map();
 
 function clearSpotlight(card) {
@@ -242,29 +274,204 @@ function clearSpotlight(card) {
   if (frame !== undefined) cancelAnimationFrame(frame);
   spotlightFrames.delete(card);
   card.classList.remove("pointer-lit");
+  ["--spot-x", "--spot-y", "--tilt-x", "--tilt-y"].forEach((property) => card.style.removeProperty(property));
 }
 
 spotlightCards.forEach((card) => {
   card.addEventListener("pointermove", (event) => {
-    if (reducedMotion.matches || !finePointer.matches || event.pointerType !== "mouse") return;
+    if (!canUsePointerEffects(event)) return;
     const frame = spotlightFrames.get(card);
     if (frame !== undefined) cancelAnimationFrame(frame);
     spotlightFrames.set(card, requestAnimationFrame(() => {
       spotlightFrames.delete(card);
-      const bounds = card.getBoundingClientRect();
-      card.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
-      card.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+      const { x, y, localX, localY } = pointerPosition(event, card);
+      card.style.setProperty("--spot-x", `${localX.toFixed(2)}px`);
+      card.style.setProperty("--spot-y", `${localY.toFixed(2)}px`);
+      card.style.setProperty("--tilt-x", `${(-y * 2.5).toFixed(2)}deg`);
+      card.style.setProperty("--tilt-y", `${(x * 3.5).toFixed(2)}deg`);
       card.classList.add("pointer-lit");
     }));
   });
   card.addEventListener("pointerleave", () => clearSpotlight(card));
+  card.addEventListener("pointercancel", () => clearSpotlight(card));
 });
 
 function clearSpotlights() {
   spotlightCards.forEach(clearSpotlight);
 }
-reducedMotion.addEventListener("change", clearSpotlights);
-finePointer.addEventListener("change", clearSpotlights);
+const magneticControls = [...document.querySelectorAll(".button, .theme-toggle, .lang-toggle, .filter")];
+const magneticFrames = new Map();
+
+function resetMagnet(control) {
+  const frame = magneticFrames.get(control);
+  if (frame !== undefined) cancelAnimationFrame(frame);
+  magneticFrames.delete(control);
+  control.style.removeProperty("--magnet-x");
+  control.style.removeProperty("--magnet-y");
+}
+
+magneticControls.forEach((control) => {
+  control.addEventListener("pointermove", (event) => {
+    if (!canUsePointerEffects(event)) return;
+    const frame = magneticFrames.get(control);
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    magneticFrames.set(control, requestAnimationFrame(() => {
+      magneticFrames.delete(control);
+      const { x, y } = pointerPosition(event, control);
+      control.style.setProperty("--magnet-x", `${(x * 4).toFixed(2)}px`);
+      control.style.setProperty("--magnet-y", `${(y * 3).toFixed(2)}px`);
+    }));
+  });
+  control.addEventListener("pointerleave", () => resetMagnet(control));
+  control.addEventListener("pointercancel", () => resetMagnet(control));
+});
+
+const petalCanvas = document.createElement("canvas");
+petalCanvas.className = "garden-particles";
+petalCanvas.setAttribute("aria-hidden", "true");
+document.body.append(petalCanvas);
+const petalContext = petalCanvas.getContext("2d");
+if (!petalContext) console.warn("Garden petal effects are unavailable: this browser has no 2D canvas context.");
+let particles = [];
+let particleFrame = null;
+let lastPetal = null;
+let pointerScrollX = window.scrollX;
+let pointerScrollY = window.scrollY;
+
+function clearParticles() {
+  if (particleFrame !== null) cancelAnimationFrame(particleFrame);
+  particleFrame = null;
+  particles = [];
+  lastPetal = null;
+  if (petalContext) petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
+}
+
+function resizePetalCanvas() {
+  clearParticles();
+  const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+  petalCanvas.width = Math.round(root.clientWidth * ratio);
+  petalCanvas.height = Math.round(window.innerHeight * ratio);
+  if (petalContext) petalContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+}
+
+function drawParticles(now) {
+  particleFrame = null;
+  petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
+  particles = particles.filter((particle) => now - particle.born < particle.life);
+  const palette = root.dataset.theme === "dark"
+    ? ["#e3afae", "#a7cbb4", "#81d6db", "#edd29c"]
+    : ["#bb7888", "#688f75", "#388fa9", "#bf975d"];
+  particles.forEach((particle) => {
+    const age = (now - particle.born) / particle.life;
+    if (age < 0) return;
+    petalContext.save();
+    petalContext.globalAlpha = (1 - age) * (particle.ripple ? .5 : .68);
+    petalContext.translate(
+      particle.x + particle.vx * age + (particle.ripple ? 0 : Math.sin(age * 5 + particle.spin) * 10),
+      particle.y + particle.vy * age + (particle.ripple ? 0 : age * age * 28)
+    );
+    const color = palette[particle.color];
+    if (particle.ripple) {
+      petalContext.strokeStyle = color;
+      petalContext.lineWidth = 1.3 * (1 - age) + .4;
+      const radius = 7 + (1 - (1 - age) ** 2) * 64;
+      petalContext.beginPath();
+      petalContext.ellipse(0, 0, radius, radius * .55, -.2, 0, Math.PI * 2);
+      petalContext.stroke();
+    } else {
+      petalContext.rotate(particle.spin + age * 2);
+      const size = particle.size * (1 - age * .4);
+      petalContext.fillStyle = color;
+      petalContext.beginPath();
+      petalContext.moveTo(-size, 0);
+      petalContext.bezierCurveTo(-size, -size, size * .8, -size, size, 0);
+      petalContext.bezierCurveTo(size * .5, size * .65, -size * .35, size * .8, -size, 0);
+      petalContext.fill();
+      petalContext.strokeStyle = root.dataset.theme === "dark" ? "#f0edcf" : "#fbf0dc";
+      petalContext.globalAlpha *= .55;
+      petalContext.lineWidth = .7;
+      petalContext.beginPath();
+      petalContext.moveTo(-size * .65, 0);
+      petalContext.quadraticCurveTo(0, -size * .15, size * .7, 0);
+      petalContext.stroke();
+    }
+    petalContext.restore();
+  });
+  if (particles.length) particleFrame = requestAnimationFrame(drawParticles);
+}
+
+function scatterPetals(event, burst = false) {
+  if (!petalContext || !canUsePointerEffects(event)) return;
+  const now = performance.now();
+  if (!burst && lastPetal &&
+      (now - lastPetal.time < 24 || Math.hypot(event.clientX - lastPetal.x, event.clientY - lastPetal.y) < 10)) return;
+  lastPetal = { x: event.clientX, y: event.clientY, time: now };
+  for (let index = 0; index < (burst ? 12 : 2); index += 1) {
+    const angle = Math.random() * Math.PI * 2;
+    particles.push({
+      x: event.clientX, y: event.clientY, born: now,
+      life: burst ? 1250 : 950, spin: angle, size: 3 + Math.random() * 4,
+      vx: Math.cos(angle) * (burst ? 52 : 15), vy: Math.sin(angle) * (burst ? 38 : 15),
+      color: Math.floor(Math.random() * 4), ripple: false,
+    });
+  }
+  if (burst) {
+    for (let index = 0; index < 2; index += 1) {
+      particles.push({ x: event.clientX, y: event.clientY, born: now + index * 110,
+        life: 900, vx: 0, vy: 0, color: 2, ripple: true });
+    }
+  }
+  // Bound work during rapid movement; there is no animation loop when the trail fades.
+  particles = particles.slice(-64);
+  if (particleFrame === null) particleFrame = requestAnimationFrame(drawParticles);
+}
+
+function resetNatureEffects() {
+  artworks.forEach(resetArtwork);
+  clearSpotlights();
+  magneticControls.forEach(resetMagnet);
+  clearParticles();
+}
+
+function syncNatureEffects() {
+  root.dataset.effects = effectsEnabled && !reducedMotion.matches ? "on" : "off";
+  resetNatureEffects();
+  updateControlLabels();
+}
+
+effectsButton.addEventListener("click", () => {
+  effectsEnabled = !effectsEnabled;
+  sitePreferences.set("effects", effectsEnabled ? "on" : "off");
+  syncNatureEffects();
+});
+document.addEventListener("pointermove", (event) => {
+  pointerScrollX = window.scrollX;
+  pointerScrollY = window.scrollY;
+  scatterPetals(event);
+}, { passive: true });
+document.addEventListener("click", (event) => {
+  if (event.button === 0 && event.detail > 0) scatterPetals(event, true);
+});
+document.addEventListener("pointerout", (event) => {
+  if (!event.relatedTarget) resetNatureEffects();
+});
+document.addEventListener("pointercancel", resetNatureEffects);
+document.addEventListener("visibilitychange", resetNatureEffects);
+window.addEventListener("blur", resetNatureEffects);
+window.addEventListener("scroll", () => {
+  // A pointer event may already have sampled the new viewport before scroll is delivered.
+  if (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY) resetNatureEffects();
+  pointerScrollX = window.scrollX;
+  pointerScrollY = window.scrollY;
+}, { passive: true });
+window.addEventListener("resize", () => {
+  resetNatureEffects();
+  resizePetalCanvas();
+}, { passive: true });
+reducedMotion.addEventListener("change", syncNatureEffects);
+finePointer.addEventListener("change", resetNatureEffects);
+resizePetalCanvas();
+syncNatureEffects();
 
 applyLanguage(language);
 setTheme(root.dataset.theme);

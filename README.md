@@ -22,9 +22,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
-- `art/*.svg`: original, code-authored nature illustrations: the approved
-  botanical still life, a varied wildflower meadow, woodland ferns, and a coastal
-  landscape with beach, headlands and gentle surf. The illustrations use shaded
+- `art/*.svg`: seven original, code-authored nature compositions, each used in
+  exactly one section: botanical still life (hero), mountain valley (Work),
+  wildflower meadow (Ecosystem), water-lily pond (Research), woodland ferns
+  (About), wild roses (Social), and coastal bay (Contact). Do not repeat an
+  illustration across sections, even with different cropping or opacity.
+  The illustrations use shaded
   forms, fine stems and veins, restrained pigment texture, and transparent edges.
   They blend into the page without frames or a gallery. No museum reproductions
   or image-generation service are used. Keep these layers decorative,
@@ -32,8 +35,14 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The chip graphic remains conceptual, not a die photograph or physical-layout result.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls, mobile navigation, animated accessible
-  project filters, section reveals, pointer-responsive lighting, and subtle
-  background parallax. Phones use static, repositioned illustrations with unrestricted
+  project filters, section reveals, layered illustration parallax, a fluttering
+  butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
+  click ripples. The native cursor stays visible; the canvas never intercepts
+  input. Its particle count is capped at 64, pixel ratio at 1.5, and its frame loop
+  stops when the trail fades. Scroll, blur, pointer cancellation, and hidden tabs
+  clear transient effects. The hero's garden-effects toggle persists independently
+  of theme/language, and system reduced-motion preferences always take priority.
+  Phones use static, repositioned illustrations with unrestricted
   native scrolling; decorative backgrounds never capture clicks or touch gestures.
 
 The page remains readable and navigable without JavaScript. Browser storage is

@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 800" fill="none">
+  <title>Where the hills keep the morning</title>
+  <desc>An original watercolor vista of softly rounded mountain ridges and drifting mist. A winding blue-green stream separates an open flower meadow on the left from a tall, slender tree grove on the right, with a smaller copse in the distance. The landscape has feathered, irregular transparent edges.</desc>
+  <defs>
+    <filter id="valley-paint" x="-7%" y="-10%" width="114%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".021 .059" numOctaves="3" seed="53" result="wash"/>
+      <feDisplacementMap in="SourceGraphic" in2="wash" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".007 .016" numOctaves="2" seed="15" result="blooms"/>
+      <feColorMatrix in="blooms" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .13 .13 .13 0 .70" result="wet-paper"/>
+      <feComposite in="edge" in2="wet-paper" operator="in" result="pigment"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".29 .67" numOctaves="2" seed="26" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .11 .11 .11 0 .73" result="paper"/>
+      <feComposite in="pigment" in2="paper" operator="in"/>
+    </filter>
+    <filter id="valley-leaf-paint" x="-8%" y="-10%" width="116%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".047 .095" numOctaves="2" seed="9" result="wash"/>
+      <feDisplacementMap in="SourceGraphic" in2="wash" scale="1.1" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".31 .74" numOctaves="2" seed="22" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .12 .12 .12 0 .72" result="paper"/>
+      <feComposite in="edge" in2="paper" operator="in"/>
+    </filter>
+    <filter id="valley-wet" x="-14%" y="-25%" width="128%" height="150%"><feGaussianBlur stdDeviation="3.2"/></filter>
+    <filter id="valley-mist" x="-12%" y="-60%" width="124%" height="220%"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="valley-feather" x="-12%" y="-15%" width="124%" height="130%"><feGaussianBlur stdDeviation="23"/></filter>
+    <linearGradient id="valley-distance" x1="730" y1="103" x2="781" y2="447" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#aab9c2" stop-opacity=".63"/><stop offset=".44" stop-color="#afc4c4" stop-opacity=".72"/><stop offset=".8" stop-color="#c7d5ca" stop-opacity=".45"/><stop offset="1" stop-color="#d1dece" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="valley-far-green" x1="992" y1="188" x2="884" y2="501" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a0b7ab"/><stop offset=".44" stop-color="#91afa4"/><stop offset=".74" stop-color="#bed0b9" stop-opacity=".36"/><stop offset="1" stop-color="#bed0b9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="valley-left-wash" x1="240" y1="254" x2="651" y2="587" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#93ad94"/><stop offset=".31" stop-color="#8eab8c"/><stop offset=".66" stop-color="#b3bea0"/><stop offset="1" stop-color="#c6c9a9"/>
+    </linearGradient>
+    <linearGradient id="valley-right-wash" x1="1281" y1="237" x2="953" y2="612" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8fa999"/><stop offset=".36" stop-color="#729c8d"/><stop offset=".72" stop-color="#91b09a"/><stop offset="1" stop-color="#b8c6a6"/>
+    </linearGradient>
+    <linearGradient id="valley-meadow-wash" x1="680" y1="431" x2="738" y2="784" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b9c6a8"/><stop offset=".4" stop-color="#b3c2a3"/><stop offset=".77" stop-color="#a2b698"/><stop offset="1" stop-color="#c4cbb0"/>
+    </linearGradient>
+    <linearGradient id="valley-water" x1="780" y1="397" x2="852" y2="788" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b8d2ce"/><stop offset=".27" stop-color="#d1e2d3"/><stop offset=".59" stop-color="#a1c7c5"/><stop offset=".83" stop-color="#8ab9be"/><stop offset="1" stop-color="#bfd5ca" stop-opacity=".23"/>
+    </linearGradient>
+    <linearGradient id="valley-bank-shadow" x1="664" y1="537" x2="810" y2="765" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6b967f" stop-opacity=".44"/><stop offset=".67" stop-color="#598a7e" stop-opacity=".32"/><stop offset="1" stop-color="#8caa91" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="valley-tree-wash" x1="-38" y1="-233" x2="42" y2="-42" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b3c1a3"/><stop offset=".33" stop-color="#8aa68c"/><stop offset=".61" stop-color="#68937c"/><stop offset="1" stop-color="#437566"/>
+    </linearGradient>
+    <linearGradient id="valley-leaf-wash" x1="-10" y1="-45" x2="10" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bcc6a4"/><stop offset=".55" stop-color="#81a084"/><stop offset="1" stop-color="#4f8170"/>
+    </linearGradient>
+    <radialGradient id="valley-ivory">
+      <stop stop-color="#d3cfad"/><stop offset=".45" stop-color="#f3ecd0"/><stop offset="1" stop-color="#fff8e7"/>
+    </radialGradient>
+    <linearGradient id="valley-flower-pink" x1="-10" y1="-28" x2="14" y2="4" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e2bdae"/><stop offset=".6" stop-color="#c69592"/><stop offset="1" stop-color="#9c7c80"/>
+    </linearGradient>
+    <linearGradient id="valley-stone-wash" x1="-24" y1="-23" x2="23" y2="7" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c7c8b0"/><stop offset=".48" stop-color="#a3afa0"/><stop offset="1" stop-color="#6b8b82"/>
+    </linearGradient>
+    <linearGradient id="valley-fade" x1="0" y1="636" x2="0" y2="795" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white"/><stop offset=".57" stop-color="white" stop-opacity=".85"/><stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="valley-base-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1500" height="800">
+      <path d="M0 0H1500V800H0Z" fill="url(#valley-fade)"/>
+    </mask>
+    <mask id="valley-edge" maskUnits="userSpaceOnUse" x="0" y="0" width="1500" height="800">
+      <g mask="url(#valley-base-mask)">
+        <path d="M78 379C89 265 188 194 288 176C420 124 539 126 636 95C771 38 876 85 1015 113C1185 118 1339 218 1398 323C1465 402 1443 534 1409 627C1384 732 1274 755 1111 747C968 778 885 756 762 769C609 787 453 754 345 753C207 735 118 693 84 593C47 514 54 429 78 379Z" fill="white" filter="url(#valley-feather)"/>
+      </g>
+    </mask>
+    <path id="valley-distant-ridge" d="M-120 330C142 293 178 248 255 241C318 237 352 273 406 242C479 203 533 185 585 141C613 119 631 105 656 124C696 151 719 206 773 216C834 230 864 193 904 168C949 140 977 163 1015 183C1081 217 1096 266 1163 256C1274 239 1341 271 1620 322V890H-120Z"/>
+    <path id="valley-left-hill" d="M-120 418C126 393 184 349 221 302C259 255 280 244 317 267C350 285 371 332 428 347C510 369 558 400 624 425C677 444 744 458 796 487C751 518 708 577 681 649C653 715 698 771 664 890H-120Z"/>
+    <path id="valley-right-hill" d="M1620 310C1394 296 1354 273 1312 277C1264 279 1229 247 1190 259C1135 274 1114 318 1068 341C1015 369 976 369 938 399C891 438 864 456 829 470C858 529 797 655 832 730L840 890H1620Z"/>
+    <path id="valley-ground-shape" d="M-120 599C132 534 203 521 313 529C425 534 481 505 585 506C687 500 742 455 798 439C847 423 894 476 952 491C1033 514 1115 482 1198 517C1289 549 1402 511 1620 582V890H-120Z"/>
+    <clipPath id="valley-left-clip"><use href="#valley-left-hill"/></clipPath>
+    <clipPath id="valley-right-clip"><use href="#valley-right-hill"/></clipPath>
+    <g id="valley-leaf">
+      <path d="M0 0C-13-10-15-25-7-36C-3-42 3-46 5-53C11-38 17-23 10-12C7-7 3-3 0 0Z" fill="url(#valley-leaf-wash)"/>
+      <path d="M0-3C-1-18 3-33 5-46" stroke="#d1d6b4" stroke-width=".7" opacity=".51"/>
+    </g>
+    <g id="valley-tree-sprig">
+      <path d="M0 0C-1-26-11-53-8-79M-3-20L-22-37M-7-37L10-52M-9-55L-22-70" stroke="#738c70" stroke-width="1"/>
+      <use href="#valley-leaf" transform="translate(-22 -37) rotate(-48) scale(.43 .5)"/>
+      <use href="#valley-leaf" transform="translate(10 -52) rotate(39) scale(.4 .48)"/>
+      <use href="#valley-leaf" transform="translate(-22 -70) rotate(-37) scale(.39 .42)"/>
+      <use href="#valley-leaf" transform="translate(-8 -78) rotate(9) scale(.38 .47)"/>
+      <use href="#valley-leaf" transform="translate(-1 -12) rotate(50) scale(.42 .49)"/>
+    </g>
+    <g id="valley-tree">
+      <path d="M-8-37C-29-39-38-50-31-63C-53-64-56-83-44-96C-58-109-51-127-41-131C-50-147-43-159-34-165C-40-179-30-194-20-195C-22-212-10-224-5-233C-2-242 2-253 6-263C11-239 18-233 17-221C32-218 36-205 30-195C45-191 46-176 39-168C55-157 49-143 44-136C59-124 59-108 49-100C64-87 55-70 43-65C51-50 36-37 22-40C14-29 0-27-8-37Z" fill="url(#valley-tree-wash)" filter="url(#valley-leaf-paint)"/>
+      <path d="M0 1C-5-43-3-93 0-138C3-176 3-216 6-249" stroke="#737f60" stroke-width="3" stroke-linecap="round"/>
+      <path d="M1-3C-3-45-1-94 2-136C5-177 5-212 7-242" stroke="#d2cdb0" stroke-width="1.25" opacity=".77"/>
+      <g stroke="#cfccb0" stroke-width=".95" opacity=".58">
+        <path d="M-1-51L-25-80M-2-77L23-105M-1-99L-28-130M0-129L26-155M2-151L-20-177M3-177L19-201M4-200L-8-220"/>
+      </g>
+      <g opacity=".67">
+        <use href="#valley-tree-sprig" transform="translate(-4 -61) rotate(-22) scale(.66 .71)"/>
+        <use href="#valley-tree-sprig" transform="translate(6 -80) rotate(35) scale(.62 .75)"/>
+        <use href="#valley-tree-sprig" transform="translate(-3 -119) rotate(-19) scale(.63 .62)"/>
+        <use href="#valley-tree-sprig" transform="translate(5 -148) rotate(32) scale(.5 .62)"/>
+        <use href="#valley-tree-sprig" transform="translate(1 -183) rotate(-6) scale(.44 .49)"/>
+      </g>
+      <g fill="#cfceb0" opacity=".19" filter="url(#valley-wet)">
+        <path d="M-34-100C-41-118-30-129-21-134C-31-113-26-106-34-100Z"/>
+        <path d="M-21-169C-31-185-17-197-12-201C-17-185-15-176-21-169Z"/>
+        <path d="M25-148C30-157 40-148 37-139L27-125Z"/>
+      </g>
+      <path d="M-12-45C-7-43-5-40-4-35M27-84L36-91M-28-146L-32-155" stroke="#355e4f" stroke-width="2" opacity=".27" stroke-linecap="round"/>
+    </g>
+    <g id="valley-grass">
+      <path d="M0 0C-2-30-13-54-29-70C-9-60 0-40 4-15C10-53 18-75 32-92C20-64 15-29 8 0Z" fill="url(#valley-leaf-wash)"/>
+      <path d="M5 0C-6-22-21-34-41-39C-18-38 0-24 8-9C21-35 33-43 51-47C30-29 21-14 11 0Z" fill="#9eaf8d"/>
+      <path d="M7-3C16-55 24-79 37-103M3-2C-5-27-16-43-29-51" stroke="#758e70" stroke-width="1.1" stroke-linecap="round"/>
+      <path d="M37-103L40-112M35-100L30-110M33-94L40-99" stroke="#b8ad80" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g id="valley-daisy-petal">
+      <path d="M-2 0C-8-8-9-19-6-26C-4-32 2-34 5-29C10-22 7-9 2 1Z" fill="url(#valley-ivory)"/>
+      <path d="M0-4L1-25" stroke="#bfc1a2" stroke-width=".55" opacity=".48"/>
+    </g>
+    <g id="valley-daisy">
+      <use href="#valley-daisy-petal" transform="rotate(-9)"/>
+      <use href="#valley-daisy-petal" transform="rotate(37) scale(.95 .91)"/>
+      <use href="#valley-daisy-petal" transform="rotate(82) scale(.97 1.05)"/>
+      <use href="#valley-daisy-petal" transform="rotate(131) scale(1 .94)"/>
+      <use href="#valley-daisy-petal" transform="rotate(179) scale(1.04 .96)"/>
+      <use href="#valley-daisy-petal" transform="rotate(225) scale(.91 1)"/>
+      <use href="#valley-daisy-petal" transform="rotate(272) scale(.96 1.03)"/>
+      <use href="#valley-daisy-petal" transform="rotate(315) scale(.97 .94)"/>
+      <ellipse rx="8" ry="6.5" fill="#c8ae69"/>
+      <path d="M-5-2L-3-4M1-3L3-1M-2 1L-1 3M4 2L5 1" stroke="#8f8351" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M-5-4L-3-5M1-5L2-4" stroke="#efcf86" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+    <g id="valley-bell">
+      <path d="M-1-25C-17-24-14-4-23 3L-12 0L-6 7L2 3L10 8L15 2L23 5C12-8 17-27-1-25Z" fill="url(#valley-flower-pink)"/>
+      <path d="M-7-21C-7-12-9-4-12 0M1-22L2 2M7-19L15 1" stroke="#f0d3c0" stroke-width=".9" opacity=".53"/>
+      <path d="M-6-23L-7-29L0-27L5-32L8-25" fill="#819474"/>
+      <path d="M-3 4L-2 10M5 4L7 11" stroke="#c9b37c" stroke-width="1.2"/>
+    </g>
+    <g id="valley-flower-spray">
+      <path d="M0 0C-4-44-6-85-19-115M-4-48C13-72 20-98 14-127M-3-30C-20-48-31-70-32-82" stroke="#759071" stroke-width="1.6" stroke-linecap="round"/>
+      <use href="#valley-leaf" transform="translate(-4 -46) rotate(-50) scale(.5 .68)"/>
+      <use href="#valley-leaf" transform="translate(-2 -24) rotate(43) scale(.59 .7)"/>
+      <use href="#valley-leaf" transform="translate(12 -94) rotate(41) scale(.35 .46)"/>
+      <use href="#valley-daisy" transform="translate(-19 -116) rotate(-12) scale(.57 .5)"/>
+      <use href="#valley-daisy" transform="translate(14 -127) rotate(19) scale(.43 .47)"/>
+      <use href="#valley-bell" transform="translate(-30 -60) rotate(16) scale(.45 .49)"/>
+    </g>
+    <g id="valley-stone">
+      <path d="M-30 1C-36-7-23-15-18-21C-5-30 7-24 16-22C26-21 33-11 31-3C24 9 1 9-14 7Z" fill="url(#valley-stone-wash)"/>
+      <path d="M-23-12C-13-14-10-21-1-20L14-16" stroke="#ddd9bd" stroke-width="2" opacity=".59"/>
+      <path d="M-9 4L-2-6L10-9M14 4L22-1" stroke="#68857a" stroke-width=".9" opacity=".53"/>
+    </g>
+  </defs>
+  <g mask="url(#valley-edge)">
+    <use href="#valley-distant-ridge" fill="url(#valley-distance)" filter="url(#valley-paint)"/>
+    <path d="M-120 411C427 328 467 290 526 281C584 267 601 218 639 205C675 191 704 242 746 260C805 291 835 246 892 236C941 224 983 241 1021 283C1054 312 1099 326 1150 354L1620 460V890H-120Z" fill="url(#valley-distance)" opacity=".63" filter="url(#valley-wet)"/>
+    <path d="M621 491C804 348 836 292 893 264C937 246 961 217 1001 215C1056 213 1089 249 1128 270C1169 291 1232 299 1282 346L1620 580V890H621Z" fill="url(#valley-far-green)" opacity=".72" filter="url(#valley-paint)"/>
+    <g fill="#e4eadb" filter="url(#valley-mist)">
+      <path d="M326 301C458 270 505 311 626 305C705 296 752 276 827 295C702 309 674 332 555 327C465 314 398 320 326 301Z" opacity=".39"/>
+      <path d="M731 362C822 343 903 368 963 344C1041 322 1117 334 1205 339C1111 360 1045 360 976 373C869 392 807 376 731 362Z" opacity=".46"/>
+      <path d="M486 192C552 180 579 195 622 184C663 175 697 166 742 183C686 187 654 199 611 204C559 206 526 196 486 192Z" opacity=".28"/>
+      <path d="M487 420C618 402 672 421 759 407C834 390 874 407 934 430C809 441 733 448 639 433Z" opacity=".3"/>
+    </g>
+    <g filter="url(#valley-paint)">
+      <use href="#valley-left-hill" fill="url(#valley-left-wash)" opacity=".89"/>
+      <use href="#valley-right-hill" fill="url(#valley-right-wash)" opacity=".87"/>
+    </g>
+    <g clip-path="url(#valley-left-clip)" filter="url(#valley-wet)">
+      <path d="M279 265C277 324 223 366 180 394C269 371 302 328 323 282Z" fill="#577f70" opacity=".21"/>
+      <path d="M332 300C344 351 387 386 449 398C515 410 567 452 607 467C517 453 458 429 405 424C340 405 304 364 332 300Z" fill="#d3d0a7" opacity=".3"/>
+      <path d="M133 427C214 416 287 375 361 386C434 393 474 422 510 436C433 420 377 414 333 424C258 442 190 464 133 465Z" fill="#709779" opacity=".21"/>
+      <path d="M86 482C184 464 232 481 299 470C384 456 414 489 476 497" stroke="#cad0a6" stroke-width="15" stroke-linecap="round" opacity=".21"/>
+    </g>
+    <g clip-path="url(#valley-right-clip)" filter="url(#valley-wet)">
+      <path d="M1210 266C1183 301 1168 341 1129 369C1083 400 1036 411 1007 444C1064 425 1110 421 1152 390C1213 349 1232 317 1267 289Z" fill="#4e8276" opacity=".25"/>
+      <path d="M1327 302C1286 366 1224 392 1196 455C1238 432 1274 424 1306 393C1334 364 1368 348 1412 343Z" fill="#b7c4a3" opacity=".34"/>
+      <path d="M1328 460C1230 447 1170 466 1115 505C1168 489 1233 480 1298 492Z" fill="#487b70" opacity=".17"/>
+      <path d="M1093 364C1061 381 1033 381 1014 400M1297 326C1268 361 1246 367 1220 391" stroke="#d0d0ab" stroke-width="8" stroke-linecap="round" opacity=".19"/>
+    </g>
+    <use href="#valley-ground-shape" fill="url(#valley-meadow-wash)" filter="url(#valley-wet)"/>
+    <use href="#valley-ground-shape" fill="url(#valley-meadow-wash)" filter="url(#valley-paint)"/>
+    <path d="M124 582C224 555 304 581 385 556C480 533 541 544 602 539C540 570 498 576 447 589C337 616 240 595 167 632Z" fill="#8caa86" opacity=".24" filter="url(#valley-wet)"/>
+    <path d="M1055 533C1144 533 1177 575 1266 568C1321 560 1358 579 1405 598C1301 589 1241 622 1167 598C1119 580 1084 555 1055 533Z" fill="#6e977e" opacity=".24" filter="url(#valley-wet)"/>
+    <g opacity=".49">
+      <use href="#valley-tree" transform="translate(657 451) rotate(-3) scale(.19 .25)"/>
+      <use href="#valley-tree" transform="translate(679 449) rotate(3) scale(.13 .2)"/>
+      <use href="#valley-tree" transform="translate(697 446) scale(.18 .28)"/>
+      <use href="#valley-tree" transform="translate(723 443) rotate(2) scale(.12 .19)"/>
+      <use href="#valley-tree" transform="translate(977 472) rotate(-5) scale(.18 .29)"/>
+      <use href="#valley-tree" transform="translate(1001 478) rotate(3) scale(.15 .24)"/>
+      <use href="#valley-tree" transform="translate(1029 483) scale(.2 .31)"/>
+    </g>
+    <path d="M794 438C776 460 807 476 858 485C927 497 979 506 968 525C958 545 873 552 821 574C765 597 714 629 739 658C768 693 869 710 918 751L961 800L738 800C762 768 760 743 723 711C671 669 664 634 716 597C761 565 836 548 888 533C933 521 914 510 856 499C798 488 763 466 789 438Z" fill="url(#valley-water)" filter="url(#valley-paint)"/>
+    <path d="M789 438C758 468 791 490 847 503C893 514 921 519 891 530C836 548 759 562 707 598C653 635 662 671 710 711C740 738 749 760 733 794L695 797C718 761 711 745 676 711C627 662 659 612 699 586C750 555 821 541 865 528C890 520 866 515 834 505C782 488 754 464 789 438Z" fill="url(#valley-bank-shadow)" filter="url(#valley-wet)"/>
+    <g stroke="#eaf0d9" stroke-linecap="round" fill="none">
+      <path d="M795 445C781 463 812 479 858 489C919 502 961 508 951 523C936 541 860 550 813 575C750 605 721 630 746 656C779 690 866 711 901 747" stroke-width="3.5" opacity=".58" filter="url(#valley-wet)"/>
+      <path d="M844 496C888 506 930 514 925 521M812 585C781 600 766 608 753 621M778 681C803 694 827 700 852 713M731 746C745 763 746 776 743 788" stroke-width="1.5" opacity=".67"/>
+      <path d="M783 751L814 754M834 768L870 774M760 727L779 734M786 644L808 641M864 558L880 553M926 520L938 521" stroke-width="1.2" opacity=".62"/>
+    </g>
+    <g stroke="#5d9297" stroke-width="1.2" opacity=".29" stroke-linecap="round">
+      <path d="M783 616L806 608M737 646L747 654M858 730L882 740M810 764L838 770M793 776L821 781M885 543L906 538"/>
+    </g>
+    <g filter="url(#valley-mist)" opacity=".26" stroke="#5e8677" stroke-width="9" stroke-linecap="round">
+      <path d="M252 543L288 550M302 549L330 556M1190 664L1244 685M1261 672L1323 694"/>
+    </g>
+    <g opacity=".64">
+      <use href="#valley-tree" transform="translate(251 536) rotate(-6) scale(.3 .46)"/>
+      <use href="#valley-tree" transform="translate(301 544) rotate(4) scale(.32 .54)"/>
+      <use href="#valley-tree" transform="translate(349 531) rotate(-4) scale(.22 .36)"/>
+      <use href="#valley-tree" transform="translate(1122 610) rotate(-3) scale(.48 .69)"/>
+      <use href="#valley-tree" transform="translate(1298 636) rotate(5) scale(.66 .96)"/>
+    </g>
+    <g>
+      <use href="#valley-tree" transform="translate(1172 646) rotate(-3) scale(.72 .98)"/>
+      <use href="#valley-tree" transform="translate(1250 665) rotate(2) scale(.87 1.17)"/>
+      <use href="#valley-tree" transform="translate(1317 668) rotate(5) scale(.48 .72)"/>
+    </g>
+    <g filter="url(#valley-leaf-paint)">
+      <use href="#valley-stone" transform="translate(682 660) rotate(-5) scale(.76 .77)"/>
+      <use href="#valley-stone" transform="translate(665 682) rotate(10) scale(.45 .49)"/>
+      <use href="#valley-stone" transform="translate(853 694) rotate(-11) scale(.71 .65)"/>
+      <use href="#valley-stone" transform="translate(880 711) rotate(7) scale(.45 .41)"/>
+      <use href="#valley-stone" transform="translate(1301 696) rotate(-7) scale(.64 .58)" opacity=".69"/>
+      <use href="#valley-grass" transform="translate(151 702) rotate(-8) scale(.85 1.03)"/>
+      <use href="#valley-grass" transform="translate(246 720) rotate(11) scale(.7 .83)"/>
+      <use href="#valley-grass" transform="translate(395 710) rotate(-5) scale(.76 .93)"/>
+      <use href="#valley-grass" transform="translate(569 744) rotate(17) scale(.91 .96)"/>
+      <use href="#valley-grass" transform="translate(676 713) rotate(-13) scale(.65 .63)"/>
+      <use href="#valley-grass" transform="translate(989 743) rotate(10) scale(.8 1.03)"/>
+      <use href="#valley-grass" transform="translate(1116 728) rotate(-9) scale(.74 .89)"/>
+      <use href="#valley-grass" transform="translate(1345 702) rotate(15) scale(-.76 .97)"/>
+      <use href="#valley-flower-spray" transform="translate(187 735) rotate(-11) scale(.76 .9)"/>
+      <use href="#valley-flower-spray" transform="translate(325 753) rotate(12) scale(.94 1.12)"/>
+      <use href="#valley-flower-spray" transform="translate(451 758) rotate(-13) scale(.73 .8)"/>
+      <use href="#valley-flower-spray" transform="translate(1034 750) rotate(8) scale(.61 .8)"/>
+      <g stroke="#839578" stroke-width="1.5" stroke-linecap="round">
+        <path d="M514 751C525 707 512 666 529 651M960 751C963 705 932 672 939 649M1277 733C1285 699 1303 668 1297 643"/>
+      </g>
+      <use href="#valley-bell" transform="translate(532 666) rotate(15) scale(.75 .74)"/>
+      <use href="#valley-bell" transform="translate(941 665) rotate(-18) scale(.72 .81)"/>
+      <use href="#valley-bell" transform="translate(1295 660) rotate(8) scale(.69 .70)"/>
+      <use href="#valley-leaf" transform="translate(520 711) rotate(-41) scale(.55 .74)"/>
+      <use href="#valley-leaf" transform="translate(956 715) rotate(47) scale(.57 .7)"/>
+      <use href="#valley-leaf" transform="translate(1291 687) rotate(40) scale(.47 .65)"/>
+    </g>
+    <g stroke="#97a082" stroke-width="1" stroke-linecap="round" opacity=".52">
+      <path d="M471 727Q471 690 454 676M475 728Q485 696 503 683M605 748Q612 713 628 701M1005 739Q1013 707 1030 696M1153 732Q1147 701 1133 685"/>
+    </g>
+    <g fill="#919b81" opacity=".3">
+      <ellipse cx="492" cy="744" rx="2.6" ry="1.2"/><ellipse cx="603" cy="761" rx="2" ry="1"/><circle cx="937" cy="753" r="1.4"/><ellipse cx="1151" cy="754" rx="2.5" ry="1.2"/>
+    </g>
+  </g>
+</svg>
