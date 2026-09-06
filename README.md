@@ -36,8 +36,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The illustrations use shaded
   forms, fine stems and veins, restrained pigment texture, and transparent edges.
   They blend into the page without frames or a gallery. No museum reproductions
-  or image-generation service are used. Keep these layers decorative,
-  non-interactive, and clear of readable text and controls.
+  or image-generation service are used. Keep their frameless composition clear
+  of readable text and controls. Each painting appears exactly once inside an
+  accessible `.scene-art` button; the image itself never intercepts pointer input.
   The chip graphic remains conceptual, not a die photograph or physical-layout result.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls, mobile navigation, animated accessible
@@ -46,10 +47,18 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   click ripples. The native cursor stays visible; the canvas never intercepts
   input. Its particle count is capped at 64, pixel ratio at 1.5, and its frame loop
   stops when the trail fades. Scroll, blur, pointer cancellation, and hidden tabs
-  clear transient effects. The hero's garden-effects toggle persists independently
+  clear transient effects. Painting clicks share that bounded pool and temporarily
+  take priority over generic cursor effects. The hero's garden-effects toggle persists independently
   of theme/language, and system reduced-motion preferences always take priority.
-  Phones use static, repositioned illustrations with unrestricted
-  native scrolling; decorative backgrounds never capture clicks or touch gestures.
+  Phones keep mouse parallax/trails off, but support explicit taps on paintings.
+  Painting controls use native clicks (including Enter/Space), never prevent
+  touch scrolling, and are disabled with a visible explanation when motion is
+  paused, reduced motion is requested, or their image/effect renderer is unavailable.
+- `scene-effects.js`: pure canvas choreography for the seven paintings:
+  falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
+  a dragonfly, unfurling fern shoots, opening roses, and rolling shoreline foam.
+  `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
+  Preserve these distinct interactions rather than recoloring one shared burst.
 
 The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable

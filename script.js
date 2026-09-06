@@ -2,6 +2,8 @@ const root = document.documentElement;
 const languageButton = document.querySelector(".lang-toggle");
 const themeButton = document.querySelector(".theme-toggle");
 const effectsButton = document.querySelector(".effects-toggle");
+const sceneButtons = [...document.querySelectorAll(".scene-art")];
+const sceneStatus = document.getElementById("scene-status");
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".desktop-nav");
 const navLinks = [...navigation.querySelectorAll("a")];
@@ -36,6 +38,29 @@ function updateControlLabels() {
   effectsButton.setAttribute("aria-label", chinese
     ? (effectsActive ? "暂停花园动效" : "开启花园动效")
     : (effectsActive ? "Pause garden effects" : "Enable garden effects"));
+  updateSceneControls();
+}
+
+function updateSceneControls() {
+  const chinese = language === "zh";
+  const reasons = chinese
+    ? { loading: "画作加载中", unavailable: "画作动效暂不可用", paused: "花园动效已暂停", reduced: "已减少动态效果" }
+    : { loading: "Loading painting", unavailable: "Painting effects unavailable", paused: "Garden effects paused", reduced: "Reduced motion" };
+  sceneButtons.forEach((button) => {
+    const image = button.querySelector("img");
+    const state = !sceneRuntime || !petalContext ? "unavailable"
+      : !image.complete ? "loading"
+      : !image.naturalWidth ? "unavailable"
+      : reducedMotion.matches ? "reduced"
+      : !effectsEnabled ? "paused" : "ready";
+    button.disabled = state !== "ready";
+    button.dataset.state = state;
+    const label = chinese ? button.dataset.labelZh : button.dataset.labelEn;
+    const description = state === "ready" ? label : `${label} (${reasons[state]})`;
+    button.setAttribute("aria-label", description);
+    button.title = description;
+    button.querySelector(".scene-state").textContent = state === "ready" ? "" : reasons[state];
+  });
 }
 
 function updateFilterStatus() {
@@ -332,6 +357,9 @@ petalCanvas.setAttribute("aria-hidden", "true");
 document.body.append(petalCanvas);
 const petalContext = petalCanvas.getContext("2d");
 if (!petalContext) console.warn("Garden petal effects are unavailable: this browser has no 2D canvas context.");
+const sceneRuntime = typeof sceneEffects === "undefined" ? null : sceneEffects;
+if (!sceneRuntime) console.warn("Painting-specific effects could not load; the paintings remain static.");
+const sceneSequences = new Map();
 let particles = [];
 let particleFrame = null;
 let lastPetal = null;
@@ -364,6 +392,12 @@ function drawParticles(now) {
   particles.forEach((particle) => {
     const age = (now - particle.born) / particle.life;
     if (age < 0) return;
+    if (particle.scene) {
+      petalContext.save();
+      sceneRuntime.draw(petalContext, particle, age, root.dataset.theme === "dark");
+      petalContext.restore();
+      return;
+    }
     petalContext.save();
     petalContext.globalAlpha = (1 - age) * (particle.ripple ? .5 : .68);
     petalContext.translate(
@@ -402,6 +436,7 @@ function drawParticles(now) {
 
 function scatterPetals(event, burst = false) {
   if (!petalContext || !canUsePointerEffects(event)) return;
+  if (particles.some((particle) => particle.scene)) return;
   const now = performance.now();
   if (!burst && lastPetal &&
       (now - lastPetal.time < 24 || Math.hypot(event.clientX - lastPetal.x, event.clientY - lastPetal.y) < 10)) return;
@@ -426,11 +461,83 @@ function scatterPetals(event, burst = false) {
   if (particleFrame === null) particleFrame = requestAnimationFrame(drawParticles);
 }
 
+function clearSceneSequence(button) {
+  const sequence = sceneSequences.get(button);
+  if (sequence) {
+    clearTimeout(sequence.timer);
+    sequence.animations.forEach((animation) => animation.cancel());
+    sceneSequences.delete(button);
+  }
+  button.classList.remove("is-playing");
+}
+
+function paintingBounds(image) {
+  const box = image.getBoundingClientRect();
+  const scale = Math.min(box.width / image.naturalWidth, box.height / image.naturalHeight);
+  const width = image.naturalWidth * scale;
+  const height = image.naturalHeight * scale;
+  const [alignX, alignY] = getComputedStyle(image).objectPosition.split(" ").map((value) => parseFloat(value) / 100);
+  return { x: box.left + (box.width - width) * alignX, y: box.top + (box.height - height) * alignY, width, height };
+}
+
+function playPainting(button, event) {
+  if (button.disabled || !effectsEnabled || reducedMotion.matches || document.hidden || !petalContext || !sceneRuntime) {
+    updateSceneControls();
+    return;
+  }
+  if (menuButton.getAttribute("aria-expanded") === "true") setMenu(false);
+  pointerScrollX = window.scrollX;
+  pointerScrollY = window.scrollY;
+  const image = button.querySelector("img");
+  const bounds = paintingBounds(image);
+  const point = event.detail === 0
+    ? { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 }
+    : { x: event.clientX, y: event.clientY };
+  const now = performance.now();
+  const scene = button.dataset.scene;
+  const additions = sceneRuntime.spawn(scene, bounds, point, now);
+  clearSceneSequence(button);
+  // Give the painting priority over generic cursor confetti, without growing the shared pool.
+  particles = particles.filter((particle) => particle.scene && particle.scene !== scene).concat(additions).slice(-64);
+  lastPetal = null;
+  const animations = [];
+  const sway = { botanical: 1.2, meadow: .5, fern: .7, rose: .9 }[scene];
+  if (sway) {
+    animations.push(image.animate(
+      [{ rotate: "0deg" }, { rotate: `${-sway}deg` }, { rotate: `${sway * .7}deg` }, { rotate: "0deg" }],
+      { duration: 1100, easing: "ease-in-out" }
+    ));
+  }
+  if (scene === "botanical") {
+    animations.push(button.querySelector(".garden-butterfly").animate(
+      [{ translate: "0 0" }, { translate: "-28px -38px" }, { translate: "18px -12px" }, { translate: "0 0" }],
+      { duration: 1800, easing: "ease-in-out" }
+    ));
+  }
+  button.classList.add("is-playing");
+  const duration = Math.max(...additions.map((particle) => particle.born + particle.life)) - now;
+  sceneSequences.set(button, { animations, timer: setTimeout(() => clearSceneSequence(button), duration) });
+  sceneStatus.textContent = language === "zh"
+    ? `已触发：${button.dataset.labelZh}` : `Playing: ${button.dataset.labelEn}`;
+  if (particleFrame === null) particleFrame = requestAnimationFrame(drawParticles);
+}
+
+sceneButtons.forEach((button) => {
+  button.addEventListener("click", (event) => playPainting(button, event));
+  button.querySelector("img").addEventListener("load", updateSceneControls);
+  button.querySelector("img").addEventListener("error", () => {
+    console.warn(`Painting could not load: ${button.dataset.scene}`);
+    updateSceneControls();
+  });
+});
+
 function resetNatureEffects() {
   artworks.forEach(resetArtwork);
   clearSpotlights();
   magneticControls.forEach(resetMagnet);
   clearParticles();
+  sceneButtons.forEach(clearSceneSequence);
+  sceneStatus.textContent = "";
 }
 
 function syncNatureEffects() {
@@ -450,14 +557,16 @@ document.addEventListener("pointermove", (event) => {
   scatterPetals(event);
 }, { passive: true });
 document.addEventListener("click", (event) => {
-  if (event.button === 0 && event.detail > 0) scatterPetals(event, true);
+  const onPainting = event.target instanceof Element && event.target.closest(".scene-art");
+  if (event.button === 0 && event.detail > 0 && !onPainting) scatterPetals(event, true);
 });
 document.addEventListener("pointerout", (event) => {
-  if (!event.relatedTarget) resetNatureEffects();
+  if (event.pointerType === "mouse" && !event.relatedTarget) resetNatureEffects();
 });
 document.addEventListener("pointercancel", resetNatureEffects);
 document.addEventListener("visibilitychange", resetNatureEffects);
 window.addEventListener("blur", resetNatureEffects);
+window.addEventListener("beforeprint", resetNatureEffects);
 window.addEventListener("scroll", () => {
   // A pointer event may already have sampled the new viewport before scroll is delivered.
   if (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY) resetNatureEffects();

@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20260906-h16-fit">
+    <link rel="stylesheet" href="styles.css?v=20260906-interactive-paintings">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -105,9 +105,11 @@
 
     <main id="main">
       <section class="hero" id="top">
-        <div class="hero-watercolor" aria-hidden="true">
+        <button class="scene-art hero-watercolor" type="button" data-scene="botanical" disabled
+                aria-label="Shake the bouquet and let petals fall"
+                data-label-en="Shake the bouquet and let petals fall" data-label-zh="轻摇瓶花，让花瓣飘落">
           <img src="art/botanical-still-life.svg" alt="" width="790" height="920" fetchpriority="high">
-          <span class="garden-butterfly">
+          <span class="garden-butterfly" aria-hidden="true">
             <svg viewBox="0 0 72 60" fill="none">
               <g class="butterfly-wing wing-left">
                 <path d="M36 33C20 28 4 12 9 5C15-5 35 10 36 27C24 18 9 32 17 43C23 51 33 43 36 33Z" fill="#cf968e"/>
@@ -120,7 +122,8 @@
               <path d="M36 21V42M36 23L31 15M36 23L41 15" stroke="#657e70" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </span>
-        </div>
+          <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Let petals fall" data-zh="轻摇落花">Let petals fall</span><span class="scene-state"></span></span>
+        </button>
         <div class="hero-edition mono">
           <span data-en="A PERSONAL FIELD GUIDE" data-zh="一份持续生长的研究手记">A PERSONAL FIELD GUIDE</span>
           <span>AI SYSTEMS &amp; SILICON / 2026</span>
@@ -155,7 +158,8 @@
             </a>
           </div>
           <div class="interaction-note enhanced-control">
-            <span data-en="Move to stir the garden. Click for ripples." data-zh="移动鼠标，让花园轻舞；轻点，泛起涟漪。">Move to stir the garden. Click for ripples.</span>
+            <span class="pointer-hint" data-en="Move through the garden. Click a painting to wake it." data-zh="移动鼠标拂过花园，点击画作唤醒风景。">Move through the garden. Click a painting to wake it.</span>
+            <span class="touch-hint" data-en="Tap a painting. Each has its own little surprise." data-zh="轻点画作，每幅都有不同的小惊喜。">Tap a painting. Each has its own little surprise.</span>
             <button class="effects-toggle" type="button" aria-pressed="true">Effects on</button>
           </div>
         </div>
@@ -353,7 +357,12 @@
           </article>
 
         </div>
-        <div class="work-landscape" aria-hidden="true"></div>
+        <button class="scene-art work-landscape" type="button" data-scene="mountain" disabled
+                aria-label="Send a flock of birds across the mountain valley"
+                data-label-en="Send a flock of birds across the mountain valley" data-label-zh="唤起群鸟，掠过山谷">
+          <img src="art/mountain-valley.svg" alt="" width="1500" height="800" decoding="async">
+          <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Birds over the valley" data-zh="山谷飞鸟">Birds over the valley</span><span class="scene-state"></span></span>
+        </button>
       </section>
 
       <section class="section ecosystem-section" id="ecosystem">
@@ -364,6 +373,12 @@
             <h2 data-en="With minds that see farther, we open the way." data-zh="与看得更远的人同行。">With minds that see farther, we open the way.</h2>
           </div>
           <div class="section-aside">
+            <button class="scene-art scene-aside" type="button" data-scene="meadow" disabled
+                    aria-label="Send wildflower seeds drifting on the breeze"
+                    data-label-en="Send wildflower seeds drifting on the breeze" data-label-zh="拂过草甸，让花絮随风飞散">
+              <img src="art/flower-meadow.svg" alt="" width="1500" height="650" decoding="async">
+              <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Seeds on the breeze" data-zh="随风扬絮">Seeds on the breeze</span><span class="scene-state"></span></span>
+            </button>
             <p
               class="section-lead"
               data-en="Open-source work spanning persistent agents, verified hardware, efficient local AI, and independently reviewed mathematics."
@@ -540,6 +555,12 @@
             <h2 data-en="Ideas stay in motion, discovering each day." data-zh="让思想继续流动。">Ideas stay in motion, discovering each day.</h2>
           </div>
           <div class="section-aside">
+            <button class="scene-art scene-aside" type="button" data-scene="pond" disabled
+                    aria-label="Ripple the lily pond and stir the dragonfly"
+                    data-label-en="Ripple the lily pond and stir the dragonfly" data-label-zh="轻点睡莲池，泛起涟漪，惊起蜻蜓">
+              <img src="art/pond-garden.svg" alt="" width="1500" height="760" decoding="async">
+              <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Ripples &amp; dragonfly" data-zh="涟漪与蜻蜓">Ripples &amp; dragonfly</span><span class="scene-state"></span></span>
+            </button>
             <p
               class="section-lead"
               data-en="My work connects agentic intelligence with the physical systems that run it."
@@ -590,6 +611,12 @@
           <h2>
             <span data-en="Across every layer, I follow each line." data-zh="在层层之间，寻找微光。">Across every layer, I follow each line.</span>
           </h2>
+          <button class="scene-art scene-fern" type="button" data-scene="fern" disabled
+                  aria-label="Watch young fern fronds unfurl"
+                  data-label-en="Watch young fern fronds unfurl" data-label-zh="让卷曲的蕨芽慢慢舒展">
+            <img src="art/woodland-ferns.svg" alt="" width="850" height="1000" decoding="async">
+            <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Unfurl a frond" data-zh="蕨芽舒展">Unfurl a frond</span><span class="scene-state"></span></span>
+          </button>
         </div>
         <div class="about-content">
           <p
@@ -664,6 +691,12 @@
             <h2 data-en="Follow the signal—perhaps our paths align." data-zh="循着信号，我们终会相遇。">Follow the signal—perhaps our paths align.</h2>
           </div>
           <div class="section-aside">
+            <button class="scene-art scene-aside" type="button" data-scene="rose" disabled
+                    aria-label="Open the wild roses in a swirl of petals"
+                    data-label-en="Open the wild roses in a swirl of petals" data-label-zh="唤醒蔷薇，让花瓣旋舞绽放">
+              <img src="art/wild-rose-branch.svg" alt="" width="1100" height="730" decoding="async">
+              <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="A little rose bloom" data-zh="蔷薇旋舞">A little rose bloom</span><span class="scene-state"></span></span>
+            </button>
             <p
               class="section-lead"
               data-en="Research notes, project updates, videos, and the occasional idea in progress."
@@ -760,6 +793,12 @@
       </section>
 
       <section class="contact-section">
+        <button class="scene-art scene-coast" type="button" data-scene="coast" disabled
+                aria-label="Bring a gentle tide onto the beach"
+                data-label-en="Bring a gentle tide onto the beach" data-label-zh="让海潮轻轻漫过沙滩">
+          <img src="art/coastal-light.svg" alt="" width="1500" height="850" decoding="async">
+          <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="A gentle tide" data-zh="海潮轻涌">A gentle tide</span><span class="scene-state"></span></span>
+        </button>
         <p class="mono" data-en="06 / CONTACT" data-zh="06 / 联系">
           06 / CONTACT
         </p>
@@ -778,6 +817,7 @@
         </div>
       </section>
     </main>
+    <p id="scene-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
 
     <footer>
       <span>© <span id="year">2026</span> Sufeng Guo</span>
@@ -788,6 +828,7 @@
       <a href="#top" data-en="Back to top ↑" data-zh="返回顶部 ↑">Back to top ↑</a>
     </footer>
 
-    <script src="script.js?v=20260906-living-garden"></script>
+    <script src="scene-effects.js?v=20260906-interactive-paintings"></script>
+    <script src="script.js?v=20260906-interactive-paintings"></script>
   </body>
 </html>
