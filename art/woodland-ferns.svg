@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 1000" fill="none">
+  <title>The unfurling woodland</title>
+  <desc>An original watercolor study of arching, finely divided fern fronds, a curled young crozier, and pointed woodland leaves, growing from a softly fading base on a transparent background.</desc>
+  <defs>
+    <filter id="woodland-paint" x="-7%" y="-9%" width="114%" height="118%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".045 .075" numOctaves="3" seed="27" result="water"/>
+      <feDisplacementMap in="SourceGraphic" in2="water" scale="1.2" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".32 .65" numOctaves="2" seed="17" result="fibres"/>
+      <feColorMatrix in="fibres" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .17 .17 .17 0 .66" result="paper"/>
+      <feComposite in="edge" in2="paper" operator="in"/>
+    </filter>
+    <filter id="woodland-wet" x="-10%" y="-15%" width="120%" height="130%"><feGaussianBlur stdDeviation=".7"/></filter>
+    <filter id="woodland-soft" x="-40%" y="-70%" width="180%" height="240%"><feGaussianBlur stdDeviation="12"/></filter>
+    <linearGradient id="woodland-sage" x1="15" y1="-25" x2="93" y2="8" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#476f5c"/><stop offset=".32" stop-color="#73947a"/><stop offset=".68" stop-color="#9caf8d"/><stop offset="1" stop-color="#728f73"/>
+    </linearGradient>
+    <linearGradient id="woodland-jade" x1="0" y1="10" x2="126" y2="-31" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#396d60"/><stop offset=".32" stop-color="#5b8c78"/><stop offset=".72" stop-color="#8fa78b"/><stop offset="1" stop-color="#b4bea0"/>
+    </linearGradient>
+    <linearGradient id="woodland-silver" x1="0" y1="10" x2="108" y2="-35" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6c947f"/><stop offset=".45" stop-color="#a1b59b"/><stop offset="1" stop-color="#c5cbb0"/>
+    </linearGradient>
+    <linearGradient id="woodland-new-growth" x1="465" y1="533" x2="530" y2="798" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bcbea0"/><stop offset=".3" stop-color="#a4b092"/><stop offset=".73" stop-color="#79967c"/><stop offset="1" stop-color="#517b68"/>
+    </linearGradient>
+    <linearGradient id="woodland-broad-wash" x1="-50" y1="-150" x2="56" y2="-27" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b8c1a0"/><stop offset=".38" stop-color="#91aa8e"/><stop offset=".66" stop-color="#68927c"/><stop offset="1" stop-color="#3e7568"/>
+    </linearGradient>
+    <linearGradient id="woodland-broad-shadow" x1="0" y1="-150" x2="20" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#799678" stop-opacity="0"/><stop offset=".6" stop-color="#305f51" stop-opacity=".18"/><stop offset="1" stop-color="#285b4f" stop-opacity=".42"/>
+    </linearGradient>
+    <linearGradient id="woodland-base-fade" x1="0" y1="840" x2="0" y2="953" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white"/><stop offset=".5" stop-color="white" stop-opacity=".85"/><stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="woodland-base-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="850" height="1000"><path d="M0 0H850V1000H0Z" fill="url(#woodland-base-fade)"/></mask>
+    <radialGradient id="woodland-ground">
+      <stop stop-color="#869e83" stop-opacity=".23"/><stop offset=".5" stop-color="#b1b89c" stop-opacity=".09"/><stop offset="1" stop-color="#bac2a8" stop-opacity="0"/>
+    </radialGradient>
+    <path id="woodland-pinna-shape" d="M0 0Q4-6 6-11Q13-12 14-6C12-12 12-19 17-21Q24-20 24-12C23-20 24-26 30-28Q36-27 35-18C35-26 37-33 42-34Q48-32 46-23C49-31 49-38 55-38Q61-35 58-27C61-33 64-41 68-42Q74-39 70-31C76-40 78-44 82-44Q87-42 83-36C90-43 93-46 96-44L96-39Q105-47 109-44L108-40Q117-45 128-45Q123-39 115-36C116-30 111-28 105-30C106-24 100-22 95-26C96-17 89-15 84-20C86-11 79-9 72-14C74-5 67-3 59-9C62 0 54 3 46-4C48 4 40 8 33 0C35 7 27 11 21 3Q15 11 10 4Z"/>
+    <path id="woodland-pinna-long-shape" d="M0 0Q5-7 8-15Q14-17 16-10C15-20 19-25 23-25Q30-24 28-17C29-28 32-33 37-33Q43-30 40-23C43-33 45-39 51-40Q58-37 54-29C59-40 62-45 67-45Q74-42 68-33C75-44 79-49 84-49Q91-46 85-39C93-48 99-53 103-50Q107-47 101-43Q113-53 117-49L114-44Q124-50 130-48L128-45L145-50Q141-43 130-40C134-34 128-30 121-33C124-26 117-22 110-27C113-18 105-14 96-20C100-11 91-8 83-14C85-5 77-3 68-10C70 0 60 3 51-5C53 4 43 7 35-1C37 9 27 11 20 2Q13 9 8 3Z"/>
+    <path id="woodland-pinna-soft-shape" d="M0 0C5-8 9-12 14-10C13-20 23-23 27-16C26-29 37-32 42-24C43-39 54-38 57-30C61-43 71-45 77-37C82-46 88-43 92-41C104-47 112-42 125-47C120-35 111-34 103-33C102-25 93-20 88-24C84-13 76-10 70-15C64-4 56-1 51-6C43 5 33 5 30 0C20 11 11 8 0 0Z"/>
+    <g id="woodland-pinna-veins" stroke-linecap="round">
+      <path d="M0 0C31-9 77-31 122-43" stroke="#d0d5b0" stroke-width=".9" opacity=".65"/>
+      <path d="M13-4L15-14M23-8L27-21M33-12L39-27M44-17L51-31M56-22L63-35M69-27L75-39M80-31L86-41M93-35L99-42M106-39L110-42M16-5L22 3M29-11L37 0M40-15L49-5M52-20L62-10M65-25L75-16M78-30L88-23M90-34L100-27M103-38L112-34" stroke="#ccd4ad" stroke-width=".6" opacity=".43"/>
+      <path d="M8 1L16 3M28-2L32-1M42-7L46-6M56-12L60-11M72-18L76-17M85-23L89-22" stroke="#345e4d" stroke-width="1.5" opacity=".22"/>
+    </g>
+    <g id="woodland-pinna">
+      <use href="#woodland-pinna-shape" fill="url(#woodland-sage)" filter="url(#woodland-paint)"/>
+      <use href="#woodland-pinna-veins"/>
+      <path d="M30-19L37-26M56-30L61-35M81-37L86-40" stroke="#d7d9b5" stroke-width="2.3" opacity=".2" stroke-linecap="round"/>
+    </g>
+    <g id="woodland-pinna-deep">
+      <use href="#woodland-pinna-long-shape" fill="url(#woodland-jade)" filter="url(#woodland-paint)"/>
+      <use href="#woodland-pinna-veins" transform="scale(1.13 1.1)"/>
+      <path d="M2 0C45-7 91-39 139-48" stroke="#355e4f" stroke-width="1.6" opacity=".19" filter="url(#woodland-wet)"/>
+      <path d="M16-13L19-18M39-26L44-31M65-37L72-41M92-44L98-46" stroke="#e2ddbb" stroke-width="2.2" opacity=".19" stroke-linecap="round"/>
+    </g>
+    <g id="woodland-pinna-pale">
+      <use href="#woodland-pinna-soft-shape" fill="url(#woodland-silver)" filter="url(#woodland-paint)"/>
+      <use href="#woodland-pinna-veins" opacity=".83"/>
+      <path d="M16 2C39-8 76-28 113-39" stroke="#648671" stroke-width="1.5" opacity=".18"/>
+    </g>
+    <g id="woodland-tip">
+      <path d="M0 0L-8-13L-6-18L-12-25L-9-29L-14-40L-9-41L-12-54L-7-53L-8-68L-4-65L0-86L4-69L8-68L6-55L11-53L7-42L12-39L7-29L10-25L5-18L7-13Z" fill="url(#woodland-silver)" filter="url(#woodland-paint)"/>
+      <path d="M0-3L0-78" stroke="#cbd1ac" stroke-width=".8" opacity=".72"/>
+    </g>
+    <g id="woodland-broad-leaf">
+      <path d="M0 0C-19-10-28-14-40-30L-47-30L-45-40L-55-43L-51-51L-60-60L-55-67L-62-77L-55-82L-59-94L-51-97L-51-109L-43-108L-39-122L-32-122L-27-137L-18-137C-10-149-4-166 2-182C10-161 14-148 25-138L34-139L38-127L47-125L46-114L58-112L55-100L64-93L58-85L64-74L57-66L60-55L50-50L51-39L41-34L39-23C28-15 16-7 0 0Z" fill="url(#woodland-broad-wash)" filter="url(#woodland-paint)"/>
+      <path d="M0 0C-9-44-5-87 2-177C21-140 46-116 61-91L56-67L51-43C35-23 22-10 0 0Z" fill="url(#woodland-broad-shadow)" filter="url(#woodland-paint)"/>
+      <g stroke="#d4d9b8" stroke-linecap="round">
+        <path d="M0-4C-7-49-4-112 2-172" stroke-width="1.6" opacity=".67"/>
+        <path d="M-3-23C-13-31-30-36-39-47M-5-44C-20-52-39-62-47-77M-5-67C-17-77-34-88-42-103M-4-92C-14-105-25-116-28-130M-2-121L-11-144M-3-26C15-34 30-42 42-58M-5-49C18-58 39-77 48-90M-5-73C14-83 32-98 39-111M-3-99C10-108 22-121 26-133M-1-124L12-146" stroke-width=".85" opacity=".57"/>
+        <path d="M-18-35L-30-32M-25-58L-40-54M-23-83L-42-83M18-37L29-29M25-67L40-65M23-95L41-95" stroke-width=".55" opacity=".35"/>
+      </g>
+      <path d="M-51-67L-55-76L-48-80M41-110L48-107L47-101M30-30L37-25" stroke="#426c55" stroke-width="1.5" opacity=".28" filter="url(#woodland-wet)"/>
+      <path d="M-33-105C-22-125-15-138-6-149" stroke="#d3d4ad" stroke-width="5" opacity=".16" stroke-linecap="round" filter="url(#woodland-wet)"/>
+    </g>
+    <g id="woodland-small-leaf">
+      <path d="M0 0C-15-10-26-28-22-51C-16-69-3-78 4-94C12-71 27-59 23-38C24-21 11-9 0 0Z" fill="url(#woodland-broad-wash)" filter="url(#woodland-paint)"/>
+      <path d="M0-2C-2-23 1-57 4-86M0-21L-17-40M0-38L-12-57M1-46L18-59M0-25L19-41" stroke="#d2d7b2" stroke-width=".85" opacity=".6"/>
+    </g>
+  </defs>
+
+  <g filter="url(#woodland-soft)">
+    <ellipse cx="424" cy="904" rx="259" ry="46" fill="url(#woodland-ground)"/>
+    <ellipse cx="377" cy="875" rx="171" ry="46" fill="url(#woodland-ground)" opacity=".5"/>
+  </g>
+  <g mask="url(#woodland-base-mask)">
+    <g opacity=".39">
+      <path d="M425 922C421 741 368 598 370 445C371 330 347 233 317 178" stroke="#85a18a" stroke-width="2.8" stroke-linecap="round" filter="url(#woodland-paint)"/>
+      <use href="#woodland-tip" transform="translate(331 209) rotate(-21) scale(.5 .73)"/>
+      <use href="#woodland-pinna-pale" transform="translate(334 218) rotate(-81) scale(.36 .44)"/>
+      <use href="#woodland-pinna-pale" transform="translate(337 226) rotate(42) scale(-.36 .4)"/>
+      <use href="#woodland-pinna" transform="translate(344 250) rotate(-57) scale(.47 .59)"/>
+      <use href="#woodland-pinna-pale" transform="translate(346 260) rotate(32) scale(-.53 .63)"/>
+      <use href="#woodland-pinna-pale" transform="translate(353 293) rotate(-46) scale(.67 .76)"/>
+      <use href="#woodland-pinna" transform="translate(357 307) rotate(23) scale(-.64 .79)"/>
+      <use href="#woodland-pinna-pale" transform="translate(361 344) rotate(-33) scale(.76 .9)"/>
+      <use href="#woodland-pinna-pale" transform="translate(364 359) rotate(15) scale(-.81 .89)"/>
+      <use href="#woodland-pinna" transform="translate(368 399) rotate(-26) scale(.88 1.03)"/>
+      <use href="#woodland-pinna-pale" transform="translate(369 414) rotate(9) scale(-.86 1.05)"/>
+      <use href="#woodland-pinna-pale" transform="translate(370 456) rotate(-18) scale(.98 1.05)"/>
+      <use href="#woodland-pinna-pale" transform="translate(371 476) rotate(5) scale(-.95 1.02)"/>
+      <use href="#woodland-pinna" transform="translate(374 518) rotate(-11) scale(.93 1.05)"/>
+      <use href="#woodland-pinna-pale" transform="translate(377 535) rotate(0) scale(-.99 .95)"/>
+      <use href="#woodland-pinna-pale" transform="translate(383 582) rotate(-1) scale(.89 .93)"/>
+      <use href="#woodland-pinna-pale" transform="translate(386 599) rotate(-4) scale(-.84 .92)"/>
+      <use href="#woodland-pinna" transform="translate(396 650) rotate(7) scale(.7 .8)"/>
+      <use href="#woodland-pinna-pale" transform="translate(399 665) rotate(-8) scale(-.75 .8)"/>
+    </g>
+
+    <g opacity=".65">
+      <path d="M417 916C447 781 511 624 606 502C659 434 715 400 771 389" stroke="#7e9d82" stroke-width="3" stroke-linecap="round" filter="url(#woodland-paint)"/>
+      <use href="#woodland-tip" transform="translate(743 397) rotate(75) scale(.43 .6)"/>
+      <use href="#woodland-pinna-pale" transform="translate(731 401) rotate(-20) scale(.36 .46)"/>
+      <use href="#woodland-pinna-pale" transform="translate(719 407) rotate(95) scale(-.42 .53)"/>
+      <use href="#woodland-pinna" transform="translate(704 416) rotate(-27) scale(.56 .64)"/>
+      <use href="#woodland-pinna-pale" transform="translate(691 425) rotate(85) scale(-.59 .68)"/>
+      <use href="#woodland-pinna-pale" transform="translate(675 438) rotate(-33) scale(.71 .84)"/>
+      <use href="#woodland-pinna-pale" transform="translate(662 450) rotate(75) scale(-.76 .82)"/>
+      <use href="#woodland-pinna" transform="translate(647 466) rotate(-38) scale(.86 .94)"/>
+      <use href="#woodland-pinna-pale" transform="translate(636 479) rotate(65) scale(-.85 .93)"/>
+      <use href="#woodland-pinna-pale" transform="translate(617 500) rotate(-42) scale(.97 1.07)"/>
+      <use href="#woodland-pinna" transform="translate(605 515) rotate(57) scale(-.94 1)"/>
+      <use href="#woodland-pinna-pale" transform="translate(586 541) rotate(-45) scale(1.03 1.06)"/>
+      <use href="#woodland-pinna-pale" transform="translate(574 559) rotate(51) scale(-.96 1.02)"/>
+      <use href="#woodland-pinna" transform="translate(556 588) rotate(-46) scale(.95 1.07)"/>
+      <use href="#woodland-pinna-pale" transform="translate(545 606) rotate(45) scale(-.86 .98)"/>
+      <use href="#woodland-pinna-pale" transform="translate(529 635) rotate(-43) scale(.88 .98)"/>
+      <use href="#woodland-pinna-pale" transform="translate(520 653) rotate(39) scale(-.75 .89)"/>
+      <use href="#woodland-pinna" transform="translate(505 687) rotate(-40) scale(.78 .82)"/>
+      <use href="#woodland-pinna-pale" transform="translate(496 708) rotate(32) scale(-.68 .79)"/>
+      <use href="#woodland-pinna-pale" transform="translate(482 741) rotate(-34) scale(.61 .74)"/>
+    </g>
+
+    <g opacity=".86">
+      <path d="M415 917C389 856 370 813 350 763C325 704 306 660 282 587C270 545 249 478 232 432C214 386 193 339 166 291L140 259" stroke="#6b8b70" stroke-width="3.7" stroke-linecap="round" filter="url(#woodland-paint)"/>
+      <path d="M413 909C389 853 370 811 351 763C327 704 307 660 283 587C271 545 250 478 233 432C215 386 194 339 167 291L145 266" stroke="#c5c7a0" stroke-width="1" opacity=".58"/>
+      <use href="#woodland-tip" transform="translate(164 287) rotate(-37) scale(.6 .82)"/>
+      <use href="#woodland-pinna-pale" transform="translate(166 291) rotate(-78) scale(.39 .5)"/>
+      <use href="#woodland-pinna" transform="translate(174 303) rotate(30) scale(-.43 .55)"/>
+      <use href="#woodland-pinna" transform="translate(181 316) rotate(-64) scale(.56 .65)"/>
+      <use href="#woodland-pinna-pale" transform="translate(190 332) rotate(20) scale(-.58 .7)"/>
+      <use href="#woodland-pinna" transform="translate(198 348) rotate(-53) scale(.72 .82)"/>
+      <use href="#woodland-pinna" transform="translate(205 364) rotate(10) scale(-.74 .82)"/>
+      <use href="#woodland-pinna-deep" transform="translate(215 388) rotate(-44) scale(.74 .88)"/>
+      <use href="#woodland-pinna" transform="translate(222 405) rotate(0) scale(-.84 .91)"/>
+      <use href="#woodland-pinna" transform="translate(232 432) rotate(-36) scale(.96 1)"/>
+      <use href="#woodland-pinna-pale" transform="translate(239 452) rotate(-5) scale(-.94 1)"/>
+      <use href="#woodland-pinna-deep" transform="translate(248 479) rotate(-29) scale(.91 1.05)"/>
+      <use href="#woodland-pinna" transform="translate(255 500) rotate(-8) scale(-1.04 1.07)"/>
+      <use href="#woodland-pinna" transform="translate(264 531) rotate(-23) scale(1.1 1.1)"/>
+      <use href="#woodland-pinna-deep" transform="translate(272 554) rotate(-12) scale(-1.01 1.12)"/>
+      <use href="#woodland-pinna" transform="translate(282 587) rotate(-18) scale(1.13 1.12)"/>
+      <use href="#woodland-pinna" transform="translate(289 610) rotate(-14) scale(-1.16 1.13)"/>
+      <use href="#woodland-pinna-deep" transform="translate(301 644) rotate(-13) scale(.99 1.05)"/>
+      <use href="#woodland-pinna" transform="translate(310 668) rotate(-17) scale(-1.03 1.05)"/>
+      <use href="#woodland-pinna" transform="translate(325 704) rotate(-7) scale(.97 .99)"/>
+      <use href="#woodland-pinna-deep" transform="translate(335 727) rotate(-20) scale(-.84 .92)"/>
+      <use href="#woodland-pinna" transform="translate(350 763) rotate(0) scale(.82 .86)"/>
+      <use href="#woodland-pinna" transform="translate(360 788) rotate(-23) scale(-.75 .77)"/>
+    </g>
+
+    <g stroke-linecap="round" filter="url(#woodland-paint)">
+      <path d="M427 920C454 837 531 746 569 680" stroke="#607e66" stroke-width="3.2"/>
+      <path d="M420 914C373 868 273 822 231 738" stroke="#81957a" stroke-width="3"/>
+      <path d="M418 920C375 857 360 791 367 745" stroke="#759378" stroke-width="2.8"/>
+    </g>
+    <use href="#woodland-broad-leaf" transform="translate(568 683) rotate(45) scale(.91 .98)" opacity=".79"/>
+    <use href="#woodland-small-leaf" transform="translate(512 779) rotate(-31) scale(.89 1.12)" opacity=".7"/>
+    <use href="#woodland-broad-leaf" transform="translate(233 743) rotate(-48) scale(.88 .9)" opacity=".82"/>
+    <use href="#woodland-small-leaf" transform="translate(296 829) rotate(50) scale(.74 .94)" opacity=".68"/>
+
+    <g>
+      <path d="M408 927C406 871 407 833 414 796C424 748 435 705 461 624C471 592 489 535 496 512C510 460 523 399 532 357C542 306 556 253 575 205L587 170" stroke="#4c7966" stroke-width="4.1" stroke-linecap="round" filter="url(#woodland-paint)"/>
+      <path d="M409 915C408 870 408 832 415 796C425 748 436 705 462 624C472 592 490 535 497 512C511 460 524 399 533 357C543 306 557 253 576 205L585 177" stroke="#c0c6a0" stroke-width="1.2" opacity=".67"/>
+      <use href="#woodland-tip" transform="translate(575 205) rotate(22) scale(.52 .83)"/>
+      <use href="#woodland-pinna-pale" transform="translate(572 215) rotate(-68) scale(.35 .48)"/>
+      <use href="#woodland-pinna" transform="translate(569 225) rotate(63) scale(-.36 .5)"/>
+      <use href="#woodland-pinna" transform="translate(563 240) rotate(-47) scale(.5 .63)"/>
+      <use href="#woodland-pinna-pale" transform="translate(559 252) rotate(55) scale(-.54 .68)"/>
+      <use href="#woodland-pinna-deep" transform="translate(553 273) rotate(-33) scale(.59 .8)"/>
+      <use href="#woodland-pinna" transform="translate(548 289) rotate(42) scale(-.73 .8)"/>
+      <use href="#woodland-pinna" transform="translate(542 313) rotate(-25) scale(.86 .94)"/>
+      <use href="#woodland-pinna-deep" transform="translate(538 330) rotate(35) scale(-.81 .95)"/>
+      <use href="#woodland-pinna-deep" transform="translate(532 357) rotate(-18) scale(.86 1.03)"/>
+      <use href="#woodland-pinna" transform="translate(528 375) rotate(30) scale(-1.02 1.1)"/>
+      <use href="#woodland-pinna" transform="translate(522 405) rotate(-12) scale(1.09 1.14)"/>
+      <use href="#woodland-pinna-deep" transform="translate(518 426) rotate(27) scale(-1.02 1.11)"/>
+      <use href="#woodland-pinna-deep" transform="translate(511 457) rotate(-7) scale(1.04 1.18)"/>
+      <use href="#woodland-pinna" transform="translate(505 479) rotate(25) scale(-1.2 1.15)"/>
+      <use href="#woodland-pinna" transform="translate(496 512) rotate(-2) scale(1.22 1.18)"/>
+      <use href="#woodland-pinna-deep" transform="translate(489 535) rotate(24) scale(-1.1 1.2)"/>
+      <use href="#woodland-pinna-deep" transform="translate(479 568) rotate(3) scale(1.13 1.2)"/>
+      <use href="#woodland-pinna" transform="translate(471 591) rotate(21) scale(-1.27 1.2)"/>
+      <use href="#woodland-pinna" transform="translate(461 624) rotate(7) scale(1.27 1.17)"/>
+      <use href="#woodland-pinna-deep" transform="translate(453 648) rotate(19) scale(-1.1 1.15)"/>
+      <use href="#woodland-pinna-deep" transform="translate(442 682) rotate(12) scale(1.06 1.09)"/>
+      <use href="#woodland-pinna" transform="translate(435 706) rotate(17) scale(-1.13 1.05)"/>
+      <use href="#woodland-pinna" transform="translate(426 740) rotate(16) scale(1.04 1)"/>
+      <use href="#woodland-pinna-deep" transform="translate(420 765) rotate(13) scale(-.82 .91)"/>
+      <use href="#woodland-pinna" transform="translate(414 796) rotate(21) scale(.78 .85)"/>
+      <use href="#woodland-pinna" transform="translate(411 818) rotate(8) scale(-.68 .77)"/>
+    </g>
+
+    <g stroke-linecap="round">
+      <path d="M426 927C448 849 511 769 531 681C545 621 527 568 501 551C485 540 468 549 468 563C467 577 483 583 491 574C497 567 493 560 486 561" stroke="#65846c" stroke-width="7" filter="url(#woodland-paint)"/>
+      <path d="M427 919C450 844 513 765 533 680C547 620 529 566 502 549C483 537 465 549 466 564C466 581 486 586 495 573C500 565 494 557 486 559" stroke="url(#woodland-new-growth)" stroke-width="5.1" filter="url(#woodland-paint)"/>
+      <path d="M429 916C451 841 515 762 535 679C548 621 530 565 503 548C484 536 464 549 465 564" stroke="#d2ccb0" stroke-width="1.35" opacity=".66"/>
+      <g fill="#91a17e" stroke="#72886b" stroke-width=".5" filter="url(#woodland-paint)">
+        <path d="M529 698C541 694 548 682 545 676C538 680 533 687 529 698Z"/>
+        <path d="M537 659C546 652 551 641 546 636C542 643 538 651 537 659Z"/>
+        <path d="M535 620C528 614 523 609 525 603C531 605 534 611 535 620Z"/>
+        <path d="M525 586C533 584 534 575 529 572C525 575 524 580 525 586Z"/>
+        <path d="M514 564C513 556 508 552 505 554L507 562Z"/>
+        <path d="M475 548C470 543 464 546 462 552L469 554Z"/>
+        <path d="M465 563C458 563 458 570 464 573L468 568Z"/>
+        <path d="M479 582C479 590 485 590 488 584L485 578Z"/>
+      </g>
+      <g stroke="#c6c4a5" stroke-width=".7" opacity=".65">
+        <path d="M528 711L535 713M532 695L539 697M536 678L543 680M539 657L546 657M540 640L546 638M537 620L542 616M532 600L537 596M523 580L528 576M511 562L515 557M499 550L500 544M482 546L480 539M469 553L463 550"/>
+      </g>
+    </g>
+
+    <use href="#woodland-broad-leaf" transform="translate(368 759) rotate(-17) scale(.64 .78)" opacity=".93"/>
+    <path d="M396 910C349 882 278 868 216 875" stroke="#879478" stroke-width="2" stroke-linecap="round" filter="url(#woodland-paint)"/>
+    <use href="#woodland-small-leaf" transform="translate(301 878) rotate(-77) scale(.83 .94)" opacity=".8"/>
+    <use href="#woodland-small-leaf" transform="translate(339 884) rotate(26) scale(.68 .79)" opacity=".83"/>
+    <use href="#woodland-small-leaf" transform="translate(259 875) rotate(-48) scale(.57 .66)" opacity=".71"/>
+    <g filter="url(#woodland-paint)" opacity=".62">
+      <path d="M389 929C386 900 372 877 359 865C377 873 392 891 399 923ZM404 933C402 893 411 869 417 853C420 882 415 906 413 932ZM426 933C435 903 450 882 469 875C456 897 440 921 434 937Z" fill="#9da787"/>
+      <path d="M438 934C462 919 502 915 526 927C500 936 476 940 438 934Z" fill="#b6b398"/>
+      <path d="M445 933C471 930 492 928 513 927" stroke="#899477" stroke-width=".9"/>
+      <path d="M477 930L484 921M487 929L498 935" stroke="#8b9275" stroke-width=".7"/>
+      <path d="M349 924C327 909 300 910 284 923C305 932 328 933 349 924Z" fill="#a7b49b"/>
+      <path d="M290 922L344 925" stroke="#7c967d" stroke-width="1"/>
+    </g>
+    <g stroke="#8e9273" stroke-width="1" stroke-linecap="round" opacity=".28">
+      <path d="M402 922Q372 941 356 950M414 925Q418 941 406 959M426 925Q447 946 477 954M430 924Q463 931 485 948"/>
+    </g>
+  </g>
+  <g fill="#a1ad94" opacity=".27">
+    <ellipse cx="329" cy="944" rx="2.1" ry="1.2"/><circle cx="352" cy="958" r="1.1"/>
+    <ellipse cx="497" cy="948" rx="2.4" ry="1"/><circle cx="518" cy="939" r="1.2"/>
+  </g>
+</svg>

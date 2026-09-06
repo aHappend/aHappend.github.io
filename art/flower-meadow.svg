@@ -1,0 +1,314 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 650" fill="none">
+  <title>A meadow between showers</title>
+  <desc>An original watercolor illustration of ivory daisies, pink and terracotta poppies, lavender, and fine seed grasses. The open sky and softly dissolving ground are transparent.</desc>
+  <defs>
+    <filter id="meadow-paint" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".045 .09" numOctaves="2" seed="31" result="water"/>
+      <feDisplacementMap in="SourceGraphic" in2="water" scale="1.15" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".42 .7" numOctaves="2" seed="14" result="fibres"/>
+      <feColorMatrix in="fibres" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .16 .16 .16 0 .7" result="paper"/>
+      <feComposite in="edge" in2="paper" operator="in"/>
+    </filter>
+    <filter id="meadow-distant" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <filter id="meadow-soft" x="-30%" y="-70%" width="160%" height="240%"><feGaussianBlur stdDeviation="9"/></filter>
+    <linearGradient id="meadow-green" x1="0" y1="-65" x2="12" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a6b399"/><stop offset=".4" stop-color="#779b86"/><stop offset="1" stop-color="#3e7469"/>
+    </linearGradient>
+    <linearGradient id="meadow-silver" x1="-16" y1="-65" x2="10" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c4c7a7"/><stop offset=".55" stop-color="#94ae94"/><stop offset="1" stop-color="#5b8c7e"/>
+    </linearGradient>
+    <radialGradient id="meadow-ivory" cx=".39" cy=".16" r=".95">
+      <stop stop-color="#fffdf1"/><stop offset=".53" stop-color="#f4efd9"/><stop offset=".85" stop-color="#d4d6ba"/><stop offset="1" stop-color="#acb69c"/>
+    </radialGradient>
+    <radialGradient id="meadow-cosmos-wash" cx=".28" cy=".19" r=".95">
+      <stop stop-color="#fff9e9"/><stop offset=".5" stop-color="#f3ead5"/><stop offset=".83" stop-color="#d5d3b5"/><stop offset="1" stop-color="#a9b9a1"/>
+    </radialGradient>
+    <radialGradient id="meadow-pollen" cx=".34" cy=".28" r=".8">
+      <stop stop-color="#e7cb82"/><stop offset=".46" stop-color="#c4a35e"/><stop offset="1" stop-color="#81734c"/>
+    </radialGradient>
+    <radialGradient id="meadow-coral" cx=".3" cy=".12" r=".92">
+      <stop stop-color="#e4b49f"/><stop offset=".43" stop-color="#d29585"/><stop offset=".74" stop-color="#b9776e"/><stop offset="1" stop-color="#895958"/>
+    </radialGradient>
+    <radialGradient id="meadow-rose" cx=".62" cy=".11" r=".94">
+      <stop stop-color="#efd0ba"/><stop offset=".4" stop-color="#d6a79d"/><stop offset=".78" stop-color="#bc827c"/><stop offset="1" stop-color="#956a6c"/>
+    </radialGradient>
+    <linearGradient id="meadow-ochre" x1="-5" y1="-26" x2="5" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d6c195"/><stop offset=".7" stop-color="#b7a579"/><stop offset="1" stop-color="#7f9273"/>
+    </linearGradient>
+    <linearGradient id="meadow-purple" x1="-9" y1="-8" x2="7" y2="2" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bfbad0"/><stop offset=".5" stop-color="#a39cbb"/><stop offset="1" stop-color="#7d809f"/>
+    </linearGradient>
+    <radialGradient id="meadow-ground">
+      <stop stop-color="#7f9e8b" stop-opacity=".2"/><stop offset=".48" stop-color="#a9b89b" stop-opacity=".09"/><stop offset="1" stop-color="#b7c5b0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="meadow-fade" x1="0" y1="465" x2="0" y2="612" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="white"/><stop offset=".65" stop-color="white" stop-opacity=".87"/><stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="meadow-base-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1500" height="650"><path d="M0 0H1500V650H0Z" fill="url(#meadow-fade)"/></mask>
+    <g id="meadow-leaf">
+      <path d="M0 0C-7-15-13-32-9-46C-5-57 4-62 7-71C14-49 17-35 10-19C7-11 3-5 0 0Z" fill="url(#meadow-green)"/>
+      <path d="M0-3C1-21 4-40 7-62" stroke="#c9d1b0" stroke-width=".65" opacity=".57"/>
+      <path d="M3-26L-5-41M5-40L12-49" stroke="#c9d1b0" stroke-width=".45" opacity=".34"/>
+    </g>
+    <g id="meadow-thin-leaf">
+      <path d="M0 0C-12-24-8-50 1-81C3-88 2-97 3-99C10-65 15-34 0 0Z" fill="url(#meadow-silver)"/>
+      <path d="M0-5C1-29 5-57 3-85" stroke="#d7d8b7" stroke-width=".7" opacity=".44"/>
+    </g>
+    <g id="meadow-feather" stroke-linecap="round">
+      <path d="M0 0C4-25 0-55-8-81M2-16C-10-21-18-35-20-43M2-25C15-28 23-42 25-50M0-40C-11-43-19-58-19-65M-2-50C7-51 15-62 17-69M-5-66L-15-80" stroke="#6f927a" stroke-width="1.1"/>
+      <path d="M-10-28L-16-46M-16-37L-27-48M12-32L21-51M19-41L32-50M-9-48L-15-65M7-56L12-76" stroke="#8fa488" stroke-width=".85"/>
+    </g>
+    <g id="meadow-daisy-petal">
+      <path d="M-3 0C-8-7-8-15-7-24C-8-31-4-39 1-40C7-42 11-35 9-28C11-17 7-6 3 1Z" fill="url(#meadow-ivory)"/>
+      <path d="M1-5C0-15 2-25 2-33" stroke="#b9bea4" stroke-width=".6" opacity=".45"/>
+      <path d="M-5-29C-6-33-3-38 0-38" stroke="#fdfbee" stroke-width="1.8" opacity=".7"/>
+    </g>
+    <g id="meadow-daisy">
+      <g fill="#bec5ab" opacity=".45">
+        <ellipse cy="-21" rx="6" ry="19" transform="rotate(17)"/><ellipse cy="-21" rx="7" ry="18" transform="rotate(112)"/><ellipse cy="-20" rx="7" ry="19" transform="rotate(205)"/>
+      </g>
+      <use href="#meadow-daisy-petal" transform="rotate(-7) scale(.91 1)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(30) scale(.94 .94)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(70) scale(1 .9)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(106) scale(.84 1.06)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(141) scale(.94 .94)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(176) scale(1.1 1)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(212) scale(.92 .92)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(249) scale(1 .99)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(286) scale(.9 1.03)"/>
+      <use href="#meadow-daisy-petal" transform="rotate(320) scale(1 .88)"/>
+      <path d="M-11-2C-10-10-1-13 7-9C15-5 13 5 8 10C1 14-10 9-11-2Z" fill="url(#meadow-pollen)"/>
+      <path d="M-8 4C-4 10 5 10 9 5" stroke="#89774f" stroke-width="1.3" opacity=".54"/>
+      <g fill="#8a794c" opacity=".74">
+        <circle cx="-5" cy="-3" r=".95"/><circle cx="1" cy="-5" r=".9"/><circle cx="6" cy="-2" r="1"/>
+        <circle cx="-1" cy="1" r=".9"/><circle cx="-5" cy="4" r=".8"/><circle cx="4" cy="5" r="1.1"/>
+      </g>
+      <g fill="#f1d58f"><circle cx="-6" cy="-6" r="1"/><circle cx="2" cy="-8" r=".9"/><circle cx="7" cy="1" r=".8"/></g>
+    </g>
+    <g id="meadow-cosmos-petal">
+      <path d="M-3 4C-11-3-22-17-21-28C-24-37-18-39-14-37C-11-45-5-43-2-40C2-47 9-42 10-39C17-42 22-34 19-27C17-13 10 0 2 5Z" fill="url(#meadow-cosmos-wash)"/>
+      <path d="M-1 0C-5-10-10-22-11-33M2-1C4-15 7-23 9-33" stroke="#b9bca1" stroke-width=".65" opacity=".45"/>
+    </g>
+    <g id="meadow-cosmos">
+      <use href="#meadow-cosmos-petal" transform="rotate(-9) scale(.85 1)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(45) scale(.84 .9)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(96) scale(.96 .96)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(151) scale(.89 1.02)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(204) scale(.97 .9)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(256) scale(.84 .98)"/>
+      <use href="#meadow-cosmos-petal" transform="rotate(308) scale(.9 .92)"/>
+      <ellipse rx="10" ry="8.5" fill="url(#meadow-pollen)"/>
+      <path d="M-7-3L-10-7M-2-6L-2-11M4-5L7-10M8 0L12-2M3 6L6 10M-5 5L-8 9" stroke="#ab8c4e" stroke-width="1.3" stroke-linecap="round"/>
+      <g fill="#e2bd6e"><circle cx="-10" cy="-7" r="1.5"/><circle cx="-2" cy="-11" r="1.3"/><circle cx="7" cy="-10" r="1.4"/><circle cx="12" cy="-2" r="1.3"/><circle cx="6" cy="10" r="1.4"/><circle cx="-8" cy="9" r="1.3"/></g>
+      <path d="M-4-3L-2 1M4-2L4 2M-1 4L2 5" stroke="#80784e" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+    <g id="meadow-side-daisy">
+      <path d="M0 7C-13 5-27-5-32-15C-34-20-30-23-26-20L-7-9C-17-23-15-29-10-27L2-10C0-28 8-31 11-27L12-8C23-26 31-26 29-18L18-4C35-12 42-9 35-3C24 5 12 11 0 7Z" fill="url(#meadow-ivory)"/>
+      <path d="M-6 4L-21-11M2 4L-5-16M11 3L17-11M18 1L29-5" stroke="#bfc4aa" stroke-width=".7" opacity=".6"/>
+      <path d="M-10 4C-2-4 14-4 20 2C16 10-2 12-10 4Z" fill="url(#meadow-pollen)"/>
+      <path d="M-8 9L-3 18L3 12L10 17L18 7" fill="#78967c"/>
+    </g>
+    <g id="meadow-poppy">
+      <path d="M-4 6C-28 7-43-9-38-25C-42-35-31-42-21-39C-8-50 2-34 7-21C14-8 10 3-4 6Z" fill="url(#meadow-coral)"/>
+      <path d="M-2 2C-11-14-7-38 9-43C20-48 25-36 31-35C43-37 47-21 36-9C30 6 11 9-2 2Z" fill="url(#meadow-rose)"/>
+      <path d="M-3-3C-20-15-39-10-43 4C-48 16-34 26-23 24C-10 33 7 23 10 10Z" fill="url(#meadow-rose)"/>
+      <path d="M0 0C13-15 30-18 40-7C52 2 41 19 33 20C28 33 10 35 3 23C-4 17-7 7 0 0Z" fill="url(#meadow-coral)"/>
+      <g stroke="#8f625e" stroke-width=".7" opacity=".39">
+        <path d="M-3 2C-17-7-27-18-29-30M0 0C-1-13 2-28 12-35M2 3C15-3 29-5 35 1M-2 6C-15 13-26 16-34 12M4 7C12 20 19 23 26 22"/>
+      </g>
+      <path d="M-28-35C-19-40-13-32-10-24M14-37C20-39 23-31 25-29M-38 8C-37 15-31 18-26 17" stroke="#f0c6b0" stroke-width="2.7" opacity=".35" stroke-linecap="round"/>
+      <path d="M-11-1L-8-7L-3-5L2-10L6-5L12-6L11 0L15 5L8 8L5 14L0 10L-7 12L-8 6L-14 4Z" fill="#62575b" opacity=".86"/>
+      <ellipse cx="0" cy="3" rx="6" ry="5" fill="#a5a98b"/>
+      <path d="M-4 3L4 3M0-1L0 7M-3 0L3 6M3 0L-3 6" stroke="#586c5d" stroke-width=".8"/>
+      <g fill="#d4b78a"><circle cx="-9" cy="-3" r="1"/><circle cx="5" cy="-6" r="1"/><circle cx="11" cy="2" r="1.1"/><circle cx="5" cy="10" r=".8"/><circle cx="-7" cy="8" r="1"/></g>
+    </g>
+    <g id="meadow-poppy-cup">
+      <path d="M-26-21C-23-33-14-32-7-24C-3-34 5-32 9-24C19-34 31-27 29-13L20 9L1 20L-19 4Z" fill="url(#meadow-rose)"/>
+      <path d="M-32-21C-22-27-17-15-10-14C-2-21 4-8 11-12C19-21 28-22 35-28C38-8 26 13 5 21C-13 20-31 4-32-21Z" fill="url(#meadow-coral)"/>
+      <path d="M-25-17C-21-3-11 12 2 17M-7-12C-6-1-1 10 5 17M24-16C20-3 15 7 8 16" stroke="#995d5b" stroke-width=".85" opacity=".45"/>
+      <path d="M-29-20C-20-22-17-10-10-12M12-13L28-23" stroke="#ecc0a6" stroke-width="2" opacity=".54" stroke-linecap="round"/>
+      <path d="M-4 18L-9 12L2 16L15 11L11 20L3 24Z" fill="#738b6d"/>
+    </g>
+    <g id="meadow-bud">
+      <path d="M-5 5C-13-1-13-13-7-19C0-25 9-17 9-10C12-2 6 5 0 7Z" fill="url(#meadow-green)"/>
+      <path d="M0 4C3-7 1-13-2-18" stroke="#cccdab" stroke-width=".8" opacity=".65"/>
+      <path d="M-9-9L-13-11M-8-16L-10-20M5-15L8-19M8-5L12-7" stroke="#91a185" stroke-width=".6"/>
+    </g>
+    <g id="meadow-floret">
+      <path d="M0 2C-4 1-10-2-9-6C-7-10-3-7-2-5C0-11 5-10 5-5C10-8 12-3 7 0L2 3Z" fill="url(#meadow-purple)"/>
+      <path d="M-6-5L-2-1M3-5L2-1" stroke="#d9cfdd" stroke-width=".8" opacity=".6"/>
+    </g>
+    <g id="meadow-lavender">
+      <path d="M0 13C2-16-3-39 2-77" stroke="#7b927e" stroke-width="1.35"/>
+      <use href="#meadow-floret" transform="translate(0 -4) rotate(15)"/>
+      <use href="#meadow-floret" transform="translate(1 -14) rotate(-25) scale(.85 .95)"/>
+      <use href="#meadow-floret" transform="translate(-1 -23) rotate(19) scale(.97 .9)"/>
+      <use href="#meadow-floret" transform="translate(-1 -33) rotate(-15) scale(.79 .86)"/>
+      <use href="#meadow-floret" transform="translate(0 -42) rotate(22) scale(.8 .9)"/>
+      <use href="#meadow-floret" transform="translate(0 -51) rotate(-18) scale(.65 .82)"/>
+      <use href="#meadow-floret" transform="translate(1 -60) rotate(8) scale(.53 .75)"/>
+      <path d="M1-64C-5-70-2-79 2-83C7-77 8-68 1-64Z" fill="#999ab7"/>
+      <path d="M0 7L-6 1M0-16L7-21M0-36L-5-41M1-55L5-61" stroke="#82917b" stroke-width=".85"/>
+    </g>
+    <g id="meadow-oat">
+      <path d="M0 0C-7-5-12-16-8-26C1-22 6-11 0 0Z" fill="url(#meadow-ochre)"/>
+      <path d="M-1-3L-7-23L-10-34" stroke="#a9a27c" stroke-width=".65"/>
+    </g>
+    <g id="meadow-seed-spray" stroke-linecap="round">
+      <path d="M0 0C-3-41 6-90-9-138M0-32L20-53M1-59L-15-83M0-85L14-108M-4-111L-18-130" stroke="#a6aa86" stroke-width="1"/>
+      <use href="#meadow-oat" transform="translate(19 -53) rotate(38) scale(.78)"/>
+      <use href="#meadow-oat" transform="translate(-15 -82) rotate(-23) scale(.81)"/>
+      <use href="#meadow-oat" transform="translate(14 -107) rotate(38) scale(.72)"/>
+      <use href="#meadow-oat" transform="translate(-17 -129) rotate(-17) scale(.67)"/>
+      <use href="#meadow-oat" transform="translate(-9 -138) rotate(2) scale(.59)"/>
+    </g>
+  </defs>
+
+  <g filter="url(#meadow-soft)">
+    <ellipse cx="457" cy="554" rx="357" ry="57" fill="url(#meadow-ground)"/>
+    <ellipse cx="989" cy="566" rx="398" ry="58" fill="url(#meadow-ground)"/>
+    <ellipse cx="733" cy="533" rx="514" ry="40" fill="url(#meadow-ground)" opacity=".68"/>
+  </g>
+
+  <g mask="url(#meadow-base-mask)">
+    <g opacity=".3" filter="url(#meadow-distant)">
+      <g stroke="#9baf92" stroke-width="1.8">
+        <path d="M152 551Q157 453 121 411M236 554Q226 475 245 426M305 557Q314 412 289 372M392 558Q408 473 383 434M488 556Q478 468 502 414M573 557Q597 465 577 432M665 562Q647 491 679 462M789 565Q809 479 779 439M871 558Q877 454 901 407M975 554Q1001 432 974 370M1086 558Q1078 409 1105 355M1161 559Q1185 466 1168 423M1254 559Q1245 449 1272 408M1340 562Q1330 470 1382 433"/>
+      </g>
+      <g fill="#b7c2a3">
+        <path d="M162 512Q114 469 101 475Q121 508 162 512ZM250 514Q279 455 303 451Q293 484 250 514ZM407 516Q429 455 447 453Q450 490 407 516ZM638 541Q605 492 589 498Q607 532 638 541ZM887 511Q857 460 842 467Q849 499 887 511ZM1058 524Q1112 475 1117 444Q1081 472 1058 524ZM1259 525Q1290 476 1304 480Q1294 509 1259 525Z"/>
+      </g>
+      <use href="#meadow-daisy" transform="translate(121 411) scale(.28)"/>
+      <use href="#meadow-poppy-cup" transform="translate(245 425) rotate(17) scale(.35)"/>
+      <use href="#meadow-cosmos" transform="translate(289 373) rotate(11) scale(.4)"/>
+      <use href="#meadow-daisy" transform="translate(383 434) scale(.33)"/>
+      <use href="#meadow-poppy" transform="translate(502 414) scale(.29)"/>
+      <use href="#meadow-daisy" transform="translate(577 432) scale(.25)"/>
+      <use href="#meadow-cosmos" transform="translate(679 462) scale(.3)"/>
+      <use href="#meadow-poppy-cup" transform="translate(779 439) rotate(-15) scale(.36)"/>
+      <use href="#meadow-daisy" transform="translate(901 407) scale(.3)"/>
+      <use href="#meadow-poppy" transform="translate(974 370) scale(.33)"/>
+      <use href="#meadow-daisy" transform="translate(1105 355) scale(.37)"/>
+      <use href="#meadow-cosmos" transform="translate(1168 423) scale(.35)"/>
+      <use href="#meadow-poppy-cup" transform="translate(1272 408) scale(.35)"/>
+      <use href="#meadow-daisy" transform="translate(1382 433) scale(.23)"/>
+    </g>
+
+    <g stroke-linecap="round" filter="url(#meadow-paint)">
+      <g stroke="#a9b396" stroke-width="1.25" opacity=".7">
+        <path d="M141 570C122 492 128 397 97 361M174 574C188 440 164 321 143 239M194 568C211 464 201 381 226 353M254 574C271 450 322 324 316 234M299 567C303 423 339 323 346 219M388 576C411 469 440 403 430 335M474 580C460 492 435 463 432 414M557 577C578 511 617 480 647 477M755 583C730 511 738 468 715 436M833 579C849 493 821 425 837 379M920 579C949 475 925 401 948 310M1042 579C1051 448 1118 341 1125 215M1118 575C1138 415 1165 327 1157 259M1206 578C1244 461 1268 352 1251 268M1294 581C1286 509 1338 447 1363 436M1345 579C1381 520 1386 480 1406 465"/>
+      </g>
+      <g stroke="#668d78" stroke-width="1.4" opacity=".73">
+        <path d="M117 566Q126 490 96 457M181 574Q215 459 196 400M285 581Q277 487 266 452M395 576Q353 492 367 441M507 579Q541 503 554 501M702 584Q689 496 664 471M792 584Q818 506 805 476M919 580Q895 465 906 433M1006 578Q988 491 1013 438M1131 581Q1148 513 1180 493M1270 579Q1244 468 1211 430M1374 578Q1359 517 1358 490"/>
+      </g>
+      <g opacity=".68">
+        <use href="#meadow-seed-spray" transform="translate(145 403) rotate(-12) scale(.92 .99)"/>
+        <use href="#meadow-seed-spray" transform="translate(318 350) rotate(17) scale(.87 1.05)"/>
+        <use href="#meadow-seed-spray" transform="translate(346 316) rotate(12) scale(.67 .78)"/>
+        <use href="#meadow-seed-spray" transform="translate(942 440) rotate(-9) scale(.67 .77)"/>
+        <use href="#meadow-seed-spray" transform="translate(1110 340) rotate(10) scale(.87 1.13)"/>
+        <use href="#meadow-seed-spray" transform="translate(1258 393) rotate(-5) scale(.77 .91)"/>
+      </g>
+      <g stroke="#718d70" stroke-width="1.8" opacity=".79">
+        <path d="M254 583C244 502 226 426 208 364M311 587C322 497 290 359 267 286M294 486Q273 426 251 422M386 585C395 493 375 401 365 333M400 499Q428 435 454 414M541 585C548 530 586 489 595 450M599 584C630 531 637 492 630 469M741 589C768 518 766 452 741 405M862 588C868 527 848 484 836 459M920 588C930 517 964 415 947 341M983 592C1005 482 1047 347 1047 251M1030 403Q998 364 1006 351M1138 590C1132 507 1161 408 1170 327M1211 592C1213 517 1269 471 1287 402M1313 588C1324 509 1365 411 1351 346"/>
+      </g>
+      <g stroke="#b9bea0" stroke-width=".65" opacity=".68">
+        <path d="M313 574C320 485 289 362 268 296M984 579C1005 479 1045 348 1048 267M1140 574C1136 500 1162 403 1171 342M255 568C244 492 227 429 211 377"/>
+      </g>
+      <g opacity=".78">
+        <use href="#meadow-thin-leaf" transform="translate(175 526) rotate(-29) scale(.55 .73)"/>
+        <use href="#meadow-leaf" transform="translate(237 480) rotate(-52) scale(.59 .74)"/>
+        <use href="#meadow-leaf" transform="translate(247 516) rotate(41) scale(.64 .86)"/>
+        <use href="#meadow-leaf" transform="translate(290 434) rotate(-47) scale(.7 .77)"/>
+        <use href="#meadow-leaf" transform="translate(308 500) rotate(37) scale(.74 .94)"/>
+        <use href="#meadow-feather" transform="translate(379 448) rotate(-38) scale(.82)"/>
+        <use href="#meadow-feather" transform="translate(389 502) rotate(42) scale(.96)"/>
+        <use href="#meadow-feather" transform="translate(438 446) rotate(43) scale(.56)"/>
+        <use href="#meadow-leaf" transform="translate(555 542) rotate(-58) scale(.68 .73)"/>
+        <use href="#meadow-leaf" transform="translate(574 496) rotate(33) scale(.51 .63)"/>
+        <use href="#meadow-thin-leaf" transform="translate(629 515) rotate(-23) scale(.47 .68)"/>
+        <use href="#meadow-feather" transform="translate(759 479) rotate(-49) scale(.81)"/>
+        <use href="#meadow-feather" transform="translate(750 545) rotate(40) scale(.91)"/>
+        <use href="#meadow-leaf" transform="translate(856 508) rotate(44) scale(.59 .68)"/>
+        <use href="#meadow-leaf" transform="translate(863 552) rotate(-44) scale(.66 .75)"/>
+        <use href="#meadow-leaf" transform="translate(943 451) rotate(-51) scale(.62 .87)"/>
+        <use href="#meadow-leaf" transform="translate(928 531) rotate(41) scale(.8 1.01)"/>
+        <use href="#meadow-leaf" transform="translate(1040 337) rotate(-43) scale(.47 .63)"/>
+        <use href="#meadow-leaf" transform="translate(1027 414) rotate(45) scale(.64 .82)"/>
+        <use href="#meadow-leaf" transform="translate(1005 482) rotate(-48) scale(.73 .93)"/>
+        <use href="#meadow-feather" transform="translate(1158 420) rotate(-35) scale(.72)"/>
+        <use href="#meadow-feather" transform="translate(1139 495) rotate(43) scale(.92)"/>
+        <use href="#meadow-leaf" transform="translate(1227 525) rotate(-60) scale(.8 .79)"/>
+        <use href="#meadow-leaf" transform="translate(1263 462) rotate(45) scale(.52 .72)"/>
+        <use href="#meadow-feather" transform="translate(1339 458) rotate(-46) scale(.82)"/>
+        <use href="#meadow-feather" transform="translate(1322 520) rotate(46) scale(.94)"/>
+      </g>
+    </g>
+
+    <g filter="url(#meadow-paint)">
+      <g stroke="#83947d" stroke-width="1.5" stroke-linecap="round">
+        <path d="M451 587C456 530 456 479 436 421M467 586C470 511 494 460 492 401M478 588C493 535 516 503 518 459M1100 587C1082 516 1089 456 1072 397M1093 585C1080 534 1053 512 1050 478M1109 589C1116 510 1128 456 1126 419"/>
+      </g>
+      <g opacity=".89">
+        <use href="#meadow-lavender" transform="translate(436 423) rotate(-12) scale(.69 .85)"/>
+        <use href="#meadow-lavender" transform="translate(492 402) rotate(5) scale(.8 .91)"/>
+        <use href="#meadow-lavender" transform="translate(518 461) rotate(14) scale(.62 .7)"/>
+        <use href="#meadow-lavender" transform="translate(1072 399) rotate(-10) scale(.8 .97)"/>
+        <use href="#meadow-lavender" transform="translate(1050 478) rotate(-18) scale(.62 .77)"/>
+        <use href="#meadow-lavender" transform="translate(1126 421) rotate(7) scale(.71 .84)"/>
+      </g>
+      <g opacity=".8">
+        <use href="#meadow-thin-leaf" transform="translate(455 511) rotate(-40) scale(.38 .65)"/>
+        <use href="#meadow-thin-leaf" transform="translate(465 549) rotate(30) scale(.5 .88)"/>
+        <use href="#meadow-thin-leaf" transform="translate(480 472) rotate(31) scale(.37 .58)"/>
+        <use href="#meadow-thin-leaf" transform="translate(494 539) rotate(-27) scale(.44 .73)"/>
+        <use href="#meadow-thin-leaf" transform="translate(1084 482) rotate(-34) scale(.42 .65)"/>
+        <use href="#meadow-thin-leaf" transform="translate(1092 538) rotate(35) scale(.46 .79)"/>
+        <use href="#meadow-thin-leaf" transform="translate(1118 485) rotate(32) scale(.36 .66)"/>
+      </g>
+    </g>
+
+    <g filter="url(#meadow-paint)" opacity=".8">
+      <use href="#meadow-thin-leaf" transform="translate(185 584) rotate(-38) scale(.71 1.02)"/>
+      <use href="#meadow-leaf" transform="translate(194 586) rotate(30) scale(.8 .87)"/>
+      <use href="#meadow-thin-leaf" transform="translate(324 596) rotate(-24) scale(.61 1.1)"/>
+      <use href="#meadow-leaf" transform="translate(329 591) rotate(53) scale(.8 1.06)"/>
+      <use href="#meadow-leaf" transform="translate(511 590) rotate(-58) scale(.84 .79)"/>
+      <use href="#meadow-thin-leaf" transform="translate(516 595) rotate(18) scale(.65 .94)"/>
+      <use href="#meadow-leaf" transform="translate(667 587) rotate(-49) scale(.7 .83)"/>
+      <use href="#meadow-thin-leaf" transform="translate(674 593) rotate(36) scale(.57 .91)"/>
+      <use href="#meadow-leaf" transform="translate(874 592) rotate(-61) scale(.78 1)"/>
+      <use href="#meadow-thin-leaf" transform="translate(875 596) rotate(24) scale(.61 .87)"/>
+      <use href="#meadow-leaf" transform="translate(991 589) rotate(59) scale(.72 .93)"/>
+      <use href="#meadow-thin-leaf" transform="translate(1203 597) rotate(-41) scale(.79 1.14)"/>
+      <use href="#meadow-leaf" transform="translate(1208 592) rotate(30) scale(.77 .96)"/>
+      <use href="#meadow-thin-leaf" transform="translate(1361 591) rotate(42) scale(.59 .83)"/>
+      <g stroke="#79977f" stroke-linecap="round" opacity=".65">
+        <path d="M106 583Q103 537 83 524M108 584Q117 545 134 535M219 594Q225 536 211 517M223 593Q238 546 260 538M371 596Q362 551 344 542M375 595Q389 540 417 535M571 596Q570 556 553 546M575 596Q590 551 615 546M786 597Q779 551 764 539M790 595Q805 549 824 546M961 598Q953 554 941 546M965 596Q982 550 1001 540M1161 597Q1159 550 1142 535M1164 598Q1179 557 1202 549M1291 593Q1289 550 1271 535M1294 594Q1313 549 1333 542" stroke-width="1.2"/>
+      </g>
+    </g>
+  </g>
+
+  <g filter="url(#meadow-paint)">
+    <use href="#meadow-side-daisy" transform="translate(208 356) rotate(-15) scale(.66 .73)"/>
+    <use href="#meadow-poppy" transform="translate(267 287) rotate(-17) scale(.83 .73)"/>
+    <use href="#meadow-bud" transform="translate(251 421) rotate(-49) scale(.73)"/>
+    <use href="#meadow-cosmos" transform="translate(365 333) rotate(13) scale(.74 .65)"/>
+    <use href="#meadow-side-daisy" transform="translate(454 411) rotate(17) scale(.5 .56)"/>
+    <use href="#meadow-daisy" transform="translate(596 448) rotate(-19) scale(.62 .58)"/>
+    <use href="#meadow-side-daisy" transform="translate(630 468) rotate(-9) scale(.45 .47)"/>
+    <use href="#meadow-cosmos" transform="translate(741 405) rotate(21) scale(.77 .66)"/>
+    <use href="#meadow-poppy-cup" transform="translate(836 449) rotate(-15) scale(.64 .7)"/>
+    <use href="#meadow-daisy" transform="translate(947 341) rotate(-8) scale(.66 .73)"/>
+    <use href="#meadow-poppy-cup" transform="translate(1046 238) rotate(5) scale(.89 .92)"/>
+    <use href="#meadow-bud" transform="translate(1006 350) rotate(-25) scale(.8)"/>
+    <use href="#meadow-cosmos" transform="translate(1170 326) rotate(-16) scale(.91 .77)"/>
+    <use href="#meadow-poppy" transform="translate(1287 402) rotate(28) scale(.57 .5)"/>
+    <use href="#meadow-side-daisy" transform="translate(1351 340) rotate(-17) scale(.71 .66)"/>
+  </g>
+  <g fill="#acb398" opacity=".29">
+    <ellipse cx="245" cy="597" rx="2.4" ry="1.1" transform="rotate(-12 245 597)"/>
+    <ellipse cx="487" cy="608" rx="1.6" ry="1"/><circle cx="1015" cy="601" r="1.1"/>
+    <ellipse cx="1232" cy="610" rx="2.5" ry=".9"/>
+  </g>
+</svg>

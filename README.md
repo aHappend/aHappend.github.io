@@ -22,16 +22,18 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
-- `art/*.svg`: original, code-authored watercolor compositions for this site:
-  flowing pigment, layered tidal washes, and botanical growth. Transparent paths,
-  displacement and paper-grain filters blend into the page, rather than appearing
-  as framed illustrations. No museum reproductions or image-generation service
-  are used. Keep these layers decorative, non-interactive, and behind the content.
+- `art/*.svg`: original, code-authored nature illustrations: the approved
+  botanical still life, a varied wildflower meadow, woodland ferns, and a coastal
+  landscape with beach, headlands and gentle surf. The illustrations use shaded
+  forms, fine stems and veins, restrained pigment texture, and transparent edges.
+  They blend into the page without frames or a gallery. No museum reproductions
+  or image-generation service are used. Keep these layers decorative,
+  non-interactive, and clear of readable text and controls.
   The chip graphic remains conceptual, not a die photograph or physical-layout result.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls, mobile navigation, animated accessible
   project filters, section reveals, pointer-responsive lighting, and subtle
-  background parallax. Phones use static, repositioned washes with unrestricted
+  background parallax. Phones use static, repositioned illustrations with unrestricted
   native scrolling; decorative backgrounds never capture clicks or touch gestures.
 
 The page remains readable and navigable without JavaScript. Browser storage is
