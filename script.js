@@ -48,7 +48,7 @@ function updateSceneControls() {
     : { loading: "Loading painting", unavailable: "Painting effects unavailable", paused: "Garden effects paused", reduced: "Reduced motion" };
   sceneButtons.forEach((button) => {
     const image = button.querySelector("img");
-    const state = !sceneRuntime || !petalContext ? "unavailable"
+    const state = !sceneRuntime || !petalContext || (button === coastButton && !coastContext) ? "unavailable"
       : !image.complete ? "loading"
       : !image.naturalWidth ? "unavailable"
       : reducedMotion.matches ? "reduced"
@@ -359,6 +359,15 @@ const petalContext = petalCanvas.getContext("2d");
 if (!petalContext) console.warn("Garden petal effects are unavailable: this browser has no 2D canvas context.");
 const sceneRuntime = typeof sceneEffects === "undefined" ? null : sceneEffects;
 if (!sceneRuntime) console.warn("Painting-specific effects could not load; the paintings remain static.");
+const coastButton = sceneButtons.find((button) => button.dataset.scene === "coast");
+const coastCanvas = document.createElement("canvas");
+coastCanvas.className = "coast-waves";
+coastCanvas.width = 0;
+coastCanvas.height = 0;
+coastCanvas.setAttribute("aria-hidden", "true");
+coastButton.insertBefore(coastCanvas, coastButton.querySelector(".scene-hint"));
+const coastContext = coastCanvas.getContext("2d");
+if (!coastContext) console.warn("Shoreline effects are unavailable: this browser has no 2D canvas context.");
 const sceneSequences = new Map();
 let particles = [];
 let particleFrame = null;
@@ -372,6 +381,7 @@ function clearParticles() {
   particles = [];
   lastPetal = null;
   if (petalContext) petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
+  if (coastContext) coastContext.clearRect(0, 0, coastCanvas.width, coastCanvas.height);
 }
 
 function resizePetalCanvas() {
@@ -385,6 +395,7 @@ function resizePetalCanvas() {
 function drawParticles(now) {
   particleFrame = null;
   petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
+  if (coastContext) coastContext.clearRect(0, 0, coastCanvas.width, coastCanvas.height);
   particles = particles.filter((particle) => now - particle.born < particle.life);
   const palette = root.dataset.theme === "dark"
     ? ["#e3afae", "#a7cbb4", "#81d6db", "#edd29c"]
@@ -393,9 +404,10 @@ function drawParticles(now) {
     const age = (now - particle.born) / particle.life;
     if (age < 0) return;
     if (particle.scene) {
-      petalContext.save();
-      sceneRuntime.draw(petalContext, particle, age, root.dataset.theme === "dark");
-      petalContext.restore();
+      const context = particle.scene === "coast" ? coastContext : petalContext;
+      context.save();
+      sceneRuntime.draw(context, particle, age, root.dataset.theme === "dark");
+      context.restore();
       return;
     }
     petalContext.save();
@@ -488,13 +500,25 @@ function playPainting(button, event) {
   if (menuButton.getAttribute("aria-expanded") === "true") setMenu(false);
   pointerScrollX = window.scrollX;
   pointerScrollY = window.scrollY;
+  const scene = button.dataset.scene;
   const image = button.querySelector("img");
-  const bounds = paintingBounds(image);
-  const point = event.detail === 0
+  let bounds = paintingBounds(image);
+  let point = event.detail === 0
     ? { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 }
     : { x: event.clientX, y: event.clientY };
+  if (scene === "coast") {
+    // This layer shares the image's CSS parallax and stays behind foreground text.
+    const box = coastCanvas.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    const width = Math.round(box.width * ratio);
+    const height = Math.round(box.height * ratio);
+    if (coastCanvas.width !== width) coastCanvas.width = width;
+    if (coastCanvas.height !== height) coastCanvas.height = height;
+    coastContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    bounds = { ...bounds, x: bounds.x - box.left, y: bounds.y - box.top };
+    point = { x: point.x - box.left, y: point.y - box.top };
+  }
   const now = performance.now();
-  const scene = button.dataset.scene;
   const additions = sceneRuntime.spawn(scene, bounds, point, now);
   clearSceneSequence(button);
   // Give the painting priority over generic cursor confetti, without growing the shared pool.

@@ -333,23 +333,40 @@ const sceneEffects = (() => {
   }
 
   function coastSpawn(bounds, point, now) {
-    const impact = clamp((point.x - bounds.x) / bounds.width, 0.35, 0.82);
+    // Source-space Beziers from #coast-shoreline in art/coastal-light.svg.
+    const curves = [
+      [411, 406, 469, 408, 495, 431, 535, 450],
+      [535, 450, 578, 475, 620, 489, 670, 502],
+      [670, 502, 735, 515, 764, 533, 814, 554],
+      [814, 554, 884, 590, 945, 604, 1007, 619],
+      [1007, 619, 1088, 642, 1184, 649, 1284, 678],
+    ];
+    const sx = bounds.width / 1500;
+    const sy = bounds.height / 850;
+    const shoreline = [];
+    curves.forEach(([x0, y0, x1, y1, x2, y2, x3, y3], segment) => {
+      for (let step = segment === 0 ? 0 : 1; step <= 12; step += 1) {
+        const u = step / 12;
+        const v = 1 - u;
+        const dx = (3 * v * v * (x1 - x0) + 6 * v * u * (x2 - x1) + 3 * u * u * (x3 - x2)) * sx;
+        const dy = (3 * v * v * (y1 - y0) + 6 * v * u * (y2 - y1) + 3 * u * u * (y3 - y2)) * sy;
+        const length = Math.hypot(dx, dy);
+        shoreline.push({
+          x: bounds.x + (v ** 3 * x0 + 3 * v * v * u * x1 + 3 * v * u * u * x2 + u ** 3 * x3) * sx,
+          y: bounds.y + (v ** 3 * y0 + 3 * v * v * u * y1 + 3 * v * u * u * y2 + u ** 3 * y3) * sy,
+          nx: -dy / length,
+          ny: dx / length,
+        });
+      }
+    });
     const crests = [];
     for (let index = 0; index < 3; index += 1) {
-      const shift = -index * 0.012 + (impact - 0.55) * 0.015;
       crests.push(mk("coast", "crest", now + index * 420, 2800 + Math.random() * 160, {
-        startX: bounds.x + bounds.width * 0.53,
-        startY: bounds.y + bounds.height * (0.64 + shift),
-        ctrl1X: bounds.x + bounds.width * 0.65,
-        ctrl1Y: bounds.y + bounds.height * (0.685 + shift),
-        ctrl2X: bounds.x + bounds.width * 0.78,
-        ctrl2Y: bounds.y + bounds.height * (0.755 + shift),
-        endX: bounds.x + bounds.width * 0.96,
-        endY: bounds.y + bounds.height * (0.765 + shift),
+        shoreline,
         advance: bounds.height * 0.078,
-        drift: bounds.width * 0.025,
+        lag: index * 7 * sy,
         depth: bounds.height * 0.03,
-        ripple: bounds.height * 0.006,
+        ripple: bounds.height * 0.002,
         width: clamp(bounds.width / 320, 1.6, 3.2),
         phase: index * 1.7,
       }));
@@ -689,40 +706,38 @@ const sceneEffects = (() => {
     const t = clamp(age, 0, 1);
     const fade = envelope(t, 0.06, 0.78);
     const surge = t < 0.44 ? easeOut(t / 0.44) : 1 - smooth(0.44, 1, t);
-    const advance = surge * particle.advance;
+    const advance = (surge - 0.42) * particle.advance - particle.lag;
     const depth = particle.depth * (0.7 + surge * 0.3);
-    const edge = [];
-    for (let index = 0; index <= 32; index += 1) {
-      const u = index / 32;
-      const v = 1 - u;
-      edge.push({
-        x: v ** 3 * particle.startX + 3 * v * v * u * particle.ctrl1X
-          + 3 * v * u * u * particle.ctrl2X + u ** 3 * particle.endX - surge * particle.drift,
-        y: v ** 3 * particle.startY + 3 * v * v * u * particle.ctrl1Y
-          + 3 * v * u * u * particle.ctrl2Y + u ** 3 * particle.endY + advance
-          + Math.sin(u * TAU * 2.8 + t * 2.1 + particle.phase) * particle.ripple * Math.sin(u * Math.PI),
-      });
-    }
+    const last = particle.shoreline.length - 1;
+    const edge = particle.shoreline.map((point, index) => {
+      const u = index / last;
+      const offset = advance + Math.sin(u * TAU * 2.8 + t * 2.1 + particle.phase) * particle.ripple * Math.sin(u * Math.PI);
+      return { x: point.x + point.nx * offset, y: point.y + point.ny * offset };
+    });
     const pigment = dark ? "#8ed7d3" : "#479fae";
-    const wash = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[32].x, edge[32].y);
+    const wash = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[last].x, edge[last].y);
     wash.addColorStop(0, `${pigment}00`);
-    wash.addColorStop(0.18, `${pigment}66`);
-    wash.addColorStop(0.75, `${pigment}66`);
+    wash.addColorStop(0.18, `${pigment}40`);
+    wash.addColorStop(0.75, `${pigment}40`);
     wash.addColorStop(1, `${pigment}00`);
     ctx.globalAlpha = fade * 0.85;
     ctx.fillStyle = wash;
     ctx.beginPath();
     ctx.moveTo(edge[0].x, edge[0].y);
     edge.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
-    for (let index = 32; index >= 0; index -= 1) {
-      ctx.lineTo(edge[index].x, edge[index].y - depth * Math.sin(index / 32 * Math.PI));
+    // Keep the back of the wash in the water as the front runs onto the sand.
+    const retreat = Math.min(-particle.advance * 0.42 - particle.lag, advance - depth) - advance;
+    for (let index = last; index >= 0; index -= 1) {
+      const point = particle.shoreline[index];
+      const inset = retreat * Math.sin(index / last * Math.PI);
+      ctx.lineTo(edge[index].x + point.nx * inset, edge[index].y + point.ny * inset);
     }
     ctx.closePath();
     ctx.fill();
     ctx.globalAlpha = fade * 0.95;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    const foam = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[32].x, edge[32].y);
+    const foam = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[last].x, edge[last].y);
     // Retain the pigment RGB at transparent stops to avoid dark gradient fringes.
     foam.addColorStop(0, `${palette.ivory}00`);
     foam.addColorStop(0.18, palette.ivory);
@@ -735,9 +750,9 @@ const sceneEffects = (() => {
     edge.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
     ctx.stroke();
     ctx.fillStyle = palette.ivory;
-    for (let index = 2; index < 31; index += 2) {
+    for (let index = 2; index < last; index += 4) {
       const point = edge[index];
-      ctx.globalAlpha = fade * (0.55 + surge * 0.25) * Math.sin(index / 32 * Math.PI);
+      ctx.globalAlpha = fade * (0.55 + surge * 0.25) * Math.sin(index / last * Math.PI);
       ctx.beginPath();
       ctx.ellipse(point.x, point.y + particle.width * (1 + Math.sin(index)), particle.width * 0.55, particle.width * 0.3, -0.2, 0, TAU);
       ctx.fill();

@@ -58,6 +58,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
   a dragonfly, unfurling fern shoots, opening roses, and three staggered shoreline
   surges with a translucent teal wash and bright foam, advancing then retreating.
+  The coast follows the source SVG's `#coast-shoreline` Beziers. Its local canvas
+  shares the painting's parallax and mask, behind the page text, rather than
+  floating in the viewport overlay. Both canvases share the same capped particle
+  pool, frame loop, and cleanup. Keep the source shoreline and sampled curves in sync.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 
