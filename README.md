@@ -22,6 +22,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
+- `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
+  icons. `favicon.svg` is its optically simplified small-size companion, with
+  heavier strokes at 16px and no texture. Brand marks deliberately remain
+  consistent across identity surfaces; the no-repeat rule below applies to scenes.
+  Standard and maskable application icons are separate; maskable exports have
+  opaque full-bleed backgrounds and additional lettering clearance.
 - `art/*.svg`: seven original, code-authored nature compositions, each used in
   exactly one section: botanical still life (hero), mountain valley (Work),
   wildflower meadow (Ecosystem), water-lily pond (Research), woodland ferns
@@ -49,3 +55,12 @@ The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable
 for the current page. External fonts have system fallbacks.
 Reduced-motion preferences disable entrance/filter animation and pointer effects.
+
+## Updating identity assets
+
+Edit the two SVG masters, then run `python scripts/export_brand_icons.py` to
+regenerate PNG and ICO files directly at their target sizes. This optional
+authoring script uses Pillow, Python Playwright, and Google Chrome; none are
+needed to serve the website. Do not upscale a small PNG to create larger icons.
+When publishing new marks, update the identity cache keys in `index.html` and
+`site.webmanifest` so browsers can refresh their cached icons.

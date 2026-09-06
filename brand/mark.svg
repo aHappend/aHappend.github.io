@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="brand-title">
+  <title id="brand-title">Sufeng Guo - SG ink seal</title>
+  <defs>
+    <linearGradient id="ink" x1="18" y1="6" x2="108" y2="127" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#398d99"/><stop offset=".47" stop-color="#28768a"/><stop offset="1" stop-color="#245c71"/>
+    </linearGradient>
+    <radialGradient id="light-wash" cx="24" cy="13" r="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c4e0c9" stop-opacity=".32"/><stop offset=".62" stop-color="#a9d5cb" stop-opacity=".08"/><stop offset="1" stop-color="#a9d5cb" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pigment" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".12 .19" numOctaves="2" seed="23" result="grain"/>
+      <feColorMatrix in="grain" values="0 0 0 0 .8 0 0 0 0 .91 0 0 0 0 .83 .07 .07 .07 0 0"/>
+    </filter>
+    <clipPath id="seal-edge">
+      <path d="M35 5C53 3 76 5 94 6C112 7 122 19 122 37L121 93C121 112 109 122 90 122L35 121C17 121 6 111 5 93L6 35C6 17 17 6 35 5Z"/>
+    </clipPath>
+  </defs>
+  <g id="tile" clip-path="url(#seal-edge)">
+    <path d="M0 0H128V128H0Z" fill="url(#ink)"/>
+    <path d="M0 0H128V128H0Z" fill="url(#light-wash)"/>
+    <path d="M0 0H128V128H0Z" filter="url(#pigment)" opacity=".55"/>
+    <path d="M14 76C9 46 14 20 36 14M95 115C109 114 117 104 116 88" fill="none" stroke="#c6e1d3" stroke-width="1.5" stroke-linecap="round" opacity=".2"/>
+  </g>
+  <g id="lettering" fill="none" stroke="#fff8e8" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 39C48 29 30 30 24 42C17 55 31 60 43 64C56 68 61 76 52 86C43 97 27 94 20 84"/>
+    <path d="M106 40C98 29 82 31 73 42C62 55 65 76 78 86C90 96 106 89 106 77V65H91"/>
+    <path d="M91 65H106" stroke="#f5b787"/>
+  </g>
+</svg>
