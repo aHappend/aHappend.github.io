@@ -60,8 +60,14 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   surges with a translucent teal wash and bright foam, advancing then retreating.
   The coast follows the source SVG's `#coast-shoreline` Beziers. Its local canvas
   shares the painting's parallax and mask, behind the page text, rather than
-  floating in the viewport overlay. Both canvases share the same capped particle
+  floating in the viewport overlay.   All canvases share the same capped particle
   pool, frame loop, and cleanup. Keep the source shoreline and sampled curves in sync.
+  Ferns use a 4.8-second outward-unfurling cycle, with new branches behind the
+  unchanged central plant. Their serrated leaflets, veins, and pigment come from
+  the original SVG, not newly drawn flat icons. Regenerate the texture atlas with
+  `python scripts/export_fern_art.py` after editing the woodland source.
+  The fern layer shares the image's translation, rotation, and fit; missing
+  textures disable only this interaction and leave the original painting visible.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 

@@ -48,9 +48,11 @@ function updateSceneControls() {
     : { loading: "Loading painting", unavailable: "Painting effects unavailable", paused: "Garden effects paused", reduced: "Reduced motion" };
   sceneButtons.forEach((button) => {
     const image = button.querySelector("img");
-    const state = !sceneRuntime || !petalContext || (button === coastButton && !coastContext) ? "unavailable"
-      : !image.complete ? "loading"
-      : !image.naturalWidth ? "unavailable"
+    const layer = sceneLayers.get(button.dataset.scene);
+    const texture = button.dataset.scene === "fern" ? fernAtlas : null;
+    const state = !sceneRuntime || !petalContext || (layer && !layer.context) ? "unavailable"
+      : !image.complete || (texture && !texture.complete) ? "loading"
+      : !image.naturalWidth || (texture && !texture.naturalWidth) ? "unavailable"
       : reducedMotion.matches ? "reduced"
       : !effectsEnabled ? "paused" : "ready";
     button.disabled = state !== "ready";
@@ -359,15 +361,35 @@ const petalContext = petalCanvas.getContext("2d");
 if (!petalContext) console.warn("Garden petal effects are unavailable: this browser has no 2D canvas context.");
 const sceneRuntime = typeof sceneEffects === "undefined" ? null : sceneEffects;
 if (!sceneRuntime) console.warn("Painting-specific effects could not load; the paintings remain static.");
-const coastButton = sceneButtons.find((button) => button.dataset.scene === "coast");
-const coastCanvas = document.createElement("canvas");
-coastCanvas.className = "coast-waves";
-coastCanvas.width = 0;
-coastCanvas.height = 0;
-coastCanvas.setAttribute("aria-hidden", "true");
-coastButton.insertBefore(coastCanvas, coastButton.querySelector(".scene-hint"));
-const coastContext = coastCanvas.getContext("2d");
-if (!coastContext) console.warn("Shoreline effects are unavailable: this browser has no 2D canvas context.");
+function createPaintingLayer(scene, className, label) {
+  const button = sceneButtons.find((item) => item.dataset.scene === scene);
+  const canvas = document.createElement("canvas");
+  canvas.className = `painting-layer ${className}`;
+  canvas.width = 0;
+  canvas.height = 0;
+  canvas.setAttribute("aria-hidden", "true");
+  button.insertBefore(canvas, button.querySelector(".scene-hint"));
+  const context = canvas.getContext("2d");
+  if (!context) console.warn(`${label} effects are unavailable: this browser has no 2D canvas context.`);
+  return { button, canvas, context };
+}
+
+const sceneLayers = new Map([
+  ["coast", createPaintingLayer("coast", "coast-waves", "Shoreline")],
+  ["fern", createPaintingLayer("fern", "fern-growth", "Fern")],
+]);
+const { button: coastButton, canvas: coastCanvas, context: coastContext } = sceneLayers.get("coast");
+const fernAtlas = new Image();
+const sceneResources = {
+  fernAtlas,
+  fernOriginal: sceneLayers.get("fern").button.querySelector("img"),
+};
+fernAtlas.addEventListener("load", updateSceneControls);
+fernAtlas.addEventListener("error", () => {
+  console.warn("Fern source textures could not load; the woodland remains static.");
+  updateSceneControls();
+});
+fernAtlas.src = "art/fern-leaf-atlas.svg?v=20260906-fern-fronds";
 const sceneSequences = new Map();
 let particles = [];
 let particleFrame = null;
@@ -375,13 +397,19 @@ let lastPetal = null;
 let pointerScrollX = window.scrollX;
 let pointerScrollY = window.scrollY;
 
+function clearPaintingLayers() {
+  sceneLayers.forEach(({ canvas, context }) => {
+    if (context) context.clearRect(0, 0, canvas.width, canvas.height);
+  });
+}
+
 function clearParticles() {
   if (particleFrame !== null) cancelAnimationFrame(particleFrame);
   particleFrame = null;
   particles = [];
   lastPetal = null;
   if (petalContext) petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
-  if (coastContext) coastContext.clearRect(0, 0, coastCanvas.width, coastCanvas.height);
+  clearPaintingLayers();
 }
 
 function resizePetalCanvas() {
@@ -395,8 +423,11 @@ function resizePetalCanvas() {
 function drawParticles(now) {
   particleFrame = null;
   petalContext.clearRect(0, 0, root.clientWidth, window.innerHeight);
-  if (coastContext) coastContext.clearRect(0, 0, coastCanvas.width, coastCanvas.height);
+  clearPaintingLayers();
   particles = particles.filter((particle) => now - particle.born < particle.life);
+  sceneLayers.forEach(({ button }, scene) => {
+    if (sceneSequences.has(button) && !particles.some((particle) => particle.scene === scene)) clearSceneSequence(button);
+  });
   const palette = root.dataset.theme === "dark"
     ? ["#e3afae", "#a7cbb4", "#81d6db", "#edd29c"]
     : ["#bb7888", "#688f75", "#388fa9", "#bf975d"];
@@ -404,9 +435,10 @@ function drawParticles(now) {
     const age = (now - particle.born) / particle.life;
     if (age < 0) return;
     if (particle.scene) {
-      const context = particle.scene === "coast" ? coastContext : petalContext;
+      const layer = sceneLayers.get(particle.scene);
+      const context = layer ? layer.context : petalContext;
       context.save();
-      sceneRuntime.draw(context, particle, age, root.dataset.theme === "dark");
+      sceneRuntime.draw(context, particle, age, root.dataset.theme === "dark", sceneResources);
       context.restore();
       return;
     }
@@ -483,12 +515,15 @@ function clearSceneSequence(button) {
   button.classList.remove("is-playing");
 }
 
-function paintingBounds(image) {
-  const box = image.getBoundingClientRect();
+function paintingBounds(image, local = false) {
+  const style = getComputedStyle(image);
+  const box = local
+    ? { left: 0, top: 0, width: parseFloat(style.width), height: parseFloat(style.height) }
+    : image.getBoundingClientRect();
   const scale = Math.min(box.width / image.naturalWidth, box.height / image.naturalHeight);
   const width = image.naturalWidth * scale;
   const height = image.naturalHeight * scale;
-  const [alignX, alignY] = getComputedStyle(image).objectPosition.split(" ").map((value) => parseFloat(value) / 100);
+  const [alignX, alignY] = style.objectPosition.split(" ").map((value) => parseFloat(value) / 100);
   return { x: box.left + (box.width - width) * alignX, y: box.top + (box.height - height) * alignY, width, height };
 }
 
@@ -502,21 +537,20 @@ function playPainting(button, event) {
   pointerScrollY = window.scrollY;
   const scene = button.dataset.scene;
   const image = button.querySelector("img");
-  let bounds = paintingBounds(image);
-  let point = event.detail === 0
+  const layer = sceneLayers.get(scene);
+  const bounds = paintingBounds(image, Boolean(layer));
+  const point = event.detail === 0 || layer
     ? { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 }
     : { x: event.clientX, y: event.clientY };
-  if (scene === "coast") {
-    // This layer shares the image's CSS parallax and stays behind foreground text.
-    const box = coastCanvas.getBoundingClientRect();
+  if (layer) {
+    // Size in untransformed coordinates; CSS moves the image and its layer together.
+    const style = getComputedStyle(layer.canvas);
     const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-    const width = Math.round(box.width * ratio);
-    const height = Math.round(box.height * ratio);
-    if (coastCanvas.width !== width) coastCanvas.width = width;
-    if (coastCanvas.height !== height) coastCanvas.height = height;
-    coastContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-    bounds = { ...bounds, x: bounds.x - box.left, y: bounds.y - box.top };
-    point = { x: point.x - box.left, y: point.y - box.top };
+    const width = Math.round(parseFloat(style.width) * ratio);
+    const height = Math.round(parseFloat(style.height) * ratio);
+    if (layer.canvas.width !== width) layer.canvas.width = width;
+    if (layer.canvas.height !== height) layer.canvas.height = height;
+    layer.context.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
   const now = performance.now();
   const additions = sceneRuntime.spawn(scene, bounds, point, now);
@@ -525,7 +559,7 @@ function playPainting(button, event) {
   particles = particles.filter((particle) => particle.scene && particle.scene !== scene).concat(additions).slice(-64);
   lastPetal = null;
   const animations = [];
-  const sway = { botanical: 1.2, meadow: .5, fern: .7, rose: .9 }[scene];
+  const sway = { botanical: 1.2, meadow: .5, rose: .9 }[scene];
   if (sway) {
     animations.push(image.animate(
       [{ rotate: "0deg" }, { rotate: `${-sway}deg` }, { rotate: `${sway * .7}deg` }, { rotate: "0deg" }],

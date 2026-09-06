@@ -94,7 +94,7 @@ html[data-enhanced] .enhanced-control { display: flex; }
 }
 main { position: relative; isolation: isolate; overflow: clip; }
 .garden-particles { position: fixed; z-index: 105; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-html[data-effects="off"] .garden-particles, html[data-effects="off"] .coast-waves { display: none; }
+html[data-effects="off"] .garden-particles, html[data-effects="off"] .painting-layer { display: none; }
 .reading-progress {
   position: fixed;
   z-index: 110;
@@ -443,6 +443,9 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .about-title { position: relative; }
 .scene-fern { width: calc(100% + 90px); height: 370px; margin: 18px 0 -10px -70px; }
 .scene-fern > img { opacity: .88; }
+.fern-growth { opacity: .88; visibility: hidden; }
+.scene-fern.is-playing > img { opacity: 0; }
+.scene-fern.is-playing .fern-growth { visibility: visible; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
 .about-columns { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; padding-top: 28px; border-top: 1px solid var(--line); }
 .about-columns h3, .about-next h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
@@ -475,7 +478,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-coast { position: absolute; z-index: -1; inset: -50px -23% -20px 10%; width: 113%; height: calc(100% + 70px); }
 .scene-coast > img, .coast-waves { mask-image: linear-gradient(90deg, transparent, #000 52%); }
 .scene-coast > img { opacity: .52; }
-.coast-waves { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.painting-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .scene-coast .scene-hint { left: 55%; bottom: 15%; }
 .contact-section > .mono { margin-bottom: 34px; color: var(--rust); }
 .contact-section h2 { max-width: 1080px; font-size: clamp(48px, 6.1vw, 88px); }
@@ -505,11 +508,11 @@ footer a:hover { color: var(--accent); }
 .pointer-lit::after { opacity: 1; }
 .pointer-lit { z-index: 2; transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-5px); box-shadow: 0 16px 32px -18px rgba(35, 125, 167, .45); }
 .repo-logo-card:focus-visible::after, .social-card:focus-visible::after, .publication:focus-visible::after { opacity: .65; }
-.scene-aside > img, .scene-fern > img, .work-landscape > img, .scene-coast > img, .coast-waves {
+.scene-aside > img, .scene-fern > img, .work-landscape > img, .scene-coast > img, .painting-layer {
   transform: translate(calc(var(--paint-x, 0px) * .7), calc(var(--paint-y, 0px) * .6));
   transition: transform 650ms cubic-bezier(.2, .7, .3, 1);
 }
-.scene-fern > img { transform: translate(var(--paint-x, 0px), var(--paint-y, 0px)) rotate(var(--paint-turn, 0deg)); transform-origin: 50% 90%; }
+.scene-fern > img, .fern-growth { transform: translate(var(--paint-x, 0px), var(--paint-y, 0px)) rotate(var(--paint-turn, 0deg)); transform-origin: 50% 90%; }
 .button, .theme-toggle, .lang-toggle, .filter { translate: var(--magnet-x, 0px) var(--magnet-y, 0px); transition: translate 180ms ease-out, background 180ms, box-shadow 200ms, color 180ms, border-color 180ms; }
 
 /* Content is visible without JS; only observed, below-fold elements opt in. */
@@ -535,7 +538,7 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
 }
 html[data-effects="off"] .hero-watercolor img,
 html[data-effects="off"] .garden-butterfly,
-html[data-effects="off"] .scene-art > img, html[data-effects="off"] .coast-waves { transition: none; }
+html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-layer { transition: none; }
 @media (min-width: 1600px) {
   .hero-copy { padding-block: 80px; }
 }
@@ -748,8 +751,8 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .coast-waves
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal-ready]:not(.visible):not(:focus-within) { opacity: 1; translate: none; }
-  .hero-watercolor img, .garden-butterfly, .scene-art > img, .coast-waves { transform: none; }
-  .garden-particles, .coast-waves { display: none; }
+  .hero-watercolor img, .garden-butterfly, .scene-art > img, .painting-layer { transform: none; }
+  .garden-particles, .painting-layer { display: none; }
   .project-featured:hover .chip { transform: rotate(-12deg); }
 }
 @media print {

@@ -275,21 +275,33 @@ const sceneEffects = (() => {
   }
 
   function fernSpawn(bounds, point, now) {
-    const bases = [0.46, 0.53, 0.6].map((nx, index) => ({
-      x: bounds.x + bounds.width * nx,
-      y: bounds.y + bounds.height * (0.865 + index * 0.002),
-    }));
-    const focus = pickNearestAnchor(point, bases);
-    return bases.map((base, index) => mk("fern", "shoot", now + index * 122, 2420 + Math.random() * 500, {
-      baseX: base.x,
-      baseY: base.y,
-      lean: (point.x - base.x) * 0.05 + (index - 1) * bounds.width * 0.012 + (Math.random() - 0.5) * bounds.width * 0.02,
-      rise: bounds.height * (0.16 + Math.random() * 0.05),
-      curlDir: index === focus.index ? 1 : index % 2 === 0 ? -1 : 1,
-      curl: bounds.width * (0.022 + Math.random() * 0.01),
-      leaflets: 5 + index,
-      seed: Math.random() * TAU,
-    }));
+    return [mk("fern", "shoot", now, 4800, {
+      bounds,
+      branches: [
+        {
+          base: [405, 915], delay: 0, leafSize: 100,
+          closed: [
+            [386, 908, 350, 905, 324, 891], [310, 883, 298, 870, 305, 859],
+            [312, 849, 327, 858, 322, 867], [319, 874, 311, 871, 314, 866],
+          ],
+          unfolded: [
+            [370, 899, 318, 891, 272, 867], [222, 843, 185, 792, 151, 745],
+            [124, 711, 103, 677, 81, 655], [71, 645, 63, 638, 57, 635],
+          ],
+        },
+        {
+          base: [439, 920], delay: 0.07, leafSize: 110,
+          closed: [
+            [466, 918, 497, 916, 518, 901], [532, 890, 537, 874, 526, 868],
+            [514, 861, 505, 874, 513, 881], [518, 885, 524, 881, 520, 877],
+          ],
+          unfolded: [
+            [487, 918, 554, 913, 609, 875], [668, 836, 708, 774, 738, 724],
+            [762, 686, 780, 649, 791, 625], [795, 615, 798, 606, 800, 598],
+          ],
+        },
+      ],
+    })];
   }
 
   function roseSpawn(bounds, point, now) {
@@ -564,67 +576,78 @@ const sceneEffects = (() => {
     }
   }
 
-  function drawFern(ctx, particle, age, dark) {
-    const palette = themePalette(dark);
-    const t = clamp(age, 0, 1);
-    const fade = envelope(t, 0.1, 0.9);
-    const g = easeOut(t);
-    const tipX = particle.baseX + particle.lean * g;
-    const tipY = particle.baseY - particle.rise * g;
-    const controlX = particle.baseX + particle.lean * 0.42 + Math.sin(t * TAU * 1.1 + particle.seed) * particle.curl * 0.12;
-    const controlY = particle.baseY - particle.rise * 0.58;
-    ctx.globalAlpha = fade;
+  function drawFernBranch(ctx, branch, t, atlas) {
+    const open = smooth(0.02 + branch.delay, 0.62 + branch.delay, t) * (1 - smooth(0.8, 1, t));
+    const live = smooth(0, 0.2, open) * 0.9;
+    const curves = branch.closed.map((curve, i) => curve.map((value, j) => lerp(value, branch.unfolded[i][j], open)));
+    const nodes = [{ x: branch.base[0], y: branch.base[1], distance: 0 }];
+    let start = nodes[0];
+    ctx.beginPath();
+    ctx.moveTo(start.x, start.y);
+    curves.forEach(([x1, y1, x2, y2, x3, y3]) => {
+      ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+      for (let step = 1; step <= 16; step += 1) {
+        const u = step / 16;
+        const v = 1 - u;
+        const x = v ** 3 * start.x + 3 * v * v * u * x1 + 3 * v * u * u * x2 + u ** 3 * x3;
+        const y = v ** 3 * start.y + 3 * v * v * u * y1 + 3 * v * u * u * y2 + u ** 3 * y3;
+        const previous = nodes[nodes.length - 1];
+        nodes.push({ x, y, distance: previous.distance + Math.hypot(x - previous.x, y - previous.y) });
+      }
+      start = { x: x3, y: y3 };
+    });
+    ctx.globalAlpha = live;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.strokeStyle = dark ? palette.moss : palette.shadow;
-    ctx.lineWidth = 0.9 + particle.curl * 0.045;
-    ctx.beginPath();
-    ctx.moveTo(particle.baseX, particle.baseY);
-    ctx.quadraticCurveTo(controlX, controlY, tipX, tipY);
+    ctx.strokeStyle = "#65846c";
+    ctx.lineWidth = 6;
     ctx.stroke();
-    const leafletOpen = smooth(0.12, 0.82, t);
-    const leafletCount = particle.leaflets;
-    for (let index = 0; index < leafletCount; index += 1) {
-      const u = (index + 1) / (leafletCount + 1);
-      const grown = clamp((t - u * 0.38) / 0.38, 0, 1);
-      if (grown <= 0) continue;
-      const pos = quadPoint(particle.baseX, particle.baseY, controlX, controlY, tipX, tipY, u);
-      const len = particle.curl * (0.7 + grown) * (1.2 - u * 0.4);
+    const pigment = ctx.createLinearGradient(500, 420, 465, 900);
+    pigment.addColorStop(0, "#bcbea0");
+    pigment.addColorStop(0.42, "#a4b092");
+    pigment.addColorStop(1, "#517b68");
+    ctx.strokeStyle = pigment;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.strokeStyle = "#d2ccb0";
+    ctx.globalAlpha = live * 0.4;
+    ctx.lineWidth = 0.9;
+    ctx.stroke();
+
+    const length = nodes[nodes.length - 1].distance;
+    for (let index = 0; index < 11; index += 1) {
       for (const side of [-1, 1]) {
+        const u = 0.4 + index / 10 * 0.53 + (side > 0 ? 0.008 : 0);
+        const spread = smooth(0.08 + u * 0.45, 0.28 + u * 0.55, open);
+        if (spread === 0) continue;
+        const distance = u * length;
+        const end = nodes.findIndex((node) => node.distance >= distance);
+        const a = nodes[end - 1];
+        const b = nodes[end];
+        const mix = (distance - a.distance) / (b.distance - a.distance);
+        const angle = Math.atan2(b.y - a.y, b.x - a.x);
+        const variant = (index + (side > 0 ? 1 : 0)) % 3;
+        const size = branch.leafSize * Math.sin((u - 0.2) / 0.8 * Math.PI) ** 0.8 * (0.88 + Math.sin(index * 2.7) * 0.08);
+        const scale = size / (variant === 1 ? 145 : 128) * (0.22 + spread * 0.78);
         ctx.save();
-        ctx.translate(pos.x, pos.y);
-        ctx.rotate(side * (0.65 + leafletOpen * 0.55));
-        ctx.globalAlpha = fade * grown * 0.9;
-        ctx.fillStyle = side < 0 ? palette.sage : palette.moss;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.bezierCurveTo(-len * 0.25, -len * 0.3, -len * 0.22, -len * 0.72, 0, -len);
-        ctx.bezierCurveTo(len * 0.25, -len * 0.65, len * 0.28, -len * 0.2, 0, 0);
-        ctx.fill();
-        ctx.globalAlpha *= 0.4;
-        ctx.strokeStyle = palette.ivory;
-        ctx.lineWidth = 0.6;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, -len * 0.8);
-        ctx.stroke();
+        ctx.translate(lerp(a.x, b.x, mix), lerp(a.y, b.y, mix));
+        ctx.rotate(angle + side * (0.47 + spread * 1.05));
+        ctx.scale(scale, side * scale * (0.18 + spread * 0.82));
+        ctx.globalAlpha = live * spread * 0.94;
+        ctx.drawImage(atlas, variant * 352, 0, 352, 184, -12, -68, 176, 92);
         ctx.restore();
       }
     }
-    ctx.save();
-    ctx.translate(tipX, tipY);
-    ctx.rotate(particle.curlDir * 0.12 + Math.sin(t * TAU * 0.8 + particle.seed) * 0.12);
-    ctx.globalAlpha = fade;
-    ctx.strokeStyle = palette.moss;
-    ctx.lineWidth = 1.15;
-    const coil = particle.curl * (1.1 - g * 0.72);
-    ctx.beginPath();
-    ctx.arc(0, 0, coil * 0.88, Math.PI * 0.05, Math.PI * (1.55 - g * 0.95), false);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(coil * 0.32 * particle.curlDir, coil * 0.06, coil * 0.42, Math.PI * 0.9, Math.PI * 3.1, true);
-    ctx.stroke();
-    ctx.restore();
+  }
+
+  function drawFern(ctx, particle, age, resources) {
+    const { bounds } = particle;
+    ctx.translate(bounds.x, bounds.y);
+    ctx.scale(bounds.width / 850, bounds.height / 1000);
+    particle.branches.forEach((branch) => drawFernBranch(ctx, branch, clamp(age, 0, 1), resources.fernAtlas));
+    // New foliage fans out behind the original plant; its center stays unobscured.
+    ctx.globalAlpha = 1;
+    ctx.drawImage(resources.fernOriginal, 0, 0, 850, 1000);
   }
 
   function drawRoseBloom(ctx, particle, age, dark) {
@@ -770,7 +793,7 @@ const sceneEffects = (() => {
     drawSparkle(ctx, particle.size * shimmer * 2.2, dark ? palette.apricot : palette.ochre, 0.9);
   }
 
-  function draw(ctx, particle, age, dark) {
+  function draw(ctx, particle, age, dark, resources) {
     if (!particle || typeof particle !== "object") fail("draw", "particle must be an object");
     if (!SCENES.has(particle.scene)) fail("draw", `particle.scene must be one of ${[...SCENES].join(", ")}`);
     if (typeof particle.kind !== "string") fail("draw", "particle.kind must be a string");
@@ -793,7 +816,8 @@ const sceneEffects = (() => {
         break;
       case "fern":
         if (particle.kind !== "shoot") fail("draw", "fern particles must use kind \"shoot\"");
-        return drawFern(ctx, particle, age, dark);
+        if (!resources?.fernAtlas || !resources.fernOriginal) fail("draw", "fern source artwork is required");
+        return drawFern(ctx, particle, age, resources);
       case "rose":
         if (particle.kind === "bloom") return drawRoseBloom(ctx, particle, age, dark);
         if (particle.kind === "petal") return drawRosePetal(ctx, particle, age, dark);
