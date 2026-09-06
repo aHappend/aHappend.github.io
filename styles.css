@@ -11,9 +11,6 @@
   --button-bg: #72d3fa;
   --button-ink: #082f43;
   --button-hover: #a7e7ff;
-  --wash-blue: rgba(114, 211, 250, .22);
-  --wash-cyan: rgba(110, 231, 238, .13);
-  --wash-violet: rgba(133, 104, 208, .09);
   --font-sans: "Manrope", "Noto Sans SC", sans-serif;
   --font-display: "Newsreader", "Noto Serif SC", Georgia, serif;
   --font-mono: "DM Mono", "Noto Sans SC", monospace;
@@ -35,9 +32,6 @@ html[data-theme="dark"] {
   --button-bg: #d9ff43;
   --button-ink: #081018;
   --button-hover: #e7ff8e;
-  --wash-blue: rgba(61, 161, 219, .12);
-  --wash-cyan: rgba(91, 220, 230, .08);
-  --wash-violet: rgba(157, 120, 230, .1);
   color-scheme: dark;
 }
 
@@ -46,18 +40,23 @@ html { scroll-behavior: smooth; scroll-padding-top: 110px; scrollbar-gutter: sta
 body {
   isolation: isolate;
   margin: 0;
-  background:
-    radial-gradient(circle at 8% 20%, var(--wash-blue), transparent 28%),
-    radial-gradient(circle at 88% 55%, var(--wash-cyan), transparent 25%),
-    radial-gradient(circle at 58% 85%, var(--wash-violet), transparent 35%),
-    var(--paper);
-  background-attachment: fixed;
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: url("art/paper-washes.svg?v=20260906-watercolor-paper") center / max(760px, 100%) 100% no-repeat;
+  opacity: .48;
+}
+html[data-theme="dark"] body::before { opacity: .22; }
 ::selection { color: var(--paper); background: var(--accent); }
 a { color: inherit; text-decoration: none; }
 button { color: inherit; font: inherit; cursor: pointer; }
@@ -757,6 +756,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .project-featured:hover .chip { transform: rotate(-12deg); }
 }
 @media print {
+  body::before { display: none; }
   .site-header, .noise, .reading-progress, .scene-art, .garden-particles, .discipline-strip, .enhanced-control, .contact-actions, footer { display: none !important; }
   :root, html[data-theme="dark"] { --paper: white; --ink: black; --muted: #444; --accent: #333; --rust: #333; --line: #bbb; --surface: white; --gutter: 0px; }
   body { background: white; }

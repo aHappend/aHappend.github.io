@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1100" viewBox="0 0 1400 1100" preserveAspectRatio="none">
+  <defs>
+    <filter id="wet-paper" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".013 .019" numOctaves="3" seed="23" result="water"/>
+      <feDisplacementMap in="SourceGraphic" in2="water" scale="48" xChannelSelector="R" yChannelSelector="G" result="bleed"/>
+      <feGaussianBlur in="bleed" stdDeviation="1.4" result="soft"/>
+      <feGaussianBlur in="bleed" stdDeviation="14" result="diffusion"/>
+      <feComposite in="soft" in2="diffusion" operator="arithmetic" k2=".3" k3=".7" result="pigment"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".52" numOctaves="3" seed="71" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .65 0 0 0 .35" result="paper"/>
+      <feComposite in="pigment" in2="paper" operator="in"/>
+    </filter>
+    <radialGradient id="blue" gradientUnits="userSpaceOnUse" cx="55" cy="340" r="660" gradientTransform="translate(0 -45) scale(1 1.12)">
+      <stop stop-color="#579dbf" stop-opacity=".7"/>
+      <stop offset=".48" stop-color="#80c5df" stop-opacity=".43"/>
+      <stop offset="1" stop-color="#99cede" stop-opacity=".03"/>
+    </radialGradient>
+    <radialGradient id="cyan" gradientUnits="userSpaceOnUse" cx="1330" cy="290" r="620">
+      <stop stop-color="#63b9bb" stop-opacity=".65"/>
+      <stop offset=".55" stop-color="#8ccfce" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#acdadd" stop-opacity=".02"/>
+    </radialGradient>
+    <radialGradient id="violet" gradientUnits="userSpaceOnUse" cx="1115" cy="1095" r="670">
+      <stop stop-color="#9997c3" stop-opacity=".53"/>
+      <stop offset=".62" stop-color="#b3b8d6" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#bac4de" stop-opacity=".01"/>
+    </radialGradient>
+    <radialGradient id="ochre" gradientUnits="userSpaceOnUse" cx="70" cy="1080" r="500">
+      <stop stop-color="#cb9c7d" stop-opacity=".43"/>
+      <stop offset=".58" stop-color="#d5b596" stop-opacity=".21"/>
+      <stop offset="1" stop-color="#dec8b2" stop-opacity=".01"/>
+    </radialGradient>
+    <radialGradient id="backrun">
+      <stop stop-color="#000" stop-opacity=".68"/>
+      <stop offset=".72" stop-color="#000" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="water-blooms" maskUnits="userSpaceOnUse" x="-100" y="-100" width="1600" height="1300">
+      <path fill="#fff" d="M-100-100H1500V1200H-100Z"/>
+      <ellipse cx="185" cy="360" rx="200" ry="135" fill="url(#backrun)"/>
+      <ellipse cx="1220" cy="250" rx="155" ry="220" fill="url(#backrun)"/>
+      <ellipse cx="1015" cy="980" rx="245" ry="110" fill="url(#backrun)"/>
+      <ellipse cx="110" cy="1040" rx="125" ry="110" fill="url(#backrun)"/>
+    </mask>
+  </defs>
+  <g filter="url(#wet-paper)">
+    <g mask="url(#water-blooms)">
+      <path fill="url(#blue)" d="M-120-100C48-63 108 44 183 67 284 98 304 207 371 239 431 267 424 337 490 355 589 384 543 472 588 534 618 584 535 625 457 606 391 588 359 672 280 641 207 614 178 739 67 698-38 659-95 767-120 722Z"/>
+      <path fill="url(#blue)" opacity=".45" d="M-110 54C29 106 105 40 194 169 232 224 192 288 292 330 352 355 387 396 346 448 295 512 386 548 304 588 225 625 162 556 98 612 7 692-43 602-110 646Z"/>
+      <path fill="url(#cyan)" d="M1490-100H1084C1123 13 980 51 1006 143 1025 212 866 195 891 287 916 378 780 357 774 437 764 516 872 488 901 549 941 635 1042 562 1091 621 1160 705 1235 606 1300 653 1370 703 1436 580 1490 596Z"/>
+      <path fill="url(#cyan)" opacity=".4" d="M1490 32C1382 94 1311 51 1224 136 1179 180 1223 224 1153 269 1086 312 1142 363 1078 407 1006 456 1129 499 1113 558 1184 576 1220 534 1274 567 1344 611 1431 532 1490 548Z"/>
+      <path fill="url(#violet)" d="M1510 1230H520C527 1135 656 1138 637 1058 617 976 731 1004 736 914 741 843 862 900 898 818 934 735 1045 822 1089 752 1144 667 1231 759 1301 719 1395 665 1440 756 1510 713Z"/>
+      <path fill="url(#violet)" opacity=".34" d="M1520 1220H838C778 1121 894 1119 871 1046 847 969 979 979 981 912 983 851 1083 904 1120 849 1177 764 1257 848 1324 806 1404 756 1484 815 1520 794Z"/>
+      <path fill="url(#ochre)" d="M-110 741C6 815 81 735 125 814 165 884 249 809 273 907 293 987 391 907 423 1005 445 1071 507 1080 476 1230H-110Z"/>
+    </g>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="#639db7" stroke-opacity=".12" stroke-width="3" d="M-25 611C56 655 81 595 145 628 203 658 214 588 279 613 348 640 357 568 414 583"/>
+      <path stroke="#74acae" stroke-opacity=".12" stroke-width="3.5" d="M1024 166C1018 224 903 213 920 278 940 349 848 353 832 400"/>
+      <path stroke="#a09abb" stroke-opacity=".1" stroke-width="4" d="M869 889C915 872 887 817 952 822 1013 827 1028 870 1090 797 1124 758 1174 797 1206 779"/>
+      <path stroke="#bdab96" stroke-opacity=".08" stroke-width="3" d="M24 841C88 798 126 864 133 906 145 960 208 929 242 950"/>
+    </g>
+  </g>
+</svg>

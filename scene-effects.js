@@ -191,33 +191,54 @@ const sceneEffects = (() => {
   }
 
   function mountainSpawn(bounds, point, now) {
-    const focus = clampPointToRegion(point, bounds, 0.2, 0.75, 0.22, 0.4);
-    const spread = bounds.width * (0.28 + Math.random() * 0.14);
-    const baseY = focus.y + bounds.height * (Math.random() * 0.03 - 0.015);
-    const birds = [];
-    for (let index = 0; index < 7; index += 1) {
-      const t = index / 6;
-      const startX = clamp(
-        focus.x - spread * 0.5 + spread * t + (Math.random() - 0.5) * bounds.width * 0.04,
-        bounds.x + bounds.width * 0.18,
-        bounds.x + bounds.width * 0.76
-      );
-      const startY = clamp(
-        baseY + (t - 0.5) * bounds.height * 0.05 + (Math.random() - 0.5) * bounds.height * 0.025,
-        bounds.y + bounds.height * 0.2,
-        bounds.y + bounds.height * 0.4
-      );
-      const endX = clamp(startX + bounds.width * (0.18 + Math.random() * 0.16), bounds.x + bounds.width * 0.2, bounds.x + bounds.width * 0.83);
-      const endY = clamp(startY - bounds.height * (0.02 + Math.random() * 0.05), bounds.y + bounds.height * 0.16, bounds.y + bounds.height * 0.36);
-      birds.push(mk("mountain", "bird", now + index * 88, 1880 + Math.random() * 540, {
-        startX, startY, ctrlX: lerp(startX, endX, 0.52) + (Math.random() - 0.5) * bounds.width * 0.03,
-        ctrlY: Math.min(startY, endY) - bounds.height * (0.06 + Math.random() * 0.07),
-        endX, endY,
-        span: bounds.width * (0.018 + Math.random() * 0.008),
-        seed: Math.random() * TAU,
-      }));
-    }
-    return birds;
+    const formation = [
+      [0, 0, 0.8], [-0.075, -0.07, 0.58], [-0.155, -0.105, 0.4],
+      [-0.065, 0.085, 1], [-0.15, 0.14, 0.7],
+    ];
+    return formation.map(([dx, dy, depth], index) =>
+      mk("mountain", "bird", now + index * 45, 4000, {
+        startX: bounds.x + bounds.width * (0.28 + dx),
+        startY: bounds.y + bounds.height * (0.37 + dy),
+        ctrlX: bounds.x + bounds.width * (0.57 + dx),
+        ctrlY: bounds.y + bounds.height * (0.16 + dy),
+        endX: bounds.x + bounds.width * (0.91 + dx),
+        endY: bounds.y + bounds.height * (0.25 + dy),
+        span: bounds.width * (0.008 + depth * 0.018),
+        depth, phase: index * 0.57, beats: 3.2 + index * 0.12,
+        bank: (index % 2 ? -1 : 1) * 0.12,
+      })
+    );
+  }
+
+  function birdWing(ctx, side, spread, near, dark) {
+    ctx.save();
+    ctx.scale(side * spread * (near ? 1 : 0.78), near ? 1 : 0.87);
+    ctx.beginPath();
+    ctx.moveTo(1, -4);
+    ctx.bezierCurveTo(9, -10, 16, -11, 22, -4);
+    ctx.bezierCurveTo(28, 1, 31, 7, 33, 14);
+    ctx.bezierCurveTo(28, 10, 25, 8, 21, 7);
+    ctx.lineTo(23, 12);
+    ctx.lineTo(18, 8);
+    ctx.lineTo(19, 12);
+    ctx.lineTo(14, 7);
+    ctx.bezierCurveTo(10, 5, 6, 5, 1, 4);
+    ctx.closePath();
+    const wash = ctx.createLinearGradient(3, -7, 30, 12);
+    wash.addColorStop(0, dark ? "#c1cbbd" : "#8da49e");
+    wash.addColorStop(0.48, dark ? "#9eafa7" : "#627e7d");
+    wash.addColorStop(1, dark ? "#819d99" : "#486b70");
+    ctx.fillStyle = wash;
+    ctx.globalAlpha *= near ? 1 : 0.7;
+    ctx.fill();
+    ctx.globalAlpha *= 0.3;
+    ctx.strokeStyle = dark ? "#e7e5d0" : "#d2d9c4";
+    ctx.lineWidth = 0.85;
+    ctx.beginPath();
+    ctx.moveTo(4, -4);
+    ctx.bezierCurveTo(12, -8, 20, -5, 27, 5);
+    ctx.stroke();
+    ctx.restore();
   }
 
   function meadowSpawn(bounds, point, now) {
@@ -437,30 +458,54 @@ const sceneEffects = (() => {
   }
 
   function drawBird(ctx, particle, age, dark) {
-    const palette = themePalette(dark);
     const t = clamp(age, 0, 1);
-    const fade = envelope(t, 0.1, 0.92);
-    const p = easeOut(t);
+    const fade = envelope(t, 0.07, 0.87) * (0.5 + particle.depth * 0.34);
+    const p = t + Math.sin(t * Math.PI) * 0.025;
     const pos = quadPoint(particle.startX, particle.startY, particle.ctrlX, particle.ctrlY, particle.endX, particle.endY, p);
-    const flap = Math.sin(t * TAU * 3.4 + particle.seed) * 0.5;
-    const s = particle.span * (0.72 + 0.2 * (1 - t));
+    const dx = (1 - p) * (particle.ctrlX - particle.startX) + p * (particle.endX - particle.ctrlX);
+    const dy = (1 - p) * (particle.ctrlY - particle.startY) + p * (particle.endY - particle.ctrlY);
+    // A short, individually phased wingbeat burst alternates with a longer glide.
+    const cycle = (t * particle.life / 1000 + particle.phase) % 2.5;
+    const effort = smooth(0, 0.12, cycle) * (1 - smooth(0.75, 1.1, cycle));
+    const spread = 1 - effort * (0.38 + Math.sin(cycle * TAU * particle.beats) * 0.38);
+    const bank = particle.bank + Math.sin(t * Math.PI * 1.6 + particle.phase) * 0.1;
+    const size = particle.span / 33 * (1 - t * 0.18);
     ctx.globalAlpha = fade;
     ctx.translate(pos.x, pos.y);
+    ctx.rotate(Math.atan2(dy, dx) + Math.PI / 2 + bank);
+    ctx.scale(size, size);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.strokeStyle = dark ? palette.ivory : palette.shadow;
-    ctx.lineWidth = 1.1 + s * 0.06;
+    ctx.fillStyle = dark ? "#95aaa3" : "#5b7576";
     ctx.beginPath();
-    ctx.moveTo(-s, 0);
-    ctx.quadraticCurveTo(-s * 0.25, -s * (0.32 + flap * 0.26), 0, 0);
-    ctx.quadraticCurveTo(s * 0.25, -s * (0.32 + flap * 0.26), s, 0);
-    ctx.stroke();
-    ctx.globalAlpha *= 0.55;
-    ctx.lineWidth = 0.85 + s * 0.03;
+    ctx.moveTo(-2, 6);
+    ctx.lineTo(-5.5, 23);
+    ctx.lineTo(0, 16);
+    ctx.lineTo(5.5, 23);
+    ctx.lineTo(2, 6);
+    ctx.closePath();
+    ctx.fill();
+    birdWing(ctx, -1, spread, false, dark);
+    const body = ctx.createLinearGradient(-3, -7, 3, 7);
+    body.addColorStop(0, dark ? "#b7c4b7" : "#718b86");
+    body.addColorStop(0.46, dark ? "#dedfca" : "#c0c7b3");
+    body.addColorStop(1, dark ? "#91a69e" : "#5b7777");
+    ctx.fillStyle = body;
     ctx.beginPath();
-    ctx.moveTo(-s * 0.15, 0);
-    ctx.lineTo(s * 0.08, s * 0.12);
-    ctx.stroke();
+    ctx.moveTo(0, -12);
+    ctx.bezierCurveTo(-3.5, -11, -4, 2, -1.8, 10);
+    ctx.lineTo(0, 14);
+    ctx.lineTo(1.8, 10);
+    ctx.bezierCurveTo(4, 2, 3.5, -11, 0, -12);
+    ctx.fill();
+    birdWing(ctx, 1, spread, true, dark);
+    ctx.fillStyle = dark ? "#9aab9e" : "#6a7c72";
+    ctx.beginPath();
+    ctx.moveTo(-1.3, -11);
+    ctx.lineTo(0, -16);
+    ctx.lineTo(1.3, -11);
+    ctx.closePath();
+    ctx.fill();
   }
 
   function drawTuft(ctx, particle, age, dark) {

@@ -40,6 +40,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   of readable text and controls. Each painting appears exactly once inside an
   accessible `.scene-art` button; the image itself never intercepts pointer input.
   The chip graphic remains conceptual, not a die photograph or physical-layout result.
+- `art/paper-washes.svg`: a separate, original full-page paper treatment, not an
+  eighth scene. Blue/cyan washes, a little violet and warm ochre, translucent
+  water blooms, irregular pigment edges, and fine granulation replace smooth
+  background gradients. A single static, non-interactive CSS layer sits behind
+  all content, with quieter dark-theme opacity and no printed background.
+  Keep the reading area light and leave the seven scene compositions untouched.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls, mobile navigation, animated accessible
   project filters, section reveals, layered illustration parallax, a fluttering
@@ -73,6 +79,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   pads, or reeds. Regenerate that mask with `python scripts/export_pond_mask.py`
   after changing the pond artwork. The pond layer follows the image's parallax
   and draws the dragonfly after masking the water.
+  Mountain birds are five shaded, fork-tailed silhouettes in a loose formation,
+  with different depths and wingbeat phases. Short wingbeat bursts alternate
+  with gliding along a shared valley arc; the flock stays in an image-local layer.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 

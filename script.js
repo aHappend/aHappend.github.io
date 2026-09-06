@@ -376,6 +376,7 @@ function createPaintingLayer(scene, className, label) {
 }
 
 const sceneLayers = new Map([
+  ["mountain", createPaintingLayer("mountain", "mountain-birds", "Mountain")],
   ["coast", createPaintingLayer("coast", "coast-waves", "Shoreline")],
   ["fern", createPaintingLayer("fern", "fern-growth", "Fern")],
   ["pond", createPaintingLayer("pond", "pond-waves", "Pond")],
