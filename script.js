@@ -49,7 +49,8 @@ function updateSceneControls() {
   sceneButtons.forEach((button) => {
     const image = button.querySelector("img");
     const layer = sceneLayers.get(button.dataset.scene);
-    const texture = button.dataset.scene === "fern" ? fernAtlas : null;
+    const texture = button.dataset.scene === "fern" ? fernAtlas
+      : button.dataset.scene === "pond" ? pondMask : null;
     const state = !sceneRuntime || !petalContext || (layer && !layer.context) ? "unavailable"
       : !image.complete || (texture && !texture.complete) ? "loading"
       : !image.naturalWidth || (texture && !texture.naturalWidth) ? "unavailable"
@@ -377,11 +378,13 @@ function createPaintingLayer(scene, className, label) {
 const sceneLayers = new Map([
   ["coast", createPaintingLayer("coast", "coast-waves", "Shoreline")],
   ["fern", createPaintingLayer("fern", "fern-growth", "Fern")],
+  ["pond", createPaintingLayer("pond", "pond-waves", "Pond")],
 ]);
 const { button: coastButton, canvas: coastCanvas, context: coastContext } = sceneLayers.get("coast");
 const fernAtlas = new Image();
+const pondMask = new Image();
 const sceneResources = {
-  fernAtlas,
+  fernAtlas, pondMask,
   fernOriginal: sceneLayers.get("fern").button.querySelector("img"),
 };
 fernAtlas.addEventListener("load", updateSceneControls);
@@ -390,6 +393,12 @@ fernAtlas.addEventListener("error", () => {
   updateSceneControls();
 });
 fernAtlas.src = "art/fern-leaf-atlas.svg?v=20260906-fern-fronds";
+pondMask.addEventListener("load", updateSceneControls);
+pondMask.addEventListener("error", () => {
+  console.warn("Pond water mask could not load; the pond remains static.");
+  updateSceneControls();
+});
+pondMask.src = "art/pond-water-mask.svg?v=20260906-pond-brush-ripples";
 const sceneSequences = new Map();
 let particles = [];
 let particleFrame = null;
@@ -539,9 +548,13 @@ function playPainting(button, event) {
   const image = button.querySelector("img");
   const layer = sceneLayers.get(scene);
   const bounds = paintingBounds(image, Boolean(layer));
-  const point = event.detail === 0 || layer
+  let point = event.detail === 0 || layer
     ? { x: bounds.x + bounds.width * .6, y: bounds.y + bounds.height * .65 }
     : { x: event.clientX, y: event.clientY };
+  if (scene === "pond" && event.detail > 0) {
+    const box = layer.canvas.getBoundingClientRect();
+    point = { x: event.clientX - box.left, y: event.clientY - box.top };
+  }
   if (layer) {
     // Size in untransformed coordinates; CSS moves the image and its layer together.
     const style = getComputedStyle(layer.canvas);

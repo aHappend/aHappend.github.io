@@ -243,23 +243,16 @@ const sceneEffects = (() => {
   }
 
   function pondSpawn(bounds, point, now) {
-    const water = clampPointToRegion(point, bounds, 0.28, 0.92, 0.44, 0.86);
-    const rippleOffsets = [
-      [0, 0],
-      [bounds.width * 0.02, -bounds.height * 0.01],
-      [-bounds.width * 0.018, bounds.height * 0.012],
-      [bounds.width * 0.03, bounds.height * 0.004],
-    ];
-    const particles = rippleOffsets.map((offset, index) => mk("pond", "ripple", now + index * 112, 1980 + Math.random() * 470, {
-      cx: water.x + offset[0],
-      cy: water.y + offset[1],
-      rx: Math.min(bounds.width * (0.024 + Math.random() * 0.008),
-        (water.x - bounds.x) * 0.065, (bounds.x + bounds.width - water.x) * 0.065),
-      ry: Math.min(bounds.height * (0.011 + Math.random() * 0.004),
-        (bounds.y + bounds.height * 0.97 - water.y) / 8),
-      wobble: Math.random() * 0.6 + 0.2,
-      phase: Math.random() * TAU,
-    }));
+    const water = pickNearestAnchor(point, [
+      boundsPoint(bounds, 1050 / 1500, 570 / 760),
+      boundsPoint(bounds, 650 / 1500, 437 / 760),
+      boundsPoint(bounds, 1235 / 1500, 510 / 760),
+    ]);
+    const particles = [mk("pond", "ripple", now, 3100, {
+      bounds, cx: water.x, cy: water.y,
+      radius: bounds.width * 0.15,
+      stroke: clamp(bounds.width / 560, 0.65, 1.1),
+    })];
     particles.push(mk("pond", "dragonfly", now + 85, 2260 + Math.random() * 360, {
       startX: bounds.x + bounds.width * 0.8,
       startY: bounds.y + bounds.height * 0.3,
@@ -507,34 +500,54 @@ const sceneEffects = (() => {
     ctx.fill();
   }
 
-  function drawRipple(ctx, particle, age, dark) {
-    const palette = themePalette(dark);
-    const t = clamp(age, 0, 1);
-    const fade = envelope(t, 0.05, 0.82);
-    const growth = easeOut(t);
-    const wobble = Math.sin(t * TAU * 2.1 + particle.phase) * particle.wobble;
-    const rx = particle.rx * (1.2 + growth * 8.1);
-    const ry = particle.ry * (1.1 + growth * 6.4);
-    ctx.globalAlpha = fade;
-    ctx.translate(particle.cx, particle.cy);
-    ctx.rotate(-0.18 + wobble * 0.04);
-    ctx.strokeStyle = dark ? palette.teal : palette.sea;
-    ctx.lineWidth = 0.95 + (1 - t) * 0.25;
-    for (let ring = 0; ring < 3; ring += 1) {
-      const ringScale = 0.86 + ring * 0.16;
-      const offset = ring * 0.08;
-      ctx.globalAlpha = fade * (0.7 - ring * 0.14);
-      ctx.beginPath();
-      ctx.ellipse(0, 0, rx * ringScale, ry * (0.82 + ring * 0.1), 0, 0, TAU);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.ellipse(rx * 0.1 * offset, -ry * 0.12 * offset, rx * ringScale * 0.46, ry * (0.4 + ring * 0.06), 0.16, Math.PI * 0.1, Math.PI * 0.92);
-      ctx.strokeStyle = palette.ivory;
-      ctx.lineWidth = 0.75;
-      ctx.stroke();
-      ctx.strokeStyle = dark ? palette.teal : palette.sea;
-      ctx.lineWidth = 0.95;
+  function drawRipple(ctx, particle, age, dark, resources) {
+    // Broken brush arcs from #pond-ripple, rather than closed geometric ellipses.
+    const arcs = [
+      [-114, 3, -126, -8, -90, -17, -63, -18],
+      [-41, -20, 11, -24, 67, -19, 98, -10],
+      [111, -3, 130, 9, 84, 22, 45, 24],
+      [17, 26, -30, 29, -81, 20, -101, 13],
+    ];
+    for (let wave = 0; wave < 3; wave += 1) {
+      const t = (clamp(age, 0, 1) * particle.life - wave * 400) / 2250;
+      if (t <= 0 || t >= 1) continue;
+      const growth = 1 - (1 - t) ** 1.3;
+      const radius = particle.radius * (0.05 + growth * 0.95);
+      const fade = envelope(t, 0.12, 0.48) * (0.9 - wave * 0.1);
+      const scale = radius / 125;
+      const width = particle.stroke * (1 - t * 0.35) / scale;
+      ctx.save();
+      ctx.translate(particle.cx, particle.cy);
+      ctx.scale(scale, radius * 0.19 / 27);
+      ctx.lineCap = "round";
+      arcs.forEach(([x0, y0, x1, y1, x2, y2, x3, y3]) => {
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+        ctx.globalAlpha = fade * (dark ? 0.22 : 0.36);
+        ctx.strokeStyle = "#5f9397";
+        ctx.lineWidth = width * 2;
+        ctx.stroke();
+        const color = dark ? "#dce9dc" : "#eef4df";
+        const glint = ctx.createLinearGradient(x0, y0, x3, y3);
+        glint.addColorStop(0, `${color}00`);
+        glint.addColorStop(0.22, color);
+        glint.addColorStop(0.76, color);
+        glint.addColorStop(1, `${color}00`);
+        ctx.globalAlpha = fade;
+        ctx.strokeStyle = glint;
+        ctx.lineWidth = width;
+        ctx.stroke();
+      });
+      ctx.restore();
     }
+    // The pond has its own cleared layer; mask the water before drawing the dragonfly.
+    const { bounds } = particle;
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "destination-in";
+    ctx.drawImage(resources.pondMask, bounds.x, bounds.y, bounds.width, bounds.height);
+    ctx.restore();
   }
 
   function drawDragonfly(ctx, particle, age, dark) {
@@ -810,7 +823,10 @@ const sceneEffects = (() => {
         if (particle.kind !== "tuft") fail("draw", "meadow particles must use kind \"tuft\"");
         return drawTuft(ctx, particle, age, dark);
       case "pond":
-        if (particle.kind === "ripple") return drawRipple(ctx, particle, age, dark);
+        if (particle.kind === "ripple") {
+          if (!resources?.pondMask) fail("draw", "pond water mask is required");
+          return drawRipple(ctx, particle, age, dark, resources);
+        }
         if (particle.kind === "dragonfly") return drawDragonfly(ctx, particle, age, dark);
         fail("draw", "pond particles must use kind \"ripple\" or \"dragonfly\"");
         break;

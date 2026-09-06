@@ -325,7 +325,8 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .section-heading > div:first-child { flex: 1; min-width: 0; }
 .section-aside { position: relative; isolation: isolate; flex: 0 0 330px; max-width: 40%; padding-top: 220px; }
 .scene-aside { position: absolute; z-index: -1; inset: -35px -100px auto -120px; width: calc(100% + 220px); height: 250px; }
-.scene-aside > img { opacity: .95; mask-image: linear-gradient(90deg, transparent, #000 15%, #000 90%, transparent); }
+.scene-aside > img { opacity: .95; }
+.scene-aside > img, .pond-waves { mask-image: linear-gradient(90deg, transparent, #000 15%, #000 90%, transparent); }
 .ecosystem-section .scene-aside > img { opacity: .9; }
 .section h2, .contact-section h2 {
   font-family: var(--font-display);
@@ -666,7 +667,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .work-landscape { width: calc(100% + 120px); height: 230px; margin: 20px -60px -40px; }
   .section-aside { padding-top: 190px; }
   .scene-aside { inset: -35px -45px auto; width: calc(100% + 90px); height: 225px; }
-  .scene-aside > img { mask-image: none; }
+  .scene-aside > img, .pond-waves { mask-image: none; }
   .section-index { margin-bottom: 22px; font-size: 10px; }
   .section h2 { font-size: 44px; }
   .section-lead { font-size: 13px; }

@@ -164,11 +164,11 @@
         <path d="M537 589L544 633M567 595L559 630M850 525L859 582M880 527L875 579M1166 400L1155 438"/>
       </g>
     </g>
-    <g opacity=".45" filter="url(#pond-paint)">
+    <g id="pond-back-reeds" opacity=".45" filter="url(#pond-paint)">
       <use href="#pond-reed" transform="translate(207 437) rotate(-7) scale(.64 .97)"/>
       <use href="#pond-reed" transform="translate(350 414) rotate(12) scale(.65 .72)"/>
     </g>
-    <g filter="url(#pond-paint)">
+    <g id="pond-bank-plants" filter="url(#pond-paint)">
       <g stroke="#739074" stroke-linecap="round">
         <path d="M246 473C252 382 255 242 236 147M272 484C278 347 318 256 315 139" stroke-width="2.5"/>
         <path d="M246 455C230 330 164 219 167 163" stroke-width="1.4"/>
@@ -196,7 +196,7 @@
     <g stroke="#64969b" stroke-width="1.15" stroke-linecap="round" opacity=".32">
       <path d="M473 376L518 374M710 371L773 372M890 419C937 425 976 422 1001 426M1171 518L1214 521M925 626L995 624M347 578L384 576M571 571L609 570M652 648L694 650"/>
     </g>
-    <g opacity=".68" filter="url(#pond-paint)">
+    <g id="pond-back-lilies" opacity=".68" filter="url(#pond-paint)">
       <use href="#pond-pad" transform="translate(997 391) rotate(-6) scale(.5 .59)"/>
       <use href="#pond-pad" transform="translate(1060 407) rotate(11) scale(.34 .46)"/>
       <use href="#pond-pad" transform="translate(1293 382) rotate(-18) scale(.39 .47)"/>
@@ -207,7 +207,7 @@
     <use href="#pond-ripple" transform="translate(852 532) scale(1.57 1.12)"/>
     <use href="#pond-ripple" transform="translate(1158 412) scale(.88 .72)" opacity=".78"/>
     <use href="#pond-ripple" transform="translate(738 487) scale(.63 .51)" opacity=".57"/>
-    <g filter="url(#pond-paint)">
+    <g id="pond-front-lilies" filter="url(#pond-paint)">
       <use href="#pond-pad" transform="translate(476 606) rotate(-12) scale(1.04 1.19)"/>
       <use href="#pond-pad" transform="translate(603 602) rotate(16) scale(.83 1.04)"/>
       <use href="#pond-pad" transform="translate(808 536) rotate(-8) scale(1.22 1.34)"/>

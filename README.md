@@ -68,6 +68,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   `python scripts/export_fern_art.py` after editing the woodland source.
   The fern layer shares the image's translation, rotation, and fit; missing
   textures disable only this interaction and leave the original painting visible.
+  Pond ripples use three staggered sets of broken brush arcs on the water plane,
+  clipped by a source-derived surface mask so they cannot paint over lilies,
+  pads, or reeds. Regenerate that mask with `python scripts/export_pond_mask.py`
+  after changing the pond artwork. The pond layer follows the image's parallax
+  and draws the dragonfly after masking the water.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 
