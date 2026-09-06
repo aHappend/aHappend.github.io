@@ -56,7 +56,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   paused, reduced motion is requested, or their image/effect renderer is unavailable.
 - `scene-effects.js`: pure canvas choreography for the seven paintings:
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
-  a dragonfly, unfurling fern shoots, opening roses, and rolling shoreline foam.
+  a dragonfly, unfurling fern shoots, opening roses, and three staggered shoreline
+  surges with a translucent teal wash and bright foam, advancing then retreating.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 

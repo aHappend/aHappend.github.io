@@ -336,18 +336,22 @@ const sceneEffects = (() => {
     const impact = clamp((point.x - bounds.x) / bounds.width, 0.35, 0.82);
     const crests = [];
     for (let index = 0; index < 3; index += 1) {
-      const shift = index * 0.014 + (impact - 0.55) * 0.025;
-      crests.push(mk("coast", "crest", now + index * 220, 2240 + Math.random() * 520, {
-        startX: bounds.x + bounds.width * 0.55,
-        startY: bounds.y + bounds.height * (0.66 + shift),
+      const shift = -index * 0.012 + (impact - 0.55) * 0.015;
+      crests.push(mk("coast", "crest", now + index * 420, 2800 + Math.random() * 160, {
+        startX: bounds.x + bounds.width * 0.53,
+        startY: bounds.y + bounds.height * (0.64 + shift),
         ctrl1X: bounds.x + bounds.width * 0.65,
-        ctrl1Y: bounds.y + bounds.height * (0.7 + shift),
-        ctrl2X: bounds.x + bounds.width * 0.77,
-        ctrl2Y: bounds.y + bounds.height * (0.77 + shift),
-        endX: bounds.x + bounds.width * 0.91,
-        endY: bounds.y + bounds.height * (0.78 + shift),
-        advance: bounds.height * 0.026,
-        width: clamp(bounds.width / 650, 0.8, 1.6),
+        ctrl1Y: bounds.y + bounds.height * (0.685 + shift),
+        ctrl2X: bounds.x + bounds.width * 0.78,
+        ctrl2Y: bounds.y + bounds.height * (0.755 + shift),
+        endX: bounds.x + bounds.width * 0.96,
+        endY: bounds.y + bounds.height * (0.765 + shift),
+        advance: bounds.height * 0.078,
+        drift: bounds.width * 0.025,
+        depth: bounds.height * 0.03,
+        ripple: bounds.height * 0.006,
+        width: clamp(bounds.width / 320, 1.6, 3.2),
+        phase: index * 1.7,
       }));
     }
     for (let index = 0; index < 4; index += 1) {
@@ -683,12 +687,42 @@ const sceneEffects = (() => {
   function drawCrest(ctx, particle, age, dark) {
     const palette = themePalette(dark);
     const t = clamp(age, 0, 1);
-    const fade = envelope(t, 0.04, 0.86);
-    const advance = Math.sin(t * Math.PI) * particle.advance;
-    ctx.globalAlpha = fade * 0.75;
+    const fade = envelope(t, 0.06, 0.78);
+    const surge = t < 0.44 ? easeOut(t / 0.44) : 1 - smooth(0.44, 1, t);
+    const advance = surge * particle.advance;
+    const depth = particle.depth * (0.7 + surge * 0.3);
+    const edge = [];
+    for (let index = 0; index <= 32; index += 1) {
+      const u = index / 32;
+      const v = 1 - u;
+      edge.push({
+        x: v ** 3 * particle.startX + 3 * v * v * u * particle.ctrl1X
+          + 3 * v * u * u * particle.ctrl2X + u ** 3 * particle.endX - surge * particle.drift,
+        y: v ** 3 * particle.startY + 3 * v * v * u * particle.ctrl1Y
+          + 3 * v * u * u * particle.ctrl2Y + u ** 3 * particle.endY + advance
+          + Math.sin(u * TAU * 2.8 + t * 2.1 + particle.phase) * particle.ripple * Math.sin(u * Math.PI),
+      });
+    }
+    const pigment = dark ? "#8ed7d3" : "#479fae";
+    const wash = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[32].x, edge[32].y);
+    wash.addColorStop(0, `${pigment}00`);
+    wash.addColorStop(0.18, `${pigment}66`);
+    wash.addColorStop(0.75, `${pigment}66`);
+    wash.addColorStop(1, `${pigment}00`);
+    ctx.globalAlpha = fade * 0.85;
+    ctx.fillStyle = wash;
+    ctx.beginPath();
+    ctx.moveTo(edge[0].x, edge[0].y);
+    edge.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
+    for (let index = 32; index >= 0; index -= 1) {
+      ctx.lineTo(edge[index].x, edge[index].y - depth * Math.sin(index / 32 * Math.PI));
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalAlpha = fade * 0.95;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    const foam = ctx.createLinearGradient(particle.startX, particle.startY, particle.endX, particle.endY);
+    const foam = ctx.createLinearGradient(edge[0].x, edge[0].y, edge[32].x, edge[32].y);
     // Retain the pigment RGB at transparent stops to avoid dark gradient fringes.
     foam.addColorStop(0, `${palette.ivory}00`);
     foam.addColorStop(0.18, palette.ivory);
@@ -697,9 +731,17 @@ const sceneEffects = (() => {
     ctx.strokeStyle = foam;
     ctx.lineWidth = particle.width;
     ctx.beginPath();
-    ctx.moveTo(particle.startX, particle.startY + advance);
-    ctx.bezierCurveTo(particle.ctrl1X, particle.ctrl1Y + advance, particle.ctrl2X, particle.ctrl2Y + advance, particle.endX, particle.endY + advance);
+    ctx.moveTo(edge[0].x, edge[0].y);
+    edge.slice(1).forEach((point) => ctx.lineTo(point.x, point.y));
     ctx.stroke();
+    ctx.fillStyle = palette.ivory;
+    for (let index = 2; index < 31; index += 2) {
+      const point = edge[index];
+      ctx.globalAlpha = fade * (0.55 + surge * 0.25) * Math.sin(index / 32 * Math.PI);
+      ctx.beginPath();
+      ctx.ellipse(point.x, point.y + particle.width * (1 + Math.sin(index)), particle.width * 0.55, particle.width * 0.3, -0.2, 0, TAU);
+      ctx.fill();
+    }
   }
 
   function drawGlint(ctx, particle, age, dark) {
