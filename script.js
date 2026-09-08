@@ -23,7 +23,9 @@ function updateControlLabels() {
   themeButton.setAttribute("aria-label", chinese
     ? `切换到${dark ? "浅色" : "深色"}主题`
     : `Switch to ${dark ? "light" : "dark"} theme`);
-  languageButton.setAttribute("aria-label", chinese ? "Switch to English" : "切换到中文");
+  const languageLabel = chinese ? "Switch to English" : "切换到中文";
+  languageButton.setAttribute("aria-label", languageLabel);
+  languageButton.title = languageLabel;
   menuButton.setAttribute("aria-label", chinese
     ? `${menuOpen ? "关闭" : "打开"}导航`
     : `${menuOpen ? "Close" : "Open"} navigation`);
@@ -77,8 +79,6 @@ function updateFilterStatus() {
 function applyLanguage(nextLanguage) {
   language = nextLanguage;
   root.lang = language === "zh" ? "zh-CN" : "en";
-  languageButton.firstElementChild.textContent = language === "zh" ? "中文" : "EN";
-  languageButton.lastElementChild.textContent = language === "zh" ? "/ EN" : "/ 中文";
   document.querySelectorAll("[data-en][data-zh]").forEach((element) => {
     element.textContent = element.dataset[language];
   });
@@ -327,7 +327,7 @@ spotlightCards.forEach((card) => {
 function clearSpotlights() {
   spotlightCards.forEach(clearSpotlight);
 }
-const magneticControls = [...document.querySelectorAll(".button, .theme-toggle, .lang-toggle, .filter")];
+const magneticControls = [...document.querySelectorAll(".button, .theme-toggle, .filter")];
 const magneticFrames = new Map();
 
 function resetMagnet(control) {
