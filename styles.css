@@ -35,6 +35,46 @@ html[data-theme="dark"] {
   color-scheme: dark;
 }
 
+@property --theme-reveal-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* Snapshot final palette colors, not an intermediate hover/color transition. */
+html[data-theme-transition] :is(
+  .desktop-nav a, .button, .theme-toggle, .lang-toggle, .filter,
+  .project-card, .repo-logo-card, .social-card, .publication
+) {
+  transition: none;
+}
+
+html[data-theme-transition]::view-transition {
+  pointer-events: none;
+}
+html[data-theme-transition]::view-transition-group(root),
+html[data-theme-transition]::view-transition-old(root) {
+  animation: none;
+}
+html[data-theme-transition]::view-transition-old(root),
+html[data-theme-transition]::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+html[data-theme-transition]::view-transition-new(root) {
+  animation: theme-reveal 620ms cubic-bezier(.22, .8, .25, 1) both;
+  mask-image: radial-gradient(
+    circle at var(--theme-origin-x) var(--theme-origin-y),
+    #000 max(0px, calc(var(--theme-reveal-radius) - var(--theme-feather))),
+    transparent var(--theme-reveal-radius)
+  );
+}
+@keyframes theme-reveal {
+  to { --theme-reveal-radius: var(--theme-radius); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-transition]::view-transition-new(root) { animation: none; }
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 110px; scrollbar-gutter: stable; }
 body {

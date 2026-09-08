@@ -15,6 +15,7 @@ const mobileNavigation = window.matchMedia("(max-width: 900px)");
 let language = sitePreferences.get("language") === "zh" ? "zh" : "en";
 let selectedFilter = "all";
 let effectsEnabled = sitePreferences.get("effects") !== "off";
+let themeTransition = null;
 
 function updateControlLabels() {
   const chinese = language === "zh";
@@ -94,9 +95,56 @@ function setTheme(theme) {
 }
 
 themeButton.addEventListener("click", () => {
-  const theme = root.dataset.theme === "dark" ? "light" : "dark";
+  const current = sitePreferences.get("theme") || root.dataset.theme;
+  const theme = current === "dark" ? "light" : "dark";
   sitePreferences.set("theme", theme);
-  setTheme(theme);
+  themeTransition?.skipTransition();
+  if (reducedMotion.matches || !document.startViewTransition) {
+    setTheme(theme);
+    return;
+  }
+
+  const rect = themeButton.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+  const feather = 32;
+  const radius = Math.ceil(Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y),
+  )) + feather;
+  root.style.setProperty("--theme-origin-x", `${x}px`);
+  root.style.setProperty("--theme-origin-y", `${y}px`);
+  root.style.setProperty("--theme-radius", `${radius}px`);
+  root.style.setProperty("--theme-feather", `${feather}px`);
+  root.dataset.themeTransition = "active";
+  // A queued snapshot callback must apply the latest click, not an older request.
+  const transition = document.startViewTransition(() => setTheme(sitePreferences.get("theme")));
+  themeTransition = transition;
+  transition.ready.catch((error) => {
+    if (error.name !== "AbortError") console.warn("Theme animation was skipped:", error);
+  });
+  transition.finished.finally(() => {
+    if (themeTransition !== transition) return;
+    themeTransition = null;
+    delete root.dataset.themeTransition;
+    ["--theme-origin-x", "--theme-origin-y", "--theme-radius", "--theme-feather"]
+      .forEach((property) => root.style.removeProperty(property));
+  });
+});
+
+// Root snapshots receive pointer clicks instead of the underlying theme button.
+document.addEventListener("click", (event) => {
+  if (!themeTransition || event.target !== root) return;
+  const rect = themeButton.getBoundingClientRect();
+  if (event.clientX < rect.left || event.clientX > rect.right
+    || event.clientY < rect.top || event.clientY > rect.bottom) return;
+  event.stopImmediatePropagation();
+  themeButton.focus({ preventScroll: true });
+  themeButton.click();
+}, true);
+
+reducedMotion.addEventListener("change", (event) => {
+  if (event.matches) themeTransition?.skipTransition();
 });
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
