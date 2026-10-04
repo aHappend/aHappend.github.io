@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-logo-roles">
+    <link rel="stylesheet" href="styles.css?v=20261004-standard-mos">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -390,49 +390,58 @@
                  data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
             <div class="project-spec spec-analog">
               <svg viewBox="0 0 360 120" fill="none" aria-hidden="true">
+                <defs>
+                  <g id="opamp-nmos-symbol">
+                    <path d="M0-16v6M0 10v6"/>
+                    <path d="M0-9v5M0-2v4M0 4v5"/>
+                    <path d="M-7-9V9M-18 0h11"/>
+                    <path d="M4 0h9M9-3L5 0l4 3"/>
+                  </g>
+                  <g id="opamp-pmos-symbol">
+                    <path d="M0-16v6M0 10v6"/>
+                    <path d="M0-9v5M0-2v4M0 4v5"/>
+                    <path d="M-7-9V9M-18 0h11"/>
+                    <path d="M4 0h9M8-3l4 3-4 3"/>
+                  </g>
+                </defs>
                 <path class="diagram-grid" d="M8 20h344M8 60h344M8 100h344"/>
                 <g class="opamp-rail">
                   <path d="M60 8h270M60 112h270"/>
                 </g>
                 <g class="opamp-wire">
-                  <path d="M90 8v6M140 8v6M300 8v6"/>
-                  <path d="M90 44v9M140 44v9M300 44v19M300 93v19"/>
-                  <path d="M90 83v3h25M140 83v3h-25M115 82v4"/>
-                  <path d="M115 112v0"/>
+                  <path d="M90 8v5M140 8v5M300 8v5"/>
+                  <path d="M90 45v7M140 45v7M300 45v18M300 94v18"/>
+                  <path d="M90 84v3h25M140 84v3h-25M115 80v7"/>
                 </g>
                 <g class="opamp-device opamp-device-p"
                    transform="translate(90 29) scale(-1 1)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
-                  <circle cx="-8.5" cy="0" r="1.5"/>
+                  <use href="#opamp-pmos-symbol"/>
                 </g>
                 <g class="opamp-device opamp-device-p" transform="translate(140 29)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
-                  <circle cx="-8.5" cy="0" r="1.5"/>
+                  <use href="#opamp-pmos-symbol"/>
                 </g>
                 <g class="opamp-mirror">
                   <path d="M108 29h14M108 29v18H90"/>
                 </g>
                 <g class="opamp-device opamp-device-n" transform="translate(90 68)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                  <use href="#opamp-nmos-symbol"/>
                 </g>
                 <g class="opamp-device opamp-device-n"
                    transform="translate(140 68) scale(-1 1)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                  <use href="#opamp-nmos-symbol"/>
                 </g>
-                <g class="opamp-device opamp-device-n" transform="translate(115 97)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                <g class="opamp-device opamp-device-n" transform="translate(115 96)">
+                  <use href="#opamp-nmos-symbol"/>
                 </g>
-                <g class="opamp-device opamp-device-p"
-                   transform="translate(300 29) scale(-1 1)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
-                  <circle cx="-8.5" cy="0" r="1.5"/>
+                <g class="opamp-device opamp-device-p" transform="translate(300 29)">
+                  <use href="#opamp-pmos-symbol"/>
                 </g>
                 <g class="opamp-device opamp-device-n" transform="translate(300 78)">
-                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                  <use href="#opamp-nmos-symbol"/>
                 </g>
                 <g class="opamp-signal">
                   <path d="M22 68h50M202 68h-44"/>
-                  <path d="M140 49h100v29h42"/>
+                  <path d="M140 49h110V29h32"/>
                   <path d="M300 54h48m-8-7 8 7-8 7"/>
                 </g>
                 <circle class="opamp-node" cx="18" cy="68" r="3.5"/>
@@ -440,11 +449,12 @@
                 <circle class="opamp-node opamp-node-rust" cx="140" cy="49" r="4"/>
                 <circle class="opamp-node opamp-node-rust" cx="300" cy="54" r="4"/>
                 <g class="opamp-bias">
-                  <path d="M75 97h22M318 29h12"/>
-                  <circle cx="75" cy="97" r="2.5"/><circle cx="330" cy="29" r="2.5"/>
+                  <path d="M75 96h22M260 78h22"/>
+                  <circle cx="75" cy="96" r="2.5"/><circle cx="260" cy="78" r="2.5"/>
                 </g>
                 <g class="opamp-feedback">
-                  <path d="M200 49V18h25M235 18h35v36h30"/>
+                  <path d="M190 49V18h6M220 18h5M235 18h35v36h30"/>
+                  <path d="M196 18l4-4 4 8 4-8 4 8 4-8 4 4"/>
                   <path d="M225 11v14M235 11v14"/>
                 </g>
               </svg>

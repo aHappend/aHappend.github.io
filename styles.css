@@ -467,9 +467,8 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 }
 .spec-analog .opamp-rail { opacity: .24; }
 .spec-analog .opamp-wire { color: var(--muted); opacity: .8; }
-.spec-analog .opamp-device { stroke-width: 1.5; }
+.spec-analog .opamp-device { stroke-width: 1.35; }
 .spec-analog .opamp-device-p { color: var(--rust); }
-.spec-analog .opamp-device-p circle { fill: var(--surface); }
 .spec-analog .opamp-device-n { color: var(--accent); }
 .spec-analog .opamp-mirror { color: var(--rust); }
 .spec-analog .opamp-signal { stroke: var(--accent); }
