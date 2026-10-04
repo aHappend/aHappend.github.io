@@ -437,7 +437,7 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .project-spec .mono { font-size: 9px; }
 .spec-value { font-family: var(--font-display); font-size: 68px; line-height: 1; letter-spacing: -.045em; }
 .spec-value small { font-size: 30px; font-style: italic; }
-.spec-fft svg, .spec-analog svg { width: calc(100% - 20px); height: 96px; }
+.spec-fft svg, .spec-analog svg { width: calc(100% - 20px); height: 118px; }
 .spec-fft .diagram-grid, .spec-analog .diagram-grid {
   stroke: currentColor;
   stroke-width: .7;
@@ -459,33 +459,29 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .spec-fft .fft-spectrum path:not(:first-child) { stroke: var(--rust); }
 .spec-fft .fft-spectrum circle { fill: var(--rust); }
 .spec-analog { color: var(--rust); }
-.spec-analog :is(.opamp-rail, .opamp-device, .opamp-signal, .opamp-feedback) {
+.spec-analog :is(.opamp-stage, .opamp-signal, .opamp-feedback, .opamp-stage-detail) {
   stroke: currentColor;
   stroke-width: 1.35;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.spec-analog .opamp-rail { opacity: .18; }
+.spec-analog .opamp-stage {
+  fill: color-mix(in srgb, var(--rust) 8%, var(--surface));
+  stroke-width: 1.5;
+}
+.spec-analog .opamp-stage-second {
+  fill: color-mix(in srgb, var(--accent) 8%, var(--surface));
+  stroke: var(--accent);
+}
 .spec-analog .opamp-signal { stroke: var(--accent); }
 .spec-analog .opamp-feedback { stroke: var(--rust); }
-.spec-analog .opamp-current {
-  fill: var(--surface);
-  stroke: currentColor;
-  stroke-width: 1.35;
-}
+.spec-analog .opamp-stage-detail { opacity: .7; }
+.spec-analog .opamp-detail-secondary { stroke: var(--accent); }
 .spec-analog .opamp-node {
   fill: var(--surface);
   stroke: var(--accent);
   stroke-width: 1.5;
 }
-.spec-analog .opamp-label,
-.spec-analog .opamp-polarity {
-  fill: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 6px;
-}
-.spec-analog .opamp-label-accent { fill: var(--rust); }
-.spec-analog .opamp-polarity { fill: var(--accent); font-size: 8px; }
 .spec-memory svg { width: calc(100% - 26px); height: 118px; }
 .spec-memory circle { fill: var(--surface); stroke: currentColor; stroke-width: 1.5; }
 .spec-memory .memory-reply { stroke: var(--rust); }
@@ -594,7 +590,10 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
 .about-stack { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--line); }
 .about-stack h3,
-.experience-panel > h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
+.timeline-heading { color: var(--rust); font-weight: 400; font-size: 10px; }
+.about-stack h3 { margin-bottom: 18px; }
+.timeline-heading { margin: 0 0 18px; padding-left: 24px; }
+.timeline-heading-secondary { margin-top: 34px; }
 .experience-panel { padding-top: 28px; border-top: 1px solid var(--line); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
@@ -602,21 +601,20 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .institution-logo img { display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
 .institution-logo-microsoft img { max-height: 28px; }
 .institution-logo-ntu img { max-height: 40px; }
-html[data-theme="dark"] .institution-logo-nju img {
-  filter: brightness(1.9) saturate(.82) drop-shadow(0 0 9px rgb(226 239 240 / .2));
+html[data-theme="dark"] .institution-logo {
+  min-height: 46px;
+  padding: 6px 8px;
+  border: 1px solid rgb(255 255 255 / .16);
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgb(0 0 0 / .16);
 }
-html[data-theme="dark"] .institution-logo-microsoft img {
-  filter: brightness(1.45) drop-shadow(0 0 8px rgb(226 239 240 / .18));
-}
-html[data-theme="dark"] .institution-logo-ntu img {
-  filter: brightness(1.65) saturate(.88) contrast(1.05) drop-shadow(0 0 8px rgb(226 239 240 / .2));
-}
+html[data-theme="dark"] .institution-logo img { filter: none; }
 .experience-timeline { position: relative; }
 .experience-timeline::before { content: ""; position: absolute; top: 32px; bottom: 32px; left: -.5px; width: 1px; background: var(--line); }
 .timeline-entry { position: relative; min-height: 64px; }
 .timeline-entry::after { content: ""; position: absolute; z-index: 1; top: 50%; left: -4px; width: 8px; height: 8px; border: 1px solid var(--rust); border-radius: 50%; background: var(--paper); transform: translateY(-50%); }
 .institution-entry { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
-.timeline-section-label { margin: 34px 0 18px; padding-left: 24px; }
 .about-milestones { display: flex; flex-direction: column; gap: 22px; }
 .about-milestones a { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
 .about-milestones .institution-logo { margin: 0; color: inherit; }
@@ -749,7 +747,7 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
     stroke-dasharray: 6 6;
     animation: project-flow-reverse 1.5s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) :is(.opamp-node, .opamp-current) {
+  .project-card:is(:hover, :focus-within) .opamp-node {
     animation: project-pulse 1.8s ease-in-out infinite;
   }
   html[data-effects="on"] .nature-hovering .butterfly-wing { animation: butterfly-flutter 700ms ease-in-out infinite alternate; }
@@ -963,6 +961,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .research-state span:last-child { text-align: left; }
   .research-evidence strong { font-size: 22px; }
   .about-intro { font-size: 23px; margin-block: 24px 30px; }
+  .experience-panel > .timeline-heading { margin-left: 8px; }
   .experience-timeline { margin-left: 8px; }
   .institution-entry,
   .about-milestones a { grid-template-columns: 92px 1fr; gap: 14px; }

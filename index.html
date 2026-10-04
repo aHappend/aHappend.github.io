@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-about-layout">
+    <link rel="stylesheet" href="styles.css?v=20261004-visual-cleanup">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -364,8 +364,6 @@
                   <circle cx="287" cy="36" r="2.5"/>
                 </g>
               </svg>
-              <span class="mono" data-en="64 POINTS · RADIX-2 SDF · Q1.15"
-                    data-zh="64 点 · 基二 SDF · Q1.15">64 POINTS · RADIX-2 SDF · Q1.15</span>
             </div>
             <div class="project-body">
               <div class="project-meta">
@@ -392,43 +390,26 @@
                  data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
             <div class="project-spec spec-analog">
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
-                <path class="opamp-rail" d="M22 10h276M22 94h276"/>
-                <text class="opamp-label" x="22" y="8">VDD</text>
-                <text class="opamp-label" x="22" y="103">VSS</text>
-                <g class="opamp-device">
-                  <path d="M72 10v12M64 22v18M72 25v12M72 40v9M104 10v12M96 22v18M104 25v12M104 40v9"/>
-                  <path d="M48 31h16M48 31v-6h48M48 31v6h48"/>
-                  <circle cx="61" cy="31" r="2.5"/><circle cx="93" cy="31" r="2.5"/>
-                  <path d="M72 49v20M64 52v14M72 69v5M104 49v20M96 52v14M104 69v5"/>
-                  <path d="M72 74v3h32v-3M88 77v5"/>
-                  <circle class="opamp-current" cx="88" cy="86" r="4"/>
-                  <path d="M88 90v4m-2-8 4-2"/>
-                </g>
+                <path class="diagram-grid" d="M8 18h304M8 52h304M8 86h304"/>
                 <g class="opamp-signal">
-                  <path d="M18 58h46M18 66h78"/>
-                  <path d="M104 49v-5h31"/>
-                  <circle class="opamp-node" cx="135" cy="44" r="3.5"/>
-                  <path d="M139 44h42v14h15"/>
-                  <path d="M204 42v28M196 46v20M181 58h15M204 42v-8h52M204 70v24"/>
-                  <circle class="opamp-node" cx="256" cy="34" r="3.5"/>
-                  <path d="M260 34h42m-8-7 8 7-8 7"/>
+                  <path d="M22 38h41M22 66h41"/>
+                  <path d="M124 52h36M218 52h82m-8-7 8 7-8 7"/>
                 </g>
-                <text class="opamp-polarity" x="24" y="55">+</text>
-                <text class="opamp-polarity" x="24" y="74">−</text>
-                <g class="opamp-device">
-                  <path d="M232 10v8"/>
-                  <circle class="opamp-current" cx="232" cy="22" r="4"/>
-                  <path d="M232 26v8h24"/>
-                </g>
+                <circle class="opamp-node" cx="18" cy="38" r="3.5"/>
+                <circle class="opamp-node" cx="18" cy="66" r="3.5"/>
+                <path class="opamp-stage" d="M63 27v50l61-25z"/>
+                <path class="opamp-stage opamp-stage-second" d="M160 32v40l58-20z"/>
+                <circle class="opamp-node" cx="132" cy="52" r="4"/>
+                <circle class="opamp-node" cx="236" cy="52" r="4"/>
                 <g class="opamp-feedback">
-                  <path d="M135 40V18h25M174 18h82v12"/>
-                  <path d="M160 12v12M174 12v12"/>
+                  <path d="M236 48V22h-35M187 22h-55v26"/>
+                  <path d="M187 15v14M201 15v14"/>
                 </g>
-                <text class="opamp-label opamp-label-accent" x="158" y="9">Cc</text>
-                <text class="opamp-label" x="272" y="29">VOUT</text>
+                <g class="opamp-stage-detail">
+                  <path class="opamp-detail-primary" d="M79 45l10 7-10 7M96 45l10 7-10 7"/>
+                  <path class="opamp-detail-secondary" d="M176 46l9 6-9 6M191 46l9 6-9 6"/>
+                </g>
               </svg>
-              <span class="mono" data-en="TSMC 180 nm · TWO STAGES · MILLER Cc"
-                    data-zh="TSMC 180 nm · 两级结构 · 米勒 Cc">TSMC 180 nm · TWO STAGES · MILLER Cc</span>
             </div>
             <div class="project-body">
               <div class="project-meta">
@@ -821,7 +802,8 @@
             agent runtimes to architecture and transistors.
           </p>
           <div class="experience-panel">
-            <h3 class="mono" data-en="EDUCATION" data-zh="教育经历">EDUCATION</h3>
+            <h3 class="mono timeline-heading" data-en="EDUCATION"
+                data-zh="教育经历">EDUCATION</h3>
             <div class="experience-timeline">
               <a class="institution-entry timeline-entry"
                  href="https://ic.nju.edu.cn/"
@@ -846,7 +828,7 @@
                   </span>
               </a>
 
-                <h3 class="mono timeline-section-label" data-en="CURRENT & NEXT"
+                <h3 class="mono timeline-heading timeline-heading-secondary" data-en="CURRENT & NEXT"
                     data-zh="近期经历">CURRENT &amp; NEXT</h3>
                 <div class="about-milestones">
                   <a class="timeline-entry"
