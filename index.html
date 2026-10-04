@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-language-motion">
+    <link rel="stylesheet" href="styles.css?v=20261004-project-loops">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -289,10 +289,12 @@
                  data-zh="P.02 / 持久化 RTL">P.02 / PERSISTENT RTL</div>
             <div class="project-spec spec-memory">
               <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
-                <path d="M24 18h86a9 9 0 0 1 9 9v21a9 9 0 0 1-9 9H59L43 70V57H24a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z"
+                <path class="memory-query" d="M24 18h86a9 9 0 0 1 9 9v21a9 9 0 0 1-9 9H59L43 70V57H24a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z"
                       stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="42" cy="38" r="4"/><circle cx="58" cy="38" r="4"/>
-                <circle cx="74" cy="38" r="4"/><circle cx="90" cy="38" r="4"/>
+                <circle class="memory-query-dot" cx="42" cy="38" r="4"/>
+                <circle class="memory-query-dot" cx="58" cy="38" r="4"/>
+                <circle class="memory-query-dot" cx="74" cy="38" r="4"/>
+                <circle class="memory-query-dot" cx="90" cy="38" r="4"/>
                 <path class="memory-reply"
                       d="M54 69h67a9 9 0 0 1 9 9v10a9 9 0 0 1-9 9H82l-13 9V97H54a9 9 0 0 1-9-9V78a9 9 0 0 1 9-9Z"
                       stroke-width="1.5"/>
@@ -300,7 +302,8 @@
                 <circle class="memory-reply" cx="82" cy="83" r="3"/>
                 <circle class="memory-reply" cx="96" cy="83" r="3"/>
                 <circle class="memory-reply" cx="110" cy="83" r="3"/>
-                <path d="M145 55h34m-8-8 8 8-8 8" stroke="currentColor" stroke-width="1.5"/>
+                <path class="memory-transfer" d="M145 55h34m-8-8 8 8-8 8"
+                      stroke="currentColor" stroke-width="1.5"/>
                 <g class="memory-stack">
                   <rect x="203" y="12" width="88" height="70" rx="4"/>
                   <rect x="197" y="18" width="88" height="70" rx="4"/>
@@ -389,29 +392,40 @@
                  data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
             <div class="project-spec spec-analog">
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
-                <path class="diagram-grid" d="M18 12h284M18 92h284"/>
-                <g class="opamp-inputs">
-                  <path d="M18 42h42M18 66h42"/>
-                  <circle cx="18" cy="42" r="3"/><circle cx="18" cy="66" r="3"/>
-                  <path d="M60 30v24m8-20v16M60 42h-8M68 50v18m-8-14v18M60 66h-8"/>
-                  <path d="M68 34c15 0 22 8 30 19M68 68c15 0 22-8 30-19"/>
+                <path class="opamp-rail" d="M22 10h276M22 94h276"/>
+                <text class="opamp-label" x="22" y="8">VDD</text>
+                <text class="opamp-label" x="22" y="103">VSS</text>
+                <g class="opamp-device">
+                  <path d="M72 10v12M64 22v18M72 25v12M72 40v9M104 10v12M96 22v18M104 25v12M104 40v9"/>
+                  <path d="M48 31h16M48 31v-6h48M48 31v6h48"/>
+                  <circle cx="61" cy="31" r="2.5"/><circle cx="93" cy="31" r="2.5"/>
+                  <path d="M72 49v20M64 52v14M72 69v5M104 49v20M96 52v14M104 69v5"/>
+                  <path d="M72 74v3h32v-3M88 77v5"/>
+                  <circle class="opamp-current" cx="88" cy="86" r="4"/>
+                  <path d="M88 90v4m-2-8 4-2"/>
                 </g>
-                <g class="opamp-load">
-                  <path d="M86 12v17m28-17v17M78 29h16m12 0h16M86 29v15m28-15v15M86 44h28"/>
-                  <path d="M100 44v27m-9 0h18M94 78h12M100 78v14"/>
+                <g class="opamp-signal">
+                  <path d="M18 58h46M18 66h78"/>
+                  <path d="M104 49v-5h31"/>
+                  <circle class="opamp-node" cx="135" cy="44" r="3.5"/>
+                  <path d="M139 44h42v14h15"/>
+                  <path d="M204 42v28M196 46v20M181 58h15M204 42v-8h52M204 70v24"/>
+                  <circle class="opamp-node" cx="256" cy="34" r="3.5"/>
+                  <path d="M260 34h42m-8-7 8 7-8 7"/>
                 </g>
-                <path class="opamp-stage" d="M114 44h43v18h25"/>
-                <circle class="opamp-node" cx="157" cy="44" r="4"/>
-                <g class="opamp-cap">
-                  <path d="M154 51v13m-7 0h14m-14 7h14m-7 0v13h52"/>
+                <text class="opamp-polarity" x="24" y="55">+</text>
+                <text class="opamp-polarity" x="24" y="74">−</text>
+                <g class="opamp-device">
+                  <path d="M232 10v8"/>
+                  <circle class="opamp-current" cx="232" cy="22" r="4"/>
+                  <path d="M232 26v8h24"/>
                 </g>
-                <g class="opamp-output">
-                  <path d="M205 26v30m9-25v20M205 41h-11M214 51v25m-9-20v24M205 68h-23"/>
-                  <path d="M214 31c18 0 25 10 25 27v10M214 76h25V68"/>
-                  <circle class="opamp-node" cx="239" cy="68" r="4"/>
-                  <path d="M243 68h57m-8-8 8 8-8 8"/>
+                <g class="opamp-feedback">
+                  <path d="M135 40V18h25M174 18h82v12"/>
+                  <path d="M160 12v12M174 12v12"/>
                 </g>
-                <path class="opamp-bias" d="M239 12v14m-7 0h14m-11 7h8m-4 0v31"/>
+                <text class="opamp-label opamp-label-accent" x="158" y="9">Cc</text>
+                <text class="opamp-label" x="272" y="29">VOUT</text>
               </svg>
               <span class="mono" data-en="TSMC 180 nm · TWO STAGES · MILLER Cc"
                     data-zh="TSMC 180 nm · 两级结构 · 米勒 Cc">TSMC 180 nm · TWO STAGES · MILLER Cc</span>
@@ -801,25 +815,75 @@
           <div class="about-columns">
             <div class="education-column">
               <h3 class="mono" data-en="EDUCATION" data-zh="教育经历">EDUCATION</h3>
-              <div class="institution-entry">
-                <span class="institution-logo institution-logo-nju" aria-hidden="true">
-                  <img src="institutions/nju.svg" alt="">
-                </span>
-                <span class="milestone-copy">
-                  <span class="experience-meta">
-                    <span class="mono">2023.09—2027.06</span>
-                    <span class="mono" data-en="NANJING, CHINA / SUZHOU, CHINA"
-                          data-zh="中国南京 / 中国苏州">NANJING, CHINA / SUZHOU, CHINA</span>
+              <div class="experience-timeline">
+                <div class="institution-entry timeline-entry">
+                  <span class="institution-logo institution-logo-nju" aria-hidden="true">
+                    <img src="institutions/nju.svg" alt="">
                   </span>
-                  <strong data-en="Nanjing University" data-zh="南京大学">
-                    Nanjing University
-                  </strong>
-                  <span class="experience-detail"
-                        data-en="B.Eng. candidate · VLSI Design &amp; System Integration"
-                        data-zh="工学学士在读 · 集成电路设计与集成系统">
-                    B.Eng. candidate · VLSI Design &amp; System Integration
+                  <span class="milestone-copy">
+                    <span class="experience-meta">
+                      <span class="mono">2023.09—2027.06</span>
+                      <span class="mono" data-en="NANJING, CHINA / SUZHOU, CHINA"
+                            data-zh="中国南京 / 中国苏州">NANJING, CHINA / SUZHOU, CHINA</span>
+                    </span>
+                    <strong data-en="Nanjing University" data-zh="南京大学">
+                      Nanjing University
+                    </strong>
+                    <span class="experience-detail"
+                          data-en="B.Eng. candidate · VLSI Design &amp; System Integration"
+                          data-zh="工学学士在读 · 集成电路设计与集成系统">
+                      B.Eng. candidate · VLSI Design &amp; System Integration
+                    </span>
                   </span>
-                </span>
+                </div>
+
+                <h3 class="mono timeline-section-label" data-en="CURRENT & NEXT"
+                    data-zh="近期经历">CURRENT &amp; NEXT</h3>
+                <div class="about-milestones">
+                  <a class="timeline-entry"
+                     href="https://www.microsoft.com/en-us/research/group/systems-research-group-asia/"
+                     target="_blank" rel="noreferrer">
+                    <span class="institution-logo institution-logo-microsoft" aria-hidden="true">
+                      <img src="institutions/microsoft.svg" alt="">
+                    </span>
+                    <span class="milestone-copy">
+                      <span class="experience-meta">
+                        <span class="mono">2026.09—2026.12</span>
+                        <span class="mono" data-en="BEIJING, CHINA"
+                              data-zh="中国北京">BEIJING, CHINA</span>
+                      </span>
+                      <strong data-en="Research Intern · Microsoft Research Asia"
+                              data-zh="研究实习生 · 微软亚洲研究院">
+                        Research Intern · Microsoft Research Asia
+                      </strong>
+                      <span class="experience-detail" data-en="Systems Research Group"
+                            data-zh="系统研究组">Systems Research Group</span>
+                    </span>
+                  </a>
+                  <a class="timeline-entry"
+                     href="https://www.ntu.edu.sg/education/student-exchanges/exchange-programmes/inbound-programmes"
+                     target="_blank" rel="noreferrer">
+                    <span class="institution-logo institution-logo-ntu" aria-hidden="true">
+                      <img src="institutions/ntu-lockup.png?v=20261004" alt="" width="1200" height="430">
+                    </span>
+                    <span class="milestone-copy">
+                      <span class="experience-meta">
+                        <span class="mono">2027.01—2027.05</span>
+                        <span class="mono" data-en="SINGAPORE"
+                              data-zh="新加坡">SINGAPORE</span>
+                      </span>
+                      <strong data-en="Visiting Undergraduate · NTU"
+                              data-zh="公派交流本科生 · 南洋理工大学">
+                        Visiting Undergraduate · NTU
+                      </strong>
+                      <span class="experience-detail"
+                            data-en="Government-Sponsored Visiting Undergraduate Program"
+                            data-zh="国家公派优秀本科生国际交流项目">
+                        Government-Sponsored Visiting Undergraduate Program
+                      </span>
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
             <div>
@@ -829,52 +893,6 @@
                 <li>React</li><li>Linux</li><li>Vivado / XSim</li><li>Verilator</li>
                 <li>Icarus Verilog</li><li>Yosys / OpenSTA</li><li>Spectre</li><li>ONNX</li>
               </ul>
-            </div>
-          </div>
-          <div class="about-next">
-            <h3 class="mono" data-en="CURRENT & NEXT" data-zh="近期经历">CURRENT &amp; NEXT</h3>
-            <div class="about-milestones">
-              <a href="https://www.microsoft.com/en-us/research/group/systems-research-group-asia/"
-                 target="_blank" rel="noreferrer">
-                <span class="institution-logo institution-logo-microsoft" aria-hidden="true">
-                  <img src="institutions/microsoft.svg" alt="">
-                </span>
-                <span class="milestone-copy">
-                  <span class="experience-meta">
-                    <span class="mono">2026.09—2026.12</span>
-                    <span class="mono" data-en="BEIJING, CHINA"
-                          data-zh="中国北京">BEIJING, CHINA</span>
-                  </span>
-                  <strong data-en="Research Intern · Microsoft Research Asia"
-                          data-zh="研究实习生 · 微软亚洲研究院">
-                    Research Intern · Microsoft Research Asia
-                  </strong>
-                  <span class="experience-detail" data-en="Systems Research Group"
-                        data-zh="系统研究组">Systems Research Group</span>
-                </span>
-              </a>
-              <a href="https://www.ntu.edu.sg/education/student-exchanges/exchange-programmes/inbound-programmes"
-                 target="_blank" rel="noreferrer">
-                <span class="institution-logo institution-logo-ntu" aria-hidden="true">
-                  <img src="institutions/ntu-lockup.png?v=20261004" alt="" width="1200" height="430">
-                </span>
-                <span class="milestone-copy">
-                  <span class="experience-meta">
-                    <span class="mono">2027.01—2027.05</span>
-                    <span class="mono" data-en="SINGAPORE"
-                          data-zh="新加坡">SINGAPORE</span>
-                  </span>
-                  <strong data-en="Visiting Undergraduate · NTU"
-                          data-zh="公派交流本科生 · 南洋理工大学">
-                    Visiting Undergraduate · NTU
-                  </strong>
-                  <span class="experience-detail"
-                        data-en="Government-Sponsored Visiting Undergraduate Program"
-                        data-zh="国家公派优秀本科生国际交流项目">
-                    Government-Sponsored Visiting Undergraduate Program
-                  </span>
-                </span>
-              </a>
             </div>
           </div>
         </div>

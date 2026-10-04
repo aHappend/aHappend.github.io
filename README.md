@@ -58,6 +58,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   responsive, printable, and readable without JavaScript. They are technical
   information graphics rather than additional watercolor scenes, so they do not
   change the one-scene-per-section rule.
+- The four Selected Work illustrations are inline technical SVGs. On fine
+  pointers they use seamless hover/focus loops specific to each design; reduced
+  motion and print disable those animations. Keep the op-amp drawing electrically
+  legible as a differential input stage, first-stage node, common-source second
+  stage, Miller capacitor, and output path.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
   mobile navigation, animated accessible project filters, section reveals,

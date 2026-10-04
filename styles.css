@@ -459,17 +459,33 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .spec-fft .fft-spectrum path:not(:first-child) { stroke: var(--rust); }
 .spec-fft .fft-spectrum circle { fill: var(--rust); }
 .spec-analog { color: var(--rust); }
-.spec-analog :is(.opamp-inputs, .opamp-load, .opamp-stage, .opamp-cap,
-  .opamp-output, .opamp-bias) {
+.spec-analog :is(.opamp-rail, .opamp-device, .opamp-signal, .opamp-feedback) {
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.spec-analog .opamp-rail { opacity: .18; }
+.spec-analog .opamp-signal { stroke: var(--accent); }
+.spec-analog .opamp-feedback { stroke: var(--rust); }
+.spec-analog .opamp-current {
+  fill: var(--surface);
   stroke: currentColor;
   stroke-width: 1.35;
 }
-.spec-analog .opamp-cap { stroke: var(--accent); }
 .spec-analog .opamp-node {
   fill: var(--surface);
   stroke: var(--accent);
   stroke-width: 1.5;
 }
+.spec-analog .opamp-label,
+.spec-analog .opamp-polarity {
+  fill: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 6px;
+}
+.spec-analog .opamp-label-accent { fill: var(--rust); }
+.spec-analog .opamp-polarity { fill: var(--accent); font-size: 8px; }
 .spec-memory svg { width: calc(100% - 26px); height: 118px; }
 .spec-memory circle { fill: var(--surface); stroke: currentColor; stroke-width: 1.5; }
 .spec-memory .memory-reply { stroke: var(--rust); }
@@ -577,19 +593,21 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-fern.is-playing .fern-growth { visibility: visible; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
 .about-columns { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; padding-top: 28px; border-top: 1px solid var(--line); }
-.about-columns h3, .about-next h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
+.about-columns h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
 .institution-logo { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 104px; min-height: 42px; }
 .institution-logo img { display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
 .institution-logo-microsoft img { max-height: 28px; }
 .institution-logo-ntu img { max-height: 40px; }
+.experience-timeline { position: relative; }
+.experience-timeline::before { content: ""; position: absolute; top: 32px; bottom: 32px; left: -.5px; width: 1px; background: var(--line); }
+.timeline-entry { position: relative; min-height: 64px; }
+.timeline-entry::after { content: ""; position: absolute; z-index: 1; top: 50%; left: -4px; width: 8px; height: 8px; border: 1px solid var(--rust); border-radius: 50%; background: var(--paper); transform: translateY(-50%); }
 .institution-entry { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
-.about-next { margin-top: 36px; }
-.about-milestones { display: flex; flex-direction: column; border-left: 1px solid var(--line); }
-.about-milestones a { position: relative; display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding: 0 0 26px 24px; }
-.about-milestones a:last-child { padding-bottom: 0; }
-.about-milestones a::before { content: ""; position: absolute; top: 8px; left: -4px; width: 7px; height: 7px; border: 1px solid var(--rust); border-radius: 50%; background: var(--paper); }
+.timeline-section-label { margin: 34px 0 18px; padding-left: 24px; }
+.about-milestones { display: flex; flex-direction: column; gap: 22px; }
+.about-milestones a { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
 .about-milestones .institution-logo { margin: 0; color: inherit; }
 .milestone-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .experience-meta { display: flex; flex-wrap: wrap; gap: 5px 18px; }
@@ -663,9 +681,90 @@ html[lang="zh-CN"] .hero-intro { max-width: 370px; line-height: 2; }
 html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
 
 @media (hover: hover) and (pointer: fine) {
-  .project-featured:hover .chip { transform: rotate(-5deg) translateY(-4px); }
+  .project-card:is(:hover, :focus-within) .chip {
+    animation: project-chip-loop 3.2s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .chip-array i {
+    animation: project-pulse 1.8s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n + 2) { animation-delay: -.6s; }
+  .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n) { animation-delay: -1.2s; }
+
+  .project-card:is(:hover, :focus-within) .memory-query-dot,
+  .project-card:is(:hover, :focus-within) .memory-reply {
+    animation: project-pulse 1.8s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(2),
+  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(2) { animation-delay: -.3s; }
+  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(3),
+  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(3) { animation-delay: -.6s; }
+  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(4),
+  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(4) { animation-delay: -.9s; }
+  .project-card:is(:hover, :focus-within) .memory-transfer {
+    stroke-dasharray: 6 6;
+    animation: project-flow 1.2s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) .memory-stack {
+    animation: project-stack-loop 2.4s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .memory-stack circle {
+    animation: project-pulse 1.6s ease-in-out infinite;
+  }
+
+  .project-card:is(:hover, :focus-within) .fft-signal,
+  .project-card:is(:hover, :focus-within) .fft-arrow,
+  .project-card:is(:hover, :focus-within) .fft-network path {
+    stroke-dasharray: 7 5;
+    animation: project-flow 1.2s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) .fft-network circle {
+    animation: project-pulse 1.6s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n + 2) { animation-delay: -.5s; }
+  .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n) { animation-delay: -1s; }
+  .project-card:is(:hover, :focus-within) .fft-spectrum path:not(:first-child) {
+    stroke-dasharray: 80;
+    animation: project-spectrum-loop 2s ease-in-out infinite;
+  }
+  .project-card:is(:hover, :focus-within) .fft-spectrum circle {
+    animation: project-pulse 2s ease-in-out infinite;
+  }
+
+  .project-card:is(:hover, :focus-within) .opamp-signal {
+    stroke-dasharray: 7 5;
+    animation: project-flow 1.2s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) .opamp-feedback {
+    stroke-dasharray: 6 6;
+    animation: project-flow-reverse 1.5s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) :is(.opamp-node, .opamp-current) {
+    animation: project-pulse 1.8s ease-in-out infinite;
+  }
   html[data-effects="on"] .nature-hovering .butterfly-wing { animation: butterfly-flutter 700ms ease-in-out infinite alternate; }
   html[data-effects="on"] .nature-hovering .wing-right { animation-delay: -90ms; }
+}
+@keyframes project-chip-loop {
+  0%, 100% { transform: rotate(-12deg) translateY(0); }
+  50% { transform: rotate(-5deg) translateY(-4px); }
+}
+@keyframes project-pulse {
+  0%, 100% { opacity: .38; }
+  50% { opacity: 1; }
+}
+@keyframes project-flow {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes project-flow-reverse {
+  to { stroke-dashoffset: 24; }
+}
+@keyframes project-stack-loop {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(3px, -2px); }
+}
+@keyframes project-spectrum-loop {
+  0%, 100% { stroke-dashoffset: 46; opacity: .45; }
+  50% { stroke-dashoffset: 0; opacity: 1; }
 }
 @keyframes butterfly-flutter { from { transform: scaleX(1); } to { transform: scaleX(.25); } }
 @media (hover: none), (pointer: coarse) {
@@ -854,6 +953,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .research-state span:last-child { text-align: left; }
   .research-evidence strong { font-size: 22px; }
   .about-intro { font-size: 23px; margin-block: 24px 30px; }
+  .experience-timeline { margin-left: 8px; }
   .about-columns { grid-template-columns: 1fr; gap: 30px; }
   .institution-entry,
   .about-milestones a { grid-template-columns: 92px 1fr; gap: 14px; }
