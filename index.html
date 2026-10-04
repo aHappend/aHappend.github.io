@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20260908-theme-reveal">
+    <link rel="stylesheet" href="styles.css?v=20261004-research-atlas">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -242,12 +242,12 @@
               </div>
               <h3>ACE-3 MP</h3>
               <p
-                data-en="Native AWQ W4A16 research RTL demonstrated across 24 indexed decoder layers and all 624 official tensors, with 0.0899 maximum absolute error on the Token 1 hidden state."
-                data-zh="原生 AWQ W4A16 研究型 RTL 已贯通 24 层索引式解码器和全部 624 个官方张量；Token 1 隐状态最大绝对误差为 0.0899。"
+                data-en="Native AWQ W4A16 research RTL with verified G128 projection building blocks, evidence across all 624 official decoder tensors, and stage-gated integration review."
+                data-zh="原生 AWQ W4A16 研究型 RTL：已验证 G128 投影关键构件，证据覆盖全部 624 个官方解码器张量，并采用阶段门控推进集成审查。"
               >
-                Native AWQ W4A16 research RTL demonstrated across 24 indexed decoder layers and
-                all 624 official tensors, with 0.0899 maximum absolute error on the Token 1
-                hidden state.
+                Native AWQ W4A16 research RTL with verified G128 projection building blocks,
+                evidence across all 624 official decoder tensors, and stage-gated integration
+                review.
               </p>
               <a href="https://github.com/aHappend/ace-3" target="_blank" rel="noreferrer">
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
@@ -278,22 +278,23 @@
           </article>
 
           <article class="project-card reveal" data-category="systems hardware">
-            <div class="project-number mono">P.02 / ACCELERATOR</div>
+            <div class="project-number mono">P.02 / PERSISTENT RTL</div>
             <div class="project-spec spec-clock">
-              <span class="spec-value">100 <small>MHz</small></span>
-              <span class="mono">SKY130 · TIMING CLOSED</span>
+              <span class="spec-value">0 <small data-en="mismatch" data-zh="失配">mismatch</small></span>
+              <span class="mono">TWO TURNS · 24-LAYER K/V STATE</span>
             </div>
             <div class="project-body">
               <div class="project-meta">
-                <span>SystemVerilog</span><span>SKY130</span><span>Qwen2.5</span>
+                <span>SystemVerilog</span><span>W4A8</span><span>Qwen2.5</span>
               </div>
               <h3>ACE-2</h3>
               <p
-                data-en="A certified Qwen2.5 W4A8 accelerator: 13,914 RTL commands passed, then mapped to 62,283 SKY130 cells and closed timing at 100 MHz."
-                data-zh="经过认证的 Qwen2.5 W4A8 加速器：13,914 条 RTL 命令全部通过，并映射为 62,283 个 SKY130 标准单元，在 100 MHz 下实现时序收敛。"
+                data-en="A persistent W4A8 RTL dialogue baseline: two turns, four generated tokens per turn, 24 retained K/V layers, no prefix recomputation or software fallback, and zero recorded mismatches."
+                data-zh="持久化 W4A8 RTL 对话基线：完成两轮对话、每轮生成四个词元，保留 24 层 K/V 状态，不重算前缀、不使用软件回退，并保持零失配。"
               >
-                A certified Qwen2.5 W4A8 accelerator: 13,914 RTL commands passed, then mapped to
-                62,283 SKY130 cells and closed timing at 100 MHz.
+                A persistent W4A8 RTL dialogue baseline: two turns, four generated tokens per
+                turn, 24 retained K/V layers, no prefix recomputation or software fallback, and
+                zero recorded mismatches.
               </p>
               <a href="https://github.com/aHappend/ace-2" target="_blank" rel="noreferrer">
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
@@ -323,7 +324,7 @@
                 A resource-efficient radix-2 DIT FFT using folded streaming SDF RTL, Q1.15
                 arithmetic, and Python/NumPy co-verification.
               </p>
-              <a href="https://github.com/aHappend/Hardware-Implementation-and-Optimization-of-64-Point-FFT"
+              <a href="https://github.com/aHappend/64-point-fft-hardware"
                  target="_blank" rel="noreferrer">
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
                 <span aria-hidden="true">↗</span>
@@ -351,8 +352,40 @@
                 A Miller-compensated CMOS operational amplifier with AC, DC, and transient
                 verification across gain, bandwidth, stability, swing, and power.
               </p>
-              <a href="https://github.com/aHappend/design-and-simulation-of-a-two-stage-cmos-operational-amplifier"
+              <a href="https://github.com/aHappend/two-stage-cmos-op-amp"
                  target="_blank" rel="noreferrer">
+                <span data-en="View repository" data-zh="查看仓库">View repository</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-category="hardware research">
+            <div class="project-number mono">P.05 / REPRODUCIBILITY</div>
+            <div class="project-spec spec-crane">
+              <svg viewBox="0 0 320 92" fill="none" aria-hidden="true">
+                <path d="M38 49h50l34-28 42 51 38-43 39 20h42" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="38" cy="49" r="5"/><circle cx="88" cy="49" r="5"/>
+                <circle cx="122" cy="21" r="5"/><circle cx="164" cy="72" r="5"/>
+                <circle cx="202" cy="29" r="5"/><circle cx="241" cy="49" r="5"/>
+                <circle cx="283" cy="49" r="5"/>
+              </svg>
+              <span class="mono">16 NETWORKS · 31 RECORDED RUNS</span>
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span>Python</span><span>DSE</span><span>SET</span>
+              </div>
+              <h3>Crane</h3>
+              <p
+                data-en="An independent reproduction and experiment lab for graph scheduling, with 16 real network definitions, 10 inference runs, 9 training-capacity configurations, and 12 native SET runs."
+                data-zh="面向图调度的独立复现与实验平台：包含 16 个真实网络定义、10 组推理实验、9 组训练容量配置和 12 组原生 SET 运行。"
+              >
+                An independent reproduction and experiment lab for graph scheduling, with 16 real
+                network definitions, 10 inference runs, 9 training-capacity configurations, and
+                12 native SET runs.
+              </p>
+              <a href="https://github.com/aHappend/Crane" target="_blank" rel="noreferrer">
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
                 <span aria-hidden="true">↗</span>
               </a>
@@ -441,7 +474,9 @@
 
           <a class="repo-logo-card reveal" href="https://github.com/microsoft/ArgusAgent"
              target="_blank" rel="noreferrer">
-            <span class="repo-logo logo-microsoft">M</span>
+            <span class="repo-logo logo-microsoft">
+              <img src="institutions/microsoft.svg" alt="">
+            </span>
             <span class="repo-owner mono">microsoft</span>
             <strong>ArgusAgent</strong>
             <span
@@ -466,17 +501,17 @@
             <span class="repo-card-footer mono"><span>PYTHON · MATHEMATICS</span><i>↗</i></span>
           </a>
 
-          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/ace-3"
+          <a class="repo-logo-card reveal" href="https://github.com/aHappend/ace-3"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-ace3">A3</span>
-            <span class="repo-owner mono">Argus-AiTeam</span>
+            <span class="repo-owner mono">aHappend</span>
             <strong>ACE-3 MP</strong>
             <span
               class="repo-summary"
-              data-en="Verified 24-layer native-AWQ W4A16 RTL cascade, with authenticated Hybrid RTL traversal in progress."
-              data-zh="已验证的 24 层原生 AWQ W4A16 RTL 级联；正在推进经过认证的 Hybrid RTL 全链路遍历。"
-            >Verified 24-layer native-AWQ W4A16 RTL cascade, with authenticated Hybrid RTL
-              traversal in progress.</span>
+              data-en="Native-AWQ W4A16 RTL with verified G128 projection blocks, 624-tensor decoder evidence, and stage-gated integration."
+              data-zh="原生 AWQ W4A16 RTL：已验证 G128 投影模块，证据覆盖 624 个解码器张量，并采用阶段门控推进集成。"
+            >Native-AWQ W4A16 RTL with verified G128 projection blocks, 624-tensor decoder
+              evidence, and stage-gated integration.</span>
             <span class="repo-card-footer mono"><span>SYSTEMVERILOG · AWQ</span><i>↗</i></span>
           </a>
 
@@ -508,16 +543,17 @@
             <span class="repo-card-footer mono"><span>PYTHON · CUDA</span><i>↗</i></span>
           </a>
 
-          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/ace-2"
+          <a class="repo-logo-card reveal" href="https://github.com/aHappend/ace-2"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-ace">A2</span>
-            <span class="repo-owner mono">Argus-AiTeam</span>
+            <span class="repo-owner mono">aHappend</span>
             <strong>ACE-2</strong>
             <span
               class="repo-summary"
-              data-en="Evidence-first Qwen2.5 W4A8 accelerator with certified RTL integration."
-              data-zh="面向 Qwen2.5 的 W4A8 加速器，RTL 集成结果可追溯、可验证。"
-            >Evidence-first Qwen2.5 W4A8 accelerator with certified RTL integration.</span>
+              data-en="Persistent W4A8 RTL dialogue baseline with two turns, 840 layer executions, retained K/V state, and zero scoreboard mismatches."
+              data-zh="持久化 W4A8 RTL 对话基线：完成两轮对话、840 次层执行，保留 K/V 状态，记分板保持零失配。"
+            >Persistent W4A8 RTL dialogue baseline with two turns, 840 layer executions,
+              retained K/V state, and zero scoreboard mismatches.</span>
             <span class="repo-card-footer mono"><span>SYSTEMVERILOG · RTL</span><i>↗</i></span>
           </a>
 
@@ -597,6 +633,80 @@
           </a>
         </div>
 
+        <div class="research-atlas">
+          <figure class="research-map reveal">
+            <figcaption>
+              <span class="mono">01 / HYPERCUT</span>
+              <strong data-en="Search less. Schedule better."
+                      data-zh="少走弯路，更优调度。">Search less. Schedule better.</strong>
+            </figcaption>
+            <ol class="research-flow research-flow-long">
+              <li data-en="DNN DAG" data-zh="DNN 计算图">DNN DAG</li>
+              <li data-en="Hypergraph" data-zh="有向超图">Hypergraph</li>
+              <li data-en="HEM / FM" data-zh="HEM / FM">HEM / FM</li>
+              <li data-en="Map state" data-zh="映射状态">Map state</li>
+              <li data-en="Early filter" data-zh="早期筛选">Early filter</li>
+              <li data-en="SET backend" data-zh="SET 后端">SET backend</li>
+            </ol>
+            <div class="research-evidence">
+              <span>
+                <strong>2.0×</strong>
+                <small data-en="EDP improvement" data-zh="EDP 提升">EDP improvement</small>
+              </span>
+              <span>
+                <strong>80.47%</strong>
+                <small data-en="less search time" data-zh="搜索时间缩短">less search time</small>
+              </span>
+            </div>
+            <p
+              data-en="A directed-hypergraph scheduler that preserves inter-layer dependencies while pruning expensive candidates before backend evaluation."
+              data-zh="以有向超图保留层间依赖，并在后端评估前提前筛除代价高昂的候选方案。"
+            >
+              A directed-hypergraph scheduler that preserves inter-layer dependencies while
+              pruning expensive candidates before backend evaluation.
+            </p>
+          </figure>
+
+          <figure class="research-map reveal">
+            <figcaption>
+              <span class="mono">02 / ARGUS + ACE</span>
+              <strong data-en="Every result leaves evidence."
+                      data-zh="让每个结果都有证据。">Every result leaves evidence.</strong>
+            </figcaption>
+            <ol class="research-flow">
+              <li data-en="Manager" data-zh="管理者">Manager</li>
+              <li data-en="Planner" data-zh="规划者">Planner</li>
+              <li data-en="Engineer" data-zh="工程师">Engineer</li>
+              <li data-en="Reviewer" data-zh="审查者">Reviewer</li>
+            </ol>
+            <div class="research-state">
+              <span class="mono" data-en="PERSISTENT PROJECT STATE"
+                    data-zh="持久项目状态">PERSISTENT PROJECT STATE</span>
+              <span data-en="artifacts · tests · accepted evidence"
+                    data-zh="产物 · 测试 · 已验收证据">artifacts · tests · accepted evidence</span>
+            </div>
+            <div class="research-evidence">
+              <span>
+                <strong>ACE-2</strong>
+                <small data-en="840 layers · 0 mismatch"
+                       data-zh="840 次层执行 · 0 失配">840 layers · 0 mismatch</small>
+              </span>
+              <span>
+                <strong>ACE-3</strong>
+                <small data-en="624 tensors · gated review"
+                       data-zh="624 个张量 · 门控审查">624 tensors · gated review</small>
+              </span>
+            </div>
+            <p
+              data-en="A long-horizon engineering loop that separates planning, implementation, and independent review while preserving state across sessions."
+              data-zh="把规划、实现和独立审查分离，并在多轮会话之间持续保存工程状态。"
+            >
+              A long-horizon engineering loop that separates planning, implementation, and
+              independent review while preserving state across sessions.
+            </p>
+          </figure>
+        </div>
+
         <div class="research-links">
           <a href="https://arxiv.org/a/0009-0002-5674-7448.html" target="_blank" rel="noreferrer">
             arXiv profile <span aria-hidden="true">↗</span>
@@ -642,9 +752,14 @@
             </div>
             <div>
               <h3 class="mono" data-en="EDUCATION" data-zh="教育经历">EDUCATION</h3>
-              <p><strong data-en="Nanjing University" data-zh="南京大学">
-                Nanjing University
-              </strong></p>
+              <div class="institution-heading">
+                <span class="institution-logo institution-logo-nju" aria-hidden="true">
+                  <img src="institutions/nju.svg" alt="">
+                </span>
+                <p><strong data-en="Nanjing University" data-zh="南京大学">
+                  Nanjing University
+                </strong></p>
+              </div>
               <p
                 class="muted"
                 data-en="B.Eng. candidate · Integrated Circuit Design and Integrated Systems · 2023–2027"
@@ -659,27 +774,37 @@
             <div class="about-milestones">
               <a href="https://www.microsoft.com/en-us/research/group/systems-research-group-asia/"
                  target="_blank" rel="noreferrer">
-                <span class="mono" data-en="SEP—DEC 2026"
-                      data-zh="2026年9月—12月">SEP—DEC 2026</span>
-                <strong data-en="Incoming Research Intern · MSRA"
-                        data-zh="即将入职研究实习生 · 微软亚洲研究院">
-                  Incoming Research Intern · MSRA
-                </strong>
-                <p data-en="Systems Research Group · Beijing"
-                   data-zh="系统研究组 · 北京">Systems Research Group · Beijing</p>
+                <span class="institution-logo institution-logo-microsoft" aria-hidden="true">
+                  <img src="institutions/microsoft.svg" alt="">
+                </span>
+                <span class="milestone-copy">
+                  <span class="mono" data-en="SEP—DEC 2026"
+                        data-zh="2026年9月—12月">SEP—DEC 2026</span>
+                  <strong data-en="Research Intern · MSRA"
+                          data-zh="研究实习生 · 微软亚洲研究院">
+                    Research Intern · MSRA
+                  </strong>
+                  <span data-en="Systems Research Group · Beijing"
+                        data-zh="系统研究组 · 北京">Systems Research Group · Beijing</span>
+                </span>
               </a>
               <a href="https://www.ntu.edu.sg/education/student-exchanges/exchange-programmes/inbound-programmes"
                  target="_blank" rel="noreferrer">
-                <span class="mono" data-en="JAN—MAY 2027"
-                      data-zh="2027年1月—5月">JAN—MAY 2027</span>
-                <strong data-en="Visiting Undergraduate · NTU"
-                        data-zh="公派交流本科生 · 南洋理工大学">
-                  Visiting Undergraduate · NTU
-                </strong>
-                <p data-en="Government-sponsored exchange · Singapore"
-                   data-zh="国家公派优秀本科生国际交流项目 · 新加坡">
-                  Government-sponsored exchange · Singapore
-                </p>
+                <span class="institution-logo institution-logo-ntu" aria-hidden="true">
+                  <img src="institutions/ntu.png" alt="">
+                </span>
+                <span class="milestone-copy">
+                  <span class="mono" data-en="JAN—MAY 2027"
+                        data-zh="2027年1月—5月">JAN—MAY 2027</span>
+                  <strong data-en="Visiting Undergraduate · NTU"
+                          data-zh="公派交流本科生 · 南洋理工大学">
+                    Visiting Undergraduate · NTU
+                  </strong>
+                  <span data-en="Government-sponsored exchange · Singapore"
+                        data-zh="国家公派优秀本科生国际交流项目 · 新加坡">
+                    Government-sponsored exchange · Singapore
+                  </span>
+                </span>
               </a>
             </div>
           </div>

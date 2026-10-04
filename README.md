@@ -22,6 +22,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
+- `institutions/`: official institutional identity assets used as factual
+  lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
+  bilingual mark in university purple, `microsoft.svg` is Microsoft's official
+  corporate wordmark, and `ntu.png` is the highest-resolution official NTU
+  lockup available from its public brand guide. Preserve each asset's aspect
+  ratio, colors, and surrounding white plate.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
@@ -46,6 +52,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   background gradients. A single static, non-interactive CSS layer sits behind
   all content, with quieter dark-theme opacity and no printed background.
   Keep the reading area light and leave the seven scene compositions untouched.
+- The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
+  `index.html`. They use the site's theme variables and remain bilingual,
+  responsive, printable, and readable without JavaScript. They are technical
+  information graphics rather than additional watercolor scenes, so they do not
+  change the one-scene-per-section rule.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls, mobile navigation, animated accessible
   project filters, section reveals, layered illustration parallax, a fluttering
