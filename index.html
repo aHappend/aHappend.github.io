@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-visual-cleanup">
+    <link rel="stylesheet" href="styles.css?v=20261004-argus-opamp">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -389,25 +389,63 @@
             <div class="project-number mono" data-en="P.04 / ANALOG"
                  data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
             <div class="project-spec spec-analog">
-              <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
-                <path class="diagram-grid" d="M8 18h304M8 52h304M8 86h304"/>
+              <svg viewBox="0 0 360 120" fill="none" aria-hidden="true">
+                <path class="diagram-grid" d="M8 20h344M8 60h344M8 100h344"/>
+                <g class="opamp-rail">
+                  <path d="M60 8h270M60 112h270"/>
+                </g>
+                <g class="opamp-wire">
+                  <path d="M90 8v6M140 8v6M300 8v6"/>
+                  <path d="M90 44v9M140 44v9M300 44v19M300 93v19"/>
+                  <path d="M90 83v3h25M140 83v3h-25M115 82v4"/>
+                  <path d="M115 112v0"/>
+                </g>
+                <g class="opamp-device opamp-device-p"
+                   transform="translate(90 29) scale(-1 1)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
+                  <circle cx="-8.5" cy="0" r="1.5"/>
+                </g>
+                <g class="opamp-device opamp-device-p" transform="translate(140 29)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
+                  <circle cx="-8.5" cy="0" r="1.5"/>
+                </g>
+                <g class="opamp-mirror">
+                  <path d="M108 29h14M108 29v18H90"/>
+                </g>
+                <g class="opamp-device opamp-device-n" transform="translate(90 68)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                </g>
+                <g class="opamp-device opamp-device-n"
+                   transform="translate(140 68) scale(-1 1)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                </g>
+                <g class="opamp-device opamp-device-n" transform="translate(115 97)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                </g>
+                <g class="opamp-device opamp-device-p"
+                   transform="translate(300 29) scale(-1 1)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h8"/>
+                  <circle cx="-8.5" cy="0" r="1.5"/>
+                </g>
+                <g class="opamp-device opamp-device-n" transform="translate(300 78)">
+                  <path d="M0-15v7M0 8v7M0-8V8M-7-7V7M-18 0h11"/>
+                </g>
                 <g class="opamp-signal">
-                  <path d="M22 38h41M22 66h41"/>
-                  <path d="M124 52h36M218 52h82m-8-7 8 7-8 7"/>
+                  <path d="M22 68h50M202 68h-44"/>
+                  <path d="M140 49h100v29h42"/>
+                  <path d="M300 54h48m-8-7 8 7-8 7"/>
                 </g>
-                <circle class="opamp-node" cx="18" cy="38" r="3.5"/>
-                <circle class="opamp-node" cx="18" cy="66" r="3.5"/>
-                <path class="opamp-stage" d="M63 27v50l61-25z"/>
-                <path class="opamp-stage opamp-stage-second" d="M160 32v40l58-20z"/>
-                <circle class="opamp-node" cx="132" cy="52" r="4"/>
-                <circle class="opamp-node" cx="236" cy="52" r="4"/>
+                <circle class="opamp-node" cx="18" cy="68" r="3.5"/>
+                <circle class="opamp-node" cx="206" cy="68" r="3.5"/>
+                <circle class="opamp-node opamp-node-rust" cx="140" cy="49" r="4"/>
+                <circle class="opamp-node opamp-node-rust" cx="300" cy="54" r="4"/>
+                <g class="opamp-bias">
+                  <path d="M75 97h22M318 29h12"/>
+                  <circle cx="75" cy="97" r="2.5"/><circle cx="330" cy="29" r="2.5"/>
+                </g>
                 <g class="opamp-feedback">
-                  <path d="M236 48V22h-35M187 22h-55v26"/>
-                  <path d="M187 15v14M201 15v14"/>
-                </g>
-                <g class="opamp-stage-detail">
-                  <path class="opamp-detail-primary" d="M79 45l10 7-10 7M96 45l10 7-10 7"/>
-                  <path class="opamp-detail-secondary" d="M176 46l9 6-9 6M191 46l9 6-9 6"/>
+                  <path d="M200 49V18h25M235 18h35v36h30"/>
+                  <path d="M225 11v14M235 11v14"/>
                 </g>
               </svg>
             </div>
@@ -480,8 +518,8 @@
               data-zh="构建持久运行、拓展人类能力的 AI 系统。"
             >Building persistent AI systems that extend human capability.</span>
           </span>
-          <span class="org-strip-meta mono" data-en="07 ORIGINAL PROJECTS · 02 COLLABORATIONS"
-                data-zh="07 个原创项目 · 02 项协作">07 ORIGINAL PROJECTS · 02 COLLABORATIONS</span>
+          <span class="org-strip-meta mono" data-en="09 TEAM REPOSITORIES · 02 COLLABORATIONS"
+                data-zh="09 个团队仓库 · 02 项协作">09 TEAM REPOSITORIES · 02 COLLABORATIONS</span>
           <span class="org-strip-actions">
             <a href="https://argusbot.cn/" target="_blank" rel="noreferrer">
               <span data-en="Website" data-zh="官方网站">Website</span>
@@ -528,6 +566,36 @@
                   data-zh="PYTHON · 合作">PYTHON · COLLABORATION</span><i>↗</i></span>
           </a>
 
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/argus-verticals"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-verticals">V+</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>Argus Verticals</strong>
+            <span
+              class="repo-summary"
+              data-en="Community domain packs that extend Argus with reviewed workflows, role guidance, skills, and completion gates."
+              data-zh="为 Argus 扩展社区领域包，提供经过审查的工作流、角色指引、技能与完成门槛。"
+            >Community domain packs that extend Argus with reviewed workflows, role guidance,
+              skills, and completion gates.</span>
+            <span class="repo-card-footer mono"><span data-en="PYTHON · PLUGINS"
+                  data-zh="PYTHON · 插件">PYTHON · PLUGINS</span><i>↗</i></span>
+          </a>
+
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/Argus-Pi"
+             target="_blank" rel="noreferrer">
+            <span class="repo-logo logo-pi">π</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
+            <strong>Argus-Pi</strong>
+            <span
+              class="repo-summary"
+              data-en="Maintained Pi fork for Argus model requests, tool execution, context and session reliability, and task handoffs."
+              data-zh="面向 Argus 的 Pi 维护分支，强化模型请求、工具执行、上下文与会话可靠性以及任务交接。"
+            >Maintained Pi fork for Argus model requests, tool execution, context and session
+              reliability, and task handoffs.</span>
+            <span class="repo-card-footer mono"><span data-en="TYPESCRIPT · HARNESS"
+                  data-zh="TYPESCRIPT · 执行框架">TYPESCRIPT · HARNESS</span><i>↗</i></span>
+          </a>
+
           <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/argus-mathematics"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-math">∑</span>
@@ -543,10 +611,10 @@
                   data-zh="PYTHON · 数学">PYTHON · MATHEMATICS</span><i>↗</i></span>
           </a>
 
-          <a class="repo-logo-card reveal" href="https://github.com/aHappend/ace-3"
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/ace-3"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-ace3">A3</span>
-            <span class="repo-owner mono">aHappend</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
             <strong>ACE-3 MP</strong>
             <span
               class="repo-summary"
@@ -586,10 +654,10 @@
             <span class="repo-card-footer mono"><span>PYTHON · CUDA</span><i>↗</i></span>
           </a>
 
-          <a class="repo-logo-card reveal" href="https://github.com/aHappend/ace-2"
+          <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/ace-2"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-ace">A2</span>
-            <span class="repo-owner mono">aHappend</span>
+            <span class="repo-owner mono">Argus-AiTeam</span>
             <strong>ACE-2</strong>
             <span
               class="repo-summary"

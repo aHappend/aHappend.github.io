@@ -459,29 +459,29 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .spec-fft .fft-spectrum path:not(:first-child) { stroke: var(--rust); }
 .spec-fft .fft-spectrum circle { fill: var(--rust); }
 .spec-analog { color: var(--rust); }
-.spec-analog :is(.opamp-stage, .opamp-signal, .opamp-feedback, .opamp-stage-detail) {
+.spec-analog :is(.opamp-rail, .opamp-wire, .opamp-device, .opamp-mirror, .opamp-signal, .opamp-feedback, .opamp-bias) {
   stroke: currentColor;
   stroke-width: 1.35;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.spec-analog .opamp-stage {
-  fill: color-mix(in srgb, var(--rust) 8%, var(--surface));
-  stroke-width: 1.5;
-}
-.spec-analog .opamp-stage-second {
-  fill: color-mix(in srgb, var(--accent) 8%, var(--surface));
-  stroke: var(--accent);
-}
+.spec-analog .opamp-rail { opacity: .24; }
+.spec-analog .opamp-wire { color: var(--muted); opacity: .8; }
+.spec-analog .opamp-device { stroke-width: 1.5; }
+.spec-analog .opamp-device-p { color: var(--rust); }
+.spec-analog .opamp-device-p circle { fill: var(--surface); }
+.spec-analog .opamp-device-n { color: var(--accent); }
+.spec-analog .opamp-mirror { color: var(--rust); }
 .spec-analog .opamp-signal { stroke: var(--accent); }
 .spec-analog .opamp-feedback { stroke: var(--rust); }
-.spec-analog .opamp-stage-detail { opacity: .7; }
-.spec-analog .opamp-detail-secondary { stroke: var(--accent); }
+.spec-analog .opamp-bias { color: var(--muted); }
+.spec-analog .opamp-bias circle { fill: currentColor; stroke: none; }
 .spec-analog .opamp-node {
   fill: var(--surface);
   stroke: var(--accent);
   stroke-width: 1.5;
 }
+.spec-analog .opamp-node-rust { stroke: var(--rust); }
 .spec-memory svg { width: calc(100% - 26px); height: 118px; }
 .spec-memory circle { fill: var(--surface); stroke: currentColor; stroke-width: 1.5; }
 .spec-memory .memory-reply { stroke: var(--rust); }
@@ -541,6 +541,8 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .logo-microsoft img { display: block; width: 100%; height: auto; }
 .logo-ace, .logo-hilbert { color: var(--rust); }
 .logo-hilbert { font-size: 18px; line-height: 1; }
+.logo-verticals { color: var(--accent); font-size: 19px; }
+.logo-pi { color: var(--rust); font-family: var(--font-display); font-size: 26px; }
 .repo-owner { position: absolute; top: 39px; right: 28px; color: var(--muted); font-size: 10px; }
 .repo-logo-card > strong { font-size: 19px; font-weight: 600; letter-spacing: -.045em; line-height: 1.35; }
 .repo-summary { margin: 13px 0 22px; color: var(--muted); font-size: 14px; line-height: 1.85; }

@@ -60,12 +60,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   responsive, printable, and readable without JavaScript. They are technical
   information graphics rather than additional watercolor scenes, so they do not
   change the one-scene-per-section rule.
+- The Argus ecosystem grid tracks public team repositories with meaningful
+  team-owned or maintained work. Use organization URLs for ACE mirrors and
+  maintained downstream projects; omit untouched integration/staging forks.
 - The four Selected Work illustrations are inline technical SVGs. On fine
   pointers they use seamless hover/focus loops specific to each design; reduced
   motion and print disable those animations. Keep the FFT and op-amp drawings
-  text-free. The op-amp is a conceptual signal diagram with paired inputs, two
-  aligned gain stages, an independent Miller-capacitor loop, and one output path;
-  do not reintroduce crowded transistor-level wiring.
+  text-free. The op-amp uses one shared MOS geometry on a strict grid: mirrored
+  PMOS active loads, an NMOS differential pair and tail device, a separate
+  PMOS-loaded common-source second stage, and a Miller-capacitor route that does
+  not cross any device. Preserve that topology and alignment.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
   mobile navigation, animated accessible project filters, section reveals,
