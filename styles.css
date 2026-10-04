@@ -763,6 +763,9 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   .project-card:is(:hover, :focus-within) .fft-signal {
     animation: fft-wave-loop 5.5s cubic-bezier(.45, 0, .55, 1) infinite;
   }
+  .project-card:is(:hover, :focus-within) .fft-wave-track {
+    animation: fft-wave-travel 5.5s linear infinite;
+  }
   .project-card:is(:hover, :focus-within) .fft-network circle {
     animation: project-pulse 1.6s ease-in-out infinite;
   }
@@ -819,6 +822,10 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   80% {
     d: path("M9 52C12 75 17 78 21 60S29 18 33 38 41 82 45 68 53 25 57 36 65 74 69 62 77 30 81 52");
   }
+}
+@keyframes fft-wave-travel {
+  from { transform: translateX(-72px); }
+  to { transform: translateX(0); }
 }
 @keyframes fft-bin-loop {
   0%, 100% { transform: scaleY(var(--fft-a)); }

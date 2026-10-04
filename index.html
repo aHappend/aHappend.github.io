@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-mos-reference-fft5">
+    <link rel="stylesheet" href="styles.css?v=20261005-fft-travel">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -352,9 +352,22 @@
                  data-zh="P.03 / 数字电路">P.03 / DIGITAL</div>
             <div class="project-spec spec-fft">
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
+                <defs>
+                  <clipPath id="fft-wave-window">
+                    <rect x="8" y="8" width="74" height="88"/>
+                  </clipPath>
+                </defs>
                 <path class="diagram-grid" d="M8 19h304M8 41h304M8 63h304M8 85h304"/>
-                <path class="fft-signal"
-                      d="M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52"/>
+                <g clip-path="url(#fft-wave-window)">
+                  <g class="fft-wave-track">
+                    <path class="fft-signal" transform="translate(-72)"
+                          d="M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52"/>
+                    <path class="fft-signal"
+                          d="M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52"/>
+                    <path class="fft-signal" transform="translate(72)"
+                          d="M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52"/>
+                  </g>
+                </g>
                 <path class="fft-arrow" d="M82 52h17m-6-6 6 6-6 6"/>
                 <g class="fft-network">
                   <path d="M108 19h28M108 41h28M108 63h28M108 85h28M108 19l28 22M108 41l28-22M108 63l28 22M108 85l28-22"/>

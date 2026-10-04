@@ -71,7 +71,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   array, retained state banks, and the state-reuse return path. The FFT time
   waveform uses five phase-aligned stages spanning sinusoidal, asymmetric
   harmonic, beating, pulse-like, and chirped shapes; its spectrum bins remain
-  independent stems without a connecting envelope. The op-amp uses the
+  independent stems without a connecting envelope. Three tiled waveform copies
+  travel right through a clipped viewport, making the phase advance seamless
+  across loop boundaries instead of deforming in place. The op-amp uses the
   referenced four-terminal enhancement MOS symbols: segmented channel,
   insulated gate, independent source/drain stems, and an open bulk terminal.
   The NMOS bulk arrow points toward the channel and the PMOS arrow points away.
