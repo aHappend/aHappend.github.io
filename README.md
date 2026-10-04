@@ -25,9 +25,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `institutions/`: official institutional identity assets used as factual
   lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
   bilingual mark in university purple, `microsoft.svg` is Microsoft's official
-  corporate wordmark, and `ntu.png` is the highest-resolution official NTU
-  lockup available from its public brand guide. Preserve each asset's aspect
-  ratio, colors, and surrounding white plate.
+  corporate wordmark, and `ntu-lockup.png` is the web-sized official NTU lockup
+  from its public brand guide. Preserve each asset's aspect ratio and colors;
+  institution marks in the About section sit directly on the page without a
+  surrounding plate.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
