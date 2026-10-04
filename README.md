@@ -28,9 +28,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   corporate wordmark, and `ntu-lockup.png` is the web-sized official NTU lockup
   from its public brand guide. Preserve each asset's aspect ratio and source
   colors. Dark mode uses one consistent white plate behind the marks rather
-  than recoloring or brightening the assets. Keep the technology stack beneath
-  the fern so the education and experience timeline can use the full right
-  column.
+  than recoloring or brightening the assets. The plate is a pseudo-element:
+  never add logo-container padding or otherwise change the rendered image size
+  between themes. Keep the technology stack beneath the fern so the education
+  and experience timeline can use the full right column.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain

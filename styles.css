@@ -599,13 +599,15 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .experience-panel { padding-top: 28px; border-top: 1px solid var(--line); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
-.institution-logo { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 104px; min-height: 42px; }
-.institution-logo img { display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
+.institution-logo { position: relative; isolation: isolate; display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 104px; min-height: 42px; }
+.institution-logo img { position: relative; z-index: 1; display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
 .institution-logo-microsoft img { max-height: 28px; }
 .institution-logo-ntu img { max-height: 40px; }
-html[data-theme="dark"] .institution-logo {
-  min-height: 46px;
-  padding: 6px 8px;
+html[data-theme="dark"] .institution-logo::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: -4px;
   border: 1px solid rgb(255 255 255 / .16);
   border-radius: 2px;
   background: #fff;
@@ -1015,6 +1017,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
 @media print {
   body::before { display: none; }
   .site-header, .noise, .reading-progress, .scene-art, .garden-particles, .discipline-strip, .enhanced-control, .contact-actions, footer { display: none !important; }
+  .institution-logo::before { display: none !important; }
   .institution-logo img { filter: none !important; }
   :root, html[data-theme="dark"] { --paper: white; --ink: black; --muted: #444; --accent: #333; --rust: #333; --line: #bbb; --surface: white; --gutter: 0px; }
   body { background: white; }
