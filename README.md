@@ -26,9 +26,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
   bilingual mark in university purple, `microsoft.svg` is Microsoft's official
   corporate wordmark, and `ntu-lockup.png` is the web-sized official NTU lockup
-  from its public brand guide. Preserve each asset's aspect ratio and colors;
-  institution marks in the About section sit directly on the page without a
-  surrounding plate.
+  from its public brand guide. Preserve each asset's aspect ratio and source
+  colors; dark mode may apply a uniform luminance/filter enhancement for
+  legibility. Institution marks in the About section sit directly on the page
+  without a surrounding plate. Keep the technology stack beneath the fern so
+  the education and experience timeline can use the full right column.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain

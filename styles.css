@@ -592,14 +592,25 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-fern.is-playing > img { opacity: 0; }
 .scene-fern.is-playing .fern-growth { visibility: visible; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
-.about-columns { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; padding-top: 28px; border-top: 1px solid var(--line); }
-.about-columns h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
+.about-stack { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--line); }
+.about-stack h3,
+.experience-panel > h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
+.experience-panel { padding-top: 28px; border-top: 1px solid var(--line); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
 .institution-logo { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 104px; min-height: 42px; }
 .institution-logo img { display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
 .institution-logo-microsoft img { max-height: 28px; }
 .institution-logo-ntu img { max-height: 40px; }
+html[data-theme="dark"] .institution-logo-nju img {
+  filter: brightness(1.9) saturate(.82) drop-shadow(0 0 9px rgb(226 239 240 / .2));
+}
+html[data-theme="dark"] .institution-logo-microsoft img {
+  filter: brightness(1.45) drop-shadow(0 0 8px rgb(226 239 240 / .18));
+}
+html[data-theme="dark"] .institution-logo-ntu img {
+  filter: brightness(1.65) saturate(.88) contrast(1.05) drop-shadow(0 0 8px rgb(226 239 240 / .2));
+}
 .experience-timeline { position: relative; }
 .experience-timeline::before { content: ""; position: absolute; top: 32px; bottom: 32px; left: -.5px; width: 1px; background: var(--line); }
 .timeline-entry { position: relative; min-height: 64px; }
@@ -614,7 +625,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .experience-meta > span { color: var(--muted); font-size: 8px; letter-spacing: .08em; }
 .milestone-copy strong { display: block; font-size: 13px; line-height: 1.45; }
 .experience-detail { color: var(--muted); font-size: 11px; line-height: 1.55; }
-.about-milestones a:hover strong { color: var(--accent); }
+.experience-timeline a:hover strong { color: var(--accent); }
 
 .social-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 30px; }
 .social-card { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 0 14px; padding: 25px 0; border-top: 1px solid var(--line); }
@@ -854,7 +865,6 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .scene-fern { width: 100%; height: 300px; margin: 18px 0 0; }
   .scene-fern > img { object-position: right center; }
   .about-intro { max-width: 650px; margin-top: 30px; }
-  .about-columns { grid-template-columns: 1fr 1fr; gap: 50px; }
   .social-grid { grid-template-columns: 1fr 1fr; }
   footer .mono { display: none; }
 }
@@ -954,7 +964,6 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .research-evidence strong { font-size: 22px; }
   .about-intro { font-size: 23px; margin-block: 24px 30px; }
   .experience-timeline { margin-left: 8px; }
-  .about-columns { grid-template-columns: 1fr; gap: 30px; }
   .institution-entry,
   .about-milestones a { grid-template-columns: 92px 1fr; gap: 14px; }
   .institution-entry .institution-logo,
@@ -1005,6 +1014,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
 @media print {
   body::before { display: none; }
   .site-header, .noise, .reading-progress, .scene-art, .garden-particles, .discipline-strip, .enhanced-control, .contact-actions, footer { display: none !important; }
+  .institution-logo img { filter: none !important; }
   :root, html[data-theme="dark"] { --paper: white; --ink: black; --muted: #444; --accent: #333; --rust: #333; --line: #bbb; --surface: white; --gutter: 0px; }
   body { background: white; }
   .hero { display: block; }
