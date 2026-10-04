@@ -760,11 +760,8 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
     stroke-dasharray: 7 5;
     animation: project-flow 1.2s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-signal {
-    animation: fft-wave-loop 5.5s cubic-bezier(.45, 0, .55, 1) infinite;
-  }
   .project-card:is(:hover, :focus-within) .fft-wave-track {
-    animation: fft-wave-travel 5.5s linear infinite;
+    animation: fft-wave-travel 9s linear infinite;
   }
   .project-card:is(:hover, :focus-within) .fft-network circle {
     animation: project-pulse 1.6s ease-in-out infinite;
@@ -772,7 +769,7 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n + 2) { animation-delay: -.5s; }
   .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n) { animation-delay: -1s; }
   .project-card:is(:hover, :focus-within) .fft-bin {
-    animation: fft-bin-loop 5.5s cubic-bezier(.45, 0, .55, 1) infinite;
+    animation: fft-bin-loop 9s cubic-bezier(.45, 0, .55, 1) infinite;
   }
   .project-card:is(:hover, :focus-within) .opamp-signal {
     stroke-dasharray: 7 5;
@@ -806,26 +803,9 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(3px, -2px); }
 }
-@keyframes fft-wave-loop {
-  0%, 100% {
-    d: path("M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52");
-  }
-  20% {
-    d: path("M9 52C12 20 16 38 21 46S28 78 33 65 40 18 45 34 52 82 57 57 64 24 69 43 76 75 81 52");
-  }
-  40% {
-    d: path("M9 52C13 30 17 30 21 52S29 70 33 52 41 10 45 52 53 94 57 52 65 34 69 52 77 68 81 52");
-  }
-  60% {
-    d: path("M9 52C13 52 17 20 21 20S29 20 33 52 41 84 45 84 53 84 57 52 65 35 69 35 77 69 81 52");
-  }
-  80% {
-    d: path("M9 52C12 75 17 78 21 60S29 18 33 38 41 82 45 68 53 25 57 36 65 74 69 62 77 30 81 52");
-  }
-}
 @keyframes fft-wave-travel {
-  from { transform: translateX(-72px); }
-  to { transform: translateX(0); }
+  from { transform: translateX(0); }
+  to { transform: translateX(216px); }
 }
 @keyframes fft-bin-loop {
   0%, 100% { transform: scaleY(var(--fft-a)); }
