@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-project-art">
+    <link rel="stylesheet" href="styles.css?v=20261004-language-motion">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -70,7 +70,8 @@
         <span class="brand-mark">
           <img src="/brand/mark.svg?v=20260906-sg-seal" alt="" width="40" height="40">
         </span>
-        <span class="brand-text">Sufeng Guo<span class="brand-note">RESEARCH &amp; ENGINEERING</span></span>
+        <span class="brand-text">Sufeng Guo<span class="brand-note"
+              data-en="RESEARCH &amp; ENGINEERING" data-zh="研究与工程">RESEARCH &amp; ENGINEERING</span></span>
       </a>
       <nav class="desktop-nav" id="primary-navigation" aria-label="Primary navigation">
         <a href="#work" data-en="Work" data-zh="项目">Work</a>
@@ -129,7 +130,8 @@
         </button>
         <div class="hero-edition mono">
           <span data-en="A PERSONAL FIELD GUIDE" data-zh="一份持续生长的研究手记">A PERSONAL FIELD GUIDE</span>
-          <span>AI SYSTEMS &amp; SILICON / 2026</span>
+          <span data-en="AI SYSTEMS &amp; SILICON / 2026"
+                data-zh="AI 系统与芯片 / 2026">AI SYSTEMS &amp; SILICON / 2026</span>
         </div>
         <div class="hero-copy">
           <p class="eyebrow reveal">
@@ -207,9 +209,11 @@
       </section>
 
       <div class="discipline-strip mono" aria-label="Research interests">
-        <span>AUTONOMOUS AI</span><i aria-hidden="true">✳</i><span>AI ACCELERATORS</span>
-        <i aria-hidden="true">✳</i><span>DNN SCHEDULING</span><i aria-hidden="true">✳</i>
-        <span>HARDWARE–SOFTWARE CO-DESIGN</span>
+        <span data-en="AUTONOMOUS AI" data-zh="自主 AI">AUTONOMOUS AI</span><i aria-hidden="true">✳</i>
+        <span data-en="AI ACCELERATORS" data-zh="AI 加速器">AI ACCELERATORS</span>
+        <i aria-hidden="true">✳</i><span data-en="DNN SCHEDULING" data-zh="DNN 调度">DNN SCHEDULING</span>
+        <i aria-hidden="true">✳</i><span data-en="HARDWARE–SOFTWARE CO-DESIGN"
+              data-zh="软硬件协同设计">HARDWARE–SOFTWARE CO-DESIGN</span>
       </div>
 
       <section class="section" id="work">
@@ -234,7 +238,8 @@
         <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
         <div class="project-grid">
           <article class="project-card project-featured reveal" data-category="systems hardware research">
-            <div class="project-number mono">P.01 / MIXED PRECISION</div>
+            <div class="project-number mono" data-en="P.01 / MIXED PRECISION"
+                 data-zh="P.01 / 混合精度">P.01 / MIXED PRECISION</div>
             <div class="project-body">
               <div class="project-meta">
                 <span data-en="Active development" data-zh="持续研发中">Active development</span>
@@ -255,7 +260,8 @@
               </a>
             </div>
             <div class="silicon-visual">
-              <div class="silicon-visual-label mono"><span>NATIVE AWQ</span><span>W4A16 / RTL</span></div>
+              <div class="silicon-visual-label mono"><span data-en="NATIVE AWQ"
+                    data-zh="原生 AWQ">NATIVE AWQ</span><span>W4A16 / RTL</span></div>
               <div class="chip-orbit" aria-hidden="true">
                 <div class="chip">
                   <span class="chip-name">ACE–3</span>
@@ -265,7 +271,8 @@
                     <i></i><i></i><i></i><i></i><i></i><i></i>
                     <i></i><i></i><i></i><i></i><i></i><i></i>
                   </div>
-                  <span class="mono">MIXED PRECISION</span>
+                  <span class="mono" data-en="MIXED PRECISION"
+                        data-zh="混合精度">MIXED PRECISION</span>
                 </div>
               </div>
               <div class="silicon-metrics">
@@ -278,7 +285,8 @@
           </article>
 
           <article class="project-card reveal" data-category="systems hardware">
-            <div class="project-number mono">P.02 / PERSISTENT RTL</div>
+            <div class="project-number mono" data-en="P.02 / PERSISTENT RTL"
+                 data-zh="P.02 / 持久化 RTL">P.02 / PERSISTENT RTL</div>
             <div class="project-spec spec-memory">
               <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
                 <path d="M24 18h86a9 9 0 0 1 9 9v21a9 9 0 0 1-9 9H59L43 70V57H24a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z"
@@ -324,19 +332,43 @@
           </article>
 
           <article class="project-card reveal" data-category="hardware">
-            <div class="project-number mono">P.03 / DIGITAL</div>
-            <div class="project-spec spec-wave">
-              <svg viewBox="0 0 320 80" fill="none" aria-hidden="true">
-                <path d="M0 40h320" stroke="currentColor" stroke-opacity=".2"/>
-                <path d="M0 40C20-10 20-10 40 40S60 90 80 40 100-10 120 40 140 90 160 40 180-10 200 40 220 90 240 40 260-10 280 40 300 90 320 40" stroke="currentColor" stroke-width="1.5"/>
+            <div class="project-number mono" data-en="P.03 / DIGITAL"
+                 data-zh="P.03 / 数字电路">P.03 / DIGITAL</div>
+            <div class="project-spec spec-fft">
+              <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
+                <path class="diagram-grid" d="M8 19h304M8 41h304M8 63h304M8 85h304"/>
+                <path class="fft-signal"
+                      d="M9 52c8-25 16-25 24 0s16 25 24 0 16-25 24 0"/>
+                <path class="fft-arrow" d="M82 52h17m-6-6 6 6-6 6"/>
+                <g class="fft-network">
+                  <path d="M108 19h28M108 41h28M108 63h28M108 85h28M108 19l28 22M108 41l28-22M108 63l28 22M108 85l28-22"/>
+                  <path d="M136 19h28M136 41h28M136 63h28M136 85h28M136 19l28 44M136 41l28 44M136 63l28-44M136 85l28-44"/>
+                  <path d="M164 19h28M164 41h28M164 63h28M164 85h28M164 19l28 66M164 41l28 22M164 63l28-22M164 85l28-66"/>
+                  <circle cx="108" cy="19" r="3"/><circle cx="108" cy="41" r="3"/>
+                  <circle cx="108" cy="63" r="3"/><circle cx="108" cy="85" r="3"/>
+                  <circle cx="136" cy="19" r="3"/><circle cx="136" cy="41" r="3"/>
+                  <circle cx="136" cy="63" r="3"/><circle cx="136" cy="85" r="3"/>
+                  <circle cx="164" cy="19" r="3"/><circle cx="164" cy="41" r="3"/>
+                  <circle cx="164" cy="63" r="3"/><circle cx="164" cy="85" r="3"/>
+                  <circle cx="192" cy="19" r="3"/><circle cx="192" cy="41" r="3"/>
+                  <circle cx="192" cy="63" r="3"/><circle cx="192" cy="85" r="3"/>
+                </g>
+                <path class="fft-arrow" d="M201 52h17m-6-6 6 6-6 6"/>
+                <g class="fft-spectrum">
+                  <path d="M230 88h80"/>
+                  <path d="M237 88V71M247 88V44M257 88V64M267 88V22M277 88V55M287 88V36M297 88V68M307 88V78"/>
+                  <circle cx="247" cy="44" r="2.5"/><circle cx="267" cy="22" r="2.5"/>
+                  <circle cx="287" cy="36" r="2.5"/>
+                </g>
               </svg>
-              <span class="mono">64 POINTS · Q1.15</span>
+              <span class="mono" data-en="64 POINTS · RADIX-2 SDF · Q1.15"
+                    data-zh="64 点 · 基二 SDF · Q1.15">64 POINTS · RADIX-2 SDF · Q1.15</span>
             </div>
             <div class="project-body">
               <div class="project-meta">
                 <span>SystemVerilog</span><span>FPGA</span><span>DSP</span>
               </div>
-              <h3>64-Point FFT</h3>
+              <h3 data-en="64-Point FFT" data-zh="64 点 FFT">64-Point FFT</h3>
               <p
                 data-en="A resource-efficient radix-2 DIT FFT using folded streaming SDF RTL, Q1.15 arithmetic, and Python/NumPy co-verification."
                 data-zh="资源友好的 64 点基二 DIT FFT：采用折叠式流处理 SDF RTL 和 Q1.15 定点运算，并用 Python/NumPy 交叉验证。"
@@ -353,18 +385,42 @@
           </article>
 
           <article class="project-card reveal" data-category="hardware research">
-            <div class="project-number mono">P.04 / ANALOG</div>
+            <div class="project-number mono" data-en="P.04 / ANALOG"
+                 data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
             <div class="project-spec spec-analog">
-              <svg viewBox="0 0 320 80" fill="none" aria-hidden="true">
-                <path d="M130 8v64l65-32-65-32Zm-45 16h45m-45 32h45m65-16h40M140 24h10m-5-5v10m-5 26h10" stroke="currentColor" stroke-width="1.5"/>
+              <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
+                <path class="diagram-grid" d="M18 12h284M18 92h284"/>
+                <g class="opamp-inputs">
+                  <path d="M18 42h42M18 66h42"/>
+                  <circle cx="18" cy="42" r="3"/><circle cx="18" cy="66" r="3"/>
+                  <path d="M60 30v24m8-20v16M60 42h-8M68 50v18m-8-14v18M60 66h-8"/>
+                  <path d="M68 34c15 0 22 8 30 19M68 68c15 0 22-8 30-19"/>
+                </g>
+                <g class="opamp-load">
+                  <path d="M86 12v17m28-17v17M78 29h16m12 0h16M86 29v15m28-15v15M86 44h28"/>
+                  <path d="M100 44v27m-9 0h18M94 78h12M100 78v14"/>
+                </g>
+                <path class="opamp-stage" d="M114 44h43v18h25"/>
+                <circle class="opamp-node" cx="157" cy="44" r="4"/>
+                <g class="opamp-cap">
+                  <path d="M154 51v13m-7 0h14m-14 7h14m-7 0v13h52"/>
+                </g>
+                <g class="opamp-output">
+                  <path d="M205 26v30m9-25v20M205 41h-11M214 51v25m-9-20v24M205 68h-23"/>
+                  <path d="M214 31c18 0 25 10 25 27v10M214 76h25V68"/>
+                  <circle class="opamp-node" cx="239" cy="68" r="4"/>
+                  <path d="M243 68h57m-8-8 8 8-8 8"/>
+                </g>
+                <path class="opamp-bias" d="M239 12v14m-7 0h14m-11 7h8m-4 0v31"/>
               </svg>
-              <span class="mono">TSMC 180 nm · MILLER COMPENSATION</span>
+              <span class="mono" data-en="TSMC 180 nm · TWO STAGES · MILLER Cc"
+                    data-zh="TSMC 180 nm · 两级结构 · 米勒 Cc">TSMC 180 nm · TWO STAGES · MILLER Cc</span>
             </div>
             <div class="project-body">
               <div class="project-meta">
                 <span>TSMC 180nm</span><span>Spectre</span><span>CMOS</span>
               </div>
-              <h3>Two-Stage Op-Amp</h3>
+              <h3 data-en="Two-Stage Op-Amp" data-zh="两级 CMOS 运放">Two-Stage Op-Amp</h3>
               <p
                 data-en="A Miller-compensated CMOS operational amplifier with AC, DC, and transient verification across gain, bandwidth, stability, swing, and power."
                 data-zh="基于 TSMC 0.18 μm 工艺的米勒补偿两级 CMOS 运放，完成增益、带宽、稳定性、摆幅与功耗验证。"
@@ -457,7 +513,8 @@
               data-en="Self-evolving multi-agent system for continuous autonomous research."
               data-zh="持续开展自主研究，并能在实践中自我演进的多智能体系统。"
             >Self-evolving multi-agent system for continuous autonomous research.</span>
-            <span class="repo-card-footer mono"><span>PYTHON · COLLABORATION</span><i>↗</i></span>
+            <span class="repo-card-footer mono"><span data-en="PYTHON · COLLABORATION"
+                  data-zh="PYTHON · 合作">PYTHON · COLLABORATION</span><i>↗</i></span>
           </a>
 
           <a class="repo-logo-card reveal" href="https://github.com/microsoft/ArgusAgent"
@@ -472,7 +529,8 @@
               data-en="Persistent, reviewed runtime for long-horizon research and engineering."
               data-zh="面向长周期研究与工程任务，具备持久状态和审查机制的多智能体运行时。"
             >Persistent, reviewed runtime for long-horizon research and engineering.</span>
-            <span class="repo-card-footer mono"><span>PYTHON · COLLABORATION</span><i>↗</i></span>
+            <span class="repo-card-footer mono"><span data-en="PYTHON · COLLABORATION"
+                  data-zh="PYTHON · 合作">PYTHON · COLLABORATION</span><i>↗</i></span>
           </a>
 
           <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/argus-mathematics"
@@ -486,7 +544,8 @@
               data-zh="公开归档经过审查或验证的数学结果、可复现检查与研究记录。"
             >A public archive of reviewed or verified mathematical results, replayable checks,
               and research records.</span>
-            <span class="repo-card-footer mono"><span>PYTHON · MATHEMATICS</span><i>↗</i></span>
+            <span class="repo-card-footer mono"><span data-en="PYTHON · MATHEMATICS"
+                  data-zh="PYTHON · 数学">PYTHON · MATHEMATICS</span><i>↗</i></span>
           </a>
 
           <a class="repo-logo-card reveal" href="https://github.com/aHappend/ace-3"
@@ -514,7 +573,8 @@
               data-en="A bilingual observatory for two isolated Argus mathematical research processes."
               data-zh="并行观测两个相互隔离的 Argus 数学研究进程，并提供中英双语记录。"
             >A bilingual observatory for two isolated Argus mathematical research processes.</span>
-            <span class="repo-card-footer mono"><span>TEX · MATHEMATICS</span><i>↗</i></span>
+            <span class="repo-card-footer mono"><span data-en="TEX · MATHEMATICS"
+                  data-zh="TEX · 数学">TEX · MATHEMATICS</span><i>↗</i></span>
           </a>
 
           <a class="repo-logo-card reveal" href="https://github.com/Argus-AiTeam/minimax-h3-desktop"
@@ -604,9 +664,13 @@
             <span class="publication-year mono">2026</span>
             <span class="publication-main">
               <strong>HyperCut</strong>
-              <span>Fast Inter-Layer Scheduling via Directed Hypergraph and Early Filtering</span>
+              <span data-en="Fast Inter-Layer Scheduling via Directed Hypergraph and Early Filtering"
+                    data-zh="基于有向超图与早期筛选的快速层间调度">
+                Fast Inter-Layer Scheduling via Directed Hypergraph and Early Filtering
+              </span>
             </span>
-            <span class="publication-type mono">PREPRINT · arXiv:2608.19296</span>
+            <span class="publication-type mono" data-en="PREPRINT · arXiv:2608.19296"
+                  data-zh="预印本 · arXiv:2608.19296">PREPRINT · arXiv:2608.19296</span>
             <span class="publication-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="publication reveal" href="https://arxiv.org/abs/2608.05144"
@@ -614,9 +678,13 @@
             <span class="publication-year mono">2026</span>
             <span class="publication-main">
               <strong>Argus</strong>
-              <span>A General-Purpose Agentic Reasoning Runtime for Long-Horizon Tasks</span>
+              <span data-en="A General-Purpose Agentic Reasoning Runtime for Long-Horizon Tasks"
+                    data-zh="面向长时程任务的通用智能体推理运行时">
+                A General-Purpose Agentic Reasoning Runtime for Long-Horizon Tasks
+              </span>
             </span>
-            <span class="publication-type mono">TECH REPORT · arXiv:2608.05144</span>
+            <span class="publication-type mono" data-en="TECH REPORT · arXiv:2608.05144"
+                  data-zh="技术报告 · arXiv:2608.05144">TECH REPORT · arXiv:2608.05144</span>
             <span class="publication-arrow" aria-hidden="true">↗</span>
           </a>
         </div>
@@ -697,7 +765,8 @@
 
         <div class="research-links">
           <a href="https://arxiv.org/a/0009-0002-5674-7448.html" target="_blank" rel="noreferrer">
-            arXiv profile <span aria-hidden="true">↗</span>
+            <span data-en="arXiv profile" data-zh="arXiv 主页">arXiv profile</span>
+            <span aria-hidden="true">↗</span>
           </a>
           <a href="https://orcid.org/0009-0002-5674-7448" target="_blank" rel="noreferrer">
             ORCID <span aria-hidden="true">↗</span>
@@ -722,14 +791,37 @@
         <div class="about-content">
           <p
             class="about-intro"
-            data-en="I'm Sufeng, an Integrated Circuit Design and Integrated Systems undergraduate at Nanjing University. I like problems that require crossing boundaries—from algorithms and agent runtimes to architecture and transistors."
+            data-en="I'm Sufeng, a VLSI Design &amp; System Integration undergraduate at Nanjing University. I like problems that require crossing boundaries—from algorithms and agent runtimes to architecture and transistors."
             data-zh="我是郭苏峰，就读于南京大学集成电路设计与集成系统专业。我喜欢跨层次解决问题：既研究算法和智能体运行时，也会一路深入到计算架构与晶体管。"
           >
-            I'm Sufeng, an Integrated Circuit Design and Integrated Systems undergraduate at
-            Nanjing University. I like problems that require crossing boundaries—from algorithms
-            and agent runtimes to architecture and transistors.
+            I'm Sufeng, a VLSI Design &amp; System Integration undergraduate at Nanjing
+            University. I like problems that require crossing boundaries—from algorithms and
+            agent runtimes to architecture and transistors.
           </p>
           <div class="about-columns">
+            <div class="education-column">
+              <h3 class="mono" data-en="EDUCATION" data-zh="教育经历">EDUCATION</h3>
+              <div class="institution-entry">
+                <span class="institution-logo institution-logo-nju" aria-hidden="true">
+                  <img src="institutions/nju.svg" alt="">
+                </span>
+                <span class="milestone-copy">
+                  <span class="experience-meta">
+                    <span class="mono">2023.09—2027.06</span>
+                    <span class="mono" data-en="NANJING, CHINA / SUZHOU, CHINA"
+                          data-zh="中国南京 / 中国苏州">NANJING, CHINA / SUZHOU, CHINA</span>
+                  </span>
+                  <strong data-en="Nanjing University" data-zh="南京大学">
+                    Nanjing University
+                  </strong>
+                  <span class="experience-detail"
+                        data-en="B.Eng. candidate · VLSI Design &amp; System Integration"
+                        data-zh="工学学士在读 · 集成电路设计与集成系统">
+                    B.Eng. candidate · VLSI Design &amp; System Integration
+                  </span>
+                </span>
+              </div>
+            </div>
             <div>
               <h3 class="mono" data-en="WHAT I WORK WITH" data-zh="技术栈">WHAT I WORK WITH</h3>
               <ul class="tag-list">
@@ -737,24 +829,6 @@
                 <li>React</li><li>Linux</li><li>Vivado / XSim</li><li>Verilator</li>
                 <li>Icarus Verilog</li><li>Yosys / OpenSTA</li><li>Spectre</li><li>ONNX</li>
               </ul>
-            </div>
-            <div>
-              <h3 class="mono" data-en="EDUCATION" data-zh="教育经历">EDUCATION</h3>
-              <div class="institution-heading">
-                <span class="institution-logo institution-logo-nju" aria-hidden="true">
-                  <img src="institutions/nju.svg" alt="">
-                </span>
-                <p><strong data-en="Nanjing University" data-zh="南京大学">
-                  Nanjing University
-                </strong></p>
-              </div>
-              <p
-                class="muted"
-                data-en="B.Eng. candidate · Integrated Circuit Design and Integrated Systems · 2023–2027"
-                data-zh="工学学士在读 · 集成电路设计与集成系统 · 2023–2027"
-              >
-                B.Eng. candidate · Integrated Circuit Design and Integrated Systems · 2023–2027
-              </p>
             </div>
           </div>
           <div class="about-next">
@@ -766,14 +840,17 @@
                   <img src="institutions/microsoft.svg" alt="">
                 </span>
                 <span class="milestone-copy">
-                  <span class="mono" data-en="SEP—DEC 2026"
-                        data-zh="2026年9月—12月">SEP—DEC 2026</span>
-                  <strong data-en="Research Intern · MSRA"
+                  <span class="experience-meta">
+                    <span class="mono">2026.09—2026.12</span>
+                    <span class="mono" data-en="BEIJING, CHINA"
+                          data-zh="中国北京">BEIJING, CHINA</span>
+                  </span>
+                  <strong data-en="Research Intern · Microsoft Research Asia"
                           data-zh="研究实习生 · 微软亚洲研究院">
-                    Research Intern · MSRA
+                    Research Intern · Microsoft Research Asia
                   </strong>
-                  <span data-en="Systems Research Group · Beijing"
-                        data-zh="系统研究组 · 北京">Systems Research Group · Beijing</span>
+                  <span class="experience-detail" data-en="Systems Research Group"
+                        data-zh="系统研究组">Systems Research Group</span>
                 </span>
               </a>
               <a href="https://www.ntu.edu.sg/education/student-exchanges/exchange-programmes/inbound-programmes"
@@ -782,15 +859,19 @@
                   <img src="institutions/ntu-lockup.png?v=20261004" alt="" width="1200" height="430">
                 </span>
                 <span class="milestone-copy">
-                  <span class="mono" data-en="JAN—MAY 2027"
-                        data-zh="2027年1月—5月">JAN—MAY 2027</span>
+                  <span class="experience-meta">
+                    <span class="mono">2027.01—2027.05</span>
+                    <span class="mono" data-en="SINGAPORE"
+                          data-zh="新加坡">SINGAPORE</span>
+                  </span>
                   <strong data-en="Visiting Undergraduate · NTU"
                           data-zh="公派交流本科生 · 南洋理工大学">
                     Visiting Undergraduate · NTU
                   </strong>
-                  <span data-en="Government-sponsored exchange · Singapore"
-                        data-zh="国家公派优秀本科生国际交流项目 · 新加坡">
-                    Government-sponsored exchange · Singapore
+                  <span class="experience-detail"
+                        data-en="Government-Sponsored Visiting Undergraduate Program"
+                        data-zh="国家公派优秀本科生国际交流项目">
+                    Government-Sponsored Visiting Undergraduate Program
                   </span>
                 </span>
               </a>
@@ -945,6 +1026,6 @@
     </footer>
 
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="script.js?v=20260908-theme-reveal"></script>
+    <script src="script.js?v=20261004-language-motion"></script>
   </body>
 </html>

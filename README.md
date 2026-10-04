@@ -59,8 +59,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   information graphics rather than additional watercolor scenes, so they do not
   change the one-scene-per-section rule.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
-- `script.js`: language/theme controls, mobile navigation, animated accessible
-  project filters, section reveals, layered illustration parallax, a fluttering
+- `script.js`: language/theme controls with reduced-motion-aware view transitions,
+  mobile navigation, animated accessible project filters, section reveals,
+  layered illustration parallax, a fluttering
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts
   input. Generic cursor particles are capped at 64 and pixel ratio at 1.5; the

@@ -75,6 +75,36 @@ html[data-theme-transition]::view-transition-new(root) {
   html[data-theme-transition]::view-transition-new(root) { animation: none; }
 }
 
+html[data-language-transition]::view-transition {
+  pointer-events: none;
+}
+html[data-language-transition]::view-transition-group(root) {
+  animation: none;
+}
+html[data-language-transition]::view-transition-old(root),
+html[data-language-transition]::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+html[data-language-transition]::view-transition-old(root) {
+  animation: language-out 180ms cubic-bezier(.4, 0, 1, 1) both;
+}
+html[data-language-transition]::view-transition-new(root) {
+  animation: language-in 420ms cubic-bezier(.2, .75, .25, 1) both;
+}
+@keyframes language-out {
+  to { opacity: 0; filter: blur(2px); transform: translateY(-3px); }
+}
+@keyframes language-in {
+  from { opacity: 0; filter: blur(3px); transform: translateY(5px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-language-transition]::view-transition-old(root),
+  html[data-language-transition]::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 110px; scrollbar-gutter: stable; }
 body {
@@ -407,8 +437,39 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .project-spec .mono { font-size: 9px; }
 .spec-value { font-family: var(--font-display); font-size: 68px; line-height: 1; letter-spacing: -.045em; }
 .spec-value small { font-size: 30px; font-style: italic; }
-.spec-wave svg, .spec-analog svg { width: 100%; height: 75px; }
+.spec-fft svg, .spec-analog svg { width: calc(100% - 20px); height: 96px; }
+.spec-fft .diagram-grid, .spec-analog .diagram-grid {
+  stroke: currentColor;
+  stroke-width: .7;
+  opacity: .12;
+}
+.spec-fft :is(.fft-signal, .fft-arrow),
+.spec-fft .fft-network path,
+.spec-fft .fft-spectrum path {
+  stroke: currentColor;
+  stroke-width: 1.35;
+}
+.spec-fft .fft-signal { stroke-width: 1.7; }
+.spec-fft .fft-network path { opacity: .55; }
+.spec-fft .fft-network circle {
+  fill: var(--surface);
+  stroke: currentColor;
+  stroke-width: 1.35;
+}
+.spec-fft .fft-spectrum path:not(:first-child) { stroke: var(--rust); }
+.spec-fft .fft-spectrum circle { fill: var(--rust); }
 .spec-analog { color: var(--rust); }
+.spec-analog :is(.opamp-inputs, .opamp-load, .opamp-stage, .opamp-cap,
+  .opamp-output, .opamp-bias) {
+  stroke: currentColor;
+  stroke-width: 1.35;
+}
+.spec-analog .opamp-cap { stroke: var(--accent); }
+.spec-analog .opamp-node {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
 .spec-memory svg { width: calc(100% - 26px); height: 118px; }
 .spec-memory circle { fill: var(--surface); stroke: currentColor; stroke-width: 1.5; }
 .spec-memory .memory-reply { stroke: var(--rust); }
@@ -519,14 +580,11 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .about-columns h3, .about-next h3 { margin-bottom: 18px; color: var(--rust); font-weight: 400; font-size: 10px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
-.about-columns p { margin-bottom: 8px; font-size: 12px; line-height: 1.9; }
-.institution-heading { display: flex; align-items: center; gap: 14px; }
-.institution-heading p { margin: 0; }
 .institution-logo { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 104px; min-height: 42px; }
 .institution-logo img { display: block; width: 100%; height: auto; max-height: 38px; object-fit: contain; }
-.institution-heading .institution-logo { width: 118px; }
 .institution-logo-microsoft img { max-height: 28px; }
 .institution-logo-ntu img { max-height: 40px; }
+.institution-entry { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
 .about-next { margin-top: 36px; }
 .about-milestones { display: flex; flex-direction: column; border-left: 1px solid var(--line); }
 .about-milestones a { position: relative; display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding: 0 0 26px 24px; }
@@ -534,9 +592,10 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .about-milestones a::before { content: ""; position: absolute; top: 8px; left: -4px; width: 7px; height: 7px; border: 1px solid var(--rust); border-radius: 50%; background: var(--paper); }
 .about-milestones .institution-logo { margin: 0; color: inherit; }
 .milestone-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.about-milestones .milestone-copy > span { display: block; color: var(--muted); font-size: 10px; }
-.about-milestones strong { display: block; font-size: 13px; }
-.about-milestones .milestone-copy > span:last-child { font-size: 11px; line-height: 1.55; }
+.experience-meta { display: flex; flex-wrap: wrap; gap: 5px 18px; }
+.experience-meta > span { color: var(--muted); font-size: 8px; letter-spacing: .08em; }
+.milestone-copy strong { display: block; font-size: 13px; line-height: 1.45; }
+.experience-detail { color: var(--muted); font-size: 11px; line-height: 1.55; }
 .about-milestones a:hover strong { color: var(--accent); }
 
 .social-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 30px; }
@@ -796,7 +855,9 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .research-evidence strong { font-size: 22px; }
   .about-intro { font-size: 23px; margin-block: 24px 30px; }
   .about-columns { grid-template-columns: 1fr; gap: 30px; }
+  .institution-entry,
   .about-milestones a { grid-template-columns: 92px 1fr; gap: 14px; }
+  .institution-entry .institution-logo,
   .about-milestones .institution-logo { width: 92px; }
   .social-grid { gap: 0 18px; }
   .social-card { grid-template-columns: 1fr; gap: 6px; padding-block: 24px; }

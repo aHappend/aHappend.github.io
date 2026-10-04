@@ -16,6 +16,8 @@ let language = sitePreferences.get("language") === "zh" ? "zh" : "en";
 let selectedFilter = "all";
 let effectsEnabled = sitePreferences.get("effects") !== "off";
 let themeTransition = null;
+let languageTransition = null;
+let languageFallbackAnimation = null;
 
 function updateControlLabels() {
   const chinese = language === "zh";
@@ -98,6 +100,12 @@ themeButton.addEventListener("click", () => {
   const current = sitePreferences.get("theme") || root.dataset.theme;
   const theme = current === "dark" ? "light" : "dark";
   sitePreferences.set("theme", theme);
+  languageTransition?.skipTransition();
+  if (languageFallbackAnimation) {
+    languageFallbackAnimation.cancel();
+    languageFallbackAnimation = null;
+    applyLanguage(sitePreferences.get("language") || language);
+  }
   themeTransition?.skipTransition();
   if (reducedMotion.matches || !document.startViewTransition) {
     setTheme(theme);
@@ -144,7 +152,12 @@ document.addEventListener("click", (event) => {
 }, true);
 
 reducedMotion.addEventListener("change", (event) => {
-  if (event.matches) themeTransition?.skipTransition();
+  if (!event.matches) return;
+  themeTransition?.skipTransition();
+  languageTransition?.skipTransition();
+  languageFallbackAnimation?.cancel();
+  languageFallbackAnimation = null;
+  applyLanguage(sitePreferences.get("language") || language);
 });
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
@@ -154,9 +167,55 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (ev
 });
 
 languageButton.addEventListener("click", () => {
-  const nextLanguage = language === "zh" ? "en" : "zh";
+  const currentLanguage = sitePreferences.get("language") || language;
+  const nextLanguage = currentLanguage === "zh" ? "en" : "zh";
   sitePreferences.set("language", nextLanguage);
-  applyLanguage(nextLanguage);
+  themeTransition?.skipTransition();
+  languageTransition?.skipTransition();
+  languageFallbackAnimation?.cancel();
+
+  if (reducedMotion.matches) {
+    applyLanguage(nextLanguage);
+    return;
+  }
+
+  if (!document.startViewTransition) {
+    const outgoing = document.body.animate(
+      [{ opacity: 1, filter: "blur(0)" }, { opacity: 0, filter: "blur(2px)" }],
+      { duration: 150, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" }
+    );
+    languageFallbackAnimation = outgoing;
+    outgoing.finished.then(() => {
+      if (languageFallbackAnimation !== outgoing) return;
+      outgoing.cancel();
+      applyLanguage(sitePreferences.get("language"));
+      const incoming = document.body.animate(
+        [{ opacity: 0, filter: "blur(2px)" }, { opacity: 1, filter: "blur(0)" }],
+        { duration: 300, easing: "cubic-bezier(.2,.75,.25,1)" }
+      );
+      languageFallbackAnimation = incoming;
+      incoming.finished.then(() => {
+        if (languageFallbackAnimation !== incoming) return;
+        incoming.cancel();
+        languageFallbackAnimation = null;
+      }).catch(() => {});
+    }).catch(() => {});
+    return;
+  }
+
+  root.dataset.languageTransition = "active";
+  const transition = document.startViewTransition(() =>
+    applyLanguage(sitePreferences.get("language"))
+  );
+  languageTransition = transition;
+  transition.ready.catch((error) => {
+    if (error.name !== "AbortError") console.warn("Language animation was skipped:", error);
+  });
+  transition.finished.finally(() => {
+    if (languageTransition !== transition) return;
+    languageTransition = null;
+    delete root.dataset.languageTransition;
+  });
 });
 
 function setMenu(open) {
