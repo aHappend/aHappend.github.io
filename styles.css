@@ -457,11 +457,6 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
   stroke-width: 1.35;
 }
 .spec-fft .fft-spectrum-baseline { opacity: .55; }
-.spec-fft .fft-spectrum .fft-envelope {
-  stroke: var(--rust);
-  stroke-width: 1;
-  opacity: .32;
-}
 .spec-fft .fft-spectrum .fft-bin {
   stroke: var(--rust);
   stroke-width: 1.7;
@@ -775,10 +770,6 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   .project-card:is(:hover, :focus-within) .fft-bin {
     animation: fft-bin-loop 3.6s cubic-bezier(.45, 0, .55, 1) infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-envelope {
-    animation: fft-envelope-loop 3.6s cubic-bezier(.45, 0, .55, 1) infinite;
-  }
-
   .project-card:is(:hover, :focus-within) .opamp-signal {
     stroke-dasharray: 7 5;
     animation: project-flow 1.2s linear infinite;
@@ -813,30 +804,19 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
 }
 @keyframes fft-wave-loop {
   0%, 100% {
-    d: path("M9 52C15 27 21 27 27 52S39 77 45 52 57 27 63 52 75 77 81 52");
+    d: path("M9 52C13 27 17 27 21 52S29 77 33 52 41 27 45 52 53 77 57 52 65 27 69 52 77 77 81 52");
   }
   33.333% {
-    d: path("M9 52C15 39 21 20 27 45S39 72 45 60 57 33 63 45 75 80 81 52");
+    d: path("M9 52C13 18 17 18 21 52S29 86 33 45 41 22 45 60 53 74 57 38 65 31 69 64 77 68 81 52");
   }
   66.666% {
-    d: path("M9 52C15 18 21 37 27 58S39 83 45 48 57 21 63 59 75 68 81 52");
+    d: path("M9 52C13 52 17 20 21 20S29 20 33 52 41 84 45 84 53 84 57 52 65 35 69 35 77 69 81 52");
   }
 }
 @keyframes fft-bin-loop {
   0%, 100% { transform: scaleY(var(--fft-a)); }
   33.333% { transform: scaleY(var(--fft-b)); }
   66.666% { transform: scaleY(var(--fft-c)); }
-}
-@keyframes fft-envelope-loop {
-  0%, 100% {
-    d: path("M237 71L247 44 257 64 267 22 277 55 287 36 297 68 307 78");
-  }
-  33.333% {
-    d: path("M237 52L247 68 257 40 267 58 277 28 287 63 297 34 307 70");
-  }
-  66.666% {
-    d: path("M237 76L247 33 257 58 267 46 277 68 287 22 297 55 307 43");
-  }
 }
 @keyframes butterfly-flutter { from { transform: scaleX(1); } to { transform: scaleX(.25); } }
 @media (hover: none), (pointer: coarse) {
