@@ -67,10 +67,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - The four Selected Work illustrations are inline technical SVGs. On fine
   pointers they use seamless hover/focus loops specific to each design; reduced
   motion and print disable those animations. Keep the FFT and op-amp drawings
-  text-free. The op-amp uses shared enhancement-mode MOS symbols with segmented
-  channels, insulated gates, and body arrows—never logic-gate bubbles. Preserve
-  the netlist topology: NMOS differential pair, PMOS current-mirror load, NMOS
-  tail device, PMOS common-source second stage, NMOS current-source load, and
+  text-free. The op-amp uses shared Cadence-style four-terminal MOS symbols with
+  distinct gate, channel, source, drain, and body paths. Source and drain use
+  separate elbowed leads; the body is tied to the source; and the type arrow
+  stays on the source branch—never on a floating mid-body line or logic-gate
+  bubble. Preserve the netlist topology: NMOS differential pair, PMOS
+  current-mirror load, NMOS tail device, PMOS common-source second stage, NMOS
+  current-source load, and
   the first-stage-node → Rz → Cc → output compensation path.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
