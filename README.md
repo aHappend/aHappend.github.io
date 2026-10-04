@@ -33,7 +33,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   between themes. Keep the technology stack beneath the fern so the education
   and experience timeline can use the full right column. The ArgusAgent repository
   card uses Microsoft's four-square mark so it stays legible at phone size; the
-  experience timeline continues to use the full corporate wordmark.
+  experience timeline continues to use the full corporate wordmark. In the
+  single-column layout, show the introduction and full timeline before the
+  technology stack.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
