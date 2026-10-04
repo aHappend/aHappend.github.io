@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261005-fixed-fft-trace">
+    <link rel="stylesheet" href="styles.css?v=20261005-touch-research">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -43,6 +43,10 @@
         "affiliation": {
           "@type": "CollegeOrUniversity",
           "name": "Nanjing University"
+        },
+        "homeLocation": {
+          "@type": "Place",
+          "name": "Beijing, China"
         },
         "sameAs": [
           "https://github.com/aHappend",
@@ -596,7 +600,12 @@
           <a class="repo-logo-card reveal" href="https://github.com/microsoft/ArgusAgent"
              target="_blank" rel="noreferrer">
             <span class="repo-logo logo-microsoft">
-              <img src="institutions/microsoft.svg" alt="">
+              <svg viewBox="0 0 129 129" role="img" aria-label="Microsoft">
+                <path fill="#F25022" d="M0 0h61.3v61.3H0z"/>
+                <path fill="#7FBA00" d="M67.7 0H129v61.3H67.7z"/>
+                <path fill="#00A4EF" d="M0 67.7h61.3V129H0z"/>
+                <path fill="#FFB900" d="M67.7 67.7H129V129H67.7z"/>
+              </svg>
             </span>
             <span class="repo-owner mono">microsoft</span>
             <strong>ArgusAgent</strong>
@@ -764,7 +773,7 @@
           </div>
         </div>
 
-        <div class="publication-list">
+        <div class="research-projects">
           <a class="publication reveal" href="https://arxiv.org/abs/2608.19296"
              target="_blank" rel="noreferrer">
             <span class="publication-year mono">2026</span>
@@ -778,6 +787,37 @@
             <span class="publication-type mono" data-en="PREPRINT · arXiv:2608.19296"
                   data-zh="预印本 · arXiv:2608.19296">PREPRINT · arXiv:2608.19296</span>
             <span class="publication-arrow" aria-hidden="true">↗</span>
+            <div class="research-detail">
+              <span class="research-detail-heading">
+                <span class="mono">01 / HYPERCUT</span>
+                <strong data-en="Search less. Schedule better."
+                        data-zh="少走弯路，更优调度。">Search less. Schedule better.</strong>
+              </span>
+              <ol class="research-flow research-flow-long">
+                <li data-en="DNN DAG" data-zh="DNN 计算图">DNN DAG</li>
+                <li data-en="Hypergraph" data-zh="有向超图">Hypergraph</li>
+                <li data-en="HEM / FM" data-zh="HEM / FM">HEM / FM</li>
+                <li data-en="Map state" data-zh="映射状态">Map state</li>
+                <li data-en="Early filter" data-zh="早期筛选">Early filter</li>
+                <li data-en="SET backend" data-zh="SET 后端">SET backend</li>
+              </ol>
+              <span class="research-evidence">
+                <span>
+                  <strong>2.0×</strong>
+                  <small data-en="EDP improvement" data-zh="EDP 提升">EDP improvement</small>
+                </span>
+                <span>
+                  <strong>80.47%</strong>
+                  <small data-en="less search time" data-zh="搜索时间缩短">less search time</small>
+                </span>
+              </span>
+              <span class="research-description"
+                    data-en="A directed-hypergraph scheduler that preserves inter-layer dependencies while pruning expensive candidates before backend evaluation."
+                    data-zh="以有向超图保留层间依赖，并在后端评估前提前筛除代价高昂的候选方案。">
+                A directed-hypergraph scheduler that preserves inter-layer dependencies while
+                pruning expensive candidates before backend evaluation.
+              </span>
+            </div>
           </a>
           <a class="publication reveal" href="https://arxiv.org/abs/2608.05144"
              target="_blank" rel="noreferrer">
@@ -792,81 +832,44 @@
             <span class="publication-type mono" data-en="TECH REPORT · arXiv:2608.05144"
                   data-zh="技术报告 · arXiv:2608.05144">TECH REPORT · arXiv:2608.05144</span>
             <span class="publication-arrow" aria-hidden="true">↗</span>
+            <div class="research-detail">
+              <span class="research-detail-heading">
+                <span class="mono">02 / ARGUS + ACE</span>
+                <strong data-en="Every result leaves evidence."
+                        data-zh="让每个结果都有证据。">Every result leaves evidence.</strong>
+              </span>
+              <ol class="research-flow">
+                <li data-en="Manager" data-zh="管理者">Manager</li>
+                <li data-en="Planner" data-zh="规划者">Planner</li>
+                <li data-en="Engineer" data-zh="工程师">Engineer</li>
+                <li data-en="Reviewer" data-zh="审查者">Reviewer</li>
+              </ol>
+              <span class="research-state">
+                <span class="mono" data-en="PERSISTENT PROJECT STATE"
+                      data-zh="持久项目状态">PERSISTENT PROJECT STATE</span>
+                <span data-en="artifacts · tests · accepted evidence"
+                      data-zh="产物 · 测试 · 已验收证据">artifacts · tests · accepted evidence</span>
+              </span>
+              <span class="research-evidence">
+                <span>
+                  <strong>ACE-2</strong>
+                  <small data-en="840 layers · 0 mismatch"
+                         data-zh="840 次层执行 · 0 失配">840 layers · 0 mismatch</small>
+                </span>
+                <span>
+                  <strong>ACE-3</strong>
+                  <small data-en="624 tensors · gated review"
+                         data-zh="624 个张量 · 门控审查">624 tensors · gated review</small>
+                </span>
+              </span>
+              <span class="research-description"
+                    data-en="A long-horizon engineering loop that separates planning, implementation, and independent review while preserving state across sessions."
+                    data-zh="把规划、实现和独立审查分离，并在多轮会话之间持续保存工程状态。">
+                A long-horizon engineering loop that separates planning, implementation, and
+                independent review while preserving state across sessions.
+              </span>
+            </div>
           </a>
-        </div>
-
-        <div class="research-atlas">
-          <figure class="research-map reveal">
-            <figcaption>
-              <span class="mono">01 / HYPERCUT</span>
-              <strong data-en="Search less. Schedule better."
-                      data-zh="少走弯路，更优调度。">Search less. Schedule better.</strong>
-            </figcaption>
-            <ol class="research-flow research-flow-long">
-              <li data-en="DNN DAG" data-zh="DNN 计算图">DNN DAG</li>
-              <li data-en="Hypergraph" data-zh="有向超图">Hypergraph</li>
-              <li data-en="HEM / FM" data-zh="HEM / FM">HEM / FM</li>
-              <li data-en="Map state" data-zh="映射状态">Map state</li>
-              <li data-en="Early filter" data-zh="早期筛选">Early filter</li>
-              <li data-en="SET backend" data-zh="SET 后端">SET backend</li>
-            </ol>
-            <div class="research-evidence">
-              <span>
-                <strong>2.0×</strong>
-                <small data-en="EDP improvement" data-zh="EDP 提升">EDP improvement</small>
-              </span>
-              <span>
-                <strong>80.47%</strong>
-                <small data-en="less search time" data-zh="搜索时间缩短">less search time</small>
-              </span>
-            </div>
-            <p
-              data-en="A directed-hypergraph scheduler that preserves inter-layer dependencies while pruning expensive candidates before backend evaluation."
-              data-zh="以有向超图保留层间依赖，并在后端评估前提前筛除代价高昂的候选方案。"
-            >
-              A directed-hypergraph scheduler that preserves inter-layer dependencies while
-              pruning expensive candidates before backend evaluation.
-            </p>
-          </figure>
-
-          <figure class="research-map reveal">
-            <figcaption>
-              <span class="mono">02 / ARGUS + ACE</span>
-              <strong data-en="Every result leaves evidence."
-                      data-zh="让每个结果都有证据。">Every result leaves evidence.</strong>
-            </figcaption>
-            <ol class="research-flow">
-              <li data-en="Manager" data-zh="管理者">Manager</li>
-              <li data-en="Planner" data-zh="规划者">Planner</li>
-              <li data-en="Engineer" data-zh="工程师">Engineer</li>
-              <li data-en="Reviewer" data-zh="审查者">Reviewer</li>
-            </ol>
-            <div class="research-state">
-              <span class="mono" data-en="PERSISTENT PROJECT STATE"
-                    data-zh="持久项目状态">PERSISTENT PROJECT STATE</span>
-              <span data-en="artifacts · tests · accepted evidence"
-                    data-zh="产物 · 测试 · 已验收证据">artifacts · tests · accepted evidence</span>
-            </div>
-            <div class="research-evidence">
-              <span>
-                <strong>ACE-2</strong>
-                <small data-en="840 layers · 0 mismatch"
-                       data-zh="840 次层执行 · 0 失配">840 layers · 0 mismatch</small>
-              </span>
-              <span>
-                <strong>ACE-3</strong>
-                <small data-en="624 tensors · gated review"
-                       data-zh="624 个张量 · 门控审查">624 tensors · gated review</small>
-              </span>
-            </div>
-            <p
-              data-en="A long-horizon engineering loop that separates planning, implementation, and independent review while preserving state across sessions."
-              data-zh="把规划、实现和独立审查分离，并在多轮会话之间持续保存工程状态。"
-            >
-              A long-horizon engineering loop that separates planning, implementation, and
-              independent review while preserving state across sessions.
-            </p>
-          </figure>
         </div>
 
         <div class="research-links">
@@ -912,6 +915,8 @@
             University. I like problems that require crossing boundaries—from algorithms and
             agent runtimes to architecture and transistors.
           </p>
+          <p class="about-location mono" data-en="CURRENTLY BASED IN · BEIJING, CHINA"
+             data-zh="现居 · 中国北京">CURRENTLY BASED IN · BEIJING, CHINA</p>
           <div class="experience-panel">
             <h3 class="mono timeline-heading" data-en="EDUCATION"
                 data-zh="教育经历">EDUCATION</h3>
@@ -1140,6 +1145,6 @@
     </footer>
 
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="script.js?v=20261004-language-motion"></script>
+    <script src="script.js?v=20261005-touch-projects"></script>
   </body>
 </html>

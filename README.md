@@ -31,7 +31,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   than recoloring or brightening the assets. The plate is a pseudo-element:
   never add logo-container padding or otherwise change the rendered image size
   between themes. Keep the technology stack beneath the fern so the education
-  and experience timeline can use the full right column.
+  and experience timeline can use the full right column. The ArgusAgent repository
+  card uses Microsoft's four-square mark so it stays legible at phone size; the
+  experience timeline continues to use the full corporate wordmark.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
@@ -60,13 +62,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   `index.html`. They use the site's theme variables and remain bilingual,
   responsive, printable, and readable without JavaScript. They are technical
   information graphics rather than additional watercolor scenes, so they do not
-  change the one-scene-per-section rule.
+  change the one-scene-per-section rule. Keep each paper link, map, evidence, and
+  explanatory copy in one `.publication` card so mobile readers never see the
+  supporting material separated from its paper.
 - The Argus ecosystem grid tracks public team repositories with meaningful
   team-owned or maintained work. Use organization URLs for ACE mirrors and
   maintained downstream projects; omit untouched integration/staging forks.
-- The four Selected Work illustrations are inline technical SVGs. On fine
-  pointers they use seamless hover/focus loops specific to each design; reduced
-  motion and print disable those animations. Keep the ACE-2, FFT, and op-amp
+- The four Selected Work illustrations are inline technical SVGs. They use
+  seamless hover/focus loops on pointers and run while a phone touch is actively
+  pressing or passing over a card; reduced motion and print disable those
+  animations. Keep the ACE-2, FFT, and op-amp
   drawings text-free. ACE-2 shows two token streams entering an RTL compute
   array, retained state banks, and the state-reuse return path. The FFT time
   waveform is one fixed trace: a sinusoidal segment followed by a long,
@@ -83,7 +88,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   the first-stage-node → Rz → Cc → output compensation path.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
-  mobile navigation, animated accessible project filters, section reveals,
+  overlay mobile navigation that never changes page layout height, animated
+  accessible project filters, section reveals,
   layered illustration parallax, a fluttering
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts

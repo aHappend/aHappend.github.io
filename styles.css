@@ -418,6 +418,7 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
 .project-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .project-card { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--line); background: var(--card-bg); transition: border-color 200ms; }
 .project-card:hover { border-color: var(--accent); }
+.project-card.touch-active { border-color: var(--accent); }
 .project-number { padding: 22px 24px; color: var(--muted); font-size: 10px; }
 .project-body { display: flex; flex: 1; flex-direction: column; padding: 26px 24px; }
 .project-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px 12px; margin-bottom: 18px; color: var(--muted); font-size: 10px; font-family: var(--font-mono); }
@@ -564,8 +565,8 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .repo-logo { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 20px; border: 1px solid var(--line); color: var(--accent); font-family: var(--font-display); font-size: 25px; }
 .logo-argus { border: none; }
 .logo-argus img { width: 44px; height: 44px; }
-.logo-microsoft { width: 96px; padding: 8px; background: #fff; }
-.logo-microsoft img { display: block; width: 100%; height: auto; }
+.logo-microsoft { width: 44px; padding: 4px; background: #fff; }
+.logo-microsoft :is(img, svg) { display: block; width: 100%; height: auto; }
 .logo-ace, .logo-hilbert { color: var(--rust); }
 .logo-hilbert { font-size: 18px; line-height: 1; }
 .logo-verticals { color: var(--accent); font-size: 19px; }
@@ -576,7 +577,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .repo-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; color: var(--muted); font-size: 10px; }
 .repo-card-footer i { font-size: 20px; font-style: normal; color: var(--rust); transition: transform 180ms; }
 .repo-logo-card:hover .repo-card-footer i { transform: translate(3px, -3px); }
-.publication-list { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.research-projects { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .publication { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; align-items: start; gap: 30px 20px; padding: 34px; border: 1px solid var(--line); background: var(--surface); transition: border-color 180ms; }
 .publication:nth-child(2) { background: transparent; }
 .publication:hover { border-color: var(--accent); }
@@ -587,12 +588,11 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .publication-main strong { font-family: var(--font-display); font-size: 50px; line-height: 1; font-weight: 500; letter-spacing: -.04em; }
 .publication-main > span { max-width: 360px; font-size: 14px; color: var(--muted); line-height: 1.8; }
 .publication-type { grid-column: 1 / -1; padding-top: 18px; border-top: 1px solid var(--line); font-size: 10px; color: var(--accent); }
-.research-atlas { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 22px; }
-.research-map { display: flex; flex-direction: column; min-width: 0; margin: 0; padding: 30px; border: 1px solid var(--line); background: var(--card-bg); }
-.research-map:nth-child(2) { background: var(--surface); }
-.research-map figcaption { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
-.research-map figcaption .mono { color: var(--rust); font-size: 9px; }
-.research-map figcaption strong { font-family: var(--font-display); font-size: 30px; font-weight: 500; letter-spacing: -.025em; }
+.research-detail { display: flex; grid-column: 1 / -1; flex-direction: column; min-width: 0; margin: 0 -34px -34px; padding: 30px 34px 34px; border-top: 1px solid var(--line); background: var(--card-bg); }
+.publication:nth-child(2) .research-detail { background: var(--surface); }
+.research-detail-heading { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+.research-detail-heading .mono { color: var(--rust); font-size: 9px; }
+.research-detail-heading strong { font-family: var(--font-display); font-size: 30px; font-weight: 500; letter-spacing: -.025em; }
 .research-flow { counter-reset: research-step; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
 .research-flow-long { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .research-flow li { counter-increment: research-step; position: relative; min-height: 56px; padding: 24px 9px 9px; border: 1px solid var(--line); color: var(--ink); font-family: var(--font-mono); font-size: 9px; line-height: 1.45; }
@@ -604,7 +604,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .research-evidence > span { display: flex; flex-direction: column; gap: 3px; padding: 12px 13px; border: 1px solid var(--line); }
 .research-evidence strong { color: var(--accent); font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1; }
 .research-evidence small { color: var(--muted); font-family: var(--font-mono); font-size: 8px; line-height: 1.45; }
-.research-map > p { margin: 20px 0 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.8; }
+.research-description { margin: 20px 0 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.8; }
 .research-links { display: flex; gap: 28px; margin-top: 24px; }
 .research-links a { display: inline-flex; align-items: center; gap: 20px; padding-block: 10px; font-size: 12px; }
 .research-links a:hover { color: var(--accent); }
@@ -617,6 +617,7 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-fern.is-playing > img { opacity: 0; }
 .scene-fern.is-playing .fern-growth { visibility: visible; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
+.about-location { margin: -20px 0 38px; color: var(--rust); font-size: 9px; letter-spacing: .08em; }
 .about-stack { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--line); }
 .about-stack h3,
 .timeline-heading { color: var(--rust); font-weight: 400; font-size: 10px; }
@@ -720,71 +721,69 @@ html[lang="zh-CN"] .contact-section h2 { line-height: 1.3; }
 html[lang="zh-CN"] .hero-intro { max-width: 370px; line-height: 2; }
 html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
 
-@media (hover: hover) and (pointer: fine) {
-  .project-card:is(:hover, :focus-within) .chip {
+.project-card:is(:hover, :focus-within, .touch-active) .chip {
     animation: project-chip-loop 3.2s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .chip-array i {
+  .project-card:is(:hover, :focus-within, .touch-active) .chip-array i {
     animation: project-pulse 1.8s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n + 2) { animation-delay: -.6s; }
-  .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n) { animation-delay: -1.2s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .chip-array i:nth-child(3n + 2) { animation-delay: -.6s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .chip-array i:nth-child(3n) { animation-delay: -1.2s; }
 
-  .project-card:is(:hover, :focus-within) .memory-packet,
-  .project-card:is(:hover, :focus-within) .memory-core-cell {
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-packet,
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-core-cell {
     animation: project-pulse 1.8s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(2),
-  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(2) { animation-delay: -.3s; }
-  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(3),
-  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(3) { animation-delay: -.6s; }
-  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(4),
-  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(4) { animation-delay: -.9s; }
-  .project-card:is(:hover, :focus-within) :is(.memory-turn path, .memory-transfer, .memory-output) {
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-packet:nth-of-type(2),
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-core-cell:nth-of-type(2) { animation-delay: -.3s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-packet:nth-of-type(3),
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-core-cell:nth-of-type(3) { animation-delay: -.6s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-packet:nth-of-type(4),
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-core-cell:nth-of-type(4) { animation-delay: -.9s; }
+  .project-card:is(:hover, :focus-within, .touch-active) :is(.memory-turn path, .memory-transfer, .memory-output) {
     stroke-dasharray: 6 6;
     animation: project-flow 1.2s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .memory-reuse {
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-reuse {
     stroke-dasharray: 6 6;
     animation: project-flow-reverse 1.5s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .memory-stack {
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-stack {
     animation: project-stack-loop 2.4s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .memory-stack circle {
+  .project-card:is(:hover, :focus-within, .touch-active) .memory-stack circle {
     animation: project-pulse 1.6s ease-in-out infinite;
   }
 
-  .project-card:is(:hover, :focus-within) .fft-arrow,
-  .project-card:is(:hover, :focus-within) .fft-network path {
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-arrow,
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-network path {
     stroke-dasharray: 7 5;
     animation: project-flow 1.2s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-wave-track {
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-wave-track {
     animation: fft-wave-travel 9s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-network circle {
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-network circle {
     animation: project-pulse 1.6s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n + 2) { animation-delay: -.5s; }
-  .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n) { animation-delay: -1s; }
-  .project-card:is(:hover, :focus-within) .fft-bin {
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-network circle:nth-of-type(3n + 2) { animation-delay: -.5s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-network circle:nth-of-type(3n) { animation-delay: -1s; }
+  .project-card:is(:hover, :focus-within, .touch-active) .fft-bin {
     animation: fft-bin-loop 9s cubic-bezier(.45, 0, .55, 1) infinite;
   }
-  .project-card:is(:hover, :focus-within) .opamp-signal {
+  .project-card:is(:hover, :focus-within, .touch-active) .opamp-signal {
     stroke-dasharray: 7 5;
     animation: project-flow 1.2s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .opamp-feedback {
+  .project-card:is(:hover, :focus-within, .touch-active) .opamp-feedback {
     stroke-dasharray: 6 6;
     animation: project-flow-reverse 1.5s linear infinite;
   }
-  .project-card:is(:hover, :focus-within) .opamp-node {
+  .project-card:is(:hover, :focus-within, .touch-active) .opamp-node {
     animation: project-pulse 1.8s ease-in-out infinite;
   }
   html[data-effects="on"] .nature-hovering .butterfly-wing { animation: butterfly-flutter 700ms ease-in-out infinite alternate; }
   html[data-effects="on"] .nature-hovering .wing-right { animation-delay: -90ms; }
-}
 @keyframes project-chip-loop {
   0%, 100% { transform: rotate(-12deg) translateY(0); }
   50% { transform: rotate(-5deg) translateY(-4px); }
@@ -861,8 +860,31 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .brand-note { display: block; }
   .desktop-nav { order: 3; width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 6px 18px; }
   .desktop-nav a { font-size: 13px; }
-  html[data-enhanced] .desktop-nav { display: none; }
-  html[data-enhanced] .desktop-nav.is-open { display: grid; grid-template-columns: 1fr 1fr; padding-block: 15px; border-top: 1px solid var(--line); }
+  html[data-enhanced] .desktop-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: grid;
+    visibility: hidden;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    padding: 15px max(var(--gutter), calc((100vw - var(--max)) / 2));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: 0 18px 35px -28px rgba(12, 39, 52, .55);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: visibility 180ms, opacity 180ms, transform 180ms;
+  }
+  html[data-enhanced] .desktop-nav.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
   html[data-enhanced] .menu-toggle { display: flex; }
   .menu-toggle { flex-direction: column; gap: 6px; margin-left: 4px; }
   .menu-toggle span { width: 19px; height: 1px; background: currentColor; transition: transform 180ms; }
@@ -897,7 +919,8 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .repo-logo-card:last-child { grid-column: 1 / -1; }
   .publication { padding: 26px; }
   .publication-main strong { font-size: 42px; }
-  .research-atlas { grid-template-columns: 1fr; }
+  .research-projects { grid-template-columns: 1fr; }
+  .research-detail { margin: 0 -26px -26px; padding: 26px; }
   .about-section { grid-template-columns: 1fr; gap: 0; }
   .scene-fern { width: 100%; height: 300px; margin: 18px 0 0; }
   .scene-fern > img { object-position: right center; }
@@ -988,13 +1011,13 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .repo-logo-card > strong { font-size: 19px; }
   .repo-summary { font-size: 14px; margin-block: 12px 16px; }
   .repo-card-footer { font-size: 9px; }
-  .publication-list { grid-template-columns: 1fr; gap: 18px; }
+  .research-projects { grid-template-columns: 1fr; gap: 18px; }
   .publication { padding: 26px; gap: 24px; }
   .publication-main strong { font-size: 46px; }
   .publication-main > span { font-size: 13px; }
   .publication-type { font-size: 9px; }
-  .research-map { padding: 24px; }
-  .research-map figcaption strong { font-size: 27px; }
+  .research-detail { margin: 0 -26px -26px; padding: 24px 26px 26px; }
+  .research-detail-heading strong { font-size: 27px; }
   .research-flow, .research-flow-long { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .research-state { align-items: flex-start; flex-direction: column; }
   .research-state span:last-child { text-align: left; }
@@ -1065,7 +1088,7 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   .section, .contact-section { padding-block: 30px; }
   .section h2, .contact-section h2 { font-size: 32px; }
   .section-aside { display: block; padding-top: 0; }
-  .project-card, .repo-logo-card, .social-card, .publication, .research-map { break-inside: avoid; transform: none; box-shadow: none; }
+  .project-card, .repo-logo-card, .social-card, .publication, .research-detail { break-inside: avoid; transform: none; box-shadow: none; }
   .pointer-lit::after { display: none; }
   .project-card[hidden] { display: flex !important; }
   [data-reveal-ready]:not(.visible):not(:focus-within) { opacity: 1; translate: none; }

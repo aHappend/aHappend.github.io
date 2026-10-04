@@ -431,6 +431,26 @@ spotlightCards.forEach((card) => {
   card.addEventListener("pointercancel", () => clearSpotlight(card));
 });
 
+const touchActiveCards = new Set();
+
+function clearTouchActiveCards() {
+  touchActiveCards.forEach((card) => card.classList.remove("touch-active"));
+  touchActiveCards.clear();
+}
+
+projectCards.forEach((card) => {
+  const activateTouchCard = (event) => {
+    if (event.pointerType !== "touch" || reducedMotion.matches || document.hidden) return;
+    clearTouchActiveCards();
+    card.classList.add("touch-active");
+    touchActiveCards.add(card);
+  };
+  card.addEventListener("pointerdown", activateTouchCard, { passive: true });
+  card.addEventListener("pointerenter", activateTouchCard, { passive: true });
+});
+document.addEventListener("pointerup", clearTouchActiveCards, { passive: true });
+document.addEventListener("pointercancel", clearTouchActiveCards, { passive: true });
+
 function clearSpotlights() {
   spotlightCards.forEach(clearSpotlight);
 }
