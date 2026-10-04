@@ -32,7 +32,7 @@
       rel="stylesheet"
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
-    <link rel="stylesheet" href="styles.css?v=20261004-cadence-mos">
+    <link rel="stylesheet" href="styles.css?v=20261004-project-motion">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -289,29 +289,42 @@
                  data-zh="P.02 / 持久化 RTL">P.02 / PERSISTENT RTL</div>
             <div class="project-spec spec-memory">
               <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
-                <path class="memory-query" d="M24 18h86a9 9 0 0 1 9 9v21a9 9 0 0 1-9 9H59L43 70V57H24a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z"
-                      stroke="currentColor" stroke-width="1.5"/>
-                <circle class="memory-query-dot" cx="42" cy="38" r="4"/>
-                <circle class="memory-query-dot" cx="58" cy="38" r="4"/>
-                <circle class="memory-query-dot" cx="74" cy="38" r="4"/>
-                <circle class="memory-query-dot" cx="90" cy="38" r="4"/>
-                <path class="memory-reply"
-                      d="M54 69h67a9 9 0 0 1 9 9v10a9 9 0 0 1-9 9H82l-13 9V97H54a9 9 0 0 1-9-9V78a9 9 0 0 1 9-9Z"
-                      stroke-width="1.5"/>
-                <circle class="memory-reply" cx="68" cy="83" r="3"/>
-                <circle class="memory-reply" cx="82" cy="83" r="3"/>
-                <circle class="memory-reply" cx="96" cy="83" r="3"/>
-                <circle class="memory-reply" cx="110" cy="83" r="3"/>
-                <path class="memory-transfer" d="M145 55h34m-8-8 8 8-8 8"
-                      stroke="currentColor" stroke-width="1.5"/>
-                <g class="memory-stack">
-                  <rect x="203" y="12" width="88" height="70" rx="4"/>
-                  <rect x="197" y="18" width="88" height="70" rx="4"/>
-                  <rect x="191" y="24" width="88" height="70" rx="4"/>
-                  <path d="M207 42h56M207 56h56M207 70h56"/>
-                  <circle cx="214" cy="84" r="3"/><circle cx="226" cy="84" r="3"/>
-                  <circle cx="238" cy="84" r="3"/><circle cx="250" cy="84" r="3"/>
+                <path class="diagram-grid" d="M8 18h304M8 55h304M8 92h304"/>
+                <g class="memory-turn memory-turn-a">
+                  <path d="M13 31h76m-7-6 7 6-7 6"/>
+                  <circle class="memory-packet" cx="22" cy="31" r="3"/>
+                  <circle class="memory-packet" cx="38" cy="31" r="3"/>
+                  <circle class="memory-packet" cx="54" cy="31" r="3"/>
+                  <circle class="memory-packet" cx="70" cy="31" r="3"/>
                 </g>
+                <g class="memory-turn memory-turn-b">
+                  <path d="M13 73h76m-7-6 7 6-7 6"/>
+                  <circle class="memory-packet" cx="22" cy="73" r="3"/>
+                  <circle class="memory-packet" cx="38" cy="73" r="3"/>
+                  <circle class="memory-packet" cx="54" cy="73" r="3"/>
+                  <circle class="memory-packet" cx="70" cy="73" r="3"/>
+                </g>
+                <g class="memory-core">
+                  <rect x="98" y="16" width="76" height="76" rx="6"/>
+                  <rect x="106" y="24" width="60" height="60" rx="3"/>
+                  <path d="M121 24v60M136 24v60M151 24v60M106 39h60M106 54h60M106 69h60"/>
+                  <path class="memory-core-port" d="M91 31h7M91 73h7M174 36h8M174 72h8"/>
+                  <circle class="memory-core-cell" cx="113.5" cy="31.5" r="2.4"/>
+                  <circle class="memory-core-cell" cx="128.5" cy="46.5" r="2.4"/>
+                  <circle class="memory-core-cell" cx="143.5" cy="61.5" r="2.4"/>
+                  <circle class="memory-core-cell" cx="158.5" cy="76.5" r="2.4"/>
+                </g>
+                <path class="memory-transfer" d="M182 36h24m-6-5 6 5-6 5"/>
+                <g class="memory-stack">
+                  <rect x="222" y="12" width="66" height="66" rx="4"/>
+                  <rect x="216" y="18" width="66" height="66" rx="4"/>
+                  <rect x="210" y="24" width="66" height="66" rx="4"/>
+                  <path d="M220 39h46M220 51h46M220 63h46M220 75h46"/>
+                  <circle cx="226" cy="33" r="2.2"/><circle cx="238" cy="33" r="2.2"/>
+                  <circle cx="250" cy="33" r="2.2"/><circle cx="262" cy="33" r="2.2"/>
+                </g>
+                <path class="memory-output" d="M288 50h23m-6-5 6 5-6 5"/>
+                <path class="memory-reuse" d="M276 84v17H136v-9m-5 6 5-6 5 6"/>
               </svg>
             </div>
             <div class="project-body">
@@ -341,7 +354,7 @@
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
                 <path class="diagram-grid" d="M8 19h304M8 41h304M8 63h304M8 85h304"/>
                 <path class="fft-signal"
-                      d="M9 52c8-25 16-25 24 0s16 25 24 0 16-25 24 0"/>
+                      d="M9 52C15 27 21 27 27 52S39 77 45 52 57 27 63 52 75 77 81 52"/>
                 <path class="fft-arrow" d="M82 52h17m-6-6 6 6-6 6"/>
                 <g class="fft-network">
                   <path d="M108 19h28M108 41h28M108 63h28M108 85h28M108 19l28 22M108 41l28-22M108 63l28 22M108 85l28-22"/>
@@ -358,10 +371,17 @@
                 </g>
                 <path class="fft-arrow" d="M201 52h17m-6-6 6 6-6 6"/>
                 <g class="fft-spectrum">
-                  <path d="M230 88h80"/>
-                  <path d="M237 88V71M247 88V44M257 88V64M267 88V22M277 88V55M287 88V36M297 88V68M307 88V78"/>
-                  <circle cx="247" cy="44" r="2.5"/><circle cx="267" cy="22" r="2.5"/>
-                  <circle cx="287" cy="36" r="2.5"/>
+                  <path class="fft-spectrum-baseline" d="M230 88h80"/>
+                  <path class="fft-envelope"
+                        d="M237 71L247 44 257 64 267 22 277 55 287 36 297 68 307 78"/>
+                  <path class="fft-bin" style="--fft-a:.26;--fft-b:.54;--fft-c:.18" d="M237 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.67;--fft-b:.31;--fft-c:.83" d="M247 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.36;--fft-b:.73;--fft-c:.45" d="M257 88V22"/>
+                  <path class="fft-bin" style="--fft-a:1;--fft-b:.46;--fft-c:.64" d="M267 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.5;--fft-b:.91;--fft-c:.3" d="M277 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.79;--fft-b:.38;--fft-c:1" d="M287 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.3;--fft-b:.82;--fft-c:.5" d="M297 88V22"/>
+                  <path class="fft-bin" style="--fft-a:.15;--fft-b:.27;--fft-c:.68" d="M307 88V22"/>
                 </g>
               </svg>
             </div>

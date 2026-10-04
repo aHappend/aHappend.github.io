@@ -456,8 +456,19 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
   stroke: currentColor;
   stroke-width: 1.35;
 }
-.spec-fft .fft-spectrum path:not(:first-child) { stroke: var(--rust); }
-.spec-fft .fft-spectrum circle { fill: var(--rust); }
+.spec-fft .fft-spectrum-baseline { opacity: .55; }
+.spec-fft .fft-spectrum .fft-envelope {
+  stroke: var(--rust);
+  stroke-width: 1;
+  opacity: .32;
+}
+.spec-fft .fft-spectrum .fft-bin {
+  stroke: var(--rust);
+  stroke-width: 1.7;
+  transform: scaleY(var(--fft-a));
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
 .spec-analog { color: var(--rust); }
 .spec-analog :is(.opamp-rail, .opamp-wire, .opamp-device, .opamp-mirror, .opamp-signal, .opamp-feedback, .opamp-bias) {
   stroke: currentColor;
@@ -481,11 +492,32 @@ html[data-theme="dark"] .hero-watercolor { opacity: .88; }
   stroke-width: 1.5;
 }
 .spec-analog .opamp-node-rust { stroke: var(--rust); }
-.spec-memory svg { width: calc(100% - 26px); height: 118px; }
-.spec-memory circle { fill: var(--surface); stroke: currentColor; stroke-width: 1.5; }
-.spec-memory .memory-reply { stroke: var(--rust); }
-.spec-memory .memory-stack :is(rect, path) { stroke: currentColor; stroke-width: 1.5; }
-.spec-memory .memory-stack circle { fill: var(--accent); stroke: none; }
+.spec-memory svg { width: calc(100% - 20px); height: 118px; }
+.spec-memory .diagram-grid {
+  stroke: currentColor;
+  stroke-width: .7;
+  opacity: .1;
+}
+.spec-memory :is(.memory-turn, .memory-core, .memory-transfer, .memory-stack, .memory-output, .memory-reuse) {
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.spec-memory .memory-turn-b, .spec-memory .memory-output { color: var(--rust); }
+.spec-memory .memory-packet {
+  fill: var(--surface);
+  stroke: currentColor;
+  stroke-width: 1.35;
+}
+.spec-memory .memory-core rect, .spec-memory .memory-stack rect { fill: var(--surface); }
+.spec-memory .memory-core > path:not(.memory-core-port) { opacity: .34; }
+.spec-memory .memory-core-port { opacity: .7; }
+.spec-memory .memory-core-cell { fill: var(--accent); stroke: none; }
+.spec-memory .memory-stack { color: var(--rust); }
+.spec-memory .memory-stack path { opacity: .52; }
+.spec-memory .memory-stack circle { fill: var(--rust); stroke: none; }
+.spec-memory .memory-reuse { color: var(--muted); }
 .silicon-visual { position: relative; display: flex; grid-column: 2; grid-row: 1 / span 2; flex-direction: column; align-items: center; justify-content: space-between; overflow: hidden; min-height: 440px; padding: 28px; color: #e2e9df; background: #183247; }
 .silicon-visual::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 25%, #27769366, transparent 70%); pointer-events: none; }
 .silicon-visual::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 39px, #d6e5dc0a 39px 40px), repeating-linear-gradient(90deg, transparent 0 39px, #d6e5dc0a 39px 40px); pointer-events: none; }
@@ -702,19 +734,23 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n + 2) { animation-delay: -.6s; }
   .project-card:is(:hover, :focus-within) .chip-array i:nth-child(3n) { animation-delay: -1.2s; }
 
-  .project-card:is(:hover, :focus-within) .memory-query-dot,
-  .project-card:is(:hover, :focus-within) .memory-reply {
+  .project-card:is(:hover, :focus-within) .memory-packet,
+  .project-card:is(:hover, :focus-within) .memory-core-cell {
     animation: project-pulse 1.8s ease-in-out infinite;
   }
-  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(2),
-  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(2) { animation-delay: -.3s; }
-  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(3),
-  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(3) { animation-delay: -.6s; }
-  .project-card:is(:hover, :focus-within) .memory-query-dot:nth-of-type(4),
-  .project-card:is(:hover, :focus-within) .memory-reply:nth-of-type(4) { animation-delay: -.9s; }
-  .project-card:is(:hover, :focus-within) .memory-transfer {
+  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(2),
+  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(2) { animation-delay: -.3s; }
+  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(3),
+  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(3) { animation-delay: -.6s; }
+  .project-card:is(:hover, :focus-within) .memory-packet:nth-of-type(4),
+  .project-card:is(:hover, :focus-within) .memory-core-cell:nth-of-type(4) { animation-delay: -.9s; }
+  .project-card:is(:hover, :focus-within) :is(.memory-turn path, .memory-transfer, .memory-output) {
     stroke-dasharray: 6 6;
     animation: project-flow 1.2s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) .memory-reuse {
+    stroke-dasharray: 6 6;
+    animation: project-flow-reverse 1.5s linear infinite;
   }
   .project-card:is(:hover, :focus-within) .memory-stack {
     animation: project-stack-loop 2.4s ease-in-out infinite;
@@ -723,23 +759,24 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
     animation: project-pulse 1.6s ease-in-out infinite;
   }
 
-  .project-card:is(:hover, :focus-within) .fft-signal,
   .project-card:is(:hover, :focus-within) .fft-arrow,
   .project-card:is(:hover, :focus-within) .fft-network path {
     stroke-dasharray: 7 5;
     animation: project-flow 1.2s linear infinite;
+  }
+  .project-card:is(:hover, :focus-within) .fft-signal {
+    animation: fft-wave-loop 3.6s cubic-bezier(.45, 0, .55, 1) infinite;
   }
   .project-card:is(:hover, :focus-within) .fft-network circle {
     animation: project-pulse 1.6s ease-in-out infinite;
   }
   .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n + 2) { animation-delay: -.5s; }
   .project-card:is(:hover, :focus-within) .fft-network circle:nth-of-type(3n) { animation-delay: -1s; }
-  .project-card:is(:hover, :focus-within) .fft-spectrum path:not(:first-child) {
-    stroke-dasharray: 80;
-    animation: project-spectrum-loop 2s ease-in-out infinite;
+  .project-card:is(:hover, :focus-within) .fft-bin {
+    animation: fft-bin-loop 3.6s cubic-bezier(.45, 0, .55, 1) infinite;
   }
-  .project-card:is(:hover, :focus-within) .fft-spectrum circle {
-    animation: project-pulse 2s ease-in-out infinite;
+  .project-card:is(:hover, :focus-within) .fft-envelope {
+    animation: fft-envelope-loop 3.6s cubic-bezier(.45, 0, .55, 1) infinite;
   }
 
   .project-card:is(:hover, :focus-within) .opamp-signal {
@@ -774,9 +811,32 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(3px, -2px); }
 }
-@keyframes project-spectrum-loop {
-  0%, 100% { stroke-dashoffset: 46; opacity: .45; }
-  50% { stroke-dashoffset: 0; opacity: 1; }
+@keyframes fft-wave-loop {
+  0%, 100% {
+    d: path("M9 52C15 27 21 27 27 52S39 77 45 52 57 27 63 52 75 77 81 52");
+  }
+  33.333% {
+    d: path("M9 52C15 39 21 20 27 45S39 72 45 60 57 33 63 45 75 80 81 52");
+  }
+  66.666% {
+    d: path("M9 52C15 18 21 37 27 58S39 83 45 48 57 21 63 59 75 68 81 52");
+  }
+}
+@keyframes fft-bin-loop {
+  0%, 100% { transform: scaleY(var(--fft-a)); }
+  33.333% { transform: scaleY(var(--fft-b)); }
+  66.666% { transform: scaleY(var(--fft-c)); }
+}
+@keyframes fft-envelope-loop {
+  0%, 100% {
+    d: path("M237 71L247 44 257 64 267 22 277 55 287 36 297 68 307 78");
+  }
+  33.333% {
+    d: path("M237 52L247 68 257 40 267 58 277 28 287 63 297 34 307 70");
+  }
+  66.666% {
+    d: path("M237 76L247 33 257 58 267 46 277 68 287 22 297 55 307 43");
+  }
 }
 @keyframes butterfly-flutter { from { transform: scaleX(1); } to { transform: scaleX(.25); } }
 @media (hover: none), (pointer: coarse) {

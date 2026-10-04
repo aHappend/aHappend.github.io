@@ -66,8 +66,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   maintained downstream projects; omit untouched integration/staging forks.
 - The four Selected Work illustrations are inline technical SVGs. On fine
   pointers they use seamless hover/focus loops specific to each design; reduced
-  motion and print disable those animations. Keep the FFT and op-amp drawings
-  text-free. The op-amp uses shared Cadence-style four-terminal MOS symbols with
+  motion and print disable those animations. Keep the ACE-2, FFT, and op-amp
+  drawings text-free. ACE-2 shows two token streams entering an RTL compute
+  array, retained state banks, and the state-reuse return path. The FFT time
+  waveform, spectrum envelope, and bins share one loop duration so their
+  continuous changes remain phase-aligned. The op-amp uses shared Cadence-style four-terminal MOS symbols with
   distinct gate, channel, source, drain, and body paths. Source and drain use
   separate elbowed leads; the body is tied to the source; and the type arrow
   stays on the source branch—never on a floating mid-body line or logic-gate
