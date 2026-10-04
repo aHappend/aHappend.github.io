@@ -617,7 +617,6 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .scene-fern.is-playing > img { opacity: 0; }
 .scene-fern.is-playing .fern-growth { visibility: visible; }
 .about-intro { margin: 40px 0; font-family: var(--font-display); font-size: 25px; font-weight: 500; line-height: 1.55; letter-spacing: -.015em; }
-.about-location { margin: -20px 0 38px; color: var(--rust); font-size: 9px; letter-spacing: .08em; }
 .about-stack { margin-top: 20px; padding-top: 22px; border-top: 1px solid var(--line); }
 .about-stack h3,
 .timeline-heading { color: var(--rust); font-weight: 400; font-size: 10px; }
