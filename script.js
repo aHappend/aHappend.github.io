@@ -9,6 +9,12 @@ const navigation = document.querySelector(".desktop-nav");
 const navLinks = [...navigation.querySelectorAll("a")];
 const filters = [...document.querySelectorAll(".filter")];
 const projectCards = [...document.querySelectorAll(".project-card")];
+const parallaxScenes = sceneButtons.map((scene) => ({
+  scene,
+  host: scene.closest(".hero, .section, .contact-section"),
+  strength: scene.classList.contains("hero-watercolor") ? 42
+    : scene.classList.contains("scene-coast") ? 38 : 34,
+}));
 const filterStatus = document.getElementById("filter-status");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileNavigation = window.matchMedia("(max-width: 900px)");
@@ -307,6 +313,22 @@ function updateScrollState() {
   const scrollable = root.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
   root.style.setProperty("--reading-progress", progress.toFixed(4));
+  if (effectsEnabled && !reducedMotion.matches && !document.hidden) {
+    const viewportCenter = window.innerHeight / 2;
+    const mobileScale = mobileNavigation.matches ? 0.48 : 1;
+    const offsets = parallaxScenes.map(({ host, strength }) => {
+      const bounds = host.getBoundingClientRect();
+      const distance = (viewportCenter - (bounds.top + bounds.height / 2)) / window.innerHeight;
+      return Math.max(-1.15, Math.min(1.15, distance)) * strength * mobileScale;
+    });
+    root.style.setProperty("--paper-parallax", `${((progress - .5) * 24 * mobileScale).toFixed(2)}px`);
+    parallaxScenes.forEach(({ scene }, index) => {
+      scene.style.setProperty("--scene-parallax", `${offsets[index].toFixed(2)}px`);
+    });
+  } else {
+    root.style.removeProperty("--paper-parallax");
+    parallaxScenes.forEach(({ scene }) => scene.style.removeProperty("--scene-parallax"));
+  }
   let current = null;
   for (const section of sections) {
     if (section.getBoundingClientRect().top <= 170) current = section.id;
@@ -838,6 +860,7 @@ function syncNatureEffects() {
   root.dataset.effects = effectsEnabled && !reducedMotion.matches ? "on" : "off";
   resetNatureEffects();
   updateControlLabels();
+  scheduleScrollUpdate();
 }
 
 effectsButton.addEventListener("click", () => {

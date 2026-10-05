@@ -125,6 +125,8 @@ body::before {
   pointer-events: none;
   background: url("art/paper-washes.svg?v=20260906-watercolor-paper") center / max(760px, 100%) 100% no-repeat;
   opacity: .48;
+  transform: translate3d(0, var(--paper-parallax, 0px), 0) scale(1.06);
+  will-change: transform;
 }
 html[data-theme="dark"] body::before { opacity: .22; }
 ::selection { color: var(--paper); background: var(--accent); }
@@ -345,7 +347,7 @@ html[data-enhanced] .menu-toggle { display: none; }
 .button:hover { box-shadow: 0 8px 28px rgba(65, 185, 220, .18); }
 .text-link { display: inline-flex; gap: 18px; align-items: center; padding-block: 8px; border-bottom: 1px solid var(--line); font-size: 12px; }
 .text-link:hover { color: var(--accent); border-color: var(--accent); }
-.scene-art { position: relative; display: block; appearance: none; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--accent); text-align: center; -webkit-tap-highlight-color: transparent; }
+.scene-art { position: relative; display: block; appearance: none; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--accent); text-align: center; translate: 0 var(--scene-parallax, 0px); -webkit-tap-highlight-color: transparent; }
 .scene-art > img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; transform-origin: 50% 88%; }
 .scene-art > span { pointer-events: none; }
 .scene-art:disabled { cursor: default; }
@@ -821,6 +823,8 @@ html[lang="zh-CN"] .about-intro { font-size: 22px; line-height: 1.9; }
 html[data-effects="off"] .hero-watercolor img,
 html[data-effects="off"] .garden-butterfly,
 html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-layer { transition: none; }
+html[data-effects="off"] .scene-art { --scene-parallax: 0px; }
+html[data-effects="off"] body::before { --paper-parallax: 0px; }
 @media (min-width: 1600px) {
   .hero-copy { padding-block: 80px; }
 }
@@ -1071,6 +1075,8 @@ html[data-effects="off"] .scene-art > img, html[data-effects="off"] .painting-la
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal-ready]:not(.visible):not(:focus-within) { opacity: 1; translate: none; }
+  body::before { transform: none; will-change: auto; }
+  .scene-art { translate: none; }
   .hero-watercolor img, .garden-butterfly, .scene-art > img, .painting-layer { transform: none; }
   .garden-particles, .painting-layer { display: none; }
   .project-featured:hover .chip { transform: rotate(-12deg); }
