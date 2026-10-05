@@ -118,7 +118,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   paper wash moves slowly, each scene travels, scales, and rotates relative to its
   section center, and headline groups counter-move as a foreground layer. Phone
   amplitudes are reduced. The garden-effects toggle,
-  reduced-motion preference, and print mode disable all scroll parallax.
+  reduced-motion preference, and print mode disable all scroll parallax. Each
+  hero/section/contact region clips only its vertical overflow so moving paintings
+  cannot cross section rules while their wide horizontal composition remains intact.
 - `scene-effects.js`: pure canvas choreography for the seven paintings:
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
   a dragonfly, unfurling fern shoots, opening roses, and three staggered shoreline

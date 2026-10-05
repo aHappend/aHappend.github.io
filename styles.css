@@ -275,6 +275,13 @@ html[data-enhanced] .menu-toggle { display: none; }
   width: min(var(--max), calc(100% - var(--gutter) * 2));
   margin-inline: auto;
 }
+.hero, .section, .contact-section { overflow: hidden; }
+@supports (overflow-y: clip) {
+  .hero, .section, .contact-section {
+    overflow-x: visible;
+    overflow-y: clip;
+  }
+}
 .hero {
   position: relative;
   isolation: isolate;
