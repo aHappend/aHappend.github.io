@@ -114,15 +114,6 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Painting controls use native clicks (including Enter/Space), never prevent
   touch scrolling, and are disabled with a visible explanation when motion is
   paused, reduced motion is requested, or their image/effect renderer is unavailable.
-  Scroll depth shares the existing requestAnimationFrame scroll update: the fixed
-  paper wash moves slowly, each scene travels, scales, and rotates relative to its
-  section center, and headline groups counter-move as a foreground layer. Phone
-  amplitudes are reduced. The garden-effects toggle,
-  reduced-motion preference, and print mode disable all scroll parallax. Each
-  hero/section/contact region clips only its vertical overflow so moving paintings
-  cannot cross section rules while their wide horizontal composition remains intact.
-  The wide Work valley uses a lower travel strength than the other scenes so its
-  foothills, river, and flowers remain visible above the section rule.
 - `scene-effects.js`: pure canvas choreography for the seven paintings:
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
   a dragonfly, unfurling fern shoots, opening roses, and three staggered shoreline
