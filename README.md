@@ -121,6 +121,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   reduced-motion preference, and print mode disable all scroll parallax. Each
   hero/section/contact region clips only its vertical overflow so moving paintings
   cannot cross section rules while their wide horizontal composition remains intact.
+  The wide Work valley uses a lower travel strength than the other scenes so its
+  foothills, river, and flowers remain visible above the section rule.
 - `scene-effects.js`: pure canvas choreography for the seven paintings:
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
   a dragonfly, unfurling fern shoots, opening roses, and three staggered shoreline

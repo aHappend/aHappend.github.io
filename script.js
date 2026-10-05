@@ -13,7 +13,8 @@ const parallaxScenes = sceneButtons.map((scene) => ({
   scene,
   host: scene.closest(".hero, .section, .contact-section"),
   strength: scene.classList.contains("hero-watercolor") ? 100
-    : scene.classList.contains("scene-coast") ? 90 : 80,
+    : scene.classList.contains("scene-coast") ? 90
+      : scene.classList.contains("work-landscape") ? 45 : 80,
 }));
 const parallaxForegrounds = [
   document.querySelector(".hero-copy"),
