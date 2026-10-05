@@ -12,8 +12,16 @@ const projectCards = [...document.querySelectorAll(".project-card")];
 const parallaxScenes = sceneButtons.map((scene) => ({
   scene,
   host: scene.closest(".hero, .section, .contact-section"),
-  strength: scene.classList.contains("hero-watercolor") ? 42
-    : scene.classList.contains("scene-coast") ? 38 : 34,
+  strength: scene.classList.contains("hero-watercolor") ? 100
+    : scene.classList.contains("scene-coast") ? 90 : 80,
+}));
+const parallaxForegrounds = [
+  document.querySelector(".hero-copy"),
+  ...document.querySelectorAll(".section-heading > div:first-child"),
+  document.querySelector(".contact-section > h2"),
+].map((element) => ({
+  element,
+  host: element.closest(".hero, .section, .contact-section"),
 }));
 const filterStatus = document.getElementById("filter-status");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -312,26 +320,55 @@ function updateScrollState() {
   scrollFrame = null;
   const scrollable = root.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-  root.style.setProperty("--reading-progress", progress.toFixed(4));
-  if (effectsEnabled && !reducedMotion.matches && !document.hidden) {
+  const parallaxActive = effectsEnabled && !reducedMotion.matches && !document.hidden;
+  let sceneStates = [];
+  let foregroundOffsets = [];
+  let mobileScale = 1;
+  if (parallaxActive) {
     const viewportCenter = window.innerHeight / 2;
-    const mobileScale = mobileNavigation.matches ? 0.48 : 1;
-    const offsets = parallaxScenes.map(({ host, strength }) => {
+    mobileScale = mobileNavigation.matches ? 0.62 : 1;
+    sceneStates = parallaxScenes.map(({ host, strength }) => {
       const bounds = host.getBoundingClientRect();
       const distance = (viewportCenter - (bounds.top + bounds.height / 2)) / window.innerHeight;
-      return Math.max(-1.15, Math.min(1.15, distance)) * strength * mobileScale;
+      const depth = Math.max(-.9, Math.min(.9, distance));
+      const proximity = 1 - Math.min(1, Math.abs(distance));
+      const scaleStrength = mobileNavigation.matches ? .65 : 1;
+      return {
+        offset: depth * strength * mobileScale,
+        rotate: depth * -1.8 * mobileScale,
+        scale: 1 + (-.025 + proximity * .075) * scaleStrength,
+      };
     });
-    root.style.setProperty("--paper-parallax", `${((progress - .5) * 24 * mobileScale).toFixed(2)}px`);
-    parallaxScenes.forEach(({ scene }, index) => {
-      scene.style.setProperty("--scene-parallax", `${offsets[index].toFixed(2)}px`);
+    foregroundOffsets = parallaxForegrounds.map(({ host }) => {
+      const bounds = host.getBoundingClientRect();
+      const distance = (viewportCenter - (bounds.top + bounds.height / 2)) / window.innerHeight;
+      return Math.max(-.9, Math.min(.9, distance)) * -30 * mobileScale;
     });
-  } else {
-    root.style.removeProperty("--paper-parallax");
-    parallaxScenes.forEach(({ scene }) => scene.style.removeProperty("--scene-parallax"));
   }
   let current = null;
   for (const section of sections) {
     if (section.getBoundingClientRect().top <= 170) current = section.id;
+  }
+
+  root.style.setProperty("--reading-progress", progress.toFixed(4));
+  if (parallaxActive) {
+    root.style.setProperty("--paper-parallax", `${((progress - .5) * 64 * mobileScale).toFixed(2)}px`);
+    parallaxScenes.forEach(({ scene }, index) => {
+      const state = sceneStates[index];
+      scene.style.setProperty("--scene-parallax", `${state.offset.toFixed(2)}px`);
+      scene.style.setProperty("--scene-rotate", `${state.rotate.toFixed(2)}deg`);
+      scene.style.setProperty("--scene-scale", state.scale.toFixed(4));
+    });
+    parallaxForegrounds.forEach(({ element }, index) => {
+      element.style.setProperty("--foreground-parallax", `${foregroundOffsets[index].toFixed(2)}px`);
+    });
+  } else {
+    root.style.removeProperty("--paper-parallax");
+    parallaxScenes.forEach(({ scene }) => {
+      ["--scene-parallax", "--scene-rotate", "--scene-scale"]
+        .forEach((property) => scene.style.removeProperty(property));
+    });
+    parallaxForegrounds.forEach(({ element }) => element.style.removeProperty("--foreground-parallax"));
   }
   navLinks.forEach((link) => {
     if (link.hash === `#${current}`) {

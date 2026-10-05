@@ -115,8 +115,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   touch scrolling, and are disabled with a visible explanation when motion is
   paused, reduced motion is requested, or their image/effect renderer is unavailable.
   Scroll depth shares the existing requestAnimationFrame scroll update: the fixed
-  paper wash drifts subtly, while each scene moves relative to its section center.
-  Phone amplitudes are reduced by more than half. The garden-effects toggle,
+  paper wash moves slowly, each scene travels, scales, and rotates relative to its
+  section center, and headline groups counter-move as a foreground layer. Phone
+  amplitudes are reduced. The garden-effects toggle,
   reduced-motion preference, and print mode disable all scroll parallax.
 - `scene-effects.js`: pure canvas choreography for the seven paintings:
   falling bouquet petals, mountain birds, drifting meadow seeds, pond ripples and
