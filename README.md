@@ -43,9 +43,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Standard and maskable application icons are separate; maskable exports have
   opaque full-bleed backgrounds and additional lettering clearance.
 - `art/*.svg`: seven original, code-authored nature compositions, each used in
-  exactly one section: botanical still life (hero), mountain valley (Work),
-  wildflower meadow (Ecosystem), water-lily pond (Research), woodland ferns
-  (About), wild roses (Social), and coastal bay (Contact). Do not repeat an
+  exactly one section: botanical still life (hero), woodland ferns (About),
+  mountain valley (Work), wildflower meadow (Ecosystem), water-lily pond
+  (Research), wild roses (Social), and coastal bay (Contact). Do not repeat an
   illustration across sections, even with different cropping or opacity.
   The illustrations use shaded
   forms, fine stems and veins, restrained pigment texture, and transparent edges.
@@ -138,6 +138,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   with gliding along a shared valley arc; the flock stays in an image-local layer.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
+
+The content narrative is Hero → About → Work → Ecosystem → Research → Connect →
+Contact. Keep navigation, section numbering, and DOM order aligned. English
+chapter headlines use concise internal rhymes; preserve the separate Chinese copy.
 
 The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable
