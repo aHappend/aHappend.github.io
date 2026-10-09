@@ -92,7 +92,7 @@ function applyLanguage(nextLanguage) {
 
 function setTheme(theme) {
   root.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#0d151d" : "#176f9f";
+  document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#0d0d0d" : "#f5f5f1";
   updateControlLabels();
 }
 

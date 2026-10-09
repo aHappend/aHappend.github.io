@@ -19,9 +19,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `index.html`: portfolio content. Keep `data-en` and `data-zh` translations together.
   The large bilingual headlines are the owner's rhyming poetry; preserve their
   wording and punctuation, and adapt the layout rather than rewriting them.
-- `styles.css`: the watercolor field-guide design, responsive layouts, original
-  sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
-  and print layout.
+- `styles.css`: shared component behavior, technical diagrams, responsive
+  foundations, reduced-motion support, and print layout.
+- `archive.css`: the current visual direction: an editorial research archive
+  inspired by contemporary visual-index sites. It uses a compact masthead,
+  oversized typographic hierarchy, irregular portfolio grids, high-contrast
+  exhibit cards, and generous negative space. The design remains original to
+  this portfolio rather than reproducing a reference site's identity or content.
 - `institutions/`: official institutional identity assets used as factual
   lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
   bilingual mark in university purple, `microsoft.svg` is Microsoft's official
