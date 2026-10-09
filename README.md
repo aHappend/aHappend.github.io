@@ -34,8 +34,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   changes preserve the selected project, filters, open notes, and keyboard focus.
   Native `details` expose complete descriptions and repository links without JS.
   Print exposes all diagrams and notes, even when collapsed or filtered on screen.
-  The seven nature paintings are absolute-positioned margin accents: none
-  should create independent vertical space or cover text or controls.
+  The seven nature paintings have medium-sized, device-specific compositions:
+  reserve room beside headings or the hero poem, never a separate empty panel,
+  and keep them clear of text and controls.
   Directory hover uses a translucent pigment wash rather than large card tilts.
   Other hover treatments emphasize institutional marks and research evidence;
   every essential action also works with keyboard or touch.
@@ -70,31 +71,41 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   or image-generation service are used. Keep their frameless composition clear
   of readable text and controls. Each painting appears exactly once inside an
   accessible `.scene-art` button; the image itself never intercepts pointer input.
-  The chip graphic remains conceptual, not a die photograph or physical-layout result.
+  ACE-3 uses a conceptual projection diagram, not a die photograph or a physical-layout result.
 - `art/studio-paper.svg`: original tiled cold-pressed paper texture, with diffuse
   lighting for the paper tooth and a separate fine-fiber layer. It is rendered
   once as a background, never regenerated in the scroll callback.
 - `art/painted-study.svg`: a separate original mountain-and-lake study, not a
-  photograph or a claim about travel. Scroll draws the pencil underpainting,
-  then reveals pigment through a soft mask. The sketch and color layer move at
+  photograph or a claim about travel. The paper stays visibly blue from the
+  first screen; scrolling draws the pencil underpainting, then reveals stronger
+  blue pigment through a soft mask. The sketch and color layer move at
   different rates, bounded to 26px on desktop and 8px on phones. Text and the
-  seven small nature accents never get scroll offsets. The contact area's
+  seven nature paintings never get scroll offsets. The contact area's
   "finished watercolor" link opens a native, keyboard-accessible dialog; without
   JS it links directly to the SVG. Reduced motion/effects off/no JS show the
   complete painting, and print removes decorative layers. The earlier
   `art/paper-washes.svg` remains an unused source asset.
-- The `#elsewhere` interlude moves from a world view to a 4x view centered on
+- The `#elsewhere` interlude defaults to **Follow scroll** on every page load.
+  Its Pacific-centered world view places Asia on the left and the Americas on
+  the right, with the longitude seam at 30°W. It moves to a 3x view centered on
   China through ordinary scrolling, without scroll interception or a long
   pinned section. World/China buttons provide manual control on every device;
   manual selection persists until "Follow scroll" is selected. Reduced motion
   and effects off disable scroll-follow but retain immediate manual changes.
-  The maps deliberately contain no visited-place pins, invented itineraries,
-  city counts, stock photos, or promised dates. Add personal places/photos only
-  when the owner supplies them.
-- `art/atlas-world.svg` and `art/atlas-china.svg` are local masks generated from
-  public-domain Natural Earth 1:110m geometry. `scripts/export_atlas.py` records
-  the pinned source revision and license and regenerates both masks from the
-  matching GeoJSON. No remote map service, API key, or runtime dependency is used.
+  The China framing includes the southern maritime indicators instead of
+  cropping at the mainland. Color and paper texture never displace map geometry.
+  `places.json` is intentionally empty until the owner supplies real locations
+  and photos; there are no invented itineraries, city counts, or stock photos.
+- `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
+  They use different, explicitly documented sources; see [Map sources](#map-sources).
+  No remote map service, API key, or runtime map dependency is used.
+- `city-atlas.js` reads the local `places.json`, projects longitude/latitude
+  into the same Pacific-centered coordinates as the map, and keeps 44px city
+  buttons independent of zoom. A text city list provides a second way to open
+  each album, including cities outside the current map frame. Native dialogs
+  support touch, keyboard, Escape, focus return, translated captions, and
+  explicit data/image loading errors. Manual map transitions, portrait-tablet
+  letterboxing, reduced motion, and effects-off apply to the pins as well.
 - The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
   `index.html`. They use the site's theme variables and remain bilingual,
   responsive, printable, and readable without JavaScript. They are technical
@@ -108,8 +119,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - The four Selected Work illustrations are inline technical SVGs. They use
   seamless hover/focus loops on pointers and run while a phone touch is actively
   pressing or passing over a card; reduced motion and print disable those
-  animations. Keep the ACE-2, FFT, and op-amp
-  drawings text-free. ACE-2 shows two token streams entering an RTL compute
+  animations. All four share fine cyan/orange lines, a light graph-paper stage,
+  and text-free diagrams. ACE-3 depicts narrow packed-weight input and wider
+  activation input converging on a projection array and accumulation node; its
+  ledger preserves the 24-layer/624-tensor facts and identifies the drawing as
+  conceptual. ACE-2 shows two token streams entering an RTL compute
   array, retained state banks, and the state-reuse return path. The FFT time
   waveform is one fixed trace: a sinusoidal segment followed by a long,
   irregular segment. Two identical copies move right at constant speed through
@@ -184,6 +198,48 @@ The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable
 for the current page. External fonts have system fallbacks.
 Reduced-motion preferences disable entrance/filter animation and pointer effects.
+
+## Map sources
+
+- World land: [Natural Earth 1:110m](https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_110m_admin_0_countries.geojson),
+  commit `ca96624a56bd078437bca8184e78163e5039ad19`, [public domain](https://www.naturalearthdata.com/about/terms-of-use/).
+- China highlight: [DataV.GeoAtlas](https://datav.aliyun.com/portal/school/atlas/area_selector),
+  [national outline](https://geo.datav.aliyun.com/areas_v3/bound/100000.json).
+  The exact input is preserved in `data/china-outline.geojson`, SHA-256
+  `83ac502aeac66a5527607ec844169418505d990f1a2dc33226743643541eed3c`.
+  Keep all 277 polygon components, including Taiwan, the Chinese-view disputed
+  land areas, offshore islands, and maritime indicators. Do not replace this
+  with Natural Earth's default mainland-only CHN selection.
+- Geographic reference: the [government-published standard map and representation guidance](https://dnr.yn.gov.cn/html/2023/mtbd_0828/42854.html)
+  and the [PRC map on the State Council website](https://www.gov.cn/guoqing/2017-07/28/content_5043915.htm).
+  The highlight follows the PRC presentation requested for this site. This
+  customized geographic illustration is **not** an officially reviewed standard
+  map; do not attach an official map review number to it or claim legal approval.
+  Consult the [official standard-map service](https://bzdt.ch.mnr.gov.cn/) when
+  an approved standard-map publication is required.
+
+Regenerate both masks with
+`python scripts/export_atlas.py /path/to/ne_110m_admin_0_countries.geojson data/china-outline.geojson`.
+The exporter clips polygons at the new world seam, preserves polygon holes,
+and checks the China input hash before writing. Keep its `WEST = -30` aligned
+with `--atlas-west` in `folio.css`; city projection reads the CSS value directly.
+Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map changes.
+
+## Adding city photos
+
+Populate `places.json` only with owner-supplied locations and photographs.
+Each entry requires `id` (unique lowercase letters/numbers/hyphens), bilingual
+`name: { "en": "...", "zh": "..." }`, numeric `longitude` and `latitude` in degrees,
+and a non-empty `photos` array. Each photo has a local `src` under `photos/`,
+bilingual `alt`, and an optional bilingual `caption`. Supported formats are
+JPG, PNG, WebP, and AVIF; use ASCII filenames without parent-directory segments.
+Coordinates belong to the actual city, not a position measured from a screenshot.
+This is a geographic overview rather than street-level navigation.
+
+New entries automatically create map pins, city-list buttons, and albums.
+Keep `places` empty rather than publishing placeholders. An empty dataset shows
+neither empty albums nor explanatory placeholder text. Remove private EXIF/GPS
+metadata from photographs before adding them to this public repository.
 
 ## Updating identity assets
 

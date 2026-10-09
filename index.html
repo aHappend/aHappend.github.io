@@ -33,7 +33,7 @@
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261010-editorial-index">
+    <link rel="stylesheet" href="folio.css?v=20261011-blue-atlas">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -367,30 +367,24 @@
             <button type="button" data-atlas-view="china" aria-pressed="false" data-en="China" data-zh="中国">China</button>
             <button type="button" data-atlas-view="follow" aria-pressed="true" data-en="Follow scroll ↓" data-zh="随滚动 ↓">Follow scroll ↓</button>
           </div>
-          <p class="atlas-note mono" data-en="A geographic view, not a record of visited places."
-             data-zh="地理视角示意，尚未标注个人足迹。">A geographic view, not a record of visited places.</p>
         </div>
         <figure class="atlas-figure">
           <div class="atlas-viewport">
             <svg class="atlas-map" viewBox="0 0 1000 500" role="img" aria-labelledby="atlas-map-title">
-              <title id="atlas-map-title" data-en="A world map that can focus on China. No travel locations are marked."
-                     data-zh="可聚焦中国的世界地图，未标注旅行地点。">A world map that can focus on China. No travel locations are marked.</title>
+              <title id="atlas-map-title" data-en="A Pacific-centered world map that scrolls into China."
+                     data-zh="以太平洋为中心、随滚动聚焦中国的世界地图。">A Pacific-centered world map that scrolls into China.</title>
               <defs>
                 <mask id="atlas-world-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="500">
-                  <image href="art/atlas-world.svg" width="1000" height="500"/>
+                  <image href="art/atlas-world.svg?v=20261011-blue-atlas" width="1000" height="500"/>
                 </mask>
                 <mask id="atlas-china-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="500">
-                  <image href="art/atlas-china.svg" width="1000" height="500"/>
+                  <image href="art/atlas-china.svg?v=20261011-blue-atlas" width="1000" height="500"/>
                 </mask>
                 <linearGradient id="atlas-pigment" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stop-color="var(--accent)" stop-opacity=".34"/>
                   <stop offset=".48" stop-color="var(--accent)" stop-opacity=".72"/>
                   <stop offset="1" stop-color="var(--rust)" stop-opacity=".48"/>
                 </linearGradient>
-                <filter id="atlas-paper-grain" x="-2%" y="-2%" width="104%" height="104%">
-                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="12" result="grain"/>
-                  <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
-                </filter>
                 <pattern id="atlas-paper-pattern" width="180" height="180" patternUnits="userSpaceOnUse">
                   <image href="art/studio-paper.svg" width="180" height="180"/>
                 </pattern>
@@ -399,7 +393,7 @@
                 <path d="M0 83h1000M0 166h1000M0 250h1000M0 333h1000M0 416h1000M166 0v500M333 0v500M500 0v500M666 0v500M833 0v500"/>
                 <ellipse cx="500" cy="250" rx="410" ry="194" transform="rotate(-12 500 250)"/>
               </g>
-              <g class="atlas-geography" filter="url(#atlas-paper-grain)">
+              <g class="atlas-geography">
                 <rect width="1000" height="500" fill="url(#atlas-pigment)" mask="url(#atlas-world-mask)"/>
                 <rect class="atlas-china-wash" width="1000" height="500" mask="url(#atlas-china-mask)"/>
                 <rect width="1000" height="500" fill="url(#atlas-paper-pattern)" opacity=".22" mask="url(#atlas-world-mask)"/>
@@ -415,8 +409,11 @@
               <span class="atlas-china-label" data-en="02 / CLOSER TO CHINA" data-zh="02 / 聚焦中国">02 / CLOSER TO CHINA</span>
             </div>
             <div class="atlas-scale" aria-hidden="true"><span></span></div>
+            <div class="atlas-city-markers"></div>
           </div>
-          <figcaption><span data-en="Change the scale. Keep the curiosity." data-zh="尺度在变，好奇不变。">Change the scale. Keep the curiosity.</span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noreferrer">Natural Earth ↗</a></figcaption>
+          <div class="atlas-city-list" hidden></div>
+          <p class="atlas-city-status" role="status" hidden></p>
+          <figcaption><span data-en="Change the scale. Keep the curiosity." data-zh="尺度在变，好奇不变。">Change the scale. Keep the curiosity.</span><a href="https://github.com/aHappend/aHappend.github.io#map-sources" target="_blank" rel="noreferrer" data-en="Map sources ↗" data-zh="地图来源 ↗">Map sources ↗</a></figcaption>
         </figure>
       </section>
 
@@ -457,43 +454,43 @@
           <article class="project-card project-featured reveal" data-category="systems hardware research">
             <div class="project-number mono" data-en="P.01 / MIXED PRECISION"
                  data-zh="P.01 / 混合精度">P.01 / MIXED PRECISION</div>
-            <div class="silicon-visual" id="project-visual-1" role="group" aria-labelledby="project-title-1">
-              <div class="silicon-visual-label mono"><span data-en="NATIVE AWQ"
-                    data-zh="原生 AWQ">NATIVE AWQ</span><span>W4A16 / RTL</span></div>
-              <div class="chip-registration" aria-hidden="true">
-                <div class="registration-sheet sheet-architecture"></div>
-                <div class="registration-sheet sheet-routing"></div>
-                <svg class="registration-traces" viewBox="0 0 320 280" fill="none">
-                  <g>
-                    <path pathLength="1" d="M12 65h30l28 28h42M18 201h42l29-29h20M208 83h35l28-28h38M214 187h30l24 24h39"/>
-                    <path pathLength="1" d="M95 14v32l20 20v28M217 263v-30l-18-18v-28"/>
-                  </g>
-                  <circle cx="12" cy="65" r="3"/><circle cx="18" cy="201" r="3"/>
-                  <circle cx="309" cy="55" r="3"/><circle cx="307" cy="211" r="3"/>
-                  <circle cx="95" cy="14" r="3"/><circle cx="217" cy="263" r="3"/>
-                </svg>
-                <div class="chip-orbit">
-                  <div class="chip">
-                    <span class="chip-name">ACE–3</span>
-                    <div class="chip-array">
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                    </div>
-                    <span class="mono" data-en="MIXED PRECISION"
-                          data-zh="混合精度">MIXED PRECISION</span>
-                  </div>
-                </div>
-              </div>
-              <p class="registration-note mono" data-en="SCROLL TO BRING THE LAYERS INTO REGISTER"
-                 data-zh="随滚动，图层逐渐对齐">SCROLL TO BRING THE LAYERS INTO REGISTER</p>
-              <div class="silicon-metrics">
-                <span><strong>24</strong><span data-en="decoder layers" data-zh="解码器层">decoder layers</span></span>
-                <span><strong>624</strong><span data-en="official tensors" data-zh="官方张量">official tensors</span></span>
-              </div>
-              <span class="visual-caption mono" data-en="CONCEPTUAL ILLUSTRATION · NOT A DIE PHOTO"
-                    data-zh="概念示意 · 非芯片实拍">CONCEPTUAL ILLUSTRATION · NOT A DIE PHOTO</span>
+            <div class="project-spec spec-projection" id="project-visual-1" role="group" aria-labelledby="project-title-1">
+              <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
+                <path class="diagram-grid" d="M8 18h304M8 55h304M8 92h304"/>
+                <g class="projection-weights">
+                  <rect x="16" y="18" width="46" height="28" rx="3"/>
+                  <path d="M25 18v28M34 18v28M43 18v28M52 18v28M16 32h46"/>
+                  <path class="projection-flow" d="M62 32h41l13 13"/>
+                  <path d="m109 43 7 2-2-7"/>
+                </g>
+                <g class="projection-activation">
+                  <path d="M16 69h46M16 79h46M16 89h46"/>
+                  <path class="projection-flow" d="M62 79h34l20-20"/>
+                  <path d="m109 61 7-2-2 7"/>
+                </g>
+                <g class="projection-core">
+                  <rect x="119" y="17" width="84" height="76" rx="6"/>
+                  <rect x="127" y="25" width="68" height="60" rx="3"/>
+                  <path class="projection-grid" d="M144 25v60M161 25v60M178 25v60M127 40h68M127 55h68M127 70h68"/>
+                  <circle class="projection-cell" cx="135.5" cy="32.5" r="2.6"/>
+                  <circle class="projection-cell" cx="152.5" cy="47.5" r="2.6"/>
+                  <circle class="projection-cell" cx="169.5" cy="62.5" r="2.6"/>
+                  <circle class="projection-cell" cx="186.5" cy="77.5" r="2.6"/>
+                </g>
+                <g class="projection-output">
+                  <path class="projection-flow" d="M203 55h31M266 55h45"/>
+                  <path d="m304 50 7 5-7 5"/>
+                  <circle class="projection-gate" cx="250" cy="55" r="16"/>
+                  <path d="M242 55h16M250 47v16M240 89h29M240 98h29"/>
+                </g>
+                <path d="M79 15v-8h135v8" opacity=".45"/>
+                <circle cx="79" cy="15" r="2" fill="var(--surface)"/>
+                <circle cx="214" cy="15" r="2" fill="var(--surface)"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono">
+              <span data-en="24 LAYERS / 624 TENSORS" data-zh="24 层 / 624 个张量">24 LAYERS / 624 TENSORS</span>
+              <strong data-en="G128 · CONCEPT" data-zh="G128 · 概念示意">G128 · CONCEPT</strong>
             </div>
             <div class="project-body">
               <div class="folio-project-title"><h3 id="project-title-1">ACE-3 MP</h3><span class="folio-seal mono">W4A16</span></div>
@@ -1298,7 +1295,7 @@
             <span data-en="More links" data-zh="更多链接">More links</span>
             <span aria-hidden="true">↗</span>
           </a>
-          <a class="text-link painting-open" href="art/painted-study.svg">
+          <a class="text-link painting-open" href="art/painted-study.svg?v=20261011-blue-atlas">
             <span data-en="See the finished watercolor" data-zh="看看刚刚画完的水彩">See the finished watercolor</span>
             <span aria-hidden="true">↗</span>
           </a>
@@ -1309,7 +1306,7 @@
     <dialog class="painting-dialog" aria-labelledby="painting-title">
       <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close">×</button></form>
       <p class="mono" id="painting-title" data-en="FROM A FEW LINES, A LANDSCAPE." data-zh="从几笔线条，到一幅风景。">FROM A FEW LINES, A LANDSCAPE.</p>
-      <img src="art/painted-study.svg" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
+      <img src="art/painted-study.svg?v=20261011-blue-atlas" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
       <p data-en="An original study for this website—not a photograph of a place I've visited."
          data-zh="为这个网站创作的风景习作，并非某次旅行的实景记录。">An original study for this website—not a photograph of a place I've visited.</p>
     </dialog>
@@ -1323,7 +1320,13 @@
       <a href="#top" data-en="Back to top ↑" data-zh="返回顶部 ↑">Back to top ↑</a>
     </footer>
 
+    <dialog class="city-dialog" id="city-album" aria-labelledby="city-album-title">
+      <form method="dialog"><button class="city-close" aria-label="Close city album">×</button></form>
+      <h2 id="city-album-title"></h2>
+      <div class="city-gallery"></div>
+    </dialog>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="script.js?v=20261010-editorial-index"></script>
+    <script src="city-atlas.js?v=20261011-blue-atlas"></script>
+    <script src="script.js?v=20261011-blue-atlas"></script>
   </body>
 </html>

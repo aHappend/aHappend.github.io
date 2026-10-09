@@ -27,6 +27,7 @@ let languageFallbackAnimation = null;
 let previewAnimation = null;
 let selectedProject = projectCards[0];
 let atlasMode = "follow";
+const cityAtlas = createCityAtlas(atlas, () => language);
 
 atlasControls.forEach((button) => {
   button.addEventListener("click", () => {
@@ -60,7 +61,7 @@ paintingDialog.addEventListener("click", (event) => {
 
 const projectChoices = projectCards.map((card) => {
   const heading = card.querySelector("h3");
-  const visual = card.querySelector(".silicon-visual, .project-spec");
+  const visual = card.querySelector(".project-spec");
   const button = document.createElement("button");
   button.type = "button";
   button.className = "project-select";
@@ -100,7 +101,7 @@ function selectProject(card, announce = false, animate = true) {
   if (changed) {
     stopPreviewAnimation();
     if (animate && projectBrowser.matches && effectsEnabled && !reducedMotion.matches && !document.hidden) {
-      previewAnimation = card.querySelector(".silicon-visual, .project-spec").animate(
+      previewAnimation = card.querySelector(".project-spec").animate(
         [{ clipPath: "inset(0 100% 0 0)", opacity: .3 }, { clipPath: "inset(0 0 0 0)", opacity: 1 }],
         { duration: 460, easing: "cubic-bezier(.2,.75,.25,1)" }
       );
@@ -137,6 +138,7 @@ projectBrowser.addEventListener("change", syncProjectBrowser);
 reducedMotion.addEventListener("change", stopPreviewAnimation);
 
 function updateControlLabels() {
+  cityAtlas.updateLabels();
   const chinese = language === "zh";
   const dark = root.dataset.theme === "dark";
   const menuOpen = menuButton.getAttribute("aria-expanded") === "true";
@@ -433,7 +435,6 @@ reducedMotion.addEventListener("change", stopFilterAnimations);
 
 let scrollFrame = null;
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
-const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
 function updateScrollState() {
   scrollFrame = null;
@@ -448,6 +449,7 @@ function updateScrollState() {
   const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !motion ? 0
     : Math.max(0, Math.min(1, (innerHeight * .9 - atlasRect.top) / (innerHeight * .65)));
   atlas.style.setProperty("--atlas-progress", atlasProgress.toFixed(4));
+  cityAtlas.update(atlasProgress);
   let current = null;
   for (const section of sections) {
     if (section.getBoundingClientRect().top <= 170) current = section.id;
@@ -458,13 +460,6 @@ function updateScrollState() {
     } else {
       link.removeAttribute("aria-current");
     }
-  });
-  folioLayers.forEach((layer) => {
-    const rect = layer.getBoundingClientRect();
-    const progress = effectsEnabled && !reducedMotion.matches && !document.hidden
-      ? Math.max(0, Math.min(1, (innerHeight - rect.top - rect.height / 2) / (innerHeight * .7)))
-      : 1;
-    layer.style.setProperty("--folio-progress", progress.toFixed(4));
   });
 }
 
