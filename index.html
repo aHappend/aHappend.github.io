@@ -33,6 +33,7 @@
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
+    <link rel="stylesheet" href="folio.css?v=20261010-watercolor-folio">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -112,7 +113,19 @@
     </header>
 
     <main id="main">
-      <section class="hero" id="top">
+      <section class="hero folio-hero" id="top">
+        <div class="hero-specimen" aria-hidden="true">
+          <svg viewBox="0 0 620 660" fill="none">
+            <ellipse cx="310" cy="345" rx="256" ry="208" transform="rotate(-28 310 345)"/>
+            <ellipse class="specimen-dashed" cx="310" cy="345" rx="278" ry="230" transform="rotate(-28 310 345)"/>
+            <path d="M82 136v28m-14-14h28M524 508v28m-14-14h28M414 96h100v54M48 502v74h84"/>
+            <circle cx="514" cy="150" r="3"/>
+            <circle cx="132" cy="576" r="3"/>
+          </svg>
+          <span class="specimen-note mono">01 / SYSTEMS</span>
+          <span class="specimen-note mono">02 / ARCHITECTURE</span>
+          <span class="specimen-note mono">03 / SILICON</span>
+        </div>
         <button class="scene-art hero-watercolor" type="button" data-scene="botanical" disabled
                 aria-label="Shake the bouquet and let petals fall"
                 data-label-en="Shake the bouquet and let petals fall" data-label-zh="轻摇瓶花，让花瓣飘落">
@@ -132,6 +145,12 @@
           </span>
           <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Let petals fall" data-zh="轻摇落花">Let petals fall</span><span class="scene-state"></span></span>
         </button>
+        <div class="hero-colophon">
+          <span class="mono" data-en="FIELD NOTES BY" data-zh="研究手记 / 作者">FIELD NOTES BY</span>
+          <span class="folio-signature">Sufeng Guo <span lang="zh-CN">郭苏峰</span></span>
+          <span class="mono" data-en="A little curiosity. A little circuitry."
+                data-zh="一点好奇，几笔电路。">A little curiosity. A little circuitry.</span>
+        </div>
         <div class="hero-edition mono">
           <span data-en="A PERSONAL FIELD GUIDE" data-zh="一份持续生长的研究手记">A PERSONAL FIELD GUIDE</span>
           <span data-en="AI SYSTEMS &amp; SILICON / 2026"
@@ -334,13 +353,23 @@
         </div>
       </section>
 
-      <section class="section" id="work">
+      <section class="section folio-work" id="work">
         <div class="section-heading">
           <div>
             <p class="section-index mono" data-en="02 / SELECTED WORK"
                data-zh="02 / 精选项目">02 / SELECTED WORK</p>
             <h2 data-en="Build with intent; test every event." data-zh="以作品作答。">Build with intent; test every event.</h2>
           </div>
+          <button class="scene-art work-landscape" type="button" data-scene="mountain" disabled
+                  aria-label="Send a flock of birds across the mountain valley"
+                  data-label-en="Send a flock of birds across the mountain valley" data-label-zh="唤起群鸟，掠过山谷">
+            <img src="art/mountain-valley.svg" alt="" width="1500" height="800" decoding="async">
+            <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Birds over the valley" data-zh="山谷飞鸟">Birds over the valley</span><span class="scene-state"></span></span>
+          </button>
+        </div>
+        <div class="folio-toolbar">
+          <p class="folio-browse-note" data-en="Four studies. One thread of curiosity."
+             data-zh="四份作品，循着同一份好奇。">Four studies. One thread of curiosity.</p>
           <div class="project-filters enhanced-control" role="group" aria-label="Filter projects">
             <button class="filter active" type="button" data-filter="all"
                     aria-pressed="true" data-en="All" data-zh="全部">All</button>
@@ -358,47 +387,69 @@
           <article class="project-card project-featured reveal" data-category="systems hardware research">
             <div class="project-number mono" data-en="P.01 / MIXED PRECISION"
                  data-zh="P.01 / 混合精度">P.01 / MIXED PRECISION</div>
-            <div class="project-body">
-              <div class="project-meta">
-                <span data-en="Active development" data-zh="持续研发中">Active development</span>
-                <span>AWQ W4A16</span><span>SystemVerilog</span>
-              </div>
-              <h3>ACE-3 MP</h3>
-              <p
-                data-en="Native AWQ W4A16 research RTL with verified G128 projection building blocks, evidence across all 624 official decoder tensors, and stage-gated integration review."
-                data-zh="原生 AWQ W4A16 研究型 RTL：已验证 G128 投影关键构件，证据覆盖全部 624 个官方解码器张量，并采用阶段门控推进集成审查。"
-              >
-                Native AWQ W4A16 research RTL with verified G128 projection building blocks,
-                evidence across all 624 official decoder tensors, and stage-gated integration
-                review.
-              </p>
-              <a href="https://github.com/aHappend/ace-3" target="_blank" rel="noreferrer">
-                <span data-en="View repository" data-zh="查看仓库">View repository</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            </div>
             <div class="silicon-visual">
               <div class="silicon-visual-label mono"><span data-en="NATIVE AWQ"
                     data-zh="原生 AWQ">NATIVE AWQ</span><span>W4A16 / RTL</span></div>
-              <div class="chip-orbit" aria-hidden="true">
-                <div class="chip">
-                  <span class="chip-name">ACE–3</span>
-                  <div class="chip-array">
-                    <i></i><i></i><i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i><i></i><i></i>
-                    <i></i><i></i><i></i><i></i><i></i><i></i>
+              <div class="chip-registration" aria-hidden="true">
+                <div class="registration-sheet sheet-architecture"></div>
+                <div class="registration-sheet sheet-routing"></div>
+                <svg class="registration-traces" viewBox="0 0 320 280" fill="none">
+                  <g>
+                    <path pathLength="1" d="M12 65h30l28 28h42M18 201h42l29-29h20M208 83h35l28-28h38M214 187h30l24 24h39"/>
+                    <path pathLength="1" d="M95 14v32l20 20v28M217 263v-30l-18-18v-28"/>
+                  </g>
+                  <circle cx="12" cy="65" r="3"/><circle cx="18" cy="201" r="3"/>
+                  <circle cx="309" cy="55" r="3"/><circle cx="307" cy="211" r="3"/>
+                  <circle cx="95" cy="14" r="3"/><circle cx="217" cy="263" r="3"/>
+                </svg>
+                <div class="chip-orbit">
+                  <div class="chip">
+                    <span class="chip-name">ACE–3</span>
+                    <div class="chip-array">
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                    </div>
+                    <span class="mono" data-en="MIXED PRECISION"
+                          data-zh="混合精度">MIXED PRECISION</span>
                   </div>
-                  <span class="mono" data-en="MIXED PRECISION"
-                        data-zh="混合精度">MIXED PRECISION</span>
                 </div>
               </div>
+              <p class="registration-note mono" data-en="SCROLL TO BRING THE LAYERS INTO REGISTER"
+                 data-zh="随滚动，图层逐渐对齐">SCROLL TO BRING THE LAYERS INTO REGISTER</p>
               <div class="silicon-metrics">
                 <span><strong>24</strong><span data-en="decoder layers" data-zh="解码器层">decoder layers</span></span>
                 <span><strong>624</strong><span data-en="official tensors" data-zh="官方张量">official tensors</span></span>
               </div>
               <span class="visual-caption mono" data-en="CONCEPTUAL ILLUSTRATION · NOT A DIE PHOTO"
                     data-zh="概念示意 · 非芯片实拍">CONCEPTUAL ILLUSTRATION · NOT A DIE PHOTO</span>
+            </div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3>ACE-3 MP</h3><span class="folio-seal mono">W4A16</span></div>
+              <p class="project-deck" data-en="Mixed precision. Measured progress."
+                 data-zh="以混合精度计算，以证据丈量进展。">Mixed precision. Measured progress.</p>
+              <details class="project-disclosure">
+                <summary>
+                  <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
+                  <span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span>
+                  <span class="disclosure-cross" aria-hidden="true"></span>
+                </summary>
+                <div class="project-notes">
+                  <div class="project-meta">
+                    <span data-en="Active development" data-zh="持续研发中">Active development</span>
+                    <span>AWQ W4A16</span><span>SystemVerilog</span>
+                  </div>
+                  <p data-en="Native AWQ W4A16 research RTL with verified G128 projection building blocks, evidence across all 624 official decoder tensors, and stage-gated integration review."
+                     data-zh="原生 AWQ W4A16 研究型 RTL：已验证 G128 投影关键构件，证据覆盖全部 624 个官方解码器张量，并采用阶段门控推进集成审查。">
+                    Native AWQ W4A16 research RTL with verified G128 projection building blocks,
+                    evidence across all 624 official decoder tensors, and stage-gated integration review.
+                  </p>
+                  <a href="https://github.com/aHappend/ace-3" target="_blank" rel="noreferrer">
+                    <span data-en="View repository" data-zh="查看仓库">View repository</span><span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </details>
             </div>
           </article>
 
@@ -445,11 +496,24 @@
                 <path class="memory-reuse" d="M276 84v17H136v-9m-5 6 5-6 5 6"/>
               </svg>
             </div>
+            <div class="cover-ledger mono">
+              <span data-en="02 TURNS / 24 K/V LAYERS" data-zh="02 轮对话 / 24 层 K/V">02 TURNS / 24 K/V LAYERS</span>
+              <strong data-en="0 MISMATCHES" data-zh="0 失配">0 MISMATCHES</strong>
+            </div>
             <div class="project-body">
-              <div class="project-meta">
-                <span>SystemVerilog</span><span>W4A8</span><span>Qwen2.5</span>
-              </div>
-              <h3>ACE-2</h3>
+              <div class="folio-project-title"><h3>ACE-2</h3><span class="folio-seal mono">W4A8</span></div>
+              <p class="project-deck" data-en="A conversation that the hardware remembers."
+                 data-zh="让硬件，记住上一轮对话。">A conversation that the hardware remembers.</p>
+              <details class="project-disclosure">
+                <summary>
+                  <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
+                  <span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span>
+                  <span class="disclosure-cross" aria-hidden="true"></span>
+                </summary>
+                <div class="project-notes">
+                  <div class="project-meta">
+                    <span>SystemVerilog</span><span>W4A8</span><span>Qwen2.5</span>
+                  </div>
               <p
                 data-en="A persistent W4A8 RTL dialogue baseline: two turns, four generated tokens per turn, 24 retained K/V layers, no prefix recomputation or software fallback, and zero recorded mismatches."
                 data-zh="持久化 W4A8 RTL 对话基线：完成两轮对话、每轮生成四个词元，保留 24 层 K/V 状态，不重算前缀、不使用软件回退，并保持零失配。"
@@ -462,6 +526,8 @@
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
                 <span aria-hidden="true">↗</span>
               </a>
+                </div>
+              </details>
             </div>
           </article>
 
@@ -512,11 +578,27 @@
                 </g>
               </svg>
             </div>
+            <div class="cover-ledger mono">
+              <span data-en="TIME → FREQUENCY" data-zh="时域 → 频域">TIME → FREQUENCY</span>
+              <strong data-en="64 POINTS" data-zh="64 点">64 POINTS</strong>
+            </div>
             <div class="project-body">
-              <div class="project-meta">
-                <span>SystemVerilog</span><span>FPGA</span><span>DSP</span>
+              <div class="folio-project-title">
+                <h3 data-en="64-Point FFT" data-zh="64 点 FFT">64-Point FFT</h3>
+                <span class="folio-seal mono">Q1.15</span>
               </div>
-              <h3 data-en="64-Point FFT" data-zh="64 点 FFT">64-Point FFT</h3>
+              <p class="project-deck" data-en="Finding the frequencies within a signal."
+                 data-zh="在起伏的信号里，寻找频率的秩序。">Finding the frequencies within a signal.</p>
+              <details class="project-disclosure">
+                <summary>
+                  <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
+                  <span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span>
+                  <span class="disclosure-cross" aria-hidden="true"></span>
+                </summary>
+                <div class="project-notes">
+                  <div class="project-meta">
+                    <span>SystemVerilog</span><span>FPGA</span><span>DSP</span>
+                  </div>
               <p
                 data-en="A resource-efficient radix-2 DIT FFT using folded streaming SDF RTL, Q1.15 arithmetic, and Python/NumPy co-verification."
                 data-zh="资源友好的 64 点基二 DIT FFT：采用折叠式流处理 SDF RTL 和 Q1.15 定点运算，并用 Python/NumPy 交叉验证。"
@@ -529,6 +611,8 @@
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
                 <span aria-hidden="true">↗</span>
               </a>
+                </div>
+              </details>
             </div>
           </article>
 
@@ -610,11 +694,27 @@
                 </g>
               </svg>
             </div>
+            <div class="cover-ledger mono">
+              <span data-en="MILLER COMPENSATION" data-zh="米勒补偿">MILLER COMPENSATION</span>
+              <strong>AC / DC / TRAN</strong>
+            </div>
             <div class="project-body">
-              <div class="project-meta">
-                <span>TSMC 180nm</span><span>Spectre</span><span>CMOS</span>
+              <div class="folio-project-title">
+                <h3 data-en="Two-Stage Op-Amp" data-zh="两级 CMOS 运放">Two-Stage Op-Amp</h3>
+                <span class="folio-seal mono">180 nm</span>
               </div>
-              <h3 data-en="Two-Stage Op-Amp" data-zh="两级 CMOS 运放">Two-Stage Op-Amp</h3>
+              <p class="project-deck" data-en="Small signals. Carefully amplified."
+                 data-zh="让微小信号，清晰而稳定。">Small signals. Carefully amplified.</p>
+              <details class="project-disclosure">
+                <summary>
+                  <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
+                  <span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span>
+                  <span class="disclosure-cross" aria-hidden="true"></span>
+                </summary>
+                <div class="project-notes">
+                  <div class="project-meta">
+                    <span>TSMC 180nm</span><span>Spectre</span><span>CMOS</span>
+                  </div>
               <p
                 data-en="A Miller-compensated CMOS operational amplifier with AC, DC, and transient verification across gain, bandwidth, stability, swing, and power."
                 data-zh="基于 TSMC 0.18 μm 工艺的米勒补偿两级 CMOS 运放，完成增益、带宽、稳定性、摆幅与功耗验证。"
@@ -627,16 +727,16 @@
                 <span data-en="View repository" data-zh="查看仓库">View repository</span>
                 <span aria-hidden="true">↗</span>
               </a>
+                </div>
+              </details>
             </div>
           </article>
 
         </div>
-        <button class="scene-art work-landscape" type="button" data-scene="mountain" disabled
-                aria-label="Send a flock of birds across the mountain valley"
-                data-label-en="Send a flock of birds across the mountain valley" data-label-zh="唤起群鸟，掠过山谷">
-          <img src="art/mountain-valley.svg" alt="" width="1500" height="800" decoding="async">
-          <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Birds over the valley" data-zh="山谷飞鸟">Birds over the valley</span><span class="scene-state"></span></span>
-        </button>
+        <p class="folio-endnote mono">
+          <span data-en="END OF SELECTED STUDIES" data-zh="精选作品 / 暂告一段落">END OF SELECTED STUDIES</span>
+          <span data-en="Always a work in progress." data-zh="探索，仍在继续。">Always a work in progress.</span>
+        </p>
       </section>
 
       <section class="section ecosystem-section" id="ecosystem">
@@ -1143,6 +1243,6 @@
     </footer>
 
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="script.js?v=20261005-remove-scroll-parallax"></script>
+    <script src="script.js?v=20261010-watercolor-folio"></script>
   </body>
 </html>

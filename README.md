@@ -6,6 +6,7 @@ and hardware-software co-design.
 
 The site is built with plain HTML, CSS, and JavaScript and is deployed through GitHub Pages.
 
+
 ## Local preview
 
 ```sh
@@ -22,6 +23,21 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
+- `folio.css`: the hero and Selected Work composition. Keep its rules scoped to
+  `.folio-hero`, `.folio-work`, and their dedicated components. The hero combines
+  the existing watercolor with a decorative technical annotation layer. Selected
+  Work uses image-first, staggered spreads on wide screens, paired studies on
+  portrait tablets, and an ordered single column on phones. Phone landscape has
+  a compact composition rather than inheriting the portrait tablet treatment.
+  The existing diagrams and evidence remain unchanged. Native `details` expose
+  complete project descriptions and repository links without requiring JavaScript.
+  Supporting browsers animate intrinsic height; reduced motion opens instantly.
+  Original scroll-linked registration brings two translucent schematic sheets
+  into alignment behind the conceptual ACE-3 chip and draws its routing traces.
+  Only the decorative hero annotation ring rotates; watercolor images, headings,
+  and reading positions never receive scroll offsets. Reuse the existing single
+  scroll frame callback, keep all layers inside the cover, and use the complete
+  static composition without JavaScript, with effects off, or under reduced motion.
 - `institutions/`: official institutional identity assets used as factual
   lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
   bilingual mark in university purple, `microsoft.svg` is Microsoft's official
@@ -91,7 +107,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
   overlay mobile navigation that never changes page layout height, animated
-  accessible project filters, section reveals,
+  accessible project filters, native project-disclosure scroll updates, section reveals,
   layered illustration parallax, a fluttering
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts

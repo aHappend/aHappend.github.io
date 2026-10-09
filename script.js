@@ -301,6 +301,7 @@ reducedMotion.addEventListener("change", stopFilterAnimations);
 
 let scrollFrame = null;
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+const folioLayers = [...document.querySelectorAll(".hero-specimen, .folio-work .silicon-visual")];
 
 function updateScrollState() {
   scrollFrame = null;
@@ -318,6 +319,13 @@ function updateScrollState() {
       link.removeAttribute("aria-current");
     }
   });
+  folioLayers.forEach((layer) => {
+    const rect = layer.getBoundingClientRect();
+    const progress = effectsEnabled && !reducedMotion.matches && !document.hidden
+      ? Math.max(0, Math.min(1, (innerHeight - rect.top - rect.height / 2) / (innerHeight * .7)))
+      : 1;
+    layer.style.setProperty("--folio-progress", progress.toFixed(4));
+  });
 }
 
 function scheduleScrollUpdate() {
@@ -327,6 +335,11 @@ function scheduleScrollUpdate() {
 window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
 window.addEventListener("resize", scheduleScrollUpdate, { passive: true });
 window.addEventListener("load", scheduleScrollUpdate);
+
+document.querySelectorAll(".project-disclosure").forEach((details) => {
+  details.addEventListener("toggle", scheduleScrollUpdate);
+  details.addEventListener("transitionend", scheduleScrollUpdate);
+});
 
 const revealElements = [...document.querySelectorAll(
   ".reveal, .section-heading, .about-title, .about-content, .contact-section > h2"
@@ -838,6 +851,7 @@ function syncNatureEffects() {
   root.dataset.effects = effectsEnabled && !reducedMotion.matches ? "on" : "off";
   resetNatureEffects();
   updateControlLabels();
+  scheduleScrollUpdate();
 }
 
 effectsButton.addEventListener("click", () => {
@@ -859,6 +873,7 @@ document.addEventListener("pointerout", (event) => {
 });
 document.addEventListener("pointercancel", resetPointerEffects);
 document.addEventListener("visibilitychange", resetNatureEffects);
+document.addEventListener("visibilitychange", scheduleScrollUpdate);
 window.addEventListener("blur", resetNatureEffects);
 window.addEventListener("beforeprint", resetNatureEffects);
 window.addEventListener("scroll", () => {
