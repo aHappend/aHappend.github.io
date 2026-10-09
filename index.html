@@ -33,7 +33,7 @@
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261010-watercolor-folio">
+    <link rel="stylesheet" href="folio.css?v=20261010-editorial-index">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -68,6 +68,24 @@
   <body>
     <a class="skip-link" href="#main" data-en="Skip to content" data-zh="跳转到正文">Skip to content</a>
     <div class="noise" aria-hidden="true"></div>
+    <div class="scroll-study" aria-hidden="true">
+      <div class="study-wash"></div>
+      <svg class="study-sketch" viewBox="0 0 1600 1000" preserveAspectRatio="none" fill="none">
+        <g class="study-contours">
+          <path pathLength="1" d="m-10 752 72-197 56 36 105-218 72 91 45-46 104 183 78-18 101 131"/>
+          <path pathLength="1" d="m917 641 121-152 58 53 112-230 62 99 80-55 100 222 96-103 94 127"/>
+          <path pathLength="1" d="M-40 697 37 620 111 710 205 644 270 742 335 698 450 805 630 863 307 942 151 984"/>
+          <path pathLength="1" d="m1640 615-90 80-59-54-71 101-64-36-99 95-165 32-70 38 342 45 147 50"/>
+          <path pathLength="1" d="M482 847q340-20 619 4M168 971q292-21 440-3t802-2"/>
+        </g>
+        <g class="study-guides">
+          <path pathLength="1" d="M30 110h120l38 38v133M1460 60v86h100M1440 880h92v74M20 872h26v86M26 901h39"/>
+          <path pathLength="1" d="M66 255h130m-20-20v40M1296 142h84m-42-42v84M60 944h87"/>
+          <circle cx="1280" cy="182" r="108"/>
+          <ellipse cx="1280" cy="182" rx="151" ry="51" transform="rotate(-22 1280 182)"/>
+        </g>
+      </svg>
+    </div>
     <div class="reading-progress" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -114,18 +132,6 @@
 
     <main id="main">
       <section class="hero folio-hero" id="top">
-        <div class="hero-specimen" aria-hidden="true">
-          <svg viewBox="0 0 620 660" fill="none">
-            <ellipse cx="310" cy="345" rx="256" ry="208" transform="rotate(-28 310 345)"/>
-            <ellipse class="specimen-dashed" cx="310" cy="345" rx="278" ry="230" transform="rotate(-28 310 345)"/>
-            <path d="M82 136v28m-14-14h28M524 508v28m-14-14h28M414 96h100v54M48 502v74h84"/>
-            <circle cx="514" cy="150" r="3"/>
-            <circle cx="132" cy="576" r="3"/>
-          </svg>
-          <span class="specimen-note mono">01 / SYSTEMS</span>
-          <span class="specimen-note mono">02 / ARCHITECTURE</span>
-          <span class="specimen-note mono">03 / SILICON</span>
-        </div>
         <button class="scene-art hero-watercolor" type="button" data-scene="botanical" disabled
                 aria-label="Shake the bouquet and let petals fall"
                 data-label-en="Shake the bouquet and let petals fall" data-label-zh="轻摇瓶花，让花瓣飘落">
@@ -145,12 +151,6 @@
           </span>
           <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Let petals fall" data-zh="轻摇落花">Let petals fall</span><span class="scene-state"></span></span>
         </button>
-        <div class="hero-colophon">
-          <span class="mono" data-en="FIELD NOTES BY" data-zh="研究手记 / 作者">FIELD NOTES BY</span>
-          <span class="folio-signature">Sufeng Guo <span lang="zh-CN">郭苏峰</span></span>
-          <span class="mono" data-en="A little curiosity. A little circuitry."
-                data-zh="一点好奇，几笔电路。">A little curiosity. A little circuitry.</span>
-        </div>
         <div class="hero-edition mono">
           <span data-en="A PERSONAL FIELD GUIDE" data-zh="一份持续生长的研究手记">A PERSONAL FIELD GUIDE</span>
           <span data-en="AI SYSTEMS &amp; SILICON / 2026"
@@ -164,17 +164,18 @@
               data-zh="南京大学本科生 · AI 系统与芯片"
             >Undergraduate researcher · Nanjing University</span>
           </p>
-          <h1 class="reveal">
+          <h1 class="hero-name reveal" data-en="Sufeng Guo" data-zh="郭苏峰">Sufeng Guo</h1>
+          <p class="hero-motto reveal">
             <span data-en="Giving intelligence form," data-zh="让智能有形，">Giving intelligence form,</span>
             <span class="hero-outline" data-en="from systems to the core." data-zh="从系统走向芯片。">from systems to the core.</span>
-          </h1>
+          </p>
           <p
             class="hero-intro reveal"
-            data-en="I design autonomous AI systems and efficient computing hardware, with a focus on long-horizon agents, DNN scheduling, RTL, and evidence-driven engineering."
-            data-zh="我关注自主 AI 系统和高效计算硬件，正在探索长时程智能体、DNN 调度、RTL 设计，以及以证据为基础的工程方法。"
+            data-en="I work across autonomous AI systems and efficient hardware—from long-horizon agents and DNN scheduling to RTL."
+            data-zh="我研究自主 AI 系统与高效计算硬件，从长时程智能体、DNN 调度一路到 RTL 设计。"
           >
-            I design autonomous AI systems and efficient computing hardware, with a focus on
-            long-horizon agents, DNN scheduling, RTL, and evidence-driven engineering.
+            I work across autonomous AI systems and efficient hardware—from long-horizon agents
+            and DNN scheduling to RTL.
           </p>
           <div class="hero-actions reveal">
             <a class="button button-primary" href="#work">
@@ -186,11 +187,21 @@
             </a>
           </div>
           <div class="interaction-note enhanced-control">
-            <span class="pointer-hint" data-en="Move through the garden. Click a painting to wake it." data-zh="移动鼠标拂过花园，点击画作唤醒风景。">Move through the garden. Click a painting to wake it.</span>
-            <span class="touch-hint" data-en="Tap a painting. Each has its own little surprise." data-zh="轻点画作，每幅都有不同的小惊喜。">Tap a painting. Each has its own little surprise.</span>
+            <span data-en="Scroll to add a little color." data-zh="向下翻阅，为纸上添一点颜色。">Scroll to add a little color.</span>
             <button class="effects-toggle" type="button" aria-pressed="true">Effects on</button>
           </div>
         </div>
+
+        <nav class="hero-index" aria-label="On this site" data-label-en="On this site" data-label-zh="网站目录">
+          <div class="hero-index-heading">
+            <p class="mono" data-en="ON THIS SITE" data-zh="网站目录">ON THIS SITE</p>
+            <p class="index-invitation" data-en="Start anywhere." data-zh="从这里，认识我。">Start anywhere.</p>
+          </div>
+          <a href="#about"><span class="index-number mono">01</span><span><strong data-en="The person" data-zh="关于我">The person</strong><small data-en="Background &amp; experience" data-zh="背景与经历">Background &amp; experience</small></span><span aria-hidden="true">↗</span></a>
+          <a href="#work"><span class="index-number mono">02</span><span><strong data-en="The work" data-zh="我的作品">The work</strong><small data-en="Systems, signals &amp; silicon" data-zh="系统、信号与芯片">Systems, signals &amp; silicon</small></span><span aria-hidden="true">↗</span></a>
+          <a href="#research"><span class="index-number mono">03</span><span><strong data-en="The questions" data-zh="研究与思考">The questions</strong><small data-en="Papers &amp; research maps" data-zh="论文与研究脉络">Papers &amp; research maps</small></span><span aria-hidden="true">↗</span></a>
+          <a href="#social"><span class="index-number mono">04</span><span><strong data-en="Stay in touch" data-zh="保持联系">Stay in touch</strong><small data-en="Notes, updates &amp; conversations" data-zh="笔记、动态与交流">Notes, updates &amp; conversations</small></span><span aria-hidden="true">↗</span></a>
+        </nav>
 
         <aside class="hero-panel reveal" aria-label="Research profile">
           <div class="profile-top">
@@ -202,7 +213,6 @@
               height="112"
             >
             <div class="profile-id">
-              <strong>Sufeng Guo <span lang="zh-CN">郭苏峰</span></strong>
               <span class="mono">@aHappend</span>
               <span data-en="Beijing, China" data-zh="中国北京">Beijing, China</span>
             </div>
@@ -221,13 +231,6 @@
               <dd data-en="Original projects" data-zh="原创项目">Original projects</dd>
             </div>
           </dl>
-          <div class="profile-focus">
-            <span class="mono muted" data-en="CURRENT_FOCUS" data-zh="当前关注">CURRENT_FOCUS</span>
-            <p data-en="Building reliable research agents and evidence-first mixed-precision AI accelerators."
-              data-zh="构建可靠的研究智能体，以及证据完备的混合精度 AI 加速器。">
-              Building reliable research agents and evidence-first mixed-precision AI accelerators.
-            </p>
-          </div>
         </aside>
       </section>
 
@@ -353,6 +356,70 @@
         </div>
       </section>
 
+      <section class="atlas-section" id="elsewhere" aria-labelledby="atlas-title" data-atlas-mode="follow">
+        <div class="atlas-copy">
+          <p class="section-index mono" data-en="BETWEEN THE LINES" data-zh="研究之外">BETWEEN THE LINES</p>
+          <h2 id="atlas-title" data-en="A wider world." data-zh="把视野，放远一点。">A wider world.</h2>
+          <p data-en="I've been to places across China and abroad. Beyond the research, there are cities, ordinary days, and stories from the road."
+             data-zh="走过国内，也去过海外。科研之外，还有不同的城市、平常的日子，以及一路上的故事。">I've been to places across China and abroad. Beyond the research, there are cities, ordinary days, and stories from the road.</p>
+          <div class="atlas-controls enhanced-control" role="group" aria-label="Map perspective">
+            <button type="button" data-atlas-view="world" aria-pressed="false" data-en="World" data-zh="世界">World</button>
+            <button type="button" data-atlas-view="china" aria-pressed="false" data-en="China" data-zh="中国">China</button>
+            <button type="button" data-atlas-view="follow" aria-pressed="true" data-en="Follow scroll ↓" data-zh="随滚动 ↓">Follow scroll ↓</button>
+          </div>
+          <p class="atlas-note mono" data-en="A geographic view, not a record of visited places."
+             data-zh="地理视角示意，尚未标注个人足迹。">A geographic view, not a record of visited places.</p>
+        </div>
+        <figure class="atlas-figure">
+          <div class="atlas-viewport">
+            <svg class="atlas-map" viewBox="0 0 1000 500" role="img" aria-labelledby="atlas-map-title">
+              <title id="atlas-map-title" data-en="A world map that can focus on China. No travel locations are marked."
+                     data-zh="可聚焦中国的世界地图，未标注旅行地点。">A world map that can focus on China. No travel locations are marked.</title>
+              <defs>
+                <mask id="atlas-world-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="500">
+                  <image href="art/atlas-world.svg" width="1000" height="500"/>
+                </mask>
+                <mask id="atlas-china-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="500">
+                  <image href="art/atlas-china.svg" width="1000" height="500"/>
+                </mask>
+                <linearGradient id="atlas-pigment" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="var(--accent)" stop-opacity=".34"/>
+                  <stop offset=".48" stop-color="var(--accent)" stop-opacity=".72"/>
+                  <stop offset="1" stop-color="var(--rust)" stop-opacity=".48"/>
+                </linearGradient>
+                <filter id="atlas-paper-grain" x="-2%" y="-2%" width="104%" height="104%">
+                  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="12" result="grain"/>
+                  <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+                <pattern id="atlas-paper-pattern" width="180" height="180" patternUnits="userSpaceOnUse">
+                  <image href="art/studio-paper.svg" width="180" height="180"/>
+                </pattern>
+              </defs>
+              <g class="atlas-graticule" fill="none">
+                <path d="M0 83h1000M0 166h1000M0 250h1000M0 333h1000M0 416h1000M166 0v500M333 0v500M500 0v500M666 0v500M833 0v500"/>
+                <ellipse cx="500" cy="250" rx="410" ry="194" transform="rotate(-12 500 250)"/>
+              </g>
+              <g class="atlas-geography" filter="url(#atlas-paper-grain)">
+                <rect width="1000" height="500" fill="url(#atlas-pigment)" mask="url(#atlas-world-mask)"/>
+                <rect class="atlas-china-wash" width="1000" height="500" mask="url(#atlas-china-mask)"/>
+                <rect width="1000" height="500" fill="url(#atlas-paper-pattern)" opacity=".22" mask="url(#atlas-world-mask)"/>
+              </g>
+              <g class="atlas-crosshairs" fill="none">
+                <path d="M20 40h24M32 28v24M956 460h24M968 448v24"/>
+                <circle cx="500" cy="250" r="116"/>
+                <path d="M500 123v20M500 357v20M373 250h20M607 250h20"/>
+              </g>
+            </svg>
+            <div class="atlas-view-label mono" aria-hidden="true">
+              <span class="atlas-world-label" data-en="01 / WORLD VIEW" data-zh="01 / 世界视角">01 / WORLD VIEW</span>
+              <span class="atlas-china-label" data-en="02 / CLOSER TO CHINA" data-zh="02 / 聚焦中国">02 / CLOSER TO CHINA</span>
+            </div>
+            <div class="atlas-scale" aria-hidden="true"><span></span></div>
+          </div>
+          <figcaption><span data-en="Change the scale. Keep the curiosity." data-zh="尺度在变，好奇不变。">Change the scale. Keep the curiosity.</span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noreferrer">Natural Earth ↗</a></figcaption>
+        </figure>
+      </section>
+
       <section class="section folio-work" id="work">
         <div class="section-heading">
           <div>
@@ -368,8 +435,10 @@
           </button>
         </div>
         <div class="folio-toolbar">
-          <p class="folio-browse-note" data-en="Four studies. One thread of curiosity."
-             data-zh="四份作品，循着同一份好奇。">Four studies. One thread of curiosity.</p>
+          <p class="folio-browse-note">
+            <span class="browser-instruction" data-en="Choose a study. See how it works." data-zh="选一份作品，看它如何运作。">Choose a study. See how it works.</span>
+            <span class="inline-instruction" data-en="Four studies, from systems to signals." data-zh="四份作品，从系统到信号。">Four studies, from systems to signals.</span>
+          </p>
           <div class="project-filters enhanced-control" role="group" aria-label="Filter projects">
             <button class="filter active" type="button" data-filter="all"
                     aria-pressed="true" data-en="All" data-zh="全部">All</button>
@@ -383,11 +452,12 @@
         </div>
 
         <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
+        <p class="sr-only" id="project-preview-status" role="status" aria-live="polite"></p>
         <div class="project-grid">
           <article class="project-card project-featured reveal" data-category="systems hardware research">
             <div class="project-number mono" data-en="P.01 / MIXED PRECISION"
                  data-zh="P.01 / 混合精度">P.01 / MIXED PRECISION</div>
-            <div class="silicon-visual">
+            <div class="silicon-visual" id="project-visual-1" role="group" aria-labelledby="project-title-1">
               <div class="silicon-visual-label mono"><span data-en="NATIVE AWQ"
                     data-zh="原生 AWQ">NATIVE AWQ</span><span>W4A16 / RTL</span></div>
               <div class="chip-registration" aria-hidden="true">
@@ -426,7 +496,7 @@
                     data-zh="概念示意 · 非芯片实拍">CONCEPTUAL ILLUSTRATION · NOT A DIE PHOTO</span>
             </div>
             <div class="project-body">
-              <div class="folio-project-title"><h3>ACE-3 MP</h3><span class="folio-seal mono">W4A16</span></div>
+              <div class="folio-project-title"><h3 id="project-title-1">ACE-3 MP</h3><span class="folio-seal mono">W4A16</span></div>
               <p class="project-deck" data-en="Mixed precision. Measured progress."
                  data-zh="以混合精度计算，以证据丈量进展。">Mixed precision. Measured progress.</p>
               <details class="project-disclosure">
@@ -456,7 +526,7 @@
           <article class="project-card reveal" data-category="systems hardware">
             <div class="project-number mono" data-en="P.02 / PERSISTENT RTL"
                  data-zh="P.02 / 持久化 RTL">P.02 / PERSISTENT RTL</div>
-            <div class="project-spec spec-memory">
+            <div class="project-spec spec-memory" id="project-visual-2" role="group" aria-labelledby="project-title-2">
               <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
                 <path class="diagram-grid" d="M8 18h304M8 55h304M8 92h304"/>
                 <g class="memory-turn memory-turn-a">
@@ -501,7 +571,7 @@
               <strong data-en="0 MISMATCHES" data-zh="0 失配">0 MISMATCHES</strong>
             </div>
             <div class="project-body">
-              <div class="folio-project-title"><h3>ACE-2</h3><span class="folio-seal mono">W4A8</span></div>
+              <div class="folio-project-title"><h3 id="project-title-2">ACE-2</h3><span class="folio-seal mono">W4A8</span></div>
               <p class="project-deck" data-en="A conversation that the hardware remembers."
                  data-zh="让硬件，记住上一轮对话。">A conversation that the hardware remembers.</p>
               <details class="project-disclosure">
@@ -534,7 +604,7 @@
           <article class="project-card reveal" data-category="hardware">
             <div class="project-number mono" data-en="P.03 / DIGITAL"
                  data-zh="P.03 / 数字电路">P.03 / DIGITAL</div>
-            <div class="project-spec spec-fft">
+            <div class="project-spec spec-fft" id="project-visual-3" role="group" aria-labelledby="project-title-3">
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
                 <defs>
                   <clipPath id="fft-wave-window">
@@ -584,7 +654,7 @@
             </div>
             <div class="project-body">
               <div class="folio-project-title">
-                <h3 data-en="64-Point FFT" data-zh="64 点 FFT">64-Point FFT</h3>
+                <h3 id="project-title-3"><span data-en="64-Point FFT" data-zh="64 点 FFT">64-Point FFT</span></h3>
                 <span class="folio-seal mono">Q1.15</span>
               </div>
               <p class="project-deck" data-en="Finding the frequencies within a signal."
@@ -619,7 +689,7 @@
           <article class="project-card reveal" data-category="hardware research">
             <div class="project-number mono" data-en="P.04 / ANALOG"
                  data-zh="P.04 / 模拟电路">P.04 / ANALOG</div>
-            <div class="project-spec spec-analog">
+            <div class="project-spec spec-analog" id="project-visual-4" role="group" aria-labelledby="project-title-4">
               <svg viewBox="0 0 360 120" fill="none" aria-hidden="true">
                 <defs>
                   <g id="opamp-nmos-symbol">
@@ -700,7 +770,7 @@
             </div>
             <div class="project-body">
               <div class="folio-project-title">
-                <h3 data-en="Two-Stage Op-Amp" data-zh="两级 CMOS 运放">Two-Stage Op-Amp</h3>
+                <h3 id="project-title-4"><span data-en="Two-Stage Op-Amp" data-zh="两级 CMOS 运放">Two-Stage Op-Amp</span></h3>
                 <span class="folio-seal mono">180 nm</span>
               </div>
               <p class="project-deck" data-en="Small signals. Carefully amplified."
@@ -1228,10 +1298,21 @@
             <span data-en="More links" data-zh="更多链接">More links</span>
             <span aria-hidden="true">↗</span>
           </a>
+          <a class="text-link painting-open" href="art/painted-study.svg">
+            <span data-en="See the finished watercolor" data-zh="看看刚刚画完的水彩">See the finished watercolor</span>
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </section>
     </main>
     <p id="scene-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    <dialog class="painting-dialog" aria-labelledby="painting-title">
+      <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close">×</button></form>
+      <p class="mono" id="painting-title" data-en="FROM A FEW LINES, A LANDSCAPE." data-zh="从几笔线条，到一幅风景。">FROM A FEW LINES, A LANDSCAPE.</p>
+      <img src="art/painted-study.svg" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
+      <p data-en="An original study for this website—not a photograph of a place I've visited."
+         data-zh="为这个网站创作的风景习作，并非某次旅行的实景记录。">An original study for this website—not a photograph of a place I've visited.</p>
+    </dialog>
 
     <footer>
       <span>© <span id="year">2026</span> Sufeng Guo</span>
@@ -1243,6 +1324,6 @@
     </footer>
 
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="script.js?v=20261010-watercolor-folio"></script>
+    <script src="script.js?v=20261010-editorial-index"></script>
   </body>
 </html>

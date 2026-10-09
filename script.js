@@ -9,6 +9,12 @@ const navigation = document.querySelector(".desktop-nav");
 const navLinks = [...navigation.querySelectorAll("a")];
 const filters = [...document.querySelectorAll(".filter")];
 const projectCards = [...document.querySelectorAll(".project-card")];
+const workSection = document.querySelector(".folio-work");
+const projectBrowser = window.matchMedia("(min-width: 901px) and (min-height: 600px)");
+const previewStatus = document.getElementById("project-preview-status");
+const atlas = document.querySelector(".atlas-section");
+const atlasControls = [...document.querySelectorAll("[data-atlas-view]")];
+const paintingDialog = document.querySelector(".painting-dialog");
 const filterStatus = document.getElementById("filter-status");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileNavigation = window.matchMedia("(max-width: 900px)");
@@ -18,6 +24,117 @@ let effectsEnabled = sitePreferences.get("effects") !== "off";
 let themeTransition = null;
 let languageTransition = null;
 let languageFallbackAnimation = null;
+let previewAnimation = null;
+let selectedProject = projectCards[0];
+let atlasMode = "follow";
+
+atlasControls.forEach((button) => {
+  button.addEventListener("click", () => {
+    atlasMode = button.dataset.atlasView;
+    atlas.dataset.atlasMode = atlasMode;
+    atlasControls.forEach((control) => {
+      control.setAttribute("aria-pressed", String(control === button));
+    });
+    scheduleScrollUpdate();
+  });
+});
+
+document.querySelector(".painting-open").addEventListener("click", (event) => {
+  if (typeof paintingDialog.showModal !== "function" || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  paintingDialog.showModal();
+  root.classList.add("painting-opened");
+  resetNatureEffects();
+});
+paintingDialog.addEventListener("close", () => {
+  root.classList.remove("painting-opened");
+  scheduleScrollUpdate();
+});
+paintingDialog.addEventListener("click", (event) => {
+  if (event.target !== paintingDialog) return;
+  const rect = paintingDialog.getBoundingClientRect();
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+    paintingDialog.close();
+  }
+});
+
+const projectChoices = projectCards.map((card) => {
+  const heading = card.querySelector("h3");
+  const visual = card.querySelector(".silicon-visual, .project-spec");
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "project-select";
+  button.setAttribute("aria-controls", visual.id);
+  button.addEventListener("click", () => selectProject(card, true));
+  button.addEventListener("focus", () => selectProject(card));
+  button.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse" && finePointer.matches) selectProject(card);
+  });
+  button.addEventListener("keydown", (event) => {
+    const choices = projectChoices.filter((choice) => !choice.card.hidden);
+    const index = choices.findIndex((choice) => choice.card === card);
+    const next = event.key === "ArrowDown" ? (index + 1) % choices.length
+      : event.key === "ArrowUp" ? (index - 1 + choices.length) % choices.length
+      : event.key === "Home" ? 0 : event.key === "End" ? choices.length - 1 : null;
+    if (next !== null) {
+      event.preventDefault();
+      choices[next].button.focus();
+    }
+  });
+  return { card, heading, visual, button };
+});
+
+function stopPreviewAnimation() {
+  previewAnimation?.cancel();
+  previewAnimation = null;
+}
+
+function selectProject(card, announce = false, animate = true) {
+  const changed = selectedProject !== card;
+  selectedProject = card;
+  projectChoices.forEach((choice) => {
+    const active = choice.card === card;
+    choice.card.toggleAttribute("data-active", active);
+    choice.button.setAttribute("aria-pressed", String(active));
+  });
+  if (changed) {
+    stopPreviewAnimation();
+    if (animate && projectBrowser.matches && effectsEnabled && !reducedMotion.matches && !document.hidden) {
+      previewAnimation = card.querySelector(".silicon-visual, .project-spec").animate(
+        [{ clipPath: "inset(0 100% 0 0)", opacity: .3 }, { clipPath: "inset(0 0 0 0)", opacity: 1 }],
+        { duration: 460, easing: "cubic-bezier(.2,.75,.25,1)" }
+      );
+    }
+  }
+  if (announce) {
+    const title = card.querySelector("h3").textContent;
+    previewStatus.textContent = language === "zh" ? `正在展示：${title}` : `Previewing: ${title}`;
+  }
+  scheduleScrollUpdate();
+}
+
+function syncProjectBrowser() {
+  stopPreviewAnimation();
+  workSection.toggleAttribute("data-project-browser", projectBrowser.matches);
+  projectChoices.forEach(({ heading, button }) => {
+    if (projectBrowser.matches && !heading.contains(button)) {
+      button.append(...heading.childNodes);
+      heading.append(button);
+      heading.removeAttribute("tabindex");
+    } else if (!projectBrowser.matches && heading.contains(button)) {
+      const focused = document.activeElement === button;
+      heading.replaceChildren(...button.childNodes);
+      if (focused) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
+    }
+  });
+  selectProject(selectedProject.hidden ? projectCards.find((card) => !card.hidden) : selectedProject, false, false);
+}
+
+projectBrowser.addEventListener("change", syncProjectBrowser);
+reducedMotion.addEventListener("change", stopPreviewAnimation);
 
 function updateControlLabels() {
   const chinese = language === "zh";
@@ -33,16 +150,29 @@ function updateControlLabels() {
     ? `${menuOpen ? "关闭" : "打开"}导航`
     : `${menuOpen ? "Close" : "Open"} navigation`);
   navigation.setAttribute("aria-label", chinese ? "主导航" : "Primary navigation");
+  document.querySelector(".hero-index").setAttribute("aria-label", chinese ? "网站目录" : "On this site");
   document.querySelector(".project-filters").setAttribute("aria-label", chinese ? "筛选项目" : "Filter projects");
+  document.querySelector(".atlas-controls").setAttribute("aria-label", chinese ? "地图视角" : "Map perspective");
+  document.querySelector(".painting-close").setAttribute("aria-label", chinese ? "关闭水彩画" : "Close watercolor");
+  paintingDialog.querySelector("img").alt = chinese
+    ? "原创水彩风景：群山、湖泊和一轮暖日。"
+    : "An original watercolor landscape of mountains, a lake, and a warm sun.";
   const effectsActive = effectsEnabled && !reducedMotion.matches;
+  const followControl = atlasControls.find((control) => control.dataset.atlasView === "follow");
+  followControl.disabled = !effectsActive;
+  atlasControls.forEach((control) => {
+    control.setAttribute("aria-pressed", String(control.dataset.atlasView === (
+      atlasMode === "follow" && !effectsActive ? "world" : atlasMode
+    )));
+  });
   effectsButton.setAttribute("aria-pressed", String(effectsActive));
   effectsButton.disabled = reducedMotion.matches;
   effectsButton.textContent = reducedMotion.matches
     ? (chinese ? "已减少动态效果" : "Reduced motion")
-    : (chinese ? `花园动效${effectsActive ? "开启" : "关闭"}` : `Garden effects ${effectsActive ? "on" : "off"}`);
+    : (chinese ? `动态效果${effectsActive ? "开启" : "关闭"}` : `Effects ${effectsActive ? "on" : "off"}`);
   effectsButton.setAttribute("aria-label", chinese
-    ? (effectsActive ? "暂停花园动效" : "开启花园动效")
-    : (effectsActive ? "Pause garden effects" : "Enable garden effects"));
+    ? (effectsActive ? "暂停动态效果" : "开启动效")
+    : (effectsActive ? "Pause effects" : "Enable effects"));
   updateSceneControls();
 }
 
@@ -87,6 +217,7 @@ function applyLanguage(nextLanguage) {
   });
   updateControlLabels();
   updateFilterStatus();
+  previewStatus.textContent = "";
   scheduleScrollUpdate();
 }
 
@@ -285,7 +416,8 @@ filters.forEach((filter) => {
     projectCards.forEach((card) => {
       card.hidden = selectedFilter !== "all" && !card.dataset.category.split(" ").includes(selectedFilter);
     });
-    if (!reducedMotion.matches) {
+    selectProject(selectedProject.hidden ? projectCards.find((card) => !card.hidden) : selectedProject);
+    if (!reducedMotion.matches && !projectBrowser.matches) {
       filterAnimations = projectCards.filter((card) => !card.hidden).map((card, index) =>
         card.animate(
           [{ opacity: 0, translate: "0 12px" }, { opacity: 1, translate: "0 0" }],
@@ -301,13 +433,21 @@ reducedMotion.addEventListener("change", stopFilterAnimations);
 
 let scrollFrame = null;
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
-const folioLayers = [...document.querySelectorAll(".hero-specimen, .folio-work .silicon-visual")];
+const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
 function updateScrollState() {
   scrollFrame = null;
   const scrollable = root.scrollHeight - window.innerHeight;
   const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
   root.style.setProperty("--reading-progress", progress.toFixed(4));
+  const motion = effectsEnabled && !reducedMotion.matches && !document.hidden;
+  root.style.setProperty("--study-ink", (motion ? Math.min(1, .08 + progress * 1.55) : 1).toFixed(4));
+  root.style.setProperty("--study-color", (motion ? Math.max(0, Math.min(1, (progress - .08) / .82)) : 1).toFixed(4));
+  root.style.setProperty("--study-drift", `${motion ? ((progress - .5) * (innerWidth <= 600 ? 16 : 52)).toFixed(2) : 0}px`);
+  const atlasRect = atlas.getBoundingClientRect();
+  const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !motion ? 0
+    : Math.max(0, Math.min(1, (innerHeight * .9 - atlasRect.top) / (innerHeight * .65)));
+  atlas.style.setProperty("--atlas-progress", atlasProgress.toFixed(4));
   let current = null;
   for (const section of sections) {
     if (section.getBoundingClientRect().top <= 170) current = section.id;
@@ -373,7 +513,7 @@ const paintFrames = new Map();
 
 function canUsePointerEffects(event) {
   return effectsEnabled && !reducedMotion.matches && finePointer.matches &&
-    !document.hidden && (!event || event.pointerType === "mouse");
+    !document.hidden && !paintingDialog.open && (!event || event.pointerType === "mouse");
 }
 
 function resetArtwork(artwork) {
@@ -404,9 +544,9 @@ artworks.forEach((artwork) => {
     paintFrames.set(artwork, requestAnimationFrame(() => {
       paintFrames.delete(artwork);
       const { x, y } = pointerPosition(event, artwork);
-      artwork.style.setProperty("--paint-x", `${(x * 20).toFixed(2)}px`);
-      artwork.style.setProperty("--paint-y", `${(y * 13).toFixed(2)}px`);
-      artwork.style.setProperty("--paint-turn", `${(x * 1.8).toFixed(2)}deg`);
+      artwork.style.setProperty("--paint-x", `${(x * 4).toFixed(2)}px`);
+      artwork.style.setProperty("--paint-y", `${(y * 3).toFixed(2)}px`);
+      artwork.style.setProperty("--paint-turn", `${(x * 1).toFixed(2)}deg`);
       artwork.classList.add("nature-hovering");
     }));
   });
@@ -848,6 +988,7 @@ function resetNatureEffects() {
 }
 
 function syncNatureEffects() {
+  stopPreviewAnimation();
   root.dataset.effects = effectsEnabled && !reducedMotion.matches ? "on" : "off";
   resetNatureEffects();
   updateControlLabels();
@@ -874,6 +1015,7 @@ document.addEventListener("pointerout", (event) => {
 document.addEventListener("pointercancel", resetPointerEffects);
 document.addEventListener("visibilitychange", resetNatureEffects);
 document.addEventListener("visibilitychange", scheduleScrollUpdate);
+document.addEventListener("visibilitychange", stopPreviewAnimation);
 window.addEventListener("blur", resetNatureEffects);
 window.addEventListener("beforeprint", resetNatureEffects);
 window.addEventListener("scroll", () => {
@@ -889,6 +1031,7 @@ window.addEventListener("resize", () => {
 reducedMotion.addEventListener("change", syncNatureEffects);
 finePointer.addEventListener("change", resetPointerEffects);
 resizePetalCanvas();
+syncProjectBrowser();
 syncNatureEffects();
 
 applyLanguage(language);

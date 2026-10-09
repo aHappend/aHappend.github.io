@@ -23,21 +23,22 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.
-- `folio.css`: the hero and Selected Work composition. Keep its rules scoped to
-  `.folio-hero`, `.folio-work`, and their dedicated components. The hero combines
-  the existing watercolor with a decorative technical annotation layer. Selected
-  Work uses image-first, staggered spreads on wide screens, paired studies on
-  portrait tablets, and an ordered single column on phones. Phone landscape has
-  a compact composition rather than inheriting the portrait tablet treatment.
-  The existing diagrams and evidence remain unchanged. Native `details` expose
-  complete project descriptions and repository links without requiring JavaScript.
-  Supporting browsers animate intrinsic height; reduced motion opens instantly.
-  Original scroll-linked registration brings two translucent schematic sheets
-  into alignment behind the conceptual ACE-3 chip and draws its routing traces.
-  Only the decorative hero annotation ring rotates; watercolor images, headings,
-  and reading positions never receive scroll offsets. Reuse the existing single
-  scroll frame callback, keep all layers inside the cover, and use the complete
-  static composition without JavaScript, with effects off, or under reduced motion.
+- `folio.css`: the compact editorial composition and painted-paper layers.
+  Desktop centers the owner's name and a site index, with a project directory
+  that switches a shared technical stage on hover, keyboard focus, or click.
+  The stage uses the original diagram nodes, not duplicate SVGs or cloned IDs.
+  At widths above 900px and heights of at least 600px, enable this project browser;
+  portrait tablets and short landscape phones show paired inline studies.
+  Phones up to 600px use smaller typography, a two-column site index, short
+  project entries, compact diagrams, and a dense ecosystem list. Responsive
+  changes preserve the selected project, filters, open notes, and keyboard focus.
+  Native `details` expose complete descriptions and repository links without JS.
+  Print exposes all diagrams and notes, even when collapsed or filtered on screen.
+  The seven nature paintings are absolute-positioned margin accents: none
+  should create independent vertical space or cover text or controls.
+  Directory hover uses a translucent pigment wash rather than large card tilts.
+  Other hover treatments emphasize institutional marks and research evidence;
+  every essential action also works with keyboard or touch.
 - `institutions/`: official institutional identity assets used as factual
   lockups, not as decorative scenes. `nju.svg` is the official Nanjing University
   bilingual mark in university purple, `microsoft.svg` is Microsoft's official
@@ -46,7 +47,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   colors. Dark mode uses one consistent white plate behind the marks rather
   than recoloring or brightening the assets. The plate is a pseudo-element:
   never add logo-container padding or otherwise change the rendered image size
-  between themes. Keep the technology stack beneath the fern so the education
+  between themes. Keep the technology stack below the About heading so the education
   and experience timeline can use the full right column. The ArgusAgent repository
   card uses Microsoft's four-square mark so it stays legible at phone size; the
   experience timeline continues to use the full corporate wordmark. In the
@@ -70,12 +71,30 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   of readable text and controls. Each painting appears exactly once inside an
   accessible `.scene-art` button; the image itself never intercepts pointer input.
   The chip graphic remains conceptual, not a die photograph or physical-layout result.
-- `art/paper-washes.svg`: a separate, original full-page paper treatment, not an
-  eighth scene. Blue/cyan washes, a little violet and warm ochre, translucent
-  water blooms, irregular pigment edges, and fine granulation replace smooth
-  background gradients. A single static, non-interactive CSS layer sits behind
-  all content, with quieter dark-theme opacity and no printed background.
-  Keep the reading area light and leave the seven scene compositions untouched.
+- `art/studio-paper.svg`: original tiled cold-pressed paper texture, with diffuse
+  lighting for the paper tooth and a separate fine-fiber layer. It is rendered
+  once as a background, never regenerated in the scroll callback.
+- `art/painted-study.svg`: a separate original mountain-and-lake study, not a
+  photograph or a claim about travel. Scroll draws the pencil underpainting,
+  then reveals pigment through a soft mask. The sketch and color layer move at
+  different rates, bounded to 26px on desktop and 8px on phones. Text and the
+  seven small nature accents never get scroll offsets. The contact area's
+  "finished watercolor" link opens a native, keyboard-accessible dialog; without
+  JS it links directly to the SVG. Reduced motion/effects off/no JS show the
+  complete painting, and print removes decorative layers. The earlier
+  `art/paper-washes.svg` remains an unused source asset.
+- The `#elsewhere` interlude moves from a world view to a 4x view centered on
+  China through ordinary scrolling, without scroll interception or a long
+  pinned section. World/China buttons provide manual control on every device;
+  manual selection persists until "Follow scroll" is selected. Reduced motion
+  and effects off disable scroll-follow but retain immediate manual changes.
+  The maps deliberately contain no visited-place pins, invented itineraries,
+  city counts, stock photos, or promised dates. Add personal places/photos only
+  when the owner supplies them.
+- `art/atlas-world.svg` and `art/atlas-china.svg` are local masks generated from
+  public-domain Natural Earth 1:110m geometry. `scripts/export_atlas.py` records
+  the pinned source revision and license and regenerates both masks from the
+  matching GeoJSON. No remote map service, API key, or runtime dependency is used.
 - The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
   `index.html`. They use the site's theme variables and remain bilingual,
   responsive, printable, and readable without JavaScript. They are technical
@@ -106,9 +125,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   the first-stage-node → Rz → Cc → output compensation path.
 - `preferences.js`: validated theme/language storage and pre-paint theme selection.
 - `script.js`: language/theme controls with reduced-motion-aware view transitions,
-  overlay mobile navigation that never changes page layout height, animated
-  accessible project filters, native project-disclosure scroll updates, section reveals,
-  layered illustration parallax, a fluttering
+  overlay mobile navigation that never changes page layout height, accessible
+  project filters and preview selection, native project-disclosure scroll updates,
+  progressive background painting, geographic zoom, section reveals,
+  small pointer-driven illustration movement, a fluttering
   butterfly, card tilt/spotlights, magnetic buttons, and canvas petal trails with
   click ripples. The native cursor stays visible; the canvas never intercepts
   input. Generic cursor particles are capped at 64 and pixel ratio at 1.5; the
@@ -124,7 +144,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   follow scrolling and parallax, and rescale without restarting during a resize
   (including a phone's collapsing address bar). Pause, reduced motion, blur,
   hidden tabs, and printing still clear all effects.
-  The hero's garden-effects toggle persists independently
+  The hero's effects toggle persists independently
   of theme/language, and system reduced-motion preferences always take priority.
   Phones keep mouse parallax/trails off, but support explicit taps on paintings.
   Painting controls use native clicks (including Enter/Space), never prevent
@@ -155,8 +175,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   `script.js` owns inputs, actual image bounds, timers, announcements, and cleanup.
   Preserve these distinct interactions rather than recoloring one shared burst.
 
-The content narrative is Hero → About → Work → Ecosystem → Research → Connect →
-Contact. Keep navigation, section numbering, and DOM order aligned. English
+The content narrative is Hero → About → Elsewhere interlude → Work → Ecosystem →
+Research → Connect → Contact. The geographic interlude is intentionally unnumbered.
+Keep navigation, section numbering, and DOM order aligned. English
 chapter headlines use concise internal rhymes; preserve the separate Chinese copy.
 
 The page remains readable and navigable without JavaScript. Browser storage is

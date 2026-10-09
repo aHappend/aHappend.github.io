@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <filter id="tooth" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".12 .18" numOctaves="3" seed="37" stitchTiles="stitch"/>
+      <feDiffuseLighting surfaceScale=".85" diffuseConstant=".9" lighting-color="#f8f4e9">
+        <feDistantLight azimuth="235" elevation="62"/>
+      </feDiffuseLighting>
+    </filter>
+    <filter id="fibers" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".52 .11" numOctaves="2" seed="14" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 .31  0 0 0 0 .33  0 0 0 0 .29  .45 0 0 0 -.13"/>
+    </filter>
+  </defs>
+  <path d="M0 0h512v512H0Z" filter="url(#tooth)" opacity=".34"/>
+  <path d="M0 0h512v512H0Z" filter="url(#fibers)" opacity=".48"/>
+  <g fill="none" stroke="#8f9385" stroke-width=".35" opacity=".17">
+    <path d="m24 73 7 2 8-1m137 4 12-2 5 2m157 101 8 2 10-1M75 276l8-1 10 2m207 24 9 3 8-1M35 443l11 1 6-2m155-72 9 1 6-1m216 92 12-2"/>
+  </g>
+</svg>
