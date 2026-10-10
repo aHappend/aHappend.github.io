@@ -56,9 +56,9 @@ function createPhotoDeck(gallery, getLanguage) {
       print.figure.setAttribute("aria-hidden", String(depth >= 3));
       print.button.tabIndex = index === active && count > 1 ? 0 : -1;
       print.figure.setAttribute("aria-current", String(index === active));
+      print.image.fetchPriority = depth === 0 ? "high" : "low";
       if (depth < 3 && !print.image.hasAttribute("src")) {
         print.image.loading = "eager";
-        print.image.fetchPriority = depth === 0 ? "high" : "low";
         if (print.source) print.source.srcset = photos[index].mobileSrc;
         print.image.src = photos[index].src;
       }
