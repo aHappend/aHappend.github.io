@@ -16,6 +16,8 @@ const atlas = document.querySelector(".atlas-section");
 const atlasStory = atlas.closest(".atlas-story");
 const siteHeader = document.querySelector(".site-header");
 const scrollStudy = document.querySelector(".scroll-study");
+const sky = scrollStudy.querySelector(".study-sky");
+const skyImages = [...sky.querySelectorAll("img")];
 const readingProgress = document.querySelector(".reading-progress");
 const atlasControls = [...document.querySelectorAll("[data-atlas-view]")];
 const paintingDialog = document.querySelector(".painting-dialog");
@@ -237,10 +239,30 @@ function applyLanguage(nextLanguage) {
   scheduleScrollUpdate();
 }
 
+// Root snapshots must not capture and replay an in-progress sky transition.
+function pauseSkyMotion() {
+  for (const image of skyImages) {
+    for (const animation of image.getAnimations?.() ?? []) {
+      if (animation.playState === "running") animation.pause();
+    }
+  }
+}
+
+function syncSkyTheme() {
+  if (themeTransition || languageTransition || languageFallbackAnimation) return;
+  sky.dataset.theme = root.dataset.theme;
+  for (const image of skyImages) {
+    for (const animation of image.getAnimations?.() ?? []) {
+      if (animation.playState === "paused") animation.play();
+    }
+  }
+}
+
 function setTheme(theme) {
   root.dataset.theme = theme;
   document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#0d151d" : "#176f9f";
   updateControlLabels();
+  syncSkyTheme();
 }
 
 themeButton.addEventListener("click", () => {
@@ -271,6 +293,7 @@ themeButton.addEventListener("click", () => {
   root.style.setProperty("--theme-origin-y", `${y}px`);
   root.style.setProperty("--theme-radius", `${radius}px`);
   root.style.setProperty("--theme-feather", `${feather}px`);
+  pauseSkyMotion();
   root.dataset.themeTransition = "active";
   // A queued snapshot callback must apply the latest click, not an older request.
   const transition = document.startViewTransition(() => setTheme(sitePreferences.get("theme")));
@@ -284,6 +307,7 @@ themeButton.addEventListener("click", () => {
     delete root.dataset.themeTransition;
     ["--theme-origin-x", "--theme-origin-y", "--theme-radius", "--theme-feather"]
       .forEach((property) => root.style.removeProperty(property));
+    syncSkyTheme();
   });
 });
 
@@ -305,6 +329,7 @@ reducedMotion.addEventListener("change", (event) => {
   languageFallbackAnimation?.cancel();
   languageFallbackAnimation = null;
   applyLanguage(sitePreferences.get("language") || language);
+  syncSkyTheme();
 });
 
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
@@ -327,6 +352,7 @@ languageButton.addEventListener("click", () => {
   }
 
   if (!document.startViewTransition) {
+    pauseSkyMotion();
     const outgoing = document.body.animate(
       [{ opacity: 1, filter: "blur(0)" }, { opacity: 0, filter: "blur(2px)" }],
       { duration: 150, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" }
@@ -345,11 +371,13 @@ languageButton.addEventListener("click", () => {
         if (languageFallbackAnimation !== incoming) return;
         incoming.cancel();
         languageFallbackAnimation = null;
+        syncSkyTheme();
       }).catch(() => {});
     }).catch(() => {});
     return;
   }
 
+  pauseSkyMotion();
   root.dataset.languageTransition = "active";
   const transition = document.startViewTransition(() =>
     applyLanguage(sitePreferences.get("language"))
@@ -362,6 +390,7 @@ languageButton.addEventListener("click", () => {
     if (languageTransition !== transition) return;
     languageTransition = null;
     delete root.dataset.languageTransition;
+    syncSkyTheme();
   });
 });
 

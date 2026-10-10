@@ -113,6 +113,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The background has only one sun/moon, not a fixed sun underneath another
   celestial image. Switching theme lowers the outgoing sun
   or moon and raises the other; reduced motion and effects-off switch directly.
+  The sky has a separate theme state: its one continuous movement starts after
+  the whole-page color reveal finishes, so root snapshots never overlap live
+  celestial movement. Interrupted theme/language snapshots hold
+  the current sky position and resume toward the latest theme after the final
+  snapshot finishes.
   Opening the standalone painting still shows the complete original sunlit work.
 - `art/painted-study-portrait.svg` is a separately composed 720×1280 mountain,
   sky, and lake study for phones, not a crop or stretch of the desktop painting.

@@ -12,8 +12,10 @@ html[data-theme="dark"] body::before { opacity: .17; }
 .study-sky img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .study-sun { opacity: 1; transform: translateY(0) rotate(0deg); }
 .study-moon { opacity: 0; transform: translateY(180px) rotate(-12deg); }
-html[data-theme="dark"] .study-sun { opacity: 0; transform: translateY(180px) rotate(12deg); }
-html[data-theme="dark"] .study-moon { opacity: .8; transform: translateY(0) rotate(0deg); }
+html[data-theme="dark"] .study-sky:not([data-theme]) .study-sun,
+.study-sky[data-theme="dark"] .study-sun { opacity: 0; transform: translateY(180px) rotate(12deg); }
+html[data-theme="dark"] .study-sky:not([data-theme]) .study-moon,
+.study-sky[data-theme="dark"] .study-moon { opacity: .8; transform: translateY(0) rotate(0deg); }
 @media (prefers-reduced-motion: no-preference) {
   html[data-enhanced][data-effects="on"] .study-sky img { transition: transform 1100ms cubic-bezier(.22,.8,.25,1), opacity 800ms ease; }
 }
