@@ -4,6 +4,7 @@ import json
 import re
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 from PIL import Image, ImageCms
@@ -11,6 +12,7 @@ from shapely.geometry import Point, shape
 
 from export_atlas import WEST, geometry_path
 from export_city_photos import export_photo
+from export_city_regions import JAPAN_SOURCES, load_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,7 +25,10 @@ class CityAssetsTest(unittest.TestCase):
         places = json.loads((ROOT / "places.json").read_text())["places"]
         self.assertEqual(compiled["west"], WEST)
         expected = {"beijing": (110000, 1), "nanjing": (320100, 2),
-                    "suzhou": (320500, 1), "singapore": (None, 47)}
+                    "suzhou": (320500, 1), "singapore": (None, 47),
+                    "hangzhou": (330100, 1), "shanghai": (310000, 11),
+                    "wuxi": (320200, 1), "tokyo": (None, 86),
+                    "osaka": (None, 16), "okinawa": (None, 4833)}
         self.assertEqual({f["properties"]["id"] for f in features}, set(expected))
         regions = {region["id"]: region for region in compiled["regions"]}
         for feature in features:
@@ -52,14 +57,26 @@ class CityAssetsTest(unittest.TestCase):
                     self.assertIn("planning", properties["description"])
                     self.assertIn("not a territorial-water boundary", properties["description"])
                     self.assertEqual(regions[identifier]["credit"]["licenseUrl"], properties["license"])
+                elif identifier in JAPAN_SOURCES:
+                    self.assertIn("JGD2011", properties["coordinateSystem"])
+                    self.assertEqual(properties["sourceDate"], "2018-01-01")
+                    self.assertEqual(regions[identifier]["credit"]["licenseUrl"], properties["license"])
+                    self.assertIn("adapted", regions[identifier]["credit"]["label"])
+                    if identifier in ("tokyo", "osaka"):
+                        self.assertEqual(set(properties["municipalityCodes"]), JAPAN_SOURCES[identifier][2])
+                        outside = (139.32, 35.66) if identifier == "tokyo" else (135.48, 34.57)
+                        self.assertFalse(geometry.covers(Point(*outside)))
                 else:
                     self.assertIn("GCJ-02", properties["coordinateSystem"])
 
     def test_owner_exports_match_dimensions_and_have_no_private_metadata(self):
         places = json.loads((ROOT / "places.json").read_text())["places"]
-        for city in ("beijing", "nanjing", "suzhou"):
+        expected = {"beijing": 7, "nanjing": 7, "suzhou": 7, "hangzhou": 7, "shanghai": 5,
+                    "wuxi": 7, "tokyo": 6, "osaka": 13, "okinawa": 4}
+        self.assertEqual(sum(expected.values()), 63)
+        for city, count in expected.items():
             place, = [place for place in places if place["id"] == city]
-            self.assertEqual(len(place["photos"]), 7)
+            self.assertEqual(len(place["photos"]), count)
             for photo in place["photos"]:
                 with self.subTest(photo=photo["src"]), Image.open(ROOT / photo["src"]) as image:
                     self.assertEqual(image.format, "WEBP")
@@ -68,6 +85,60 @@ class CityAssetsTest(unittest.TestCase):
                     self.assertFalse(image.getexif())
                     self.assertFalse({"exif", "xmp", "icc_profile"} & image.info.keys())
                     self.assertEqual(image.n_frames, 1)
+
+    def test_travel_groups_keep_one_primary_city_and_no_residence_identity(self):
+        places = {place["id"]: place for place in json.loads((ROOT / "places.json").read_text())["places"]}
+        self.assertEqual({key for key, place in places.items() if place.get("residence")},
+                         {"beijing", "nanjing", "suzhou", "singapore"})
+        self.assertEqual(places["hangzhou"]["name"], {"en": "Hangzhou", "zh": "\u676d\u5dde"})
+        self.assertEqual(places["hangzhou"]["albumTitle"],
+                         {"en": "Hangzhou & Shaoxing", "zh": "\u676d\u5dde \u00b7 \u7ecd\u5174"})
+        self.assertEqual(places["tokyo"]["albumTitle"]["en"], "Tokyo, Yokohama & Mount Fuji")
+        self.assertEqual(places["osaka"]["albumTitle"]["en"], "Osaka, Kyoto, Nara & Kobe")
+        for secondary in ("shaoxing", "yokohama", "mount-fuji", "kyoto", "nara", "kobe"):
+            self.assertNotIn(secondary, places)
+        for city in ("hangzhou", "shanghai", "wuxi", "tokyo", "osaka", "okinawa"):
+            self.assertFalse(places[city]["residence"])
+            self.assertNotIn("institution", places[city])
+            self.assertEqual(places[city]["region"], city)
+
+    def test_japanese_source_selection_and_rejection(self):
+        prefecture, name, codes, _ = JAPAN_SOURCES["tokyo"]
+        source = {
+            "type": "FeatureCollection",
+            "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::6668"}},
+            "features": [
+                {"type": "Feature", "properties": {"N03_001": name, "N03_007": str(code)}}
+                for code in sorted(codes | {13201})
+            ],
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+
+            def write_source():
+                with zipfile.ZipFile(directory / "tokyo.zip", "w") as archive:
+                    archive.writestr(
+                        f"N03-180101_{prefecture}_GML/N03-18_{prefecture}_180101.geojson",
+                        json.dumps(source),
+                    )
+
+            write_source()
+            features, provenance = load_source(directory, "tokyo", None)
+            self.assertEqual(len(features), 23)
+            self.assertEqual(provenance["municipalityCodes"], sorted(codes))
+            self.assertEqual(provenance["sourceDate"], "2018-01-01")
+            source["features"].pop(0)
+            write_source()
+            with self.assertRaisesRegex(ValueError, "Incomplete Japanese ward selection"):
+                load_source(directory, "tokyo", None)
+            source["features"][0]["properties"]["N03_001"] = "Wrong prefecture"
+            write_source()
+            with self.assertRaisesRegex(ValueError, "Wrong Japanese prefecture"):
+                load_source(directory, "tokyo", None)
+            source["crs"]["properties"]["name"] = "EPSG:4326"
+            write_source()
+            with self.assertRaisesRegex(ValueError, "Unexpected Japanese source coordinate system"):
+                load_source(directory, "tokyo", None)
 
     @unittest.skipUnless(importlib.util.find_spec("pillow_heif"), "HEIC authoring requires pillow-heif")
     def test_heic_export_preserves_portrait_and_strips_metadata(self):

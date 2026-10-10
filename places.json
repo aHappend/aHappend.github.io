@@ -165,6 +165,279 @@
           "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
         }
       }]
+    },
+    {
+      "id": "hangzhou",
+      "name": { "en": "Hangzhou", "zh": "杭州" },
+      "albumTitle": { "en": "Hangzhou & Shaoxing", "zh": "杭州 · 绍兴" },
+      "longitude": 120.1551,
+      "latitude": 30.2741,
+      "residence": false,
+      "region": "hangzhou",
+      "photos": [
+        {
+          "src": "photos/hangzhou-football-stands.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "Red-clad football supporters in the stands and players beside a stadium track", "zh": "看台上身穿红衣的球迷与体育场跑道旁的球员" }
+        },
+        {
+          "src": "photos/hangzhou-lakeside-arch.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "A stone archway beside the lake, framed by spring willow branches", "zh": "湖畔石牌坊与春日垂柳枝条" }
+        },
+        {
+          "src": "photos/hangzhou-willows-blossoms.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "Pink blossoms and willow branches over a lake with low hills beyond", "zh": "湖面上方的粉色花朵与柳枝，以及对岸的低山" }
+        },
+        {
+          "src": "photos/hangzhou-waterside-tree.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "A spreading green tree and its reflection in still water", "zh": "舒展枝条的绿树与静水中的倒影" }
+        },
+        {
+          "src": "photos/hangzhou-shaoxing-luxun.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "Visitors beside the entrance and mural at Lu Xun's hometown in Shaoxing", "zh": "绍兴鲁迅故里入口、壁画与往来的游客" }
+        },
+        {
+          "src": "photos/hangzhou-shen-garden-stone.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "An inscribed stone marking Shen Garden among trees", "zh": "树木掩映中的沈园题字石" }
+        },
+        {
+          "src": "photos/hangzhou-shen-garden-gate.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "The traditional gateway to Shen Garden in Shaoxing", "zh": "绍兴沈氏园的传统园门" }
+        }
+      ]
+    },
+    {
+      "id": "shanghai",
+      "name": { "en": "Shanghai", "zh": "上海" },
+      "longitude": 121.4737,
+      "latitude": 31.2304,
+      "residence": false,
+      "region": "shanghai",
+      "photos": [
+        {
+          "src": "photos/shanghai-jingan-temple.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "Jing'an Temple's golden roofs beside modern buildings and street traffic in Shanghai", "zh": "上海静安寺的金色屋顶、现代楼宇与街头车流" }
+        },
+        {
+          "src": "photos/shanghai-canal-boat.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A wooden boat on a narrow canal between waterside houses", "zh": "水乡民居之间的狭窄河道与木船" }
+        },
+        {
+          "src": "photos/shanghai-oriental-pearl-night.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "The illuminated Oriental Pearl Tower and Shanghai's riverfront skyline at night", "zh": "夜色中亮起灯光的东方明珠塔与上海江畔天际线" }
+        },
+        {
+          "src": "photos/shanghai-street-corner.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A rounded red-brick apartment building at a Shanghai street corner", "zh": "上海街角带有圆弧转角的红砖公寓楼" }
+        },
+        {
+          "src": "photos/shanghai-racing-car.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A red racing car passing crowded grandstands at a Shanghai circuit", "zh": "上海赛车场上驶过观众看台的红色赛车" }
+        }
+      ]
+    },
+    {
+      "id": "wuxi",
+      "name": { "en": "Wuxi", "zh": "无锡" },
+      "longitude": 120.3119,
+      "latitude": 31.4912,
+      "residence": false,
+      "region": "wuxi",
+      "photos": [
+        {
+          "src": "photos/wuxi-pagoda.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A pagoda above red lanterns and colorful flags", "zh": "红灯笼与彩旗上方的古塔" }
+        },
+        {
+          "src": "photos/wuxi-temple-flags.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A temple facade beneath rows of colorful flags", "zh": "成排彩旗下的寺院建筑" }
+        },
+        {
+          "src": "photos/wuxi-canal-houses.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Canal-side houses, red lanterns and a stone parapet in Wuxi", "zh": "无锡沿河民居、红灯笼与石栏" }
+        },
+        {
+          "src": "photos/wuxi-stone-bridge.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "An arched stone bridge across a canal in Wuxi", "zh": "横跨无锡河道的石拱桥" }
+        },
+        {
+          "src": "photos/wuxi-city-avenue.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A Wuxi street leading toward distant towers", "zh": "伸向远处高楼的无锡街道" }
+        },
+        {
+          "src": "photos/wuxi-taihu-sign.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "An inscribed stone and flowerbeds at a Taihu scenic area", "zh": "太湖景区的题字石与花木" }
+        },
+        {
+          "src": "photos/wuxi-lakeside-pavilion.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "An ornate pavilion gateway framed by green trees", "zh": "绿树环绕的精致楼阁式门楼" }
+        }
+      ]
+    },
+    {
+      "id": "tokyo",
+      "name": { "en": "Tokyo", "zh": "东京" },
+      "albumTitle": { "en": "Tokyo, Yokohama & Mount Fuji", "zh": "东京 · 横滨 · 富士山" },
+      "longitude": 139.7671,
+      "latitude": 35.6812,
+      "residence": false,
+      "region": "tokyo",
+      "photos": [
+        {
+          "src": "photos/tokyo-tower.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Tokyo Tower rising above trees and buildings in daylight", "zh": "日光下高出树木与楼宇的东京塔" }
+        },
+        {
+          "src": "photos/tokyo-yokohama-waterfront.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "Cable cars over Yokohama's waterfront at dusk", "zh": "暮色中横滨水岸上方的缆车" }
+        },
+        {
+          "src": "photos/tokyo-mount-fuji.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Snow-covered Mount Fuji beneath sunset clouds", "zh": "晚霞云层下积雪的富士山" }
+        },
+        {
+          "src": "photos/tokyo-shinjuku-display.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A penguin-character shop display in Shinjuku", "zh": "新宿商店里的企鹅形象陈列" }
+        },
+        {
+          "src": "photos/tokyo-ginza-street.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Ginza's buildings and street traffic in Tokyo", "zh": "东京银座的楼宇与街头车流" }
+        },
+        {
+          "src": "photos/tokyo-skyline-night.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Tokyo's illuminated skyline and tower at night", "zh": "夜色中亮起灯光的东京天际线与高塔" }
+        }
+      ]
+    },
+    {
+      "id": "osaka",
+      "name": { "en": "Osaka", "zh": "大阪" },
+      "albumTitle": { "en": "Osaka, Kyoto, Nara & Kobe", "zh": "大阪 · 京都 · 奈良 · 神户" },
+      "longitude": 135.5023,
+      "latitude": 34.6937,
+      "residence": false,
+      "region": "osaka",
+      "photos": [
+        {
+          "src": "photos/osaka-night-stall.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "An illuminated takoyaki shop on a busy street at night", "zh": "夜晚街头亮着灯的章鱼烧店" }
+        },
+        {
+          "src": "photos/osaka-universal-globe.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "The Universal Studios globe beneath a blue sky", "zh": "蓝天下的环球影城地球标志" }
+        },
+        {
+          "src": "photos/osaka-nara-temple-gate.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A large wooden temple gate beneath a clear sky", "zh": "晴空下高大的木构寺门" }
+        },
+        {
+          "src": "photos/osaka-nara-deer.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A deer beside a pond and temple building in Nara", "zh": "奈良池塘与寺院建筑旁的小鹿" }
+        },
+        {
+          "src": "photos/osaka-kyoto-tower.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Kyoto Tower above the city with hills beyond", "zh": "京都塔、城市楼宇与远山" }
+        },
+        {
+          "src": "photos/osaka-kyoto-street.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Shopfronts and pedestrians along a city shopping street", "zh": "城市商业街上的店铺与行人" }
+        },
+        {
+          "src": "photos/osaka-castle.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Osaka Castle above its stone walls", "zh": "石垣上方的大阪城天守阁" }
+        },
+        {
+          "src": "photos/osaka-city-avenue.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "An avenue and surrounding buildings viewed from above", "zh": "从高处俯瞰的城市道路与两侧楼宇" }
+        },
+        {
+          "src": "photos/osaka-kobe-waterfront.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Kobe Port Tower and the Maritime Museum beside the waterfront", "zh": "水岸旁的神户港塔与海洋博物馆" }
+        },
+        {
+          "src": "photos/osaka-dotonbori-billboards.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Dotonbori's illuminated billboards and Glico sign at night", "zh": "夜晚道顿堀亮起灯光的广告牌与格力高标志" }
+        },
+        {
+          "src": "photos/osaka-dotonbori-gate.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A Dotonbori gateway over a brightly lit street at night", "zh": "夜间灯火明亮街道上方的道顿堀入口招牌" }
+        },
+        {
+          "src": "photos/osaka-city-blue-sky.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "A glass tower seen past an elevated roadway against blue sky", "zh": "越过高架道路望向蓝天下的玻璃高楼" }
+        },
+        {
+          "src": "photos/osaka-kyoto-pagoda.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A red temple gate and pagoda against a blue sky", "zh": "蓝天下的朱红寺门与塔楼" }
+        }
+      ]
+    },
+    {
+      "id": "okinawa",
+      "name": { "en": "Okinawa", "zh": "冲绳" },
+      "longitude": 127.6809,
+      "latitude": 26.2124,
+      "residence": false,
+      "region": "okinawa",
+      "photos": [
+        {
+          "src": "photos/okinawa-aquarium.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A whale shark and smaller fish in a large blue aquarium tank", "zh": "蓝色大型水族箱里的鲸鲨与鱼群" }
+        },
+        {
+          "src": "photos/okinawa-market-night.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "An illuminated Okinawa souvenir shop at night", "zh": "夜晚亮着灯的冲绳纪念品商店" }
+        },
+        {
+          "src": "photos/okinawa-turquoise-beach.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A sandy Okinawa beach beside turquoise water", "zh": "冲绳沙滩与碧蓝海水" }
+        },
+        {
+          "src": "photos/okinawa-coastal-cliff.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A coastal rock arch and cliff above the sea in Okinawa", "zh": "冲绳海边的岩石拱洞与峭壁" }
+        }
+      ]
     }
   ]
 }

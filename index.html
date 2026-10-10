@@ -36,7 +36,7 @@
     </noscript>
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261010-photo-next">
+    <link rel="stylesheet" href="folio.css?v=20261010-travel-albums">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -431,7 +431,10 @@
             <div class="atlas-scale" aria-hidden="true"><span></span></div>
             <div class="atlas-city-markers"></div>
           </div>
-          <div class="atlas-city-list" hidden></div>
+          <div class="atlas-city-list" role="group" hidden>
+            <div class="atlas-city-row" data-residence="true" role="group" hidden></div>
+            <div class="atlas-city-row" data-residence="false" role="group" hidden></div>
+          </div>
           <p class="atlas-city-status" role="status" hidden></p>
           <figcaption><span data-en="Change the scale. Keep the curiosity." data-zh="尺度在变，好奇不变。">Change the scale. Keep the curiosity.</span><a href="https://github.com/aHappend/aHappend.github.io#map-sources" target="_blank" rel="noreferrer" data-en="Map sources ↗" data-zh="地图来源 ↗">Map sources ↗</a></figcaption>
         </figure>
@@ -1352,7 +1355,7 @@
     </div>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
     <script src="photo-deck.js?v=20261010-photo-next"></script>
-    <script src="city-atlas.js?v=20261010-stable-albums"></script>
-    <script src="script.js?v=20261012-city-camera"></script>
+    <script src="city-atlas.js?v=20261010-travel-albums"></script>
+    <script src="script.js?v=20261012-travel-albums"></script>
   </body>
 </html>

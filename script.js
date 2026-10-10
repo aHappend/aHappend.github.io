@@ -457,6 +457,7 @@ function updateScrollState() {
   scrollFrame = null;
   const pinning = effectsEnabled && !reducedMotion.matches;
   const wasPinned = atlasStory.hasAttribute("data-pinned");
+  const layoutChanged = atlasLayoutDirty || pinning !== wasPinned;
   if (atlasLayoutDirty) {
     const height = atlas.getBoundingClientRect().height;
     const header = siteHeader.getBoundingClientRect().height;
@@ -466,7 +467,6 @@ function updateScrollState() {
     };
     atlasStory.style.setProperty("--atlas-story-height", `${height + atlasLayout.travel}px`);
     atlasStory.style.setProperty("--atlas-sticky-top", `${atlasLayout.pinTop}px`);
-    cityAtlas.resize();
     atlasLayoutDirty = false;
   }
   const { header, pinTop, travel } = atlasLayout;
@@ -478,6 +478,7 @@ function updateScrollState() {
       scrollBy({ top: atlas.getBoundingClientRect().top - beforePin.top, behavior: "instant" });
     }
   }
+  if (layoutChanged) cityAtlas.resize();
   const scrollable = root.scrollHeight - window.innerHeight;
   const storyProgress = (pinTop - atlasStory.getBoundingClientRect().top) / travel;
   const layerRects = folioLayers.map((layer) => layer.getBoundingClientRect());

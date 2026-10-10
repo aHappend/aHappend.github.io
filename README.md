@@ -134,8 +134,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   are cached until resize/reflow, map layers are prepared before entering the
   viewport, and pin positions use transforms rather than per-frame layout changes.
   Touch browsing does not repeatedly reset desktop-only pointer effects.
-  The city-list row reserves its space while the local data loads, so inserting
-  the initial four names does not shift the page or sticky reading position.
+  The city list reserves space for both rows while the local data loads, so inserting
+  city names does not shift the page or sticky reading position.
   The section is centered below the header when it fits; short screens align its
   lower map area above the viewport bottom rather than clipping the map.
   World/China buttons provide manual control on every device;
@@ -154,6 +154,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Beijing, Nanjing, Suzhou, and Singapore. Beijing, Nanjing, and Suzhou each contain seven
   owner-supplied photographs; Singapore uses an openly credited placeholder,
   not claims about the owner's photography or dates of travel.
+  Travel albums are Hangzhou/Shaoxing (seven photographs), Shanghai (five),
+  Wuxi (seven), Tokyo/Yokohama/Mount Fuji (six), Osaka/Kyoto/Nara/Kobe (thirteen),
+  and Okinawa (four), not additional residences.
 - `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
   They use different, explicitly documented sources; see [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
@@ -167,6 +170,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   heading with the confirmed institution mark: Beijing/Microsoft,
   Nanjing/Nanjing University, Suzhou/Nanjing University, Singapore/NTU.
   Marks reuse the existing assets on the warm-white photo paper in either theme.
+  Travel pins use smaller 10px/600 labels and 6px dots, below the residences'
+  12px/800 labels and 9px dots, without reducing the 80x44px hit targets.
+  Residences take priority when placing crowded callouts, except for the selected city.
+  The city list separates residences in its first row from a quieter travel row;
+  the latter can scroll horizontally as more destinations are added.
   A text city list provides a second way to open
   each album, including cities outside the current map frame. A small non-modal
   native popover unfolds sideways from the real city point and retracts to it
@@ -189,11 +197,18 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Follow-scroll stays temporarily
   suspended while the album is open; after restoring, the next scroll movement
   smoothly rejoins the current scroll view. Explicit map controls take precedence.
-  The card uses a stable, viewport-bounded slot rather than following moving
-  pin coordinates or flipping sides mid-zoom. Its opening origin stays fixed
+  The card initially fits a viewport-bounded slot, then keeps its offset and height
+  relative to the map throughout scrolling, including after the sticky section
+  releases. Only a genuine viewport/layout change refits it; switching cities
+  retains the slot. It never follows moving pin coordinates or flips sides mid-zoom.
+  Its opening origin stays fixed
   through the entry animation; after focus, its closing origin follows the city.
   On narrow stacked layouts it unfolds above the map, leaving the actual
-  geographic outline visible below.
+  geographic outline visible below. Compact phones fit the region beneath
+  the card's reserved height, accounting for the second city row; short
+  landscape maps also reserve space for both rows. In short landscape layouts,
+  the card fits to the left of the map, over the introductory column, so neither
+  city row is covered and all travel destinations remain tappable.
   Required third-party photo attribution appears in the album heading, outside
   the prints. Single- and multiple-photo albums share a bounded height, with
   complete photographs sized to the remaining space instead of changing the card's height.
@@ -214,8 +229,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Only the selected and adjacent photos start loading; other photos load as needed.
   Outside clicks,
   Escape, focus return, translated image descriptions, and explicit data/image errors are
-  preserved. Scrolling keeps the card aligned with the map and dismisses it when the
-  point and list entry leave the readable screen. Reduced motion/effects-off remove
+  preserved. Scrolling keeps the album attached to the map, not clamped to the
+  screen. It stays open while the atlas section remains visible, even when a point
+  or city-list button goes offscreen, and dismisses after the entire section leaves
+  the readable viewport. It continues moving with the map during that short fade,
+  without covering the following section, and clips behind the fixed header.
+  Explicit close/Escape retain the city-point retraction animation.
+  Reduced motion/effects-off remove
   the card and camera animations while preserving focus and restoration. Manual map transitions, portrait-tablet
   letterboxing, reduced motion, and effects-off apply to the pins as well.
 - The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
@@ -346,8 +366,10 @@ Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map change
 source URL, coordinate convention, and access date (2026-10-10).
 `art/city-regions.json` is its compact projected runtime representation.
 
-- Beijing municipality (110000), Nanjing prefecture (320100), and Suzhou
-  prefecture (320500): [DataV GeoAtlas](https://help.aliyun.com/en/datav/datav-7-0/user-guide/datav-geoatlas-widgets/).
+- Beijing municipality (110000), Nanjing prefecture (320100), Suzhou prefecture
+  (320500), Hangzhou prefecture (330100), Shanghai municipality (310000),
+  and Wuxi prefecture (320200):
+  [DataV GeoAtlas](https://help.aliyun.com/en/datav/datav-7-0/user-guide/datav-geoatlas-widgets/).
   The whole-unit sources are
   `https://geo.datav.aliyun.com/areas_v3/bound/<adcode>.json`.
   These are administrative extents, not just built-up city centers. DataV
@@ -363,9 +385,27 @@ source URL, coordinate convention, and access date (2026-10-10).
   This is an indicative planning footprint excluding sea, **not** a territorial-water
   or cadastral boundary, or a guarantee of present-day coastline precision.
   The album displays source and license links; neither URA nor data.gov.sg endorses this site.
+- Tokyo's 23 special wards, Osaka City's 24 wards, and Okinawa Prefecture:
+  [MLIT National Land Numerical Information, N03 administrative areas, 2018-01-01](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v2_3.html).
+  These are adapted by this website from the official 2018 open-data release
+  under the [MLIT Public Data License 1.0 terms](https://nlftp.mlit.go.jp/ksj/other/agreement.html),
+  not the differently licensed 2020 release or an unlicensed community conversion.
+  Source ZIPs contain GeoJSON in JGD2011 longitude/latitude (EPSG:6668); the
+  exporter reads that GeoJSON directly without an extra shapefile dependency.
+  Tokyo selects codes 13101–13123, excluding western Tokyo and distant islands.
+  Osaka selects its 24 ward codes, excluding Sakai and the rest of Osaka Prefecture.
+  Okinawa uses the prefecture's land footprint, not merely Okinawa City.
+  Internal boundaries are dissolved, retaining 86, 16, and 4,833 components respectively.
+  These dated, simplified illustrations are not current survey boundaries or
+  combined outlines of the other destinations in each album. Source/license links
+  and the adaptation notice appear in the album; MLIT does not endorse this site.
 
-To regenerate, save the four source collections as `beijing.json`, `nanjing.json`,
-`suzhou.json`, and `singapore.json` in a local source directory, then run:
+To regenerate, save the seven source collections as `beijing.json`, `nanjing.json`,
+`suzhou.json`, `singapore.json`, `hangzhou.json`, `shanghai.json`, and `wuxi.json`.
+Save the official Japanese source ZIPs as `tokyo.zip`, `osaka.zip`, and `okinawa.zip`
+in the same local directory. Their URLs are
+`https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2018/N03-180101_<prefecture>_GML.zip`,
+with prefecture codes 13, 27, and 47 respectively. Then run:
 
 ```sh
 python scripts/export_city_regions.py /path/to/city-region-sources --accessed YYYY-MM-DD
@@ -374,7 +414,7 @@ python -m unittest discover -s scripts -p 'test_*.py'
 
 The optional authoring/tests require Shapely and Pillow (`python -m pip install
 shapely Pillow`); serving the site does not. The exporter dissolves internal
-planning boundaries, preserves every geographic component, and limits simplification
+administrative/planning boundaries, preserves every geographic component, and limits simplification
 area change to 0.1%. It uses the same seam/projection compiler as the national map.
 Never change the pinned 277-component China source when refreshing city outlines.
 
@@ -402,10 +442,21 @@ JPG, PNG, WebP, and AVIF; use ASCII filenames without parent-directory segments.
 Coordinates belong to the actual city, not a position measured from a screenshot.
 This is a geographic overview rather than street-level navigation.
 
+For a city group, keep `name`, coordinates, and `region` on the primary city;
+set optional bilingual `albumTitle` for the name shown only inside the album.
+For example, Hangzhou uses `albumTitle: { "en": "Hangzhou & Shaoxing", "zh": "杭州 · 绍兴" }`.
+Its map label and city-list button still say Hangzhou, and its geographic outline
+is Hangzhou alone, not a fabricated combined boundary. Future groups use the same
+field without adding secondary map pins or changing the renderer.
+Tokyo uses `Tokyo, Yokohama & Mount Fuji`; Osaka uses `Osaka, Kyoto, Nara & Kobe`.
+Wuxi and Okinawa retain their single-place names.
+
 New entries automatically create map pins, city-list buttons, and albums.
 Use optional `residence: true` for long-term places and `institution` for the
 confirmed mark (`microsoft`, `nju`, or `ntu`). Both fields are optional for
 future travel-only cities; do not infer a residence or institution from a photo.
+All six travel entries explicitly use `residence: false` and no `institution`.
+The website contains 63 owner-supplied photographs plus Singapore's credited placeholder.
 An optional `region` names a matching compiled geographic outline; an explicit
 missing/invalid outline is an error, never an invented fallback boundary.
 Replace a placeholder's `src`, `alt`, and `caption` with the owner's photograph
@@ -421,8 +472,8 @@ profiles to sRGB, keeps the complete composition within 1600x1600, and writes on
 pixels (no EXIF/GPS, XMP, ICC, or auxiliary MPO frames). It never alters the source,
 upscales, or overwrites an existing destination. HEIC/HEIF input additionally
 requires `python -m pip install pillow-heif`; that decoder is loaded only for those
-formats. All twenty-one Beijing/Nanjing/Suzhou exports use this pipeline, including the two
-Nanjing HEIC files and orientation-tagged portrait photographs.
+formats. All 63 owner-photo exports use this pipeline, including the two
+Nanjing and three additional Hangzhou/Shaoxing HEIC files and orientation-tagged portraits.
 
 ## Updating identity assets
 

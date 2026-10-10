@@ -5,6 +5,8 @@ function createCityAtlas(atlas, getLanguage) {
   const cityLabel = atlas.querySelector(".atlas-city-label");
   const markers = atlas.querySelector(".atlas-city-markers");
   const list = atlas.querySelector(".atlas-city-list");
+  const homeRow = list.querySelector('[data-residence="true"]');
+  const travelRow = list.querySelector('[data-residence="false"]');
   const status = atlas.querySelector(".atlas-city-status");
   const dialog = document.querySelector(".city-popover");
   const title = dialog.querySelector("h2");
@@ -35,6 +37,8 @@ function createCityAtlas(atlas, getLanguage) {
   let resumeRequested = false;
   let closing = false;
   let openingAnchor = null;
+  let albumPlacement = null;
+  let albumLayoutKey = "";
   let lastMode = atlas.dataset.atlasMode;
   const institutions = {
     microsoft: { src: "institutions/microsoft.svg", name: { en: "Microsoft", zh: "微软" } },
@@ -55,7 +59,8 @@ function createCityAtlas(atlas, getLanguage) {
     const ids = new Set();
     for (const place of data.places) {
       if (!place || typeof place.id !== "string" || !/^[a-z0-9-]+$/.test(place.id) || ids.has(place.id)
-        || !localized(place.name) || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180
+        || !localized(place.name) || (place.albumTitle !== undefined && !localized(place.albumTitle))
+        || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180
         || !Number.isFinite(place.latitude) || Math.abs(place.latitude) > 90
         || !Array.isArray(place.photos) || !place.photos.length
         || (place.region !== undefined && (typeof place.region !== "string" || !/^[a-z0-9-]+$/.test(place.region)))
@@ -106,8 +111,9 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   function renderGallery() {
-    title.textContent = text(selectedPlace.name);
+    title.textContent = text(selectedPlace.albumTitle ?? selectedPlace.name);
     cityLabel.textContent = text(selectedPlace.name);
+    dialog.dataset.residence = String(Boolean(selectedPlace.residence));
     residence.hidden = !selectedPlace.residence;
     residence.textContent = getLanguage() === "zh" ? "久居之地" : "A place called home";
     institution.replaceChildren();
@@ -146,47 +152,69 @@ function createCityAtlas(atlas, getLanguage) {
     photoDeck.render(selectedPlace.photos);
   }
 
+  function availableAlbumHeight(mapTop, mapHeight, topEdge, aboveMap, bottom) {
+    const available = aboveMap
+      ? Math.min(350, Math.max(220, mapTop - topEdge - 12 + mapHeight * .18))
+      : Math.max(100, innerHeight - topEdge - 12);
+    return Math.min(available, innerHeight - topEdge - 12,
+      Math.max(100, bottom - topEdge - 12));
+  }
+
+  function measureAlbum() {
+    const visible = dialog.matches(":popover-open");
+    const bounds = viewport.getBoundingClientRect();
+    const aboveMap = projection.stacked && projection.width <= 600;
+    const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
+      projection.stacked && !aboveMap ? bounds.top : 0);
+    const screenWidth = document.documentElement.clientWidth;
+    const width = visible ? dialog.offsetWidth : projection.cardWidth;
+    const beside = projection.width - width - 64 >= 96;
+    const outsideLeft = innerWidth > 600 && innerHeight < 600 && bounds.left - width >= 24;
+    let available = availableAlbumHeight(bounds.top, bounds.height, topEdge, aboveMap,
+      atlas.getBoundingClientRect().bottom);
+    if (!aboveMap && !outsideLeft) available = Math.min(available, bounds.height);
+    dialog.style.setProperty("--city-available-height", `${available}px`);
+    const height = visible ? dialog.offsetHeight : parseFloat(getComputedStyle(dialog).height);
+    const preferredLeft = aboveMap ? bounds.left + (bounds.width - width) / 2
+      : outsideLeft ? bounds.left - width - 12 : beside ? bounds.right - width - 24
+        : bounds.left - width - 18 >= 12 ? bounds.left - width - 18 : bounds.right - width - 12;
+    const left = Math.max(12, Math.min(screenWidth - width - 12, preferredLeft));
+    const preferredTop = aboveMap ? bounds.top + bounds.height * .18 - height - 8
+      : bounds.top + (bounds.height - height) / 2;
+    const top = Math.max(topEdge, Math.min(innerHeight - height - 12, preferredTop));
+    return { x: left - bounds.left, y: top - bounds.top, height, aboveMap, outsideLeft };
+  }
+
   function positionAlbum() {
     const visible = dialog.matches(":popover-open");
-    if (closing || (!visible && !openingAnchor)) return;
-    const entry = entries.find(({ place }) => place === selectedPlace);
-    const point = entry.anchor.getBoundingClientRect();
+    if (!visible && !openingAnchor && !(closing && dialog.offsetHeight)) return;
+    if (!albumPlacement) albumPlacement = measureAlbum();
     const bounds = viewport.getBoundingClientRect();
-    const regionalPhone = projection.stacked && projection.width <= 600;
-    const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
-      projection.stacked && !regionalPhone ? bounds.top : 0);
-    const onMap = point.left >= bounds.left && point.left <= bounds.right
-      && point.top >= bounds.top && point.top <= bounds.bottom
-      && point.top >= topEdge && point.top <= innerHeight - 8;
-    const anchor = onMap ? point : entry.button.getBoundingClientRect();
-    const x = anchor.left + anchor.width / 2;
-    const y = anchor.top + anchor.height / 2;
-    const screenWidth = document.documentElement.clientWidth;
-    if (y < topEdge || y > innerHeight - 8 || x < 0 || x > screenWidth) {
+    const headerBottom = header.getBoundingClientRect().bottom;
+    const left = bounds.left + albumPlacement.x;
+    const top = bounds.top + albumPlacement.y;
+    dialog.style.left = `${left}px`;
+    dialog.style.top = `${top}px`;
+    dialog.style.setProperty("--city-clip-top", `${Math.max(0, headerBottom - top)}px`);
+    if (closing) return;
+    const area = atlas.getBoundingClientRect();
+    if (visible && (area.bottom <= headerBottom || area.top >= innerHeight)) {
+      dialog.setAttribute("data-scroll-exit", "");
       dialog.hidePopover();
       return;
     }
-    const available = regionalPhone
-      ? Math.min(350, Math.max(244, bounds.top - topEdge - 12 + bounds.height * .18))
-      : Math.max(100, innerHeight - topEdge - 12);
-    dialog.style.setProperty("--city-available-height", `${Math.min(available, innerHeight - topEdge - 12)}px`);
-    const width = visible ? dialog.offsetWidth : projection.cardWidth;
-    const height = visible ? dialog.offsetHeight : parseFloat(getComputedStyle(dialog).height);
-    const beside = projection.width - width - 64 >= 96;
-    const preferredLeft = regionalPhone ? bounds.left + (bounds.width - width) / 2
-      : beside ? bounds.right - width - 24
-        : bounds.left - width - 18 >= 12 ? bounds.left - width - 18 : bounds.right - width - 12;
-    const left = Math.max(12, Math.min(screenWidth - width - 12, preferredLeft));
-    const preferredTop = regionalPhone ? bounds.top + bounds.height * .18 - height - 8
-      : bounds.top + (bounds.height - height) / 2;
-    const top = Math.max(topEdge, Math.min(innerHeight - height - 12, preferredTop));
-    dialog.style.left = `${left}px`;
-    dialog.style.top = `${top}px`;
+    const entry = entries.find(({ place }) => place === selectedPlace);
+    const point = entry.anchor.getBoundingClientRect();
+    const onMap = point.left >= bounds.left && point.left <= bounds.right
+      && point.top >= bounds.top && point.top <= bounds.bottom;
+    const anchor = onMap ? point : entry.button.getBoundingClientRect();
+    const x = anchor.left + anchor.width / 2;
+    const y = anchor.top + anchor.height / 2;
     dialog.style.setProperty("--city-retract-x", `${(openingAnchor?.x ?? x) - left}px`);
     dialog.style.setProperty("--city-retract-y", `${(openingAnchor?.y ?? y) - top}px`);
     dialog.dataset.side = left > x ? "right" : "left";
     dialog.dataset.anchor = openingAnchor?.kind ?? (onMap ? "map" : "list");
-    dialog.dataset.placement = regionalPhone ? "above-map" : "beside-map";
+    dialog.dataset.placement = albumPlacement.aboveMap ? "above-map" : "beside-map";
   }
 
   function open(place, control) {
@@ -196,7 +224,10 @@ function createCityAtlas(atlas, getLanguage) {
       return;
     }
     if (!savedCamera) savedCamera = readCamera();
+    dialog.removeAttribute("data-scroll-exit");
+    dialog.style.removeProperty("--city-clip-top");
     if (!visible) {
+      albumPlacement = null;
       const entry = entries.find(entry => entry.place === place);
       const fromList = control === entry.button;
       const origin = (fromList ? control : entry.anchor).getBoundingClientRect();
@@ -263,6 +294,8 @@ function createCityAtlas(atlas, getLanguage) {
   function updateLabels() {
     close.setAttribute("aria-label", getLanguage() === "zh" ? "关闭城市相册" : "Close city album");
     list.setAttribute("aria-label", getLanguage() === "zh" ? "城市相册" : "City albums");
+    homeRow.setAttribute("aria-label", getLanguage() === "zh" ? "久居城市" : "Places called home");
+    travelRow.setAttribute("aria-label", getLanguage() === "zh" ? "旅行城市" : "Travel destinations");
     for (const { place, marker, button } of entries) {
       button.textContent = text(place.name);
       marker.textContent = text(place.name);
@@ -283,7 +316,9 @@ function createCityAtlas(atlas, getLanguage) {
   function resize() {
     const style = getComputedStyle(atlas);
     // Match SVG xMidYMid meet, including the portrait tablet's letterboxing.
-    const { width, height, top: mapTop } = map.getBoundingClientRect();
+    const { width, height, top: mapTop, left: mapLeft } = map.getBoundingClientRect();
+    dialog.style.setProperty("--city-landscape-width",
+      `${Math.max(100, Math.floor(viewport.getBoundingClientRect().left - 24))}px`);
     const unit = Math.min(width / 1000, height / 500);
     const left = (width - 1000 * unit) / 2;
     const top = (height - 500 * unit) / 2;
@@ -296,6 +331,17 @@ function createCityAtlas(atlas, getLanguage) {
       cardWidth: parseFloat(getComputedStyle(dialog).width),
       stacked: atlas.querySelector(".atlas-controls").getBoundingClientRect().bottom <= mapTop,
     };
+    const area = atlas.getBoundingClientRect();
+    // Pinning/motion changes and the final reading position may settle after resize.
+    const key = `${style.position}:${style.top}:${style.getPropertyValue("--atlas-sticky-top")}:` + [
+      innerWidth, innerHeight, width, height, projection.cardWidth, Number(projection.stacked),
+      header.getBoundingClientRect().height, area.width, area.height, mapTop - area.top, mapLeft - area.left]
+      .map(value => value.toFixed(1)).join(":");
+    // Refit after layout changes, never just because the page scrolled.
+    if (key !== albumLayoutKey) {
+      albumPlacement = null;
+      albumLayoutKey = key;
+    }
     projectionDirty = true;
     renderedProgress = NaN;
   }
@@ -324,8 +370,11 @@ function createCityAtlas(atlas, getLanguage) {
       const [x1, y1, x2, y2] = region.bounds;
       const availableBeside = width - cardWidth - 64;
       const aboveMap = projection.stacked && width <= 600;
-      const frameRight = !aboveMap && availableBeside >= 96 ? 24 + availableBeside : width - 24;
-      const frameTop = aboveMap ? height * .3 + 12 : 24;
+      if (!albumPlacement) albumPlacement = measureAlbum();
+      const frameRight = !aboveMap && !albumPlacement.outsideLeft && availableBeside >= 96
+        ? 24 + availableBeside : width - 24;
+      const frameTop = aboveMap ? Math.min(height - 44, Math.max(height * .3 + 12,
+        albumPlacement.y + albumPlacement.height + 12)) : 24;
       const frameBottom = height - 20;
       const zoom = Math.min(512, (frameRight - 24) / ((x2 - x1) * unit),
         (frameBottom - frameTop) / ((y2 - y1) * unit));
@@ -338,7 +387,7 @@ function createCityAtlas(atlas, getLanguage) {
     }
     const longitude = ((place.longitude - west) % 360 + 360) % 360;
     const besideCard = width - cardWidth - 44;
-    const center = besideCard >= 88 ? besideCard / 2
+    const center = albumPlacement?.outsideLeft ? width / 2 : besideCard >= 88 ? besideCard / 2
       : width - Math.max(22, (width - cardWidth - 22) / 2);
     const zoom = 12;
     return {
@@ -486,9 +535,9 @@ function createCityAtlas(atlas, getLanguage) {
       const visible = x >= 0 && x <= width && y >= 0 && y <= height;
       return { ...entry, x, y, visible };
     });
-    if (atlas.hasAttribute("data-city-focus")) {
-      points.sort((a, b) => Number(b.place === selectedPlace) - Number(a.place === selectedPlace));
-    }
+    const focused = atlas.hasAttribute("data-city-focus");
+    points.sort((a, b) => (focused ? Number(b.place === selectedPlace) - Number(a.place === selectedPlace) : 0)
+      || Number(Boolean(b.place.residence)) - Number(Boolean(a.place.residence)));
     const occupied = [];
     for (const { anchor, marker, leader, button, x, y, visible } of points) {
       anchor.style.transform = `translate(${x}px, ${y}px)`;
@@ -563,7 +612,7 @@ function createCityAtlas(atlas, getLanguage) {
         }
         anchor.append(leader, dot, marker);
         markers.append(anchor);
-        list.append(button);
+        (place.residence ? homeRow : travelRow).append(button);
         const region = place.region ? regions.get(place.region) : null;
         let regionPath = null;
         if (region) {
@@ -576,6 +625,8 @@ function createCityAtlas(atlas, getLanguage) {
         }
         entries.push({ place, anchor, marker, leader, button, region, regionPath });
       }
+      homeRow.hidden = !homeRow.childElementCount;
+      travelRow.hidden = !travelRow.childElementCount;
       list.hidden = !places.length;
       atlas.dataset.cityState = "ready";
       renderedProgress = NaN;
