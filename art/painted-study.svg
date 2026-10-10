@@ -23,10 +23,26 @@
     <radialGradient id="sun">
       <stop stop-color="#d6b17a" stop-opacity=".72"/><stop offset=".79" stop-color="#d6b17a" stop-opacity=".4"/><stop offset="1" stop-color="#d6b17a" stop-opacity="0"/>
     </radialGradient>
+    <radialGradient id="moon-light" cx=".35" cy=".3" r=".8">
+      <stop stop-color="#f5f4e4"/><stop offset=".6" stop-color="#d4e6f4"/><stop offset="1" stop-color="#98bddd" stop-opacity=".7"/>
+    </radialGradient>
+    <mask id="moon-phase" maskUnits="userSpaceOnUse" x="1160" y="62" width="240" height="240">
+      <circle cx="1280" cy="182" r="84" fill="white"/>
+      <circle cx="1319" cy="147" r="79" fill="black"/>
+    </mask>
+    <g id="moon-disc" filter="url(#pigment)">
+      <g mask="url(#moon-phase)">
+        <circle cx="1280" cy="182" r="84" fill="url(#moon-light)"/>
+        <g fill="#83a5c6" opacity=".2">
+          <circle cx="1234" cy="188" r="14"/><circle cx="1255" cy="228" r="18"/>
+          <circle cx="1294" cy="246" r="9"/><circle cx="1219" cy="164" r="7"/>
+        </g>
+      </g>
+    </g>
   </defs>
+  <g id="landscape">
   <g filter="url(#pigment)">
     <path fill="url(#sky)" d="M-40-30H1640V420C1460 375 1370 464 1190 369S892 455 720 318 376 361 208 274 82 341-40 252Z"/>
-    <circle cx="1280" cy="182" r="99" fill="url(#sun)"/>
     <path fill="url(#far)" d="M-40 730 62 555 118 591 223 373 295 464 340 418 444 601 522 583 623 714 762 707 917 641 1038 489 1096 542 1208 312 1270 411 1350 356 1450 578 1546 475 1640 602V938H-40Z"/>
     <path fill="url(#far)" opacity=".62" d="M-40 804 58 702 142 678 222 508 300 611 351 557 422 705 520 665 663 788 801 741 924 701 1000 612 1063 645 1190 451 1280 550 1363 478 1480 674 1640 641V1000H-40Z"/>
     <path fill="url(#near)" d="M-40 697 37 620 111 710 205 644 270 742 335 698 450 805 587 823 630 863 543 926 307 942 151 984-40 963Z"/>
@@ -41,5 +57,9 @@
     <path stroke="#698f93" stroke-width="1.2" opacity=".5" d="M502 885h84m125 12h117m38-27h152M361 943h142m466-25h128m16 39h164"/>
     <path stroke="#648779" stroke-width="1.8" opacity=".65" d="M77 1000q8-109 23-211m-17 168-32-34m37-10 29-46M1401 1000q2-105 26-204m-14 112 33-38m-26-3-27-46"/>
     <path stroke="#526567" stroke-width="1.3" opacity=".44" d="m982 278 12-6 11 6m26-21 9-5 9 5"/>
+  </g>
+  </g>
+  <g id="sun-disc" filter="url(#pigment)">
+    <circle cx="1280" cy="182" r="99" fill="url(#sun)"/>
   </g>
 </svg>

@@ -1,3 +1,88 @@
 {
-  "places": []
+  "places": [
+    {
+      "id": "beijing",
+      "name": { "en": "Beijing", "zh": "北京" },
+      "longitude": 116.4074,
+      "latitude": 39.9042,
+      "residence": true,
+      "institution": "microsoft",
+      "photos": [{
+        "src": "photos/beijing-placeholder.jpg",
+        "alt": { "en": "Beijing CBD skyline under a blue sky", "zh": "蓝天下的北京中央商务区天际线" },
+        "caption": { "en": "Placeholder photo · Beijing skyline", "zh": "占位照片 · 北京天际线" },
+        "credit": {
+          "author": "N509FZ",
+          "title": "Skyline of Beijing CBD from the southeast (20210907094201)",
+          "source": "https://commons.wikimedia.org/wiki/File:Skyline_of_Beijing_CBD_from_the_southeast_(20210907094201).jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "changes": { "en": "Resized to 1280 px", "zh": "已缩小至 1280 像素" }
+        }
+      }]
+    },
+    {
+      "id": "nanjing",
+      "name": { "en": "Nanjing", "zh": "南京" },
+      "longitude": 118.7969,
+      "latitude": 32.0603,
+      "residence": true,
+      "institution": "nju",
+      "photos": [{
+        "src": "photos/nanjing-placeholder.jpg",
+        "alt": { "en": "Illuminated buildings reflected in Nanjing's Qinhuai River at night", "zh": "南京秦淮河夜色与沿岸灯火的倒影" },
+        "caption": { "en": "Placeholder photo · Qinhuai River", "zh": "占位照片 · 秦淮河" },
+        "credit": {
+          "author": "Windmemories",
+          "title": "20240118 Night view of Qinhuai River 01",
+          "source": "https://commons.wikimedia.org/wiki/File:20240118_Night_view_of_Qinhuai_River_01.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "changes": { "en": "Resized to 1280 px", "zh": "已缩小至 1280 像素" }
+        }
+      }]
+    },
+    {
+      "id": "suzhou",
+      "name": { "en": "Suzhou", "zh": "苏州" },
+      "longitude": 120.5853,
+      "latitude": 31.2989,
+      "residence": true,
+      "institution": "nju",
+      "photos": [{
+        "src": "photos/suzhou-placeholder.jpg",
+        "alt": { "en": "Canal and traditional riverside buildings along Pingjiang Road in Suzhou", "zh": "苏州平江路的河道与沿河传统建筑" },
+        "caption": { "en": "Placeholder photo · Pingjiang Road", "zh": "占位照片 · 平江路" },
+        "credit": {
+          "author": "song songroov",
+          "title": "Riverside of Pingjiang Road, Gusu, Suzhou, Jiangsu, China, 215000",
+          "source": "https://commons.wikimedia.org/wiki/File:Riverside_of_Pingjiang_Road,_Gusu,_Suzhou,_Jiangsu,_China,_215000.jpg",
+          "license": "CC BY 3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+          "changes": { "en": "Resized to 1280 px", "zh": "已缩小至 1280 像素" }
+        }
+      }]
+    },
+    {
+      "id": "singapore",
+      "name": { "en": "Singapore", "zh": "新加坡" },
+      "longitude": 103.8198,
+      "latitude": 1.3521,
+      "residence": true,
+      "institution": "ntu",
+      "photos": [{
+        "src": "photos/singapore-placeholder.jpg",
+        "alt": { "en": "Singapore's ArtScience Museum and Marina Bay skyline in the afternoon", "zh": "午后的新加坡艺术科学博物馆与滨海湾天际线" },
+        "caption": { "en": "Placeholder photo · Marina Bay", "zh": "占位照片 · 滨海湾" },
+        "credit": {
+          "author": "Basile Morin",
+          "title": "ArtScience Museum, Marina Bay Sands, Singapore",
+          "source": "https://commons.wikimedia.org/wiki/File:ArtScience_Museum,_Marina_Bay_Sands,_Singapore.jpg",
+          "license": "CC BY-SA 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "changes": { "en": "Resized to 1280 px", "zh": "已缩小至 1280 像素" }
+        }
+      }]
+    }
+  ]
 }

@@ -33,7 +33,7 @@
     >
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261011-blue-atlas">
+    <link rel="stylesheet" href="folio.css?v=20261011-city-albums">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -69,7 +69,15 @@
     <a class="skip-link" href="#main" data-en="Skip to content" data-zh="跳转到正文">Skip to content</a>
     <div class="noise" aria-hidden="true"></div>
     <div class="scroll-study" aria-hidden="true">
-      <div class="study-wash"></div>
+      <div class="study-wash">
+        <svg class="study-paint" viewBox="0 0 1600 1000" preserveAspectRatio="none">
+          <use href="art/painted-study.svg?v=20261011-sky-cycle#landscape"/>
+        </svg>
+      </div>
+      <div class="study-sky">
+        <svg class="study-sun" viewBox="1160 62 240 240"><use href="art/painted-study.svg?v=20261011-sky-cycle#sun-disc"/></svg>
+        <svg class="study-moon" viewBox="1160 62 240 240"><use href="art/painted-study.svg?v=20261011-sky-cycle#moon-disc"/></svg>
+      </div>
       <svg class="study-sketch" viewBox="0 0 1600 1000" preserveAspectRatio="none" fill="none">
         <g class="study-contours">
           <path pathLength="1" d="m-10 752 72-197 56 36 105-218 72 91 45-46 104 183 78-18 101 131"/>
@@ -454,39 +462,35 @@
           <article class="project-card project-featured reveal" data-category="systems hardware research">
             <div class="project-number mono" data-en="P.01 / MIXED PRECISION"
                  data-zh="P.01 / 混合精度">P.01 / MIXED PRECISION</div>
-            <div class="project-spec spec-projection" id="project-visual-1" role="group" aria-labelledby="project-title-1">
-              <svg viewBox="0 0 320 110" fill="none" aria-hidden="true">
-                <path class="diagram-grid" d="M8 18h304M8 55h304M8 92h304"/>
-                <g class="projection-weights">
-                  <rect x="16" y="18" width="46" height="28" rx="3"/>
-                  <path d="M25 18v28M34 18v28M43 18v28M52 18v28M16 32h46"/>
-                  <path class="projection-flow" d="M62 32h41l13 13"/>
-                  <path d="m109 43 7 2-2-7"/>
-                </g>
-                <g class="projection-activation">
-                  <path d="M16 69h46M16 79h46M16 89h46"/>
-                  <path class="projection-flow" d="M62 79h34l20-20"/>
-                  <path d="m109 61 7-2-2 7"/>
-                </g>
-                <g class="projection-core">
-                  <rect x="119" y="17" width="84" height="76" rx="6"/>
-                  <rect x="127" y="25" width="68" height="60" rx="3"/>
-                  <path class="projection-grid" d="M144 25v60M161 25v60M178 25v60M127 40h68M127 55h68M127 70h68"/>
-                  <circle class="projection-cell" cx="135.5" cy="32.5" r="2.6"/>
-                  <circle class="projection-cell" cx="152.5" cy="47.5" r="2.6"/>
-                  <circle class="projection-cell" cx="169.5" cy="62.5" r="2.6"/>
-                  <circle class="projection-cell" cx="186.5" cy="77.5" r="2.6"/>
-                </g>
-                <g class="projection-output">
-                  <path class="projection-flow" d="M203 55h31M266 55h45"/>
-                  <path d="m304 50 7 5-7 5"/>
-                  <circle class="projection-gate" cx="250" cy="55" r="16"/>
-                  <path d="M242 55h16M250 47v16M240 89h29M240 98h29"/>
-                </g>
-                <path d="M79 15v-8h135v8" opacity=".45"/>
-                <circle cx="79" cy="15" r="2" fill="var(--surface)"/>
-                <circle cx="214" cy="15" r="2" fill="var(--surface)"/>
-              </svg>
+            <div class="project-spec silicon-visual" id="project-visual-1" role="group" aria-labelledby="project-title-1">
+              <div class="silicon-visual-label mono"><span data-en="NATIVE AWQ"
+                    data-zh="原生 AWQ">NATIVE AWQ</span><span>W4A16 / RTL</span></div>
+              <div class="chip-registration" aria-hidden="true">
+                <div class="registration-sheet sheet-architecture"></div>
+                <div class="registration-sheet sheet-routing"></div>
+                <svg class="registration-traces" viewBox="0 0 320 280" fill="none">
+                  <g>
+                    <path pathLength="1" d="M12 65h30l28 28h42M18 201h42l29-29h20M208 83h35l28-28h38M214 187h30l24 24h39"/>
+                    <path pathLength="1" d="M95 14v32l20 20v28M217 263v-30l-18-18v-28"/>
+                  </g>
+                  <circle cx="12" cy="65" r="3"/><circle cx="18" cy="201" r="3"/>
+                  <circle cx="309" cy="55" r="3"/><circle cx="307" cy="211" r="3"/>
+                  <circle cx="95" cy="14" r="3"/><circle cx="217" cy="263" r="3"/>
+                </svg>
+                <div class="chip-orbit">
+                  <div class="chip">
+                    <span class="chip-name">ACE–3</span>
+                    <div class="chip-array">
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                    </div>
+                    <span class="mono" data-en="MIXED PRECISION"
+                          data-zh="混合精度">MIXED PRECISION</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="cover-ledger mono">
               <span data-en="24 LAYERS / 624 TENSORS" data-zh="24 层 / 624 个张量">24 LAYERS / 624 TENSORS</span>
@@ -1295,7 +1299,7 @@
             <span data-en="More links" data-zh="更多链接">More links</span>
             <span aria-hidden="true">↗</span>
           </a>
-          <a class="text-link painting-open" href="art/painted-study.svg?v=20261011-blue-atlas">
+          <a class="text-link painting-open" href="art/painted-study.svg?v=20261011-sky-cycle">
             <span data-en="See the finished watercolor" data-zh="看看刚刚画完的水彩">See the finished watercolor</span>
             <span aria-hidden="true">↗</span>
           </a>
@@ -1306,7 +1310,7 @@
     <dialog class="painting-dialog" aria-labelledby="painting-title">
       <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close">×</button></form>
       <p class="mono" id="painting-title" data-en="FROM A FEW LINES, A LANDSCAPE." data-zh="从几笔线条，到一幅风景。">FROM A FEW LINES, A LANDSCAPE.</p>
-      <img src="art/painted-study.svg?v=20261011-blue-atlas" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
+      <img src="art/painted-study.svg?v=20261011-sky-cycle" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
       <p data-en="An original study for this website—not a photograph of a place I've visited."
          data-zh="为这个网站创作的风景习作，并非某次旅行的实景记录。">An original study for this website—not a photograph of a place I've visited.</p>
     </dialog>
@@ -1322,11 +1326,17 @@
 
     <dialog class="city-dialog" id="city-album" aria-labelledby="city-album-title">
       <form method="dialog"><button class="city-close" aria-label="Close city album">×</button></form>
-      <h2 id="city-album-title"></h2>
+      <div class="city-heading">
+        <div>
+          <p class="city-residence" hidden></p>
+          <h2 id="city-album-title"></h2>
+        </div>
+        <div class="city-institution" hidden></div>
+      </div>
       <div class="city-gallery"></div>
     </dialog>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="city-atlas.js?v=20261011-blue-atlas"></script>
-    <script src="script.js?v=20261011-blue-atlas"></script>
+    <script src="city-atlas.js?v=20261011-city-albums"></script>
+    <script src="script.js?v=20261011-roomier-atlas"></script>
   </body>
 </html>

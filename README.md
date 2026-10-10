@@ -25,7 +25,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   and print layout.
 - `folio.css`: the compact editorial composition and painted-paper layers.
   Desktop centers the owner's name and a site index, with a project directory
-  that switches a shared technical stage on hover, keyboard focus, or click.
+  that switches a shared technical stage when the pointer enters any part of a
+  project row, or through keyboard focus or title-button clicks. The arrow and
+  metadata have fixed columns so different title/tag lengths cannot shift them.
   The stage uses the original diagram nodes, not duplicate SVGs or cloned IDs.
   At widths above 900px and heights of at least 600px, enable this project browser;
   portrait tablets and short landscape phones show paired inline studies.
@@ -34,10 +36,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   changes preserve the selected project, filters, open notes, and keyboard focus.
   Native `details` expose complete descriptions and repository links without JS.
   Print exposes all diagrams and notes, even when collapsed or filtered on screen.
-  The seven nature paintings have medium-sized, device-specific compositions:
-  reserve room beside headings or the hero poem, never a separate empty panel,
-  and keep them clear of text and controls.
-  Directory hover uses a translucent pigment wash rather than large card tilts.
+  Six nature paintings grow into available heading/hero margins, with larger
+  desktop and tablet sizes but no additional empty panels. Phones retain their
+  compact sizes. The seventh, the coast, is a low-opacity Contact underlay,
+  behind the heading and links rather than a separate illustration.
+  All links, buttons, and disclosure summaries share a translucent pigment-wash
+  hover/focus treatment. It never intercepts pointer input or changes layout;
+  disabled controls and the seven painting buttons are excluded. The effects
+  control keeps its existing status dot and uses a separate wash pseudo-element.
+  Keyboard focus receives the same feedback; reduced motion/effects-off remove
+  its transition, and print removes the wash.
   Other hover treatments emphasize institutional marks and research evidence;
   every essential action also works with keyboard or touch.
 - `institutions/`: official institutional identity assets used as factual
@@ -69,9 +77,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   forms, fine stems and veins, restrained pigment texture, and transparent edges.
   They blend into the page without frames or a gallery. No museum reproductions
   or image-generation service are used. Keep their frameless composition clear
-  of readable text and controls. Each painting appears exactly once inside an
+  of readable text and controls; the coastal underlay is the deliberate
+  background-layer exception. Each painting appears exactly once inside an
   accessible `.scene-art` button; the image itself never intercepts pointer input.
-  ACE-3 uses a conceptual projection diagram, not a die photograph or a physical-layout result.
+  ACE-3 retains the original angled chip and layered drawings, not a die
+  photograph or a physical-layout result.
 - `art/studio-paper.svg`: original tiled cold-pressed paper texture, with diffuse
   lighting for the paper tooth and a separate fine-fiber layer. It is rendered
   once as a background, never regenerated in the scroll callback.
@@ -85,23 +95,44 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   JS it links directly to the SVG. Reduced motion/effects off/no JS show the
   complete painting, and print removes decorative layers. The earlier
   `art/paper-washes.svg` remains an unused source asset.
+  Its `landscape`, `sun-disc`, and `moon-disc` groups are reused through external
+  SVG `use` references: the background has only one sun/moon, not a fixed sun
+  underneath another celestial image. Switching theme lowers the outgoing sun
+  or moon and raises the other; reduced motion and effects-off switch directly.
+  Opening the standalone painting still shows the complete original sunlit work.
 - The `#elsewhere` interlude defaults to **Follow scroll** on every page load.
   Its Pacific-centered world view places Asia on the left and the Americas on
-  the right, with the longitude seam at 30°W. It moves to a 3x view centered on
-  China through ordinary scrolling, without scroll interception or a long
+  the right, with the longitude seam at 30°W. It moves to a 4.4x view centered
+  near 110°E, 35°N, emphasizing mainland and eastern China through ordinary
+  scrolling, without scroll interception or a long
   pinned section. World/China buttons provide manual control on every device;
   manual selection persists until "Follow scroll" is selected. Reduced motion
   and effects off disable scroll-follow but retain immediate manual changes.
-  The China framing includes the southern maritime indicators instead of
-  cropping at the mainland. Color and paper texture never displace map geometry.
-  `places.json` is intentionally empty until the owner supplies real locations
-  and photos; there are no invented itineraries, city counts, or stock photos.
+  Only the close-up camera changes: all 277 Chinese-view components, offshore
+  islands, and maritime indicators stay in the coloring data. The close-up is
+  not a full-country framing. Color and texture never displace map geometry.
+  The desktop map takes the larger side of a wider interlude, portrait tablets
+  put a full-width map below compact introductory columns, and phones let the
+  map extend to the screen edges. Short landscape screens keep a side-by-side
+  composition. Scroll progress is measured from the map viewport, not its
+  introductory text, so zoom begins while the enlarged map is visible.
+  `places.json` currently contains four owner-selected long-term places:
+  Beijing, Nanjing, Suzhou, and Singapore. At the owner's request, each album
+  starts with an explicitly labeled, openly licensed placeholder photograph.
+  These are not the owner's photographs or a claim about when a visit occurred.
 - `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
   They use different, explicitly documented sources; see [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
 - `city-atlas.js` reads the local `places.json`, projects longitude/latitude
-  into the same Pacific-centered coordinates as the map, and keeps 44px city
-  buttons independent of zoom. A text city list provides a second way to open
+  into the same Pacific-centered coordinates as the map. Dots remain at their
+  true coordinates; 44px-high name buttons use collision-aware callouts and fine
+  leaders, so nearby cities such as Nanjing and Suzhou remain separately usable.
+  Callouts stay inside the map; crowded or off-camera cities remain accessible
+  from the text city list. Long-term places use warm-colored dots and an album
+  heading with the confirmed institution mark: Beijing/Microsoft,
+  Nanjing/Nanjing University, Suzhou/Nanjing University, Singapore/NTU.
+  Marks reuse the existing assets and dark-theme white-plate treatment.
+  A text city list provides a second way to open
   each album, including cities outside the current map frame. Native dialogs
   support touch, keyboard, Escape, focus return, translated captions, and
   explicit data/image loading errors. Manual map transitions, portrait-tablet
@@ -116,14 +147,15 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - The Argus ecosystem grid tracks public team repositories with meaningful
   team-owned or maintained work. Use organization URLs for ACE mirrors and
   maintained downstream projects; omit untouched integration/staging forks.
-- The four Selected Work illustrations are inline technical SVGs. They use
+- The Selected Work illustrations combine the original HTML/SVG ACE-3 chip
+  with three inline technical SVGs. They use
   seamless hover/focus loops on pointers and run while a phone touch is actively
   pressing or passing over a card; reduced motion and print disable those
-  animations. All four share fine cyan/orange lines, a light graph-paper stage,
-  and text-free diagrams. ACE-3 depicts narrow packed-weight input and wider
-  activation input converging on a projection array and accumulation node; its
-  ledger preserves the 24-layer/624-tensor facts and identifies the drawing as
-  conceptual. ACE-2 shows two token streams entering an RTL compute
+  animations. They share a theme-aware graph-paper stage and cyan/orange
+  accents, not the same drawing. ACE-3 retains its angled chip, 24 cells,
+  registration sheets, traces, and scroll alignment; its compact lower ledger
+  preserves the 24-layer/624-tensor facts and conceptual status. Keep ACE-2,
+  FFT, and op-amp diagrams text-free. ACE-2 shows two token streams entering an RTL compute
   array, retained state banks, and the state-reuse return path. The FFT time
   waveform is one fixed trace: a sinusoidal segment followed by a long,
   irregular segment. Two identical copies move right at constant speed through
@@ -227,19 +259,33 @@ Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map change
 
 ## Adding city photos
 
-Populate `places.json` only with owner-supplied locations and photographs.
+Add only owner-confirmed cities to `places.json`. The initial four cities use
+owner-requested placeholder photographs from Wikimedia Commons. Every image is
+clearly labeled in both languages, with a linked source, author, license, and
+resize notice in its album. The local photographs retain their individual
+licenses (CC BY-SA 4.0, or CC BY 3.0 for Suzhou); no endorsement is implied.
+They are 1280px Commons thumbnails, with no additional crops or color changes.
 Each entry requires `id` (unique lowercase letters/numbers/hyphens), bilingual
 `name: { "en": "...", "zh": "..." }`, numeric `longitude` and `latitude` in degrees,
 and a non-empty `photos` array. Each photo has a local `src` under `photos/`,
-bilingual `alt`, and an optional bilingual `caption`. Supported formats are
+bilingual `alt`, and an optional bilingual `caption`. Third-party images also
+use `credit: { author, title, source, license, licenseUrl, changes }`, where
+`source` and `licenseUrl` are HTTPS URLs and optional `changes` is bilingual.
+Supported formats are
 JPG, PNG, WebP, and AVIF; use ASCII filenames without parent-directory segments.
 Coordinates belong to the actual city, not a position measured from a screenshot.
 This is a geographic overview rather than street-level navigation.
 
 New entries automatically create map pins, city-list buttons, and albums.
-Keep `places` empty rather than publishing placeholders. An empty dataset shows
-neither empty albums nor explanatory placeholder text. Remove private EXIF/GPS
-metadata from photographs before adding them to this public repository.
+Use optional `residence: true` for long-term places and `institution` for the
+confirmed mark (`microsoft`, `nju`, or `ntu`). Both fields are optional for
+future travel-only cities; do not infer a residence or institution from a photo.
+Replace a placeholder's `src`, `alt`, and `caption` with the owner's photograph
+and remove that placeholder's `credit`; keep attribution on any retained stock
+images. Add more photos to the same array to extend an album.
+An empty dataset still shows neither empty albums nor explanatory placeholder
+text. Remove private EXIF/GPS metadata from personal photographs before adding
+them to this public repository.
 
 ## Updating identity assets
 

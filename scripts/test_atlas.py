@@ -37,7 +37,12 @@ class AtlasTest(unittest.TestCase):
                 for lon, lat in ring:
                     x = (lon - WEST) / 360 * 1000 * zoom + x_offset
                     y = (90 - lat) / 180 * 500 * zoom + y_offset
-                    self.assertTrue(0 <= x <= 1000 and 0 <= y <= 500, "China component cropped out of the viewport")
+                    if lat >= 18:
+                        self.assertTrue(0 <= x <= 1000 and 0 <= y <= 500, "Mainland/eastern focus cropped a northern component")
+        self.assertAlmostEqual(zoom, 4.4)
+        self.assertAlmostEqual((110 - WEST) / 360 * 1000 * zoom + x_offset, 500, places=3)
+        self.assertAlmostEqual((90 - 35) / 180 * 500 * zoom + y_offset, 250, places=3)
+        self.assertIn(geometry_path(feature["geometry"]), (ROOT / "art/atlas-china.svg").read_text())
         for name, point in {
             "Taiwan": (121, 23.7),
             "Zangnan": (94.7, 28.2),

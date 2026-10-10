@@ -13,6 +13,7 @@ const workSection = document.querySelector(".folio-work");
 const projectBrowser = window.matchMedia("(min-width: 901px) and (min-height: 600px)");
 const previewStatus = document.getElementById("project-preview-status");
 const atlas = document.querySelector(".atlas-section");
+const atlasViewport = atlas.querySelector(".atlas-viewport");
 const atlasControls = [...document.querySelectorAll("[data-atlas-view]")];
 const paintingDialog = document.querySelector(".painting-dialog");
 const filterStatus = document.getElementById("filter-status");
@@ -68,8 +69,8 @@ const projectChoices = projectCards.map((card) => {
   button.setAttribute("aria-controls", visual.id);
   button.addEventListener("click", () => selectProject(card, true));
   button.addEventListener("focus", () => selectProject(card));
-  button.addEventListener("pointerenter", (event) => {
-    if (event.pointerType === "mouse" && finePointer.matches) selectProject(card);
+  card.addEventListener("pointerenter", (event) => {
+    if (projectBrowser.matches && event.pointerType === "mouse" && finePointer.matches) selectProject(card);
   });
   button.addEventListener("keydown", (event) => {
     const choices = projectChoices.filter((choice) => !choice.card.hidden);
@@ -240,7 +241,7 @@ themeButton.addEventListener("click", () => {
     applyLanguage(sitePreferences.get("language") || language);
   }
   themeTransition?.skipTransition();
-  if (reducedMotion.matches || !document.startViewTransition) {
+  if (!effectsEnabled || reducedMotion.matches || !document.startViewTransition) {
     setTheme(theme);
     return;
   }
@@ -435,6 +436,7 @@ reducedMotion.addEventListener("change", stopFilterAnimations);
 
 let scrollFrame = null;
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
 function updateScrollState() {
   scrollFrame = null;
@@ -445,11 +447,18 @@ function updateScrollState() {
   root.style.setProperty("--study-ink", (motion ? Math.min(1, .08 + progress * 1.55) : 1).toFixed(4));
   root.style.setProperty("--study-color", (motion ? Math.max(0, Math.min(1, (progress - .08) / .82)) : 1).toFixed(4));
   root.style.setProperty("--study-drift", `${motion ? ((progress - .5) * (innerWidth <= 600 ? 16 : 52)).toFixed(2) : 0}px`);
-  const atlasRect = atlas.getBoundingClientRect();
+  const atlasRect = atlasViewport.getBoundingClientRect();
   const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !motion ? 0
     : Math.max(0, Math.min(1, (innerHeight * .9 - atlasRect.top) / (innerHeight * .65)));
   atlas.style.setProperty("--atlas-progress", atlasProgress.toFixed(4));
   cityAtlas.update(atlasProgress);
+  folioLayers.forEach((layer) => {
+    const rect = layer.getBoundingClientRect();
+    const layerProgress = motion
+      ? Math.max(0, Math.min(1, (innerHeight - rect.top - rect.height / 2) / (innerHeight * .7)))
+      : 1;
+    layer.style.setProperty("--folio-progress", layerProgress.toFixed(4));
+  });
   let current = null;
   for (const section of sections) {
     if (section.getBoundingClientRect().top <= 170) current = section.id;
