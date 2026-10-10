@@ -29,19 +29,6 @@ class AtlasTest(unittest.TestCase):
         polygons = feature["geometry"]["coordinates"]
         self.assertEqual(len(polygons), 277)
         self.assertEqual(geometry_path(feature["geometry"]).count("M"), len(polygons))
-        css = (ROOT / "folio.css").read_text()
-        number = lambda name: float(re.search(rf"--atlas-{name}: ([\d.-]+);", css).group(1))
-        zoom, x_offset, y_offset = map(number, ("zoom", "x", "y"))
-        for polygon in polygons:
-            for ring in polygon:
-                for lon, lat in ring:
-                    x = (lon - WEST) / 360 * 1000 * zoom + x_offset
-                    y = (90 - lat) / 180 * 500 * zoom + y_offset
-                    if lat >= 18:
-                        self.assertTrue(0 <= x <= 1000 and 0 <= y <= 500, "Mainland/eastern focus cropped a northern component")
-        self.assertAlmostEqual(zoom, 4.4)
-        self.assertAlmostEqual((110 - WEST) / 360 * 1000 * zoom + x_offset, 500, places=3)
-        self.assertAlmostEqual((90 - 35) / 180 * 500 * zoom + y_offset, 250, places=3)
         self.assertIn(geometry_path(feature["geometry"]), (ROOT / "art/atlas-china.svg").read_text())
         for name, point in {
             "Taiwan": (121, 23.7),
@@ -55,6 +42,24 @@ class AtlasTest(unittest.TestCase):
                 self.assertTrue(any(inside_ring(point, rings[0]) and
                                     not any(inside_ring(point, hole) for hole in rings[1:])
                                     for rings in polygons))
+
+    def test_east_china_and_japan_camera(self):
+        css = (ROOT / "folio.css").read_text()
+        number = lambda name: float(re.search(rf"--atlas-{name}: ([\d.-]+);", css).group(1))
+        zoom, x_offset, y_offset = map(number, ("zoom", "x", "y"))
+        self.assertAlmostEqual(zoom, 8)
+        self.assertAlmostEqual((128 - WEST) / 360 * 1000 * zoom + x_offset, 500, places=3)
+        self.assertAlmostEqual((90 - 34.5) / 180 * 500 * zoom + y_offset, 250, places=3)
+        places = json.loads((ROOT / "places.json").read_text())["places"]
+        for place in places:
+            x = (place["longitude"] - WEST) / 360 * 1000 * zoom + x_offset
+            y = (90 - place["latitude"]) / 180 * 500 * zoom + y_offset
+            with self.subTest(city=place["id"]):
+                if place["id"] == "singapore":
+                    self.assertGreater(y, 500)
+                else:
+                    self.assertTrue(80 < x < 920 and 40 < y < 460)
+        self.assertLess((90 - WEST) / 360 * 1000 * zoom + x_offset, 0)
 
     def test_pacific_order_and_projection_agreement(self):
         css = (ROOT / "folio.css").read_text()

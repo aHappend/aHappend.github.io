@@ -114,8 +114,10 @@ function createCityAtlas(atlas, getLanguage) {
     title.textContent = text(selectedPlace.albumTitle ?? selectedPlace.name);
     cityLabel.textContent = text(selectedPlace.name);
     dialog.dataset.residence = String(Boolean(selectedPlace.residence));
-    residence.hidden = !selectedPlace.residence;
-    residence.textContent = getLanguage() === "zh" ? "久居之地" : "A place called home";
+    residence.hidden = false;
+    residence.textContent = selectedPlace.residence
+      ? (getLanguage() === "zh" ? "久居之地" : "A place called home")
+      : (getLanguage() === "zh" ? "旅行" : "Travel");
     institution.replaceChildren();
     institution.hidden = !selectedPlace.institution;
     if (selectedPlace.institution) {
@@ -154,9 +156,10 @@ function createCityAtlas(atlas, getLanguage) {
 
   function availableAlbumHeight(mapTop, mapHeight, topEdge, aboveMap, bottom) {
     const available = aboveMap
-      ? Math.min(350, Math.max(220, mapTop - topEdge - 12 + mapHeight * .18))
+      ? Math.min(350, Math.max(248, mapTop - topEdge - 12 + mapHeight * .18))
       : Math.max(100, innerHeight - topEdge - 12);
     return Math.min(available, innerHeight - topEdge - 12,
+      aboveMap ? Math.max(100, mapTop + mapHeight - topEdge - 72) : available,
       Math.max(100, bottom - topEdge - 12));
   }
 
@@ -296,9 +299,9 @@ function createCityAtlas(atlas, getLanguage) {
     list.setAttribute("aria-label", getLanguage() === "zh" ? "城市相册" : "City albums");
     homeRow.setAttribute("aria-label", getLanguage() === "zh" ? "久居城市" : "Places called home");
     travelRow.setAttribute("aria-label", getLanguage() === "zh" ? "旅行城市" : "Travel destinations");
-    for (const { place, marker, button } of entries) {
+    for (const { place, marker, label, button } of entries) {
       button.textContent = text(place.name);
-      marker.textContent = text(place.name);
+      label.textContent = text(place.name);
       button.dataset.residence = String(Boolean(place.residence));
       marker.setAttribute("aria-label", `${text(place.name)} · ${getLanguage() === "zh" ? "打开相册" : "Open album"}`);
       marker.title = text(place.name);
@@ -311,6 +314,36 @@ function createCityAtlas(atlas, getLanguage) {
       renderGallery();
       positionAlbum();
     }
+    resize();
+  }
+
+  function measureLabels() {
+    const hidden = entries.map(({ marker }) => marker.hidden);
+    for (const { marker } of entries) marker.hidden = false;
+    for (const entry of entries) {
+      const { marker, label } = entry;
+      entry.labelWidth = marker.offsetWidth;
+      entry.labelHeight = marker.offsetHeight;
+      const inkWidth = label.offsetWidth / 2 + 4;
+      const inkHeight = label.offsetHeight / 2 + 3;
+      const offsets = [];
+      const extras = [0, 12, 24, 36];
+      for (const extra of extras) {
+        const dx = entry.labelWidth / 2 + 10 + extra;
+        const dy = entry.labelHeight / 2 + 8 + extra;
+        offsets.push([dx, 0], [-dx, 0], [0, -dy], [0, dy]);
+        for (const vertical of extras) {
+          const diagonalY = entry.labelHeight / 2 + 8 + vertical;
+          offsets.push([dx, -diagonalY], [-dx, -diagonalY], [dx, diagonalY], [-dx, diagonalY]);
+        }
+      }
+      entry.labelOffsets = offsets.map(([dx, dy]) => {
+        const endX = Math.max(dx - inkWidth, Math.min(0, dx + inkWidth));
+        const endY = Math.max(dy - inkHeight, Math.min(0, dy + inkHeight));
+        return { dx, dy, endX, endY, length: Math.hypot(endX, endY) };
+      }).filter(offset => offset.length <= 48).sort((a, b) => a.length - b.length);
+    }
+    entries.forEach(({ marker }, index) => { marker.hidden = hidden[index]; });
   }
 
   function resize() {
@@ -342,6 +375,7 @@ function createCityAtlas(atlas, getLanguage) {
       albumPlacement = null;
       albumLayoutKey = key;
     }
+    measureLabels();
     projectionDirty = true;
     renderedProgress = NaN;
   }
@@ -522,6 +556,10 @@ function createCityAtlas(atlas, getLanguage) {
     if (document.hidden) finishAnimation();
   });
   window.addEventListener("beforeprint", finishAnimation);
+  document.fonts.addEventListener("loadingdone", () => {
+    resize();
+    update(progress);
+  });
 
   function renderPoints(view) {
     projectionDirty = false;
@@ -539,29 +577,33 @@ function createCityAtlas(atlas, getLanguage) {
     points.sort((a, b) => (focused ? Number(b.place === selectedPlace) - Number(a.place === selectedPlace) : 0)
       || Number(Boolean(b.place.residence)) - Number(Boolean(a.place.residence)));
     const occupied = [];
-    for (const { anchor, marker, leader, button, x, y, visible } of points) {
+    for (const { anchor, marker, leader, button, labelWidth, labelHeight, labelOffsets, x, y, visible } of points) {
       anchor.style.transform = `translate(${x}px, ${y}px)`;
       // Move only the callout; its dot and leader stay tied to the true coordinates.
-      const halfWidth = 40;
-      const halfHeight = 22;
-      const offsets = [[56, -22], [-56, -22], [56, 30], [-56, 30],
-        [0, -52], [0, 52], [56, -74], [-56, -74], [56, 82], [-56, 82]];
-      const position = visible && offsets.map(([dx, dy]) => ({ dx, dy, x: x + dx, y: y + dy }))
-        .find((p) => p.x - halfWidth >= 4 && p.x + halfWidth <= width - 4
-          && p.y - halfHeight >= 4 && p.y + halfHeight <= height - 4
-          && occupied.every((q) => Math.abs(p.x - q.x) >= 84 || Math.abs(p.y - q.y) >= 44)
-          && points.every((q) => !q.visible || Math.abs(p.x - q.x) >= 48 || Math.abs(p.y - q.y) >= 30));
+      const halfWidth = labelWidth / 2;
+      const halfHeight = labelHeight / 2;
+      const position = visible && labelOffsets.find(offset => {
+        const labelX = x + offset.dx, labelY = y + offset.dy;
+        return labelX - halfWidth >= 4 && labelX + halfWidth <= width - 4
+          && labelY - halfHeight >= 4 && labelY + halfHeight <= height - 4
+          && occupied.every(q => Math.abs(labelX - q.x) >= halfWidth + q.halfWidth + 3
+            || Math.abs(labelY - q.y) >= halfHeight + q.halfHeight + 3)
+          && points.every(q => !q.visible || Math.abs(labelX - q.x) >= halfWidth + 6
+            || Math.abs(labelY - q.y) >= halfHeight + 6);
+      });
       marker.hidden = !position;
-      leader.hidden = !position;
+      leader.hidden = !position || position.length <= 8;
       if (!position && document.activeElement === marker) button.focus({ preventScroll: true });
       marker.tabIndex = position ? 0 : -1;
       marker.setAttribute("aria-hidden", String(!position));
       if (position) {
-        occupied.push(position);
+        occupied.push({ x: x + position.dx, y: y + position.dy, halfWidth, halfHeight });
         marker.style.left = `${position.dx}px`;
         marker.style.top = `${position.dy}px`;
-        leader.style.width = `${Math.hypot(position.dx, position.dy)}px`;
-        leader.style.rotate = `${Math.atan2(position.dy, position.dx)}rad`;
+        leader.style.left = `${position.endX / position.length * 6}px`;
+        leader.style.top = `${position.endY / position.length * 6}px`;
+        leader.style.width = `${Math.max(0, position.length - 6)}px`;
+        leader.style.rotate = `${Math.atan2(position.endY, position.endX)}rad`;
       }
     }
     positionAlbum();
@@ -588,6 +630,7 @@ function createCityAtlas(atlas, getLanguage) {
         const dot = document.createElement("span");
         const leader = document.createElement("span");
         const marker = document.createElement("button");
+        const label = document.createElement("span");
         const button = document.createElement("button");
         anchor.className = "atlas-city-anchor";
         anchor.dataset.city = place.id;
@@ -598,6 +641,8 @@ function createCityAtlas(atlas, getLanguage) {
         leader.setAttribute("aria-hidden", "true");
         marker.type = button.type = "button";
         marker.className = "atlas-city-marker";
+        label.className = "atlas-city-name";
+        marker.append(label);
         marker.dataset.city = button.dataset.city = place.id;
         for (const control of [marker, button]) {
           control.setAttribute("popovertarget", dialog.id);
@@ -623,7 +668,7 @@ function createCityAtlas(atlas, getLanguage) {
           regionPath.setAttribute("d", region.path);
           regionLayer.append(regionPath);
         }
-        entries.push({ place, anchor, marker, leader, button, region, regionPath });
+        entries.push({ place, anchor, marker, label, leader, button, region, regionPath });
       }
       homeRow.hidden = !homeRow.childElementCount;
       travelRow.hidden = !travelRow.childElementCount;

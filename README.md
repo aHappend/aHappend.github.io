@@ -121,12 +121,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Pillow/Playwright/Chrome authoring setup. The website still needs no build step.
 - The `#elsewhere` interlude defaults to **Follow scroll** on every page load.
   Its Pacific-centered world view places Asia on the left and the Americas on
-  the right, with the longitude seam at 30°W. It moves to a 4.4x view centered
-  near 110°E, 35°N, emphasizing mainland and eastern China through ordinary
+  the right, with the longitude seam at 30°W. It moves to an 8x view centered
+  near 128°E, 34.5°N, emphasizing eastern China and Japan through ordinary
   scrolling. A native sticky `.atlas-story` lets the world map reach a readable
   position first, then holds the section while scrolling changes only the map
   camera. Its 1.35-viewport scroll runway reserves the first and last 18% for
-  the world and China views, with the zoom in between; it then releases naturally.
+  the world and China/Japan views, with the zoom in between; it then releases naturally.
   Reverse scrolling reverses the sequence. No wheel/touch events are intercepted.
   The background painting pauses during this runway, leaving only the map camera
   moving. Scroll-linked variables are scoped to their visual layers rather than
@@ -138,13 +138,15 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   city names does not shift the page or sticky reading position.
   The section is centered below the header when it fits; short screens align its
   lower map area above the viewport bottom rather than clipping the map.
-  World/China buttons provide manual control on every device;
+  World/China & Japan buttons provide manual control on every device;
   manual selection persists until "Follow scroll" is selected. Reduced motion
   and effects off remove the sticky runway and disable scroll-follow but retain
   immediate manual changes. No JS and print also use normal document flow.
   Only the close-up camera changes: all 277 Chinese-view components, offshore
   islands, and maritime indicators stay in the coloring data. The close-up is
-  not a full-country framing. Color and texture never displace map geometry.
+  not a full-country framing. It includes all nine eastern-China/Japan cities;
+  Singapore remains available through the world view and city list.
+  Color and texture never displace map geometry.
   The desktop map takes the larger side of a wider interlude, portrait tablets
   put a full-width map below compact introductory columns, and phones let the
   map extend to the screen edges. Short landscape screens keep a side-by-side
@@ -162,19 +164,25 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   No remote map service, API key, or runtime map dependency is used.
 - `city-atlas.js` reads the local `places.json` and `art/city-regions.json`, and projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
-  true coordinates; frameless, bold, contrast-outlined names use collision-aware
-  callouts and fine leaders. Their transparent 80×44px targets keep nearby cities
-  such as Nanjing and Suzhou separately usable without large visible boxes.
+  true coordinates; frameless, subtly shadowed names use collision-aware
+  callouts and short leaders that stop before the actual text rather than running
+  underneath it. Desktop hit boxes follow the measured name width (at least 32×26px);
+  touch targets remain at least 80×44px. Measurements are cached across scroll frames
+  and refreshed after language/font/layout changes. Nearby cities can be labeled
+  individually without large visible boxes or oversized desktop collision zones.
   Callouts stay inside the map; crowded or off-camera cities remain accessible
   from the text city list. Long-term places use warm-colored dots and an album
   heading with the confirmed institution mark: Beijing/Microsoft,
   Nanjing/Nanjing University, Suzhou/Nanjing University, Singapore/NTU.
   Marks reuse the existing assets on the warm-white photo paper in either theme.
   Travel pins use smaller 10px/600 labels and 6px dots, below the residences'
-  12px/800 labels and 9px dots, without reducing the 80x44px hit targets.
+  12px/800 labels and 9px dots. Leaders are at most 42px, with shorter placements
+  preferred; touch retains the larger hit targets.
   Residences take priority when placing crowded callouts, except for the selected city.
   The city list separates residences in its first row from a quieter travel row;
   the latter can scroll horizontally as more destinations are added.
+  Travel postcards show a bilingual "Travel / 旅行" heading label in the same
+  position as "A place called home / 久居之地", without claiming a residence or institution.
   A text city list provides a second way to open
   each album, including cities outside the current map frame. A small non-modal
   native popover unfolds sideways from the real city point and retracts to it
@@ -186,7 +194,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Coarse world context fades while the selected boundary is highlighted.
   Above 12x zoom, whole-world masks stop painting rather than allocating enormous
   offscreen surfaces; the geographic city outline remains visible through focus
-  and return. Normal world/China views and print restore the unchanged base masks.
+  and return. Normal world/China & Japan views and print restore the unchanged base masks.
   Entries without a region keep point-based focus. An off-camera
   city unfolds from the clicked list entry before its point comes into view.
   The actual pre-open camera is retained, including a partial scroll zoom or
@@ -226,6 +234,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   click is suppressed without blocking a subsequent intentional tap.
   Explicit image dimensions preserve portrait/landscape framing without cropping;
   legacy photos without dimensions use a contained 3:2 area.
+  On touch screens, prints share a bounded long-edge size, not a common height:
+  landscape prints are wider/shorter and portrait prints narrower/taller.
+  Phone cards use more of the available screen width while retaining a stable
+  map-relative position and outer height when photographs change. Short phones
+  reserve extra photo space without covering the remaining map or either city row.
   Only the selected and adjacent photos start loading; other photos load as needed.
   Outside clicks,
   Escape, focus return, translated image descriptions, and explicit data/image errors are

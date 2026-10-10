@@ -143,7 +143,9 @@ function createPhotoDeck(gallery, getLanguage) {
       const image = document.createElement("img");
       const failure = document.createElement("span");
       figure.className = "city-print";
-      figure.style.setProperty("--print-ratio", photo.width ? photo.width / photo.height : 1.5);
+      const ratio = photo.width ? photo.width / photo.height : 1.5;
+      figure.style.setProperty("--print-ratio", ratio);
+      figure.style.setProperty("--print-width-factor", Math.min(1, ratio));
       button.type = "button";
       button.className = "city-photo-select";
       button.disabled = photos.length < 2;
