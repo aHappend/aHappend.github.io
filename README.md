@@ -40,9 +40,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   desktop and tablet sizes but no additional empty panels. Phones retain their
   compact sizes. The seventh, the coast, is a low-opacity Contact underlay,
   behind the heading and links rather than a separate illustration.
-  All links, buttons, and disclosure summaries share a translucent pigment-wash
-  hover/focus treatment. It never intercepts pointer input or changes layout;
-  disabled controls and the seven painting buttons are excluded. The effects
+  The translucent pigment-wash hover/focus treatment is explicitly opt-in through
+  `.watercolor-hover`, only for controls without a dedicated hover interaction:
+  the header contact link, menu/effects controls, close buttons, city-list entries,
+  and photo credits. Navigation underlines, animated buttons, project previews,
+  repository/research/social cards, map labels, and painting controls retain their
+  own feedback without a second wash layered over it. The wash never intercepts
+  pointer input or changes layout; disabled controls are excluded. The effects
   control keeps its existing status dot and uses a separate wash pseudo-element.
   Keyboard focus receives the same feedback; reduced motion/effects-off remove
   its transition, and print removes the wash.
@@ -100,22 +104,47 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   underneath another celestial image. Switching theme lowers the outgoing sun
   or moon and raises the other; reduced motion and effects-off switch directly.
   Opening the standalone painting still shows the complete original sunlit work.
+- `art/painted-study-portrait.svg` is a separately composed 720×1280 mountain,
+  sky, and lake study for phones, not a crop or stretch of the desktop painting.
+  The complete image uses `object-fit: contain`, with transparent feathered edges
+  on all four sides blending into the blue paper. Its own pencil contours replace
+  the wide-screen sketch; the shared sun/moon stays proportional and changes with
+  the theme. `scripts/export_portrait_background.py` bakes pigment filters into
+  the corresponding transparent WebP once, so phones only composite a cached image
+  instead of running turbulence filters while scrolling. Regenerate with
+  `python scripts/export_portrait_background.py` using the existing optional
+  Pillow/Playwright/Chrome authoring setup. The website still needs no build step.
 - The `#elsewhere` interlude defaults to **Follow scroll** on every page load.
   Its Pacific-centered world view places Asia on the left and the Americas on
   the right, with the longitude seam at 30°W. It moves to a 4.4x view centered
   near 110°E, 35°N, emphasizing mainland and eastern China through ordinary
-  scrolling, without scroll interception or a long
-  pinned section. World/China buttons provide manual control on every device;
+  scrolling. A native sticky `.atlas-story` lets the world map reach a readable
+  position first, then holds the section while scrolling changes only the map
+  camera. Its 1.35-viewport scroll runway reserves the first and last 18% for
+  the world and China views, with the zoom in between; it then releases naturally.
+  Reverse scrolling reverses the sequence. No wheel/touch events are intercepted.
+  The background painting pauses during this runway, leaving only the map camera
+  moving. Scroll-linked variables are scoped to their visual layers rather than
+  inherited by the entire document. Header/map dimensions and the city projection
+  are cached until resize/reflow, map layers are prepared before entering the
+  viewport, and pin positions use transforms rather than per-frame layout changes.
+  Touch browsing does not repeatedly reset desktop-only pointer effects.
+  The city-list row reserves its space while the local data loads, so inserting
+  the initial four names does not shift the page or sticky reading position.
+  The section is centered below the header when it fits; short screens align its
+  lower map area above the viewport bottom rather than clipping the map.
+  World/China buttons provide manual control on every device;
   manual selection persists until "Follow scroll" is selected. Reduced motion
-  and effects off disable scroll-follow but retain immediate manual changes.
+  and effects off remove the sticky runway and disable scroll-follow but retain
+  immediate manual changes. No JS and print also use normal document flow.
   Only the close-up camera changes: all 277 Chinese-view components, offshore
   islands, and maritime indicators stay in the coloring data. The close-up is
   not a full-country framing. Color and texture never displace map geometry.
   The desktop map takes the larger side of a wider interlude, portrait tablets
   put a full-width map below compact introductory columns, and phones let the
   map extend to the screen edges. Short landscape screens keep a side-by-side
-  composition. Scroll progress is measured from the map viewport, not its
-  introductory text, so zoom begins while the enlarged map is visible.
+  composition. Scroll progress is measured from the story wrapper after the
+  section reaches its sticky reading position, not from first entering the screen.
   `places.json` currently contains four owner-selected long-term places:
   Beijing, Nanjing, Suzhou, and Singapore. At the owner's request, each album
   starts with an explicitly labeled, openly licensed placeholder photograph.
@@ -125,17 +154,28 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   No remote map service, API key, or runtime map dependency is used.
 - `city-atlas.js` reads the local `places.json`, projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
-  true coordinates; 44px-high name buttons use collision-aware callouts and fine
-  leaders, so nearby cities such as Nanjing and Suzhou remain separately usable.
+  true coordinates; frameless, bold, contrast-outlined names use collision-aware
+  callouts and fine leaders. Their transparent 80×44px targets keep nearby cities
+  such as Nanjing and Suzhou separately usable without large visible boxes.
   Callouts stay inside the map; crowded or off-camera cities remain accessible
   from the text city list. Long-term places use warm-colored dots and an album
   heading with the confirmed institution mark: Beijing/Microsoft,
   Nanjing/Nanjing University, Suzhou/Nanjing University, Singapore/NTU.
-  Marks reuse the existing assets and dark-theme white-plate treatment.
+  Marks reuse the existing assets on the warm-white photo paper in either theme.
   A text city list provides a second way to open
-  each album, including cities outside the current map frame. Native dialogs
-  support touch, keyboard, Escape, focus return, translated captions, and
-  explicit data/image loading errors. Manual map transitions, portrait-tablet
+  each album, including cities outside the current map frame. A small non-modal
+  native popover unfolds sideways from the real city point and retracts to it
+  when closed. It flips/clamps to stay within the viewport; an off-camera city
+  unfolds from its city-list entry instead. The rest of the page stays visible
+  and scrollable, without a backdrop or focus trap. Printed-photo borders,
+  paper shadows and slight rotations distinguish the pictures from a full-page
+  gallery. A reserved 3:2 print area contains each complete image without cropping
+  and keeps the card stable while a photo loads. Additional photos scroll inside
+  the same compact card. Outside clicks,
+  Escape, focus return, translated captions, and explicit data/image errors are
+  preserved. Scrolling keeps the card tied to its point and dismisses it when the
+  point leaves the readable screen. Reduced motion/effects-off remove both entry
+  and exit animation. Manual map transitions, portrait-tablet
   letterboxing, reduced motion, and effects-off apply to the pins as well.
 - The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
   `index.html`. They use the site's theme variables and remain bilingual,
@@ -228,7 +268,9 @@ chapter headlines use concise internal rhymes; preserve the separate Chinese cop
 
 The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable
-for the current page. External fonts have system fallbacks.
+for the current page. External font styles load without blocking first paint or
+map initialization; unavailable fonts retain system fallbacks. A `noscript`
+stylesheet preserves the web fonts when JavaScript is disabled.
 Reduced-motion preferences disable entrance/filter animation and pointer effects.
 
 ## Map sources

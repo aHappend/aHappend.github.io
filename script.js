@@ -13,7 +13,10 @@ const workSection = document.querySelector(".folio-work");
 const projectBrowser = window.matchMedia("(min-width: 901px) and (min-height: 600px)");
 const previewStatus = document.getElementById("project-preview-status");
 const atlas = document.querySelector(".atlas-section");
-const atlasViewport = atlas.querySelector(".atlas-viewport");
+const atlasStory = atlas.closest(".atlas-story");
+const siteHeader = document.querySelector(".site-header");
+const scrollStudy = document.querySelector(".scroll-study");
+const readingProgress = document.querySelector(".reading-progress");
 const atlasControls = [...document.querySelectorAll("[data-atlas-view]")];
 const paintingDialog = document.querySelector(".painting-dialog");
 const filterStatus = document.getElementById("filter-status");
@@ -435,33 +438,63 @@ filters.forEach((filter) => {
 reducedMotion.addEventListener("change", stopFilterAnimations);
 
 let scrollFrame = null;
+let atlasLayoutDirty = true;
+let atlasLayout = null;
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
 const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
 function updateScrollState() {
   scrollFrame = null;
+  const pinning = effectsEnabled && !reducedMotion.matches;
+  const wasPinned = atlasStory.hasAttribute("data-pinned");
+  if (atlasLayoutDirty) {
+    const height = atlas.getBoundingClientRect().height;
+    const header = siteHeader.getBoundingClientRect().height;
+    const spare = innerHeight - header - 24 - height;
+    atlasLayout = {
+      header, pinTop: header + 12 + (spare >= 0 ? spare / 2 : spare), travel: innerHeight * 1.35,
+    };
+    atlasStory.style.setProperty("--atlas-story-height", `${height + atlasLayout.travel}px`);
+    atlasStory.style.setProperty("--atlas-sticky-top", `${atlasLayout.pinTop}px`);
+    cityAtlas.resize();
+    atlasLayoutDirty = false;
+  }
+  const { header, pinTop, travel } = atlasLayout;
+  if (pinning !== wasPinned) {
+    const beforePin = atlas.getBoundingClientRect();
+    atlasStory.toggleAttribute("data-pinned", pinning);
+    if (!pinning && beforePin.bottom > header && beforePin.top < innerHeight) {
+      // Removing the scroll runway must not jump away from the map being read.
+      scrollBy({ top: atlas.getBoundingClientRect().top - beforePin.top, behavior: "instant" });
+    }
+  }
   const scrollable = root.scrollHeight - window.innerHeight;
+  const storyProgress = (pinTop - atlasStory.getBoundingClientRect().top) / travel;
+  const layerRects = folioLayers.map((layer) => layer.getBoundingClientRect());
+  const sectionTops = sections.map((section) => section.getBoundingClientRect().top);
   const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
-  root.style.setProperty("--reading-progress", progress.toFixed(4));
+  readingProgress.style.transform = `scaleX(${progress.toFixed(4)})`;
   const motion = effectsEnabled && !reducedMotion.matches && !document.hidden;
-  root.style.setProperty("--study-ink", (motion ? Math.min(1, .08 + progress * 1.55) : 1).toFixed(4));
-  root.style.setProperty("--study-color", (motion ? Math.max(0, Math.min(1, (progress - .08) / .82)) : 1).toFixed(4));
-  root.style.setProperty("--study-drift", `${motion ? ((progress - .5) * (innerWidth <= 600 ? 16 : 52)).toFixed(2) : 0}px`);
-  const atlasRect = atlasViewport.getBoundingClientRect();
-  const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !motion ? 0
-    : Math.max(0, Math.min(1, (innerHeight * .9 - atlasRect.top) / (innerHeight * .65)));
+  const heldScroll = pinning ? Math.max(0, Math.min(1, storyProgress)) * travel : 0;
+  const paintingRange = scrollable - (pinning ? travel : 0);
+  const paintingProgress = paintingRange > 0 ? Math.max(0, Math.min(1, (scrollY - heldScroll) / paintingRange)) : 0;
+  scrollStudy.style.setProperty("--study-ink", (motion ? Math.min(1, .08 + paintingProgress * 1.55) : 1).toFixed(4));
+  scrollStudy.style.setProperty("--study-color", (motion ? Math.max(0, Math.min(1, (paintingProgress - .08) / .82)) : 1).toFixed(4));
+  scrollStudy.style.setProperty("--study-drift", `${motion ? ((paintingProgress - .5) * (innerWidth <= 600 ? 16 : 52)).toFixed(2) : 0}px`);
+  const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !pinning ? 0
+    : Math.max(0, Math.min(1, (storyProgress - .18) / .64));
   atlas.style.setProperty("--atlas-progress", atlasProgress.toFixed(4));
   cityAtlas.update(atlasProgress);
-  folioLayers.forEach((layer) => {
-    const rect = layer.getBoundingClientRect();
+  folioLayers.forEach((layer, index) => {
+    const rect = layerRects[index];
     const layerProgress = motion
       ? Math.max(0, Math.min(1, (innerHeight - rect.top - rect.height / 2) / (innerHeight * .7)))
       : 1;
     layer.style.setProperty("--folio-progress", layerProgress.toFixed(4));
   });
   let current = null;
-  for (const section of sections) {
-    if (section.getBoundingClientRect().top <= 170) current = section.id;
+  for (let index = 0; index < sections.length; index += 1) {
+    if (sectionTops[index] <= 170) current = sections[index].id;
   }
   navLinks.forEach((link) => {
     if (link.hash === `#${current}`) {
@@ -477,8 +510,20 @@ function scheduleScrollUpdate() {
 }
 
 window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
-window.addEventListener("resize", scheduleScrollUpdate, { passive: true });
-window.addEventListener("load", scheduleScrollUpdate);
+function invalidateAtlasLayout() {
+  atlasLayoutDirty = true;
+  scheduleScrollUpdate();
+}
+window.addEventListener("resize", invalidateAtlasLayout, { passive: true });
+window.addEventListener("load", invalidateAtlasLayout);
+const atlasResize = new ResizeObserver(invalidateAtlasLayout);
+atlasResize.observe(atlas);
+atlasResize.observe(siteHeader);
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([entry]) => {
+    atlas.toggleAttribute("data-near", entry.isIntersecting);
+  }, { rootMargin: "100% 0px" }).observe(atlas);
+}
 
 document.querySelectorAll(".project-disclosure").forEach((details) => {
   details.addEventListener("toggle", scheduleScrollUpdate);
@@ -1024,7 +1069,7 @@ window.addEventListener("blur", resetNatureEffects);
 window.addEventListener("beforeprint", resetNatureEffects);
 window.addEventListener("scroll", () => {
   // A pointer event may already have sampled the new viewport before scroll is delivered.
-  if (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY) resetPointerEffects();
+  if (finePointer.matches && (window.scrollX !== pointerScrollX || window.scrollY !== pointerScrollY)) resetPointerEffects();
   pointerScrollX = window.scrollX;
   pointerScrollY = window.scrollY;
 }, { passive: true });

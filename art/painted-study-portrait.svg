@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280">
+  <title>A portrait watercolor study of mountain ridges, an open sky and a quiet lake</title>
+  <defs>
+    <filter id="portrait-pigment" x="-8%" y="-6%" width="116%" height="112%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".018 .025" numOctaves="2" seed="61" result="water"/>
+      <feDisplacementMap in="SourceGraphic" in2="water" scale="10" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feGaussianBlur in="edge" stdDeviation=".65" result="soft"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".36" numOctaves="2" seed="8" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .6 0 0 0 .3" result="tooth"/>
+      <feComposite in="soft" in2="tooth" operator="in"/>
+    </filter>
+    <linearGradient id="portrait-sky" x2=".2" y2="1">
+      <stop stop-color="#2c91d0" stop-opacity="0"/>
+      <stop offset=".25" stop-color="#2c91d0" stop-opacity=".6"/>
+      <stop offset=".65" stop-color="#72b8e5" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#abd6ef" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="portrait-far" x2=".3" y2="1">
+      <stop stop-color="#4985b6" stop-opacity=".65"/>
+      <stop offset=".64" stop-color="#75afd5" stop-opacity=".3"/>
+      <stop offset="1" stop-color="#add0e5" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="portrait-near" x2=".5" y2="1">
+      <stop stop-color="#2d759f" stop-opacity=".78"/>
+      <stop offset=".55" stop-color="#458cae" stop-opacity=".58"/>
+      <stop offset="1" stop-color="#8ebed6" stop-opacity=".05"/>
+    </linearGradient>
+    <linearGradient id="portrait-water" x2="0" y2="1">
+      <stop stop-color="#90d1eb" stop-opacity=".1"/>
+      <stop offset=".45" stop-color="#398fba" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#b0d6e7" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="portrait-edge-x">
+      <stop stop-color="white" stop-opacity="0"/><stop offset=".16" stop-color="white"/>
+      <stop offset=".84" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="portrait-edge-y" x2="0" y2="1">
+      <stop stop-color="white" stop-opacity="0"/><stop offset=".18" stop-color="white"/>
+      <stop offset=".84" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="portrait-side-fade"><path fill="url(#portrait-edge-x)" d="M0 0h720v1280H0z"/></mask>
+    <mask id="portrait-end-fade"><path fill="url(#portrait-edge-y)" d="M0 0h720v1280H0z"/></mask>
+    <g id="portrait-sketch" fill="none" stroke="#547c98" stroke-width="1.4" opacity=".42" stroke-linecap="round">
+      <path pathLength="1" d="m28 805 41-164 44 32 74-194 60 101 39-45 51 178"/>
+      <path pathLength="1" d="m414 732 37-158 38 40 69-242 49 145 38-41 47 229"/>
+      <path pathLength="1" d="m28 881 56-112 70 72 63-47 64 147 64 46"/>
+      <path pathLength="1" d="m692 840-49-139-62 79-49-38-59 180-74 70"/>
+      <path pathLength="1" d="M259 992q96-22 195 5M145 1111q153-29 421 8"/>
+    </g>
+  </defs>
+  <g mask="url(#portrait-side-fade)">
+    <g mask="url(#portrait-end-fade)">
+      <g filter="url(#portrait-pigment)">
+        <path fill="url(#portrait-sky)" d="M20 38C186 8 313 92 463 39S653 34 700 90L692 434C573 377 514 497 384 397S143 472 25 375Z"/>
+        <path fill="#589ece" opacity=".12" d="M20 214C138 180 159 279 131 419S94 647 22 689Z"/>
+        <path fill="#4b9bcb" opacity=".15" d="M695 211C605 194 614 334 642 418S610 544 697 595Z"/>
+        <path fill="url(#portrait-far)" d="m22 826 47-185 44 32 74-194 60 101 39-45 51 178 54 79 40-98 20-120 38 40 69-242 49 145 38-41 53 229v370H22Z"/>
+        <path fill="url(#portrait-far)" opacity=".63" d="m22 914 78-157 58 24 64-161 54 96 58-30 59 191 83-163 57 81 45-147 57 89 65 154v247H22Z"/>
+        <path fill="url(#portrait-near)" d="m22 888 62-119 70 72 63-47 64 147 64 46-52 91-136 94-129 43Z"/>
+        <path fill="url(#portrait-near)" d="m698 849-55-148-62 79-49-38-59 180-74 70 89 71 107 60 102 71Z"/>
+        <path fill="url(#portrait-water)" d="M248 984C318 965 393 977 457 991L616 1204C489 1176 474 1236 354 1211S164 1225 99 1187Z"/>
+        <path fill="#ab916a" opacity=".23" d="M26 1200C157 1138 195 1192 288 1165S414 1212 484 1172 619 1202 696 1173L696 1270H26Z"/>
+        <path fill="#48777d" opacity=".34" d="m58 1218 12-113 13 42 10-152 17 153 17-59 7 150Zm552 18 11-119 12 45 14-158 12 167 14-58 9 135Z"/>
+      </g>
+      <g fill="none" stroke-linecap="round">
+        <path stroke="#547993" stroke-width="1.2" opacity=".4" d="m69 641 44 32 74-194 60 101 39-45M451 574l38 40 69-242 49 145 38-41"/>
+        <path stroke="#eaf2eb" stroke-width="3" opacity=".64" d="m173 516 14-37 24 41-18-8-12 35m362-132 15-43 21 57-19-22-12 34"/>
+        <path stroke="#729daa" stroke-width="1.5" opacity=".5" d="M280 1035h73m39 16h43m-215 42h87m75 31h137m-326 27h74"/>
+        <path stroke="#497a80" stroke-width="1.8" opacity=".58" d="M84 1220q-2-111 12-197m-10 145-22-27m26-18 19-29m530 126q0-113 8-190m-7 139 24-31m-22-14-18-33"/>
+        <path stroke="#607d8d" stroke-width="1.8" opacity=".44" d="m292 321 12-7 12 7m29-33 10-5 10 5"/>
+      </g>
+    </g>
+  </g>
+</svg>
