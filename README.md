@@ -126,7 +126,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   scrolling. A native sticky `.atlas-story` lets the world map reach a readable
   position first, then holds the section while scrolling changes only the map
   camera. Its 1.35-viewport scroll runway reserves the first and last 18% for
-  the world and China/Japan views, with the zoom in between; it then releases naturally.
+  the world and China views, with the zoom in between; it then releases naturally.
   Reverse scrolling reverses the sequence. No wheel/touch events are intercepted.
   The background painting pauses during this runway, leaving only the map camera
   moving. Scroll-linked variables are scoped to their visual layers rather than
@@ -138,7 +138,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   city names does not shift the page or sticky reading position.
   The section is centered below the header when it fits; short screens align its
   lower map area above the viewport bottom rather than clipping the map.
-  World/China & Japan buttons provide manual control on every device;
+  World/China buttons provide manual control on every device;
   manual selection persists until "Follow scroll" is selected. Reduced motion
   and effects off remove the sticky runway and disable scroll-follow but retain
   immediate manual changes. No JS and print also use normal document flow.
@@ -159,9 +159,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Travel albums are Hangzhou/Shaoxing (seven photographs), Shanghai (five),
   Wuxi (seven), Tokyo/Yokohama/Mount Fuji (six), Osaka/Kyoto/Nara/Kobe (thirteen),
   and Okinawa (four), not additional residences.
-- `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
-  They use different, explicitly documented sources; see [Map sources](#map-sources).
+- `art/atlas-world.svg` is the shared rendering geometry for the world and its
+  China coloration. China changes its own gradient fill rather than receiving
+  a second, differently shaped overlay. `art/atlas-china.svg` retains the exact
+  pinned reference outline but is no longer a separate runtime mask.
+  The world source and China source are documented in [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
+  The map uses a short bilingual accessible name, not a long SVG-title tooltip.
 - `city-atlas.js` reads the local `places.json` and `art/city-regions.json`, and projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
   true coordinates; frameless, subtly shadowed names use collision-aware
@@ -196,9 +200,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Reduced motion and effects-off still skip these transitions. The outline
   shares the map's geographic transform; it is not a skyline or decorative icon.
   Coarse world context fades while the selected boundary is highlighted.
-  Above 12x zoom, whole-world masks stop painting rather than allocating enormous
-  offscreen surfaces; the geographic city outline remains visible through focus
-  and return. Normal world/China & Japan views and print restore the unchanged base masks.
+  Above 12x zoom, the shared world geometry stops painting; the geographic city
+  outline remains visible through focus and return. Normal world/China views
+  and print restore the common world paths.
   Entries without a region keep point-based focus. An off-camera
   city unfolds from the clicked list entry before its point comes into view.
   The actual pre-open camera is retained, including a partial scroll zoom or
@@ -353,9 +357,10 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
 
 ## Map sources
 
-- World land: [Natural Earth 1:110m](https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_110m_admin_0_countries.geojson),
+- World context: [Natural Earth 1:110m](https://github.com/nvkelso/natural-earth-vector/blob/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_110m_admin_0_countries.geojson),
   commit `ca96624a56bd078437bca8184e78163e5039ad19`, [public domain](https://www.naturalearthdata.com/about/terms-of-use/).
-- China highlight: [DataV.GeoAtlas](https://datav.aliyun.com/portal/school/atlas/area_selector),
+  Input SHA-256: `6866c877d39cba9c357620878839b336d569f8c662d3cfab4cb1dbe2d39c977f`.
+- Shared China geometry: [DataV.GeoAtlas](https://datav.aliyun.com/portal/school/atlas/area_selector),
   [national outline](https://geo.datav.aliyun.com/areas_v3/bound/100000.json).
   The exact input is preserved in `data/china-outline.geojson`, SHA-256
   `83ac502aeac66a5527607ec844169418505d990f1a2dc33226743643541eed3c`.
@@ -370,10 +375,20 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
   Consult the [official standard-map service](https://bzdt.ch.mnr.gov.cn/) when
   an approved standard-map publication is required.
 
-Regenerate both masks with
+The shared world replaces the coarse CHN/TWN shapes with the exact pinned
+China path. The other-country path excludes that same coverage, so the two
+painted regions cannot overlap. Enclosed gaps caused by the different border
+resolutions are filled outside the China path, preserving original lakes and
+source holes. Known source self-intersections are normalized only in working
+copies used for these boolean operations; the rendered 277-component China
+path and its source file remain unchanged. Coloring changes the existing
+China path's gradient, while paper texture reuses the same combined geometry.
+
+Regenerate the shared world and reference outline with
 `python scripts/export_atlas.py /path/to/ne_110m_admin_0_countries.geojson data/china-outline.geojson`.
 The exporter clips polygons at the new world seam, preserves polygon holes,
-and checks the China input hash before writing. Keep its `WEST = -30` aligned
+and checks both pinned input hashes before writing. Shapely is required only
+for authoring and tests, not for serving the website. Keep its `WEST = -30` aligned
 with `--atlas-west` in `folio.css`; city projection reads the CSS value directly.
 Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map changes.
 

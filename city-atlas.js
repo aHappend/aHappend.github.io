@@ -295,6 +295,7 @@ function createCityAtlas(atlas, getLanguage) {
   new ResizeObserver(positionAlbum).observe(dialog);
 
   function updateLabels() {
+    map.setAttribute("aria-label", getLanguage() === "zh" ? "世界地图" : "World map");
     close.setAttribute("aria-label", getLanguage() === "zh" ? "关闭城市相册" : "Close city album");
     list.setAttribute("aria-label", getLanguage() === "zh" ? "城市相册" : "City albums");
     homeRow.setAttribute("aria-label", getLanguage() === "zh" ? "久居城市" : "Places called home");
@@ -439,7 +440,6 @@ function createCityAtlas(atlas, getLanguage) {
 
   function renderCamera(view) {
     camera = view;
-    // Whole-world SVG masks become enormous offscreen surfaces at city scale.
     atlas.toggleAttribute("data-city-detail", view.zoom > 12);
     atlas.style.setProperty("--atlas-progress", view.progress.toFixed(4));
     geography.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.zoom})`;

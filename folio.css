@@ -220,7 +220,6 @@ html[data-effects="off"] .silicon-visual :is(.chip, .chip-array i) { animation: 
 .atlas-section:not([data-atlas-mode="follow"]) .atlas-geography { transition: transform 650ms cubic-bezier(.2,.75,.25,1); }
 .atlas-section[data-near] :is(.atlas-geography, .atlas-city-anchor) { will-change: transform; }
 .atlas-graticule { stroke: var(--accent); stroke-width: .7; opacity: .15; transform-origin: center; transform: rotate(calc(var(--atlas-progress) * -12deg)) scale(calc(1 + var(--atlas-progress) * .3)); }
-.atlas-china-wash { fill: var(--rust); opacity: calc(var(--atlas-progress) * .8); }
 .atlas-crosshairs { stroke: var(--accent); stroke-width: 1; opacity: .3; }
 .atlas-crosshairs circle { stroke-dasharray: 2 9; }
 .atlas-view-label { position: absolute; inset: 12px auto auto 14px; font-size: 8px; color: var(--muted); }
