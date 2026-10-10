@@ -17,6 +17,26 @@ function createPhotoDeck(gallery, getLanguage) {
   let suppressClickUntil = 0;
   const text = value => value[getLanguage()];
 
+  function updatePrintLabels(print, index) {
+    const chinese = getLanguage() === "zh";
+    const action = photos.length > 1 ? `${chinese ? "下一张照片" : "Next photograph"} · ` : "";
+    print.button.setAttribute("aria-label", `${action}${text(photos[index].alt)} · ${index + 1} / ${photos.length}`);
+    print.image.alt = text(photos[index].alt);
+    print.retry.textContent = chinese ? "重试" : "Retry";
+    print.failure.textContent = print.state === "error"
+      ? (print.timedOut
+        ? (chinese ? "照片加载超时，请重试。" : "Photo loading timed out. Please retry.")
+        : (chinese ? "这张照片暂时无法加载。" : "This photo could not be loaded."))
+      : (chinese ? "照片加载中…" : "Loading photograph…");
+  }
+
+  function updateLabels() {
+    const chinese = getLanguage() === "zh";
+    gallery.setAttribute("aria-label", chinese ? "城市照片" : "City photographs");
+    status.setAttribute("aria-label", chinese ? "照片序号" : "Photograph number");
+    prints.forEach(updatePrintLabels);
+  }
+
   function renderAttribution() {
     const credit = photos[active].credit;
     attribution.replaceChildren();
@@ -46,6 +66,19 @@ function createPhotoDeck(gallery, getLanguage) {
     if (pointer !== undefined && stack.hasPointerCapture(pointer)) stack.releasePointerCapture(pointer);
   }
 
+  function loadNextPhoto() {
+    const front = prints[active];
+    if (front.state === "waiting") front.load();
+    if (front.state !== "loaded" || prints.some(print => print.state === "loading")) return;
+    for (let depth = 1; depth < Math.min(3, prints.length); depth++) {
+      const next = prints[(active + depth) % prints.length];
+      if (next.state === "waiting") {
+        next.load();
+        return;
+      }
+    }
+  }
+
   function arrange() {
     const count = photos.length;
     for (const [index, print] of prints.entries()) {
@@ -57,15 +90,12 @@ function createPhotoDeck(gallery, getLanguage) {
       print.button.tabIndex = index === active && count > 1 ? 0 : -1;
       print.figure.setAttribute("aria-current", String(index === active));
       print.image.fetchPriority = depth === 0 ? "high" : "low";
-      if (depth < 3 && !print.image.hasAttribute("src")) {
-        print.image.loading = "eager";
-        if (print.source) print.source.srcset = photos[index].mobileSrc;
-        print.image.src = photos[index].src;
-      }
+      if (depth >= 3) print.cancel();
     }
     gallery.dataset.photoIndex = active;
     status.textContent = `${active + 1} / ${count}`;
     renderAttribution();
+    loadNextPhoto();
   }
 
   function select(index) {
@@ -133,27 +163,46 @@ function createPhotoDeck(gallery, getLanguage) {
 
   function render(nextPhotos) {
     cancelGesture();
-    if (photos !== nextPhotos) active = 0;
+    if (photos === nextPhotos) {
+      updateLabels();
+      arrange();
+      return;
+    }
+    for (const print of prints) print.cancel();
+    active = 0;
     photos = nextPhotos;
     prints = [];
     stack.replaceChildren();
     dialog.toggleAttribute("data-multiple", photos.length > 1);
-    const chinese = getLanguage() === "zh";
-    gallery.setAttribute("aria-label", chinese ? "城市照片" : "City photographs");
-    status.setAttribute("aria-label", chinese ? "照片序号" : "Photograph number");
     for (const [index, photo] of photos.entries()) {
       const figure = document.createElement("figure");
       const button = document.createElement("button");
       const image = document.createElement("img");
       const failure = document.createElement("span");
       const retry = document.createElement("button");
-      const picture = document.createElement("picture");
-      const source = photo.mobileSrc ? document.createElement("source") : null;
-      if (source) {
-        source.media = "(max-width: 900px)";
-        picture.append(source);
-      }
-      picture.append(image);
+      const preview = photo.mobileSrc || photo.src;
+      let timer = null;
+      const print = {
+        figure, button, image, failure, retry, state: "waiting", timedOut: false,
+        load(retrying = false) {
+          clearTimeout(timer);
+          print.state = "loading";
+          figure.removeAttribute("data-error");
+          failure.hidden = false;
+          retry.hidden = true;
+          updatePrintLabels(print, index);
+          image.loading = "eager";
+          timer = setTimeout(() => failed(true), 15000);
+          image.src = preview + (retrying ? `?retry=${Date.now()}` : "");
+          loaded();
+        },
+        cancel() {
+          if (print.state !== "loading") return;
+          clearTimeout(timer);
+          print.state = "waiting";
+          image.removeAttribute("src");
+        },
+      };
       figure.className = "city-print";
       const ratio = photo.width ? photo.width / photo.height : 1.5;
       figure.style.setProperty("--print-ratio", ratio);
@@ -161,9 +210,6 @@ function createPhotoDeck(gallery, getLanguage) {
       button.type = "button";
       button.className = "city-photo-select";
       button.disabled = photos.length < 2;
-      const action = photos.length > 1 ? `${chinese ? "下一张照片" : "Next photograph"} · ` : "";
-      button.setAttribute("aria-label", `${action}${text(photo.alt)} · ${index + 1} / ${photos.length}`);
-      image.alt = text(photo.alt);
       image.decoding = "async";
       image.draggable = false;
       if (photo.width) {
@@ -173,45 +219,52 @@ function createPhotoDeck(gallery, getLanguage) {
       failure.className = "city-photo-error";
       failure.hidden = false;
       failure.setAttribute("role", "status");
-      const loadingText = chinese ? "照片加载中…" : "Loading photograph…";
-      failure.textContent = loadingText;
       retry.type = "button";
       retry.className = "city-photo-retry";
-      retry.textContent = chinese ? "重试" : "Retry";
       retry.hidden = true;
       retry.addEventListener("click", event => {
         event.stopPropagation();
         cancelGesture();
-        retry.hidden = true;
-        figure.removeAttribute("data-error");
-        failure.textContent = loadingText;
-        const query = `?retry=${Date.now()}`;
-        if (source) source.srcset = photo.mobileSrc + query;
-        image.src = photo.src + query;
+        print.load(true);
       });
-      image.addEventListener("load", () => {
+      function loaded() {
+        if (print.state !== "loading" || !image.complete || !image.naturalWidth) return;
+        clearTimeout(timer);
+        print.state = "loaded";
         button.setAttribute("data-loaded", "");
         image.hidden = false;
         failure.hidden = retry.hidden = true;
         figure.removeAttribute("data-error");
-      });
-      image.addEventListener("error", () => {
+        loadNextPhoto();
+      }
+      function failed(timedOut = false) {
+        if (print.state !== "loading") return;
+        clearTimeout(timer);
+        print.state = "error";
+        print.timedOut = timedOut;
         button.removeAttribute("data-loaded");
         figure.setAttribute("data-error", "");
         image.hidden = true;
         failure.hidden = false;
         retry.hidden = false;
-        failure.textContent = chinese ? "这张照片暂时无法加载。" : "This photo could not be loaded.";
-        console.error("City photo could not be loaded:", image.currentSrc || photo.src);
+        updatePrintLabels(print, index);
+        image.removeAttribute("src");
+        console.error(timedOut ? "City photo request timed out:" : "City photo could not be loaded:", preview);
+        loadNextPhoto();
+      }
+      image.addEventListener("load", loaded);
+      image.addEventListener("error", () => {
+        if (image.complete && !image.naturalWidth) failed();
       });
-      button.append(picture, failure);
+      button.append(image, failure);
       figure.append(button, retry);
       figure.addEventListener("click", () => {
         if (photos.length > 1) select(active + 1);
       });
       stack.append(figure);
-      prints.push({ figure, button, image, source });
+      prints.push(print);
     }
+    updateLabels();
     arrange();
   }
 

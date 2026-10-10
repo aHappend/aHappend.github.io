@@ -699,11 +699,11 @@ function createCityAtlas(atlas, getLanguage) {
     }
   }
 
-  async function loadJson(path) {
+  async function loadJson(path, priority = "auto") {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 20000);
     try {
-      const response = await fetch(path, { cache: "no-cache", signal: controller.signal });
+      const response = await fetch(path, { cache: "no-cache", signal: controller.signal, priority });
       if (!response.ok) throw new Error(`City data request failed: ${path}, HTTP ${response.status}`);
       return await response.json();
     } finally {
@@ -716,7 +716,7 @@ function createCityAtlas(atlas, getLanguage) {
     entry.regionLoading = true;
     entry.regionError = false;
     updateLoadStatus();
-    loadJson(entry.region.pathFile)
+    loadJson(entry.region.pathFile, "low")
       .then(data => {
         if (data.id !== entry.region.id || typeof data.path !== "string" || !/^M[MLZ\d.,-]+$/.test(data.path)) {
           throw new TypeError("Invalid administrative-region outline");

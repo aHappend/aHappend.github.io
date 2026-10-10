@@ -124,8 +124,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The complete image uses `object-fit: contain`, with transparent feathered edges
   on all four sides blending into the blue paper. Its own pencil contours replace
   the wide-screen sketch; the shared sun/moon stays proportional and changes with
-  the theme. Phone/tablet sky images sit below the measured header in both
-  orientations, with enough contrast to remain visible before scrolling.
+  the theme. Sky images sit below the measured header on desktop and phones,
+  including space for the desktop's upward scroll drift. Phone/tablet images
+  retain enough contrast to remain visible before scrolling in both orientations.
   `scripts/export_portrait_background.py` bakes pigment filters into
   the corresponding transparent WebP once, so phones only composite a cached image
   instead of running turbulence filters while scrolling. Regenerate with
@@ -203,6 +204,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   `art/city-regions/<id>.json` on first opening that city, rather than downloading
   all outlines before the first screen. Photographs and the camera can open while
   an outline loads; a visible status identifies pending or failed geometry.
+  Outline requests use low fetch priority so photographs can appear first.
   Failed data requests have a retry button and a bounded request timeout.
   It projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
@@ -295,12 +297,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Phone cards use more of the available screen width while retaining a stable
   map-relative position and outer height when photographs change. Short phones
   reserve extra photo space without covering the remaining map or either city row.
-  Only the selected and next two photos start loading eagerly; later photos load
-  as they approach the front of the queue, without lazy-loading visible rear prints.
-  The selected image has higher fetch priority than rear prints. A `picture`
-  source selects metadata-free, 768px-long-edge derivatives on phone layouts,
-  while desktop retains the original 1600px exports. Loading photographs have
-  a visible status; failures expose a retry action without advancing the queue.
+  The selected photo loads first; once it is ready, the next two photos preload
+  one at a time in queue order. This prevents rear prints from sharing a slow
+  connection with the first photograph, even when a browser ignores priority hints.
+  Pending requests that leave the visible queue or belong to a replaced album
+  are cancelled. Theme/language changes update labels without rebuilding images
+  or restarting requests. Every small postcard, including desktop cards, uses the
+  metadata-free, 768px-long-edge `mobileSrc` derivative when available; original
+  full-size exports remain untouched. The selected image has higher fetch priority
+  than rear prints. Loading photographs have a visible status; errors or a
+  15-second timeout expose a retry action without advancing the queue.
   Outside clicks,
   Escape, focus return, translated image descriptions, and explicit data/image errors are
   preserved. Scrolling keeps the album attached to the map, not clamped to the
