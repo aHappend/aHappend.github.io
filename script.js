@@ -33,8 +33,18 @@ let selectedProject = projectCards[0];
 let atlasMode = "follow";
 const cityAtlas = createCityAtlas(atlas, () => language);
 
+document.querySelectorAll(".hero-index > a").forEach((link) => {
+  link.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse") link.setAttribute("data-pressed", "");
+  }, { passive: true });
+  for (const type of ["pointerup", "pointercancel", "lostpointercapture", "blur"]) {
+    link.addEventListener(type, () => link.removeAttribute("data-pressed"));
+  }
+});
+
 atlasControls.forEach((button) => {
   button.addEventListener("click", () => {
+    cityAtlas.resume();
     atlasMode = button.dataset.atlasView;
     atlas.dataset.atlasMode = atlasMode;
     atlasControls.forEach((control) => {
@@ -483,7 +493,6 @@ function updateScrollState() {
   scrollStudy.style.setProperty("--study-drift", `${motion ? ((paintingProgress - .5) * (innerWidth <= 600 ? 16 : 52)).toFixed(2) : 0}px`);
   const atlasProgress = atlasMode === "china" ? 1 : atlasMode === "world" || !pinning ? 0
     : Math.max(0, Math.min(1, (storyProgress - .18) / .64));
-  atlas.style.setProperty("--atlas-progress", atlasProgress.toFixed(4));
   cityAtlas.update(atlasProgress);
   folioLayers.forEach((layer, index) => {
     const rect = layerRects[index];

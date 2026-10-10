@@ -1,6 +1,8 @@
 function createCityAtlas(atlas, getLanguage) {
   const viewport = atlas.querySelector(".atlas-viewport");
   const map = atlas.querySelector(".atlas-map");
+  const geography = atlas.querySelector(".atlas-geography");
+  const cityLabel = atlas.querySelector(".atlas-city-label");
   const markers = atlas.querySelector(".atlas-city-markers");
   const list = atlas.querySelector(".atlas-city-list");
   const status = atlas.querySelector(".atlas-city-status");
@@ -10,6 +12,8 @@ function createCityAtlas(atlas, getLanguage) {
   const institution = dialog.querySelector(".city-institution");
   const gallery = dialog.querySelector(".city-gallery");
   const close = dialog.querySelector(".city-close");
+  const header = document.querySelector(".site-header");
+  const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
   atlas.dataset.cityState = "loading";
   const entries = [];
   let selectedPlace = null;
@@ -17,7 +21,17 @@ function createCityAtlas(atlas, getLanguage) {
   let loadingError = false;
   let progress = 0;
   let projection = null;
+  let projectionDirty = true;
   let renderedProgress = NaN;
+  let camera = null;
+  let savedCamera = null;
+  let cameraState = "base";
+  let cameraFrame = null;
+  let animation = null;
+  let restoredProgress = 0;
+  let resumeRequested = false;
+  let closing = false;
+  let lastMode = atlas.dataset.atlasMode;
   const institutions = {
     microsoft: { src: "institutions/microsoft.svg", name: { en: "Microsoft", zh: "微软" } },
     nju: { src: "institutions/nju.svg", name: { en: "Nanjing University", zh: "南京大学" } },
@@ -64,6 +78,7 @@ function createCityAtlas(atlas, getLanguage) {
 
   function renderGallery() {
     title.textContent = text(selectedPlace.name);
+    cityLabel.textContent = text(selectedPlace.name);
     residence.hidden = !selectedPlace.residence;
     residence.textContent = getLanguage() === "zh" ? "久居之地" : "A place called home";
     institution.replaceChildren();
@@ -131,17 +146,19 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   function positionAlbum() {
-    if (!dialog.matches(":popover-open")) return;
+    if (closing || !dialog.matches(":popover-open")) return;
     const entry = entries.find(({ place }) => place === selectedPlace);
     const point = entry.anchor.getBoundingClientRect();
     const bounds = viewport.getBoundingClientRect();
+    const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
+      projection.stacked ? bounds.top : 0);
     const onMap = point.left >= bounds.left && point.left <= bounds.right
-      && point.top >= bounds.top && point.top <= bounds.bottom;
-    const anchor = onMap ? point : trigger.getBoundingClientRect();
+      && point.top >= bounds.top && point.top <= bounds.bottom
+      && point.top >= topEdge && point.top <= innerHeight - 8;
+    const anchor = onMap ? point : entry.button.getBoundingClientRect();
     const x = anchor.left + anchor.width / 2;
     const y = anchor.top + anchor.height / 2;
     const screenWidth = document.documentElement.clientWidth;
-    const topEdge = document.querySelector(".site-header").getBoundingClientRect().bottom + 12;
     if (y < topEdge || y > innerHeight - 8 || x < 0 || x > screenWidth) {
       dialog.hidePopover();
       return;
@@ -166,12 +183,14 @@ function createCityAtlas(atlas, getLanguage) {
       return;
     }
     if (dialog.matches(":popover-open")) dialog.hidePopover();
+    if (!savedCamera) savedCamera = readCamera();
     selectedPlace = place;
     trigger = control;
     renderGallery();
     control.focus({ preventScroll: true });
+    closing = false;
+    atlas.dataset.cityFocus = place.id;
     dialog.showPopover({ source: control });
-    positionAlbum();
     dialog.scrollTop = gallery.scrollTop = 0;
     for (const { place: city, marker, button, anchor } of entries) {
       const active = city === place;
@@ -179,17 +198,28 @@ function createCityAtlas(atlas, getLanguage) {
       button.setAttribute("aria-expanded", String(active));
       anchor.toggleAttribute("data-open", active);
     }
+    animateCamera(() => cityCamera(place), "focusing", () => setCameraState("focused"));
   }
 
   close.addEventListener("click", () => dialog.hidePopover());
   dialog.addEventListener("beforetoggle", (event) => {
     if (event.newState !== "closed") return;
+    closing = true;
+    atlas.removeAttribute("data-city-focus");
     for (const { marker, button, anchor } of entries) {
       marker.setAttribute("aria-expanded", "false");
       button.setAttribute("aria-expanded", "false");
       anchor.removeAttribute("data-open");
     }
     if (dialog.contains(document.activeElement)) trigger?.focus({ preventScroll: true });
+    if (savedCamera) {
+      const destination = savedCamera;
+      animateCamera(() => destination, "returning", () => {
+        savedCamera = null;
+        restoredProgress = progress;
+        setCameraState("restored");
+      });
+    }
   });
   new ResizeObserver(positionAlbum).observe(dialog);
 
@@ -216,7 +246,7 @@ function createCityAtlas(atlas, getLanguage) {
   function resize() {
     const style = getComputedStyle(atlas);
     // Match SVG xMidYMid meet, including the portrait tablet's letterboxing.
-    const { width, height } = map.getBoundingClientRect();
+    const { width, height, top: mapTop } = map.getBoundingClientRect();
     const unit = Math.min(width / 1000, height / 500);
     const left = (width - 1000 * unit) / 2;
     const top = (height - 500 * unit) / 2;
@@ -226,23 +256,169 @@ function createCityAtlas(atlas, getLanguage) {
       west: Number(style.getPropertyValue("--atlas-west")),
       x: Number(style.getPropertyValue("--atlas-x")),
       y: Number(style.getPropertyValue("--atlas-y")),
+      cardWidth: parseFloat(getComputedStyle(dialog).width),
+      stacked: atlas.querySelector(".atlas-controls").getBoundingClientRect().bottom <= mapTop,
     };
+    projectionDirty = true;
     renderedProgress = NaN;
   }
 
+  function baseCamera() {
+    return {
+      zoom: 1 + progress * (projection.zoom - 1),
+      x: progress * projection.x, y: progress * projection.y, progress,
+    };
+  }
+
+  function readCamera() {
+    if (camera) return { ...camera };
+    // Capture the visible frame, not the endpoint of a manual CSS transition.
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(geography).transform);
+    return {
+      zoom: matrix.a, x: matrix.e, y: matrix.f,
+      progress: Number(getComputedStyle(atlas).getPropertyValue("--atlas-progress")),
+    };
+  }
+
+  function cityCamera(place) {
+    const { width, height, left, top, unit, west, cardWidth } = projection;
+    const longitude = ((place.longitude - west) % 360 + 360) % 360;
+    const besideCard = width - cardWidth - 44;
+    const center = besideCard >= 88 ? besideCard / 2
+      : width - Math.max(22, (width - cardWidth - 22) / 2);
+    const zoom = 12;
+    return {
+      zoom,
+      x: (center - left) / unit - longitude / 360 * 1000 * zoom,
+      y: (height / 2 - top) / unit - (90 - place.latitude) / 180 * 500 * zoom,
+      progress: savedCamera.progress,
+    };
+  }
+
+  function setCameraState(state) {
+    cameraState = state;
+    atlas.dataset.cameraState = state;
+  }
+
+  function renderCamera(view) {
+    camera = view;
+    atlas.style.setProperty("--atlas-progress", view.progress.toFixed(4));
+    geography.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.zoom})`;
+    renderPoints(view);
+  }
+
+  const cameraMotion = () => !motionPreference.matches
+    && document.documentElement.dataset.effects !== "off" && !document.hidden;
+
+  function finishAnimation() {
+    if (!animation) return;
+    const active = animation;
+    cancelAnimationFrame(cameraFrame);
+    cameraFrame = null;
+    renderCamera(active.destination());
+    if (animation !== active) return;
+    animation = null;
+    active.finish();
+  }
+
+  function animateCamera(destination, state, finish) {
+    const source = readCamera();
+    resize();
+    cancelAnimationFrame(cameraFrame);
+    cameraFrame = null;
+    const active = { source, destination, finish, start: performance.now() };
+    animation = active;
+    setCameraState(state);
+    if (!cameraMotion()) {
+      finishAnimation();
+      return;
+    }
+    renderCamera(source);
+    if (animation !== active) return;
+    function frame(now) {
+      cameraFrame = null;
+      if (!cameraMotion()) {
+        finishAnimation();
+        return;
+      }
+      // Print/rotation can change the SVG before the parent resize observer fires.
+      const { width, height } = map.getBoundingClientRect();
+      if (width !== projection.width || height !== projection.height) resize();
+      const fraction = Math.min(1, (now - active.start) / 560);
+      const eased = 1 - (1 - fraction) ** 3;
+      const target = destination();
+      const view = {};
+      for (const key of ["zoom", "x", "y", "progress"]) {
+        view[key] = source[key] + (target[key] - source[key]) * eased;
+      }
+      renderCamera(view);
+      // Positioning can dismiss an album that has scrolled offscreen.
+      if (animation !== active) return;
+      if (fraction < 1) {
+        cameraFrame = requestAnimationFrame(frame);
+      } else {
+        animation = null;
+        finish();
+      }
+    }
+    cameraFrame = requestAnimationFrame(frame);
+  }
+
+  function resumeCamera() {
+    if (dialog.matches(":popover-open")) dialog.hidePopover();
+    savedCamera = null;
+    animateCamera(baseCamera, "resuming", () => {
+      camera = null;
+      setCameraState("base");
+      geography.style.removeProperty("transform");
+      renderedProgress = NaN;
+      update(progress);
+    });
+  }
+
   function update(nextProgress) {
+    const mode = atlas.dataset.atlasMode;
+    const explicitView = resumeRequested || mode !== lastMode;
+    resumeRequested = false;
+    lastMode = mode;
     progress = nextProgress;
-    if (!entries.length) return;
     if (!projection) resize();
+    if (cameraState !== "base" && (explicitView
+      || (cameraState === "restored" && progress !== restoredProgress))) {
+      resumeCamera();
+      return;
+    }
+    if (animation) {
+      if (!cameraMotion()) finishAnimation();
+      else if (projectionDirty && camera) renderPoints(camera);
+      else positionAlbum();
+      return;
+    }
+    if (camera) {
+      renderCamera(cameraState === "focused" ? cityCamera(selectedPlace) : camera);
+      return;
+    }
+    atlas.style.setProperty("--atlas-progress", progress.toFixed(4));
     if (renderedProgress === progress) {
       positionAlbum();
       return;
     }
     renderedProgress = progress;
+    renderPoints(baseCamera());
+  }
+
+  motionPreference.addEventListener("change", () => {
+    if (!cameraMotion()) finishAnimation();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) finishAnimation();
+  });
+  window.addEventListener("beforeprint", finishAnimation);
+
+  function renderPoints(view) {
+    projectionDirty = false;
     const { width, height, unit, left, top, west } = projection;
-    const zoom = 1 + progress * (projection.zoom - 1);
-    const xOffset = progress * projection.x;
-    const yOffset = progress * projection.y;
+    const { zoom, x: xOffset, y: yOffset } = view;
     const points = entries.map((entry) => {
       const { place } = entry;
       const longitude = ((place.longitude - west) % 360 + 360) % 360;
@@ -251,6 +427,9 @@ function createCityAtlas(atlas, getLanguage) {
       const visible = x >= 0 && x <= width && y >= 0 && y <= height;
       return { ...entry, x, y, visible };
     });
+    if (atlas.hasAttribute("data-city-focus")) {
+      points.sort((a, b) => Number(b.place === selectedPlace) - Number(a.place === selectedPlace));
+    }
     const occupied = [];
     for (const { anchor, marker, leader, button, x, y, visible } of points) {
       anchor.style.transform = `translate(${x}px, ${y}px)`;
@@ -320,6 +499,7 @@ function createCityAtlas(atlas, getLanguage) {
       }
       list.hidden = !places.length;
       atlas.dataset.cityState = "ready";
+      renderedProgress = NaN;
       updateLabels();
       update(progress);
     })
@@ -330,5 +510,5 @@ function createCityAtlas(atlas, getLanguage) {
       updateLabels();
     });
 
-  return { update, updateLabels, resize };
+  return { update, updateLabels, resize, resume: () => { resumeRequested = true; } };
 }

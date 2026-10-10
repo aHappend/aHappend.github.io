@@ -42,12 +42,14 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   behind the heading and links rather than a separate illustration.
   The translucent pigment-wash hover/focus treatment is explicitly opt-in through
   `.watercolor-hover`, only for controls without a dedicated hover interaction:
-  the header contact link, menu/effects controls, close buttons, city-list entries,
+  the four "Start anywhere" entries, header contact link, menu/effects controls, close buttons, city-list entries,
   and photo credits. Navigation underlines, animated buttons, project previews,
   repository/research/social cards, map labels, and painting controls retain their
   own feedback without a second wash layered over it. The wash never intercepts
   pointer input or changes layout; disabled controls are excluded. The effects
   control keeps its existing status dot and uses a separate wash pseudo-element.
+  The homepage entries use this wash instead of their former title/arrow movement;
+  touch presses also reveal it without relying on hover.
   Keyboard focus receives the same feedback; reduced motion/effects-off remove
   its transition, and print removes the wash.
   Other hover treatments emphasize institutional marks and research evidence;
@@ -165,8 +167,18 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   A text city list provides a second way to open
   each album, including cities outside the current map frame. A small non-modal
   native popover unfolds sideways from the real city point and retracts to it
-  when closed. It flips/clamps to stay within the viewport; an off-camera city
-  unfolds from its city-list entry instead. The rest of the page stays visible
+  when closed. Opening also smoothly pans and zooms the map toward that city,
+  keeping the map and every coordinate dot on one animated camera. It leaves
+  space beside the point for the card where the viewport permits. An off-camera
+  city initially unfolds from its list entry before its point comes into view.
+  The actual pre-open camera is retained, including a partial scroll zoom or
+  interrupted manual transition, and restored on every dismissal. Switching
+  cities retains that original return view. Follow-scroll stays temporarily
+  suspended while the album is open; after restoring, the next scroll movement
+  smoothly rejoins the current scroll view. Explicit map controls take precedence.
+  The card flips/clamps to stay within the viewport; on stacked mobile layouts
+  it stays below the map controls and scrolls internally on short screens.
+  The rest of the page stays visible
   and scrollable, without a backdrop or focus trap. Printed-photo borders,
   paper shadows and slight rotations distinguish the pictures from a full-page
   gallery. A reserved 3:2 print area contains each complete image without cropping
@@ -174,8 +186,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   the same compact card. Outside clicks,
   Escape, focus return, translated captions, and explicit data/image errors are
   preserved. Scrolling keeps the card tied to its point and dismisses it when the
-  point leaves the readable screen. Reduced motion/effects-off remove both entry
-  and exit animation. Manual map transitions, portrait-tablet
+  point and list entry leave the readable screen. Reduced motion/effects-off remove
+  the card and camera animations while preserving focus and restoration. Manual map transitions, portrait-tablet
   letterboxing, reduced motion, and effects-off apply to the pins as well.
 - The HyperCut and Argus + ACE research maps are semantic HTML/CSS diagrams in
   `index.html`. They use the site's theme variables and remain bilingual,
@@ -303,8 +315,8 @@ Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map change
 
 Add only owner-confirmed cities to `places.json`. The initial four cities use
 owner-requested placeholder photographs from Wikimedia Commons. Every image is
-clearly labeled in both languages, with a linked source, author, license, and
-resize notice in its album. The local photographs retain their individual
+clearly labeled in both languages, with a linked source, author, and license;
+technical resize notices are not displayed in albums. The local photographs retain their individual
 licenses (CC BY-SA 4.0, or CC BY 3.0 for Suzhou); no endorsement is implied.
 They are 1280px Commons thumbnails, with no additional crops or color changes.
 Each entry requires `id` (unique lowercase letters/numbers/hyphens), bilingual
