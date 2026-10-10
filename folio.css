@@ -263,7 +263,7 @@ html[data-effects="off"] .atlas-section :is(.atlas-city-anchor, .atlas-city-mark
 .atlas-city-status { color: var(--rust); font-size: 12px; }
 .city-popover { --paper: #faf7ef; --ink: #163443; --muted: #53646b; --accent: #205d7b; --rust: #a64b30; position: fixed; inset: auto; width: min(320px, calc(100vw - 24px)); max-height: min(420px, var(--city-available-height, calc(100dvh - 100px))); margin: 0; padding: 14px 10px 10px; border: 1px solid #dbd7cb; background: var(--paper) url("art/studio-paper.svg"); color: var(--ink); box-shadow: 0 18px 42px #06192440, 0 3px 8px #06192424; overflow: hidden; grid-template-rows: auto minmax(0, 1fr); opacity: 0; transform-origin: 0 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); pointer-events: none; transition: opacity 260ms, transform 440ms cubic-bezier(.2,.75,.25,1), display 440ms allow-discrete, overlay 440ms allow-discrete; }
 .city-popover { height: min(370px, var(--city-available-height, calc(100dvh - 100px))); clip-path: inset(var(--city-clip-top, 0px) 0 0); }
-.city-popover:popover-open { display: grid; opacity: 1; transform: none; pointer-events: auto; }
+.city-popover:popover-open { display: grid; opacity: 1; transform: none; pointer-events: auto; transition-duration: 260ms, 700ms, 440ms, 440ms; transition-timing-function: ease, ease-in-out, ease, ease; }
 .city-popover[data-scroll-exit] { transform: none; transition: opacity 180ms, display 180ms allow-discrete, overlay 180ms allow-discrete; }
 @starting-style {
   .city-popover:popover-open { opacity: 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); }

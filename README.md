@@ -189,7 +189,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   when closed. Opening also smoothly pans and zooms the map to fit the city's
   entire administrative outline (Singapore uses the planning footprint described below),
   keeping the map and every coordinate dot on one animated camera. It leaves
-  space beside the outline for the card where the viewport permits. The outline
+  space beside the outline for the card where the viewport permits. Opening
+  uses a 1.2-second eased logarithmic zoom, panning toward the city ahead of the
+  close-up so the enlargement stays perceptible. The paper unfolds over 700ms;
+  closing retains its faster 560ms camera return and 440ms paper retraction.
+  Reduced motion and effects-off still skip these transitions. The outline
   shares the map's geographic transform; it is not a skyline or decorative icon.
   Coarse world context fades while the selected boundary is highlighted.
   Above 12x zoom, whole-world masks stop painting rather than allocating enormous

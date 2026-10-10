@@ -462,6 +462,9 @@ function createCityAtlas(atlas, getLanguage) {
 
   function animateCamera(destination, state, finish) {
     const source = readCamera();
+    const focusing = state === "focusing";
+    const bounds = focusing ? entries.find(entry => entry.place === selectedPlace).region?.bounds : null;
+    const duration = focusing ? 1200 : 560;
     resize();
     cancelAnimationFrame(cameraFrame);
     cameraFrame = null;
@@ -483,12 +486,24 @@ function createCityAtlas(atlas, getLanguage) {
       // Print/rotation can change the SVG before the parent resize observer fires.
       const { width, height } = map.getBoundingClientRect();
       if (width !== projection.width || height !== projection.height) resize();
-      const fraction = Math.min(1, (now - active.start) / 560);
+      const fraction = Math.max(0, Math.min(1, (now - active.start) / duration));
       const eased = 1 - (1 - fraction) ** 3;
       const target = destination();
       const view = {};
       for (const key of ["zoom", "x", "y", "progress"]) {
         view[key] = source[key] + (target[key] - source[key]) * eased;
+      }
+      if (focusing) {
+        // Ease the perceived scale, bringing the city into view before the close-up.
+        const zoomEase = (1 - Math.cos(Math.PI * fraction)) / 2;
+        view.zoom = source.zoom * (target.zoom / source.zoom) ** zoomEase;
+        const center = bounds ? [(bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2]
+          : [(500 - target.x) / target.zoom, (250 - target.y) / target.zoom];
+        for (const [index, axis] of ["x", "y"].entries()) {
+          const from = source[axis] + center[index] * source.zoom;
+          const to = target[axis] + center[index] * target.zoom;
+          view[axis] = from + (to - from) * eased - center[index] * view.zoom;
+        }
       }
       renderCamera(view);
       // Positioning can dismiss an album that has scrolled offscreen.
