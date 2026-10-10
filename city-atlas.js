@@ -11,6 +11,9 @@ function createCityAtlas(atlas, getLanguage) {
   const residence = dialog.querySelector(".city-residence");
   const institution = dialog.querySelector(".city-institution");
   const gallery = dialog.querySelector(".city-gallery");
+  const regionLayer = atlas.querySelector(".atlas-city-regions");
+  const regionCredit = dialog.querySelector(".city-region-credit");
+  const photoDeck = createPhotoDeck(gallery, getLanguage);
   const close = dialog.querySelector(".city-close");
   const header = document.querySelector(".site-header");
   const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
@@ -54,6 +57,7 @@ function createCityAtlas(atlas, getLanguage) {
         || !localized(place.name) || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180
         || !Number.isFinite(place.latitude) || Math.abs(place.latitude) > 90
         || !Array.isArray(place.photos) || !place.photos.length
+        || (place.region !== undefined && (typeof place.region !== "string" || !/^[a-z0-9-]+$/.test(place.region)))
         || (place.residence !== undefined && typeof place.residence !== "boolean")
         || (place.institution !== undefined && (typeof place.institution !== "string"
           || !Object.hasOwn(institutions, place.institution)))) {
@@ -64,6 +68,8 @@ function createCityAtlas(atlas, getLanguage) {
         if (!photo || typeof photo.src !== "string"
           || !/^photos\/[a-z0-9_./-]+\.(avif|jpe?g|png|webp)$/i.test(photo.src)
           || photo.src.split("/").includes("..") || !localized(photo.alt)
+          || ((photo.width !== undefined || photo.height !== undefined)
+            && (![photo.width, photo.height].every(value => Number.isSafeInteger(value) && value > 0)))
           || (photo.caption !== undefined && !localized(photo.caption))
           || (photo.credit !== undefined && (!photo.credit
             || !["author", "title", "license"].every((key) => nonempty(photo.credit[key]))
@@ -74,6 +80,28 @@ function createCityAtlas(atlas, getLanguage) {
       }
     }
     return data.places;
+  }
+
+  function validateRegions(data) {
+    if (!data || data.west !== Number(getComputedStyle(atlas).getPropertyValue("--atlas-west"))
+      || !Array.isArray(data.regions)) throw new TypeError("Invalid city-region projection");
+    const regions = new Map();
+    for (const region of data.regions) {
+      if (!region || typeof region.id !== "string" || !/^[a-z0-9-]+$/.test(region.id) || regions.has(region.id)
+        || typeof region.path !== "string" || !/^M[MLZ\d.,-]+$/.test(region.path)
+        || !Array.isArray(region.bounds) || region.bounds.length !== 4
+        || !region.bounds.every(Number.isFinite)
+        || region.bounds[0] < 0 || region.bounds[1] < 0
+        || region.bounds[2] > 1000 || region.bounds[3] > 500
+        || region.bounds[0] >= region.bounds[2] || region.bounds[1] >= region.bounds[3]
+        || (region.credit !== undefined && (!region.credit
+          || !nonempty(region.credit.label) || !nonempty(region.credit.license)
+          || !webLink(region.credit.source) || !webLink(region.credit.licenseUrl)))) {
+        throw new TypeError("Invalid administrative-region outline");
+      }
+      regions.set(region.id, region);
+    }
+    return regions;
   }
 
   function renderGallery() {
@@ -98,51 +126,23 @@ function createCityAtlas(atlas, getLanguage) {
       logo.src = identity.src;
       institution.append(logo);
     }
-    gallery.replaceChildren();
-    for (const photo of selectedPlace.photos) {
-      const figure = document.createElement("figure");
-      const image = document.createElement("img");
-      const caption = document.createElement("figcaption");
-      image.alt = text(photo.alt);
-      image.loading = "lazy";
-      image.decoding = "async";
-      const failure = document.createElement("p");
-      failure.className = "city-photo-error";
-      failure.hidden = true;
-      failure.setAttribute("role", "status");
-      failure.textContent = getLanguage() === "zh" ? "这张照片暂时无法加载。" : "This photo could not be loaded.";
-      image.addEventListener("error", () => {
-        image.hidden = true;
-        failure.hidden = false;
-        console.error("City photo could not be loaded:", photo.src);
-      }, { once: true });
-      image.src = photo.src;
-      figure.append(image, failure);
-      if (photo.caption) {
-        caption.textContent = text(photo.caption);
+    const credit = entries.find(entry => entry.place === selectedPlace).region?.credit;
+    regionCredit.replaceChildren();
+    regionCredit.hidden = !credit;
+    if (credit) {
+      const source = document.createElement("a");
+      const license = document.createElement("a");
+      source.href = credit.source;
+      source.textContent = credit.label;
+      license.href = credit.licenseUrl;
+      license.textContent = credit.license;
+      for (const link of [source, license]) {
+        link.target = "_blank";
+        link.rel = "noreferrer";
       }
-      if (photo.credit) {
-        const credit = document.createElement("span");
-        credit.className = "city-photo-credit";
-        const source = document.createElement("a");
-        source.href = photo.credit.source;
-        source.textContent = photo.credit.author;
-        source.title = photo.credit.title;
-        const license = document.createElement("a");
-        license.href = photo.credit.licenseUrl;
-        license.textContent = photo.credit.license;
-        for (const link of [source, license]) {
-          link.className = "watercolor-hover";
-          link.target = "_blank";
-          link.rel = "noreferrer";
-        }
-        credit.append(source, " · ", license);
-        if (photo.credit.changes) credit.append(` · ${text(photo.credit.changes)}`);
-        caption.append(credit);
-      }
-      if (caption.hasChildNodes()) figure.append(caption);
-      gallery.append(figure);
+      regionCredit.append(source, " · ", license);
     }
+    photoDeck.render(selectedPlace.photos);
   }
 
   function positionAlbum() {
@@ -150,8 +150,9 @@ function createCityAtlas(atlas, getLanguage) {
     const entry = entries.find(({ place }) => place === selectedPlace);
     const point = entry.anchor.getBoundingClientRect();
     const bounds = viewport.getBoundingClientRect();
+    const regionalPhone = Boolean(entry.region) && projection.stacked && projection.width <= 600;
     const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
-      projection.stacked ? bounds.top : 0);
+      projection.stacked && !regionalPhone ? bounds.top : 0);
     const onMap = point.left >= bounds.left && point.left <= bounds.right
       && point.top >= bounds.top && point.top <= bounds.bottom
       && point.top >= topEdge && point.top <= innerHeight - 8;
@@ -163,18 +164,36 @@ function createCityAtlas(atlas, getLanguage) {
       dialog.hidePopover();
       return;
     }
-    dialog.style.maxHeight = `${Math.max(100, innerHeight - topEdge - 12)}px`;
+    const available = regionalPhone
+      ? Math.min(350, Math.max(244, bounds.top - topEdge - 12 + bounds.height * .18))
+      : Math.max(100, innerHeight - topEdge - 12);
+    dialog.style.setProperty("--city-available-height", `${Math.min(available, innerHeight - topEdge - 12)}px`);
     const width = dialog.offsetWidth;
     const height = dialog.offsetHeight;
-    const right = x + 22 + width <= screenWidth - 12;
-    const left = Math.max(12, Math.min(screenWidth - width - 12, right ? x + 22 : x - width - 22));
-    const top = Math.max(topEdge, Math.min(innerHeight - height - 12, y - height * .3));
+    let right = x + 22 + width <= screenWidth - 12;
+    let preferredLeft = right ? x + 22 : x - width - 22;
+    if (entry.region && camera && !regionalPhone) {
+      const [west, , east] = entry.region.bounds;
+      const edgeLeft = bounds.left + projection.left + (west * camera.zoom + camera.x) * projection.unit;
+      const edgeRight = bounds.left + projection.left + (east * camera.zoom + camera.x) * projection.unit;
+      if (edgeRight + 18 + width <= screenWidth - 12) {
+        preferredLeft = Math.max(x + 22, edgeRight + 18);
+        right = true;
+      } else if (edgeLeft - width - 18 >= 12) {
+        preferredLeft = Math.min(x - width - 22, edgeLeft - width - 18);
+        right = false;
+      }
+    }
+    const left = Math.max(12, Math.min(screenWidth - width - 12, preferredLeft));
+    const preferredTop = regionalPhone ? bounds.top + bounds.height * .18 - height - 8 : y - height * .3;
+    const top = Math.max(topEdge, Math.min(innerHeight - height - 12, preferredTop));
     dialog.style.left = `${left}px`;
     dialog.style.top = `${top}px`;
     dialog.style.setProperty("--city-retract-x", `${x - left}px`);
     dialog.style.setProperty("--city-retract-y", `${y - top}px`);
     dialog.dataset.side = right ? "right" : "left";
     dialog.dataset.anchor = onMap ? "map" : "list";
+    dialog.dataset.placement = regionalPhone ? "above-map" : "beside-map";
   }
 
   function open(place, control) {
@@ -190,21 +209,30 @@ function createCityAtlas(atlas, getLanguage) {
     control.focus({ preventScroll: true });
     closing = false;
     atlas.dataset.cityFocus = place.id;
+    if (place.region) atlas.dataset.cityRegion = place.region;
+    else atlas.removeAttribute("data-city-region");
     dialog.showPopover({ source: control });
     dialog.scrollTop = gallery.scrollTop = 0;
-    for (const { place: city, marker, button, anchor } of entries) {
+    for (const { place: city, marker, button, anchor, regionPath } of entries) {
       const active = city === place;
       marker.setAttribute("aria-expanded", String(active));
       button.setAttribute("aria-expanded", String(active));
       anchor.toggleAttribute("data-open", active);
+      regionPath?.toggleAttribute("data-active", active);
     }
     animateCamera(() => cityCamera(place), "focusing", () => setCameraState("focused"));
   }
 
   close.addEventListener("click", () => dialog.hidePopover());
+  function clearRegion() {
+    atlas.removeAttribute("data-city-region");
+    for (const { regionPath } of entries) regionPath?.removeAttribute("data-active");
+  }
+
   dialog.addEventListener("beforetoggle", (event) => {
     if (event.newState !== "closed") return;
     closing = true;
+    photoDeck.cancelGesture();
     atlas.removeAttribute("data-city-focus");
     for (const { marker, button, anchor } of entries) {
       marker.setAttribute("aria-expanded", "false");
@@ -217,9 +245,10 @@ function createCityAtlas(atlas, getLanguage) {
       animateCamera(() => destination, "returning", () => {
         savedCamera = null;
         restoredProgress = progress;
+        clearRegion();
         setCameraState("restored");
       });
-    }
+    } else clearRegion();
   });
   new ResizeObserver(positionAlbum).observe(dialog);
 
@@ -235,8 +264,8 @@ function createCityAtlas(atlas, getLanguage) {
     }
     status.hidden = !loadingError;
     if (loadingError) status.textContent = getLanguage() === "zh"
-      ? "城市相册数据暂时无法加载，地图仍可浏览。"
-      : "City albums could not be loaded. The map is still available.";
+      ? "城市相册或行政区数据暂时无法加载，世界地图仍可浏览。"
+      : "City albums or region outlines could not be loaded. The world map is still available.";
     if (dialog.matches(":popover-open")) {
       renderGallery();
       positionAlbum();
@@ -282,6 +311,23 @@ function createCityAtlas(atlas, getLanguage) {
 
   function cityCamera(place) {
     const { width, height, left, top, unit, west, cardWidth } = projection;
+    const region = entries.find(entry => entry.place === place).region;
+    if (region) {
+      const [x1, y1, x2, y2] = region.bounds;
+      const availableBeside = width - cardWidth - 64;
+      const aboveMap = projection.stacked && width <= 600;
+      const frameRight = !aboveMap && availableBeside >= 96 ? 24 + availableBeside : width - 24;
+      const frameTop = aboveMap ? height * .3 + 12 : 24;
+      const frameBottom = height - 20;
+      const zoom = Math.min(512, (frameRight - 24) / ((x2 - x1) * unit),
+        (frameBottom - frameTop) / ((y2 - y1) * unit));
+      return {
+        zoom,
+        x: ((24 + frameRight) / 2 - left) / unit - (x1 + x2) / 2 * zoom,
+        y: ((frameTop + frameBottom) / 2 - top) / unit - (y1 + y2) / 2 * zoom,
+        progress: savedCamera.progress,
+      };
+    }
     const longitude = ((place.longitude - west) % 360 + 360) % 360;
     const besideCard = width - cardWidth - 44;
     const center = besideCard >= 88 ? besideCard / 2
@@ -302,6 +348,8 @@ function createCityAtlas(atlas, getLanguage) {
 
   function renderCamera(view) {
     camera = view;
+    // Whole-world SVG masks become enormous offscreen surfaces at city scale.
+    atlas.toggleAttribute("data-city-detail", view.zoom > 12);
     atlas.style.setProperty("--atlas-progress", view.progress.toFixed(4));
     geography.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.zoom})`;
     renderPoints(view);
@@ -369,8 +417,11 @@ function createCityAtlas(atlas, getLanguage) {
     savedCamera = null;
     animateCamera(baseCamera, "resuming", () => {
       camera = null;
-      setCameraState("base");
       geography.style.removeProperty("transform");
+      // Commit the endpoint before manual CSS transitions become active again.
+      geography.getBoundingClientRect();
+      clearRegion();
+      setCameraState("base");
       renderedProgress = NaN;
       update(progress);
     });
@@ -459,13 +510,19 @@ function createCityAtlas(atlas, getLanguage) {
     positionAlbum();
   }
 
-  fetch("places.json", { cache: "no-cache" })
-    .then((response) => {
-      if (!response.ok) throw new Error(`City data request failed: HTTP ${response.status}`);
-      return response.json();
-    })
-    .then(validate)
-    .then((places) => {
+  async function loadJson(path) {
+    const response = await fetch(path, { cache: "no-cache" });
+    if (!response.ok) throw new Error(`City data request failed: ${path}, HTTP ${response.status}`);
+    return response.json();
+  }
+
+  Promise.all([loadJson("places.json"), loadJson("art/city-regions.json")])
+    .then(([data, regionData]) => {
+      const places = validate(data);
+      const regions = validateRegions(regionData);
+      for (const place of places) {
+        if (place.region && !regions.has(place.region)) throw new TypeError(`Missing region outline: ${place.region}`);
+      }
       if (places.length && typeof dialog.showPopover !== "function") {
         throw new Error("City albums require native popover support");
       }
@@ -484,7 +541,6 @@ function createCityAtlas(atlas, getLanguage) {
         leader.setAttribute("aria-hidden", "true");
         marker.type = button.type = "button";
         marker.className = "atlas-city-marker";
-        button.className = "watercolor-hover";
         marker.dataset.city = button.dataset.city = place.id;
         for (const control of [marker, button]) {
           control.setAttribute("aria-haspopup", "dialog");
@@ -495,7 +551,17 @@ function createCityAtlas(atlas, getLanguage) {
         anchor.append(leader, dot, marker);
         markers.append(anchor);
         list.append(button);
-        entries.push({ place, anchor, marker, leader, button });
+        const region = place.region ? regions.get(place.region) : null;
+        let regionPath = null;
+        if (region) {
+          regionPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          regionPath.classList.add("atlas-city-region");
+          regionPath.dataset.city = place.id;
+          regionPath.setAttribute("fill-rule", "evenodd");
+          regionPath.setAttribute("d", region.path);
+          regionLayer.append(regionPath);
+        }
+        entries.push({ place, anchor, marker, leader, button, region, regionPath });
       }
       list.hidden = !places.length;
       atlas.dataset.cityState = "ready";

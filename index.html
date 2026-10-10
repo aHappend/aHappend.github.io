@@ -36,7 +36,7 @@
     </noscript>
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261012-city-camera">
+    <link rel="stylesheet" href="folio.css?v=20261010-city-regions">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -134,11 +134,11 @@
             <path d="m13 21 4-10 4 10m-6.5-4h5"></path>
           </svg>
         </button>
-        <a class="header-cta watercolor-hover" href="mailto:sufeng_guo@smail.nju.edu.cn">
+        <a class="header-cta" href="mailto:sufeng_guo@smail.nju.edu.cn">
           <span data-en="Let's talk" data-zh="联系我">Let's talk</span>
           <span aria-hidden="true">↗</span>
         </a>
-        <button class="menu-toggle enhanced-control watercolor-hover" type="button" aria-expanded="false"
+        <button class="menu-toggle enhanced-control" type="button" aria-expanded="false"
                 aria-controls="primary-navigation" aria-label="Open navigation">
           <span></span><span></span>
         </button>
@@ -410,9 +410,12 @@
                 <ellipse cx="500" cy="250" rx="410" ry="194" transform="rotate(-12 500 250)"/>
               </g>
               <g class="atlas-geography">
+                <g class="atlas-context">
                 <rect width="1000" height="500" fill="url(#atlas-pigment)" mask="url(#atlas-world-mask)"/>
                 <rect class="atlas-china-wash" width="1000" height="500" mask="url(#atlas-china-mask)"/>
                 <rect width="1000" height="500" fill="url(#atlas-paper-pattern)" opacity=".22" mask="url(#atlas-world-mask)"/>
+                </g>
+                <g class="atlas-city-regions"></g>
               </g>
               <g class="atlas-crosshairs" fill="none">
                 <path d="M20 40h24M32 28v24M956 460h24M968 448v24"/>
@@ -1318,7 +1321,7 @@
     </main>
     <p id="scene-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
     <dialog class="painting-dialog" aria-labelledby="painting-title">
-      <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close watercolor-hover">×</button></form>
+      <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close">×</button></form>
       <p class="mono" id="painting-title" data-en="FROM A FEW LINES, A LANDSCAPE." data-zh="从几笔线条，到一幅风景。">FROM A FEW LINES, A LANDSCAPE.</p>
       <img src="art/painted-study.svg?v=20261011-sky-cycle" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
       <p data-en="An original study for this website—not a photograph of a place I've visited."
@@ -1335,18 +1338,20 @@
     </footer>
 
     <div class="city-popover" id="city-album" popover="auto" role="dialog" aria-labelledby="city-album-title">
-      <button class="city-close watercolor-hover" type="button" aria-label="Close city album" autofocus>×</button>
+      <button class="city-close" type="button" aria-label="Close city album" autofocus>×</button>
       <div class="city-heading">
         <div>
           <p class="city-residence" hidden></p>
           <h2 id="city-album-title"></h2>
         </div>
         <div class="city-institution" hidden></div>
+        <div class="city-region-credit" hidden></div>
       </div>
       <div class="city-gallery"></div>
     </div>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="city-atlas.js?v=20261012-city-camera"></script>
+    <script src="photo-deck.js?v=20261010-city-regions"></script>
+    <script src="city-atlas.js?v=20261010-city-regions"></script>
     <script src="script.js?v=20261012-city-camera"></script>
   </body>
 </html>

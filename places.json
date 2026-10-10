@@ -7,6 +7,7 @@
       "latitude": 39.9042,
       "residence": true,
       "institution": "microsoft",
+      "region": "beijing",
       "photos": [{
         "src": "photos/beijing-placeholder.jpg",
         "alt": { "en": "Beijing CBD skyline under a blue sky", "zh": "蓝天下的北京中央商务区天际线" },
@@ -27,6 +28,7 @@
       "latitude": 32.0603,
       "residence": true,
       "institution": "nju",
+      "region": "nanjing",
       "photos": [{
         "src": "photos/nanjing-placeholder.jpg",
         "alt": { "en": "Illuminated buildings reflected in Nanjing's Qinhuai River at night", "zh": "南京秦淮河夜色与沿岸灯火的倒影" },
@@ -47,18 +49,51 @@
       "latitude": 31.2989,
       "residence": true,
       "institution": "nju",
-      "photos": [{
-        "src": "photos/suzhou-placeholder.jpg",
-        "alt": { "en": "Canal and traditional riverside buildings along Pingjiang Road in Suzhou", "zh": "苏州平江路的河道与沿河传统建筑" },
-        "caption": { "en": "Placeholder photo · Pingjiang Road", "zh": "占位照片 · 平江路" },
-        "credit": {
-          "author": "song songroov",
-          "title": "Riverside of Pingjiang Road, Gusu, Suzhou, Jiangsu, China, 215000",
-          "source": "https://commons.wikimedia.org/wiki/File:Riverside_of_Pingjiang_Road,_Gusu,_Suzhou,_Jiangsu,_China,_215000.jpg",
-          "license": "CC BY 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+      "region": "suzhou",
+      "photos": [
+        {
+          "src": "photos/suzhou-skyline.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Suzhou's lakeside skyline across blue water", "zh": "碧蓝湖水对岸的苏州城市天际线" },
+          "caption": { "en": "Along the lake", "zh": "湖畔天际线" }
+        },
+        {
+          "src": "photos/suzhou-nju-facade.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Nanjing University's name and emblem on a glass campus facade in Suzhou", "zh": "苏州校园玻璃幕墙上的南京大学校名与校徽" },
+          "caption": { "en": "A familiar name", "zh": "熟悉的校名" }
+        },
+        {
+          "src": "photos/suzhou-campus-motto.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Nanjing University's motto reflected in a pool beside a campus building", "zh": "南京大学校训与校园建筑映在水池中" },
+          "caption": { "en": "Words in reflection", "zh": "校训与倒影" }
+        },
+        {
+          "src": "photos/suzhou-pagoda.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A tall, weathered stone pagoda rising above trees in Suzhou", "zh": "苏州古塔的层层塔檐与树梢" },
+          "caption": { "en": "Looking upward", "zh": "仰望古塔" }
+        },
+        {
+          "src": "photos/suzhou-canal-boats.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Wooden boats passing whitewashed houses along a Suzhou canal", "zh": "木船驶过苏州水巷，两岸是白墙黛瓦" },
+          "caption": { "en": "Through the water lanes", "zh": "水巷行舟" }
+        },
+        {
+          "src": "photos/suzhou-canal-view.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A view along a Suzhou canal from beneath a yellow boat canopy", "zh": "从黄色船篷下望向苏州沿河街巷" },
+          "caption": { "en": "From the boat", "zh": "舟中望去" }
+        },
+        {
+          "src": "photos/suzhou-garden.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "A white garden corridor and green trees reflected in a still pond", "zh": "园林白墙长廊与绿树倒映在静水中" },
+          "caption": { "en": "A quieter corner", "zh": "园林一隅" }
         }
-      }]
+      ]
     },
     {
       "id": "singapore",
@@ -67,6 +102,7 @@
       "latitude": 1.3521,
       "residence": true,
       "institution": "ntu",
+      "region": "singapore",
       "photos": [{
         "src": "photos/singapore-placeholder.jpg",
         "alt": { "en": "Singapore's ArtScience Museum and Marina Bay skyline in the afternoon", "zh": "午后的新加坡艺术科学博物馆与滨海湾天际线" },

@@ -42,8 +42,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   behind the heading and links rather than a separate illustration.
   The translucent pigment-wash hover/focus treatment is explicitly opt-in through
   `.watercolor-hover`, only for controls without a dedicated hover interaction:
-  the four "Start anywhere" entries, header contact link, menu/effects controls, close buttons, city-list entries,
-  and photo credits. Navigation underlines, animated buttons, project previews,
+  the four "Start anywhere" entries and the effects control. Small icon buttons
+  use bounded background feedback with inset focus outlines, city-list entries
+  use an underline, and source/license links change color. Photo prints use
+  paper depth and shadows, not another paint overlay.
+  Navigation underlines, animated buttons, project previews,
   repository/research/social cards, map labels, and painting controls retain their
   own feedback without a second wash layered over it. The wash never intercepts
   pointer input or changes layout; disabled controls are excluded. The effects
@@ -148,13 +151,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   composition. Scroll progress is measured from the story wrapper after the
   section reaches its sticky reading position, not from first entering the screen.
   `places.json` currently contains four owner-selected long-term places:
-  Beijing, Nanjing, Suzhou, and Singapore. At the owner's request, each album
-  starts with an explicitly labeled, openly licensed placeholder photograph.
-  These are not the owner's photographs or a claim about when a visit occurred.
+  Beijing, Nanjing, Suzhou, and Singapore. Suzhou contains seven owner-supplied
+  photographs; the other three use explicitly labeled, licensed placeholders,
+  not claims about the owner's photography or dates of travel.
 - `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
   They use different, explicitly documented sources; see [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
-- `city-atlas.js` reads the local `places.json`, projects longitude/latitude
+- `city-atlas.js` reads the local `places.json` and `art/city-regions.json`, and projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
   true coordinates; frameless, bold, contrast-outlined names use collision-aware
   callouts and fine leaders. Their transparent 80×44px targets keep nearby cities
@@ -167,23 +170,36 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   A text city list provides a second way to open
   each album, including cities outside the current map frame. A small non-modal
   native popover unfolds sideways from the real city point and retracts to it
-  when closed. Opening also smoothly pans and zooms the map toward that city,
+  when closed. Opening also smoothly pans and zooms the map to fit the city's
+  entire administrative outline (Singapore uses the planning footprint described below),
   keeping the map and every coordinate dot on one animated camera. It leaves
-  space beside the point for the card where the viewport permits. An off-camera
+  space beside the outline for the card where the viewport permits. The outline
+  shares the map's geographic transform; it is not a skyline or decorative icon.
+  Coarse world context fades while the selected boundary is highlighted.
+  Above 12x zoom, whole-world masks stop painting rather than allocating enormous
+  offscreen surfaces; the geographic city outline remains visible through focus
+  and return. Normal world/China views and print restore the unchanged base masks.
+  Entries without a region keep point-based focus. An off-camera
   city initially unfolds from its list entry before its point comes into view.
   The actual pre-open camera is retained, including a partial scroll zoom or
   interrupted manual transition, and restored on every dismissal. Switching
   cities retains that original return view. Follow-scroll stays temporarily
   suspended while the album is open; after restoring, the next scroll movement
   smoothly rejoins the current scroll view. Explicit map controls take precedence.
-  The card flips/clamps to stay within the viewport; on stacked mobile layouts
-  it stays below the map controls and scrolls internally on short screens.
+  The card flips/clamps to stay within the viewport; on narrow stacked layouts
+  it unfolds above the map, leaving the actual geographic outline visible below.
+  Single-photo credits can scroll internally on short screens.
   The rest of the page stays visible
   and scrollable, without a backdrop or focus trap. Printed-photo borders,
   paper shadows and slight rotations distinguish the pictures from a full-page
-  gallery. A reserved 3:2 print area contains each complete image without cropping
-  and keeps the card stable while a photo loads. Additional photos scroll inside
-  the same compact card. Outside clicks,
+  gallery. `photo-deck.js` layers additional prints with exposed corners:
+  click a rear print to bring it forward, swipe horizontally on a phone, or
+  use Left/Right/Home/End while a print is focused. The small counter tracks
+  the current photograph. Vertical touch gestures remain native page scrolling.
+  Explicit image dimensions preserve portrait/landscape framing without cropping;
+  legacy photos without dimensions use a contained 3:2 area.
+  Only the selected and adjacent photos start loading; other photos load as needed.
+  Outside clicks,
   Escape, focus return, translated captions, and explicit data/image errors are
   preserved. Scrolling keeps the card tied to its point and dismisses it when the
   point and list entry leave the readable screen. Reduced motion/effects-off remove
@@ -311,18 +327,60 @@ and checks the China input hash before writing. Keep its `WEST = -30` aligned
 with `--atlas-west` in `folio.css`; city projection reads the CSS value directly.
 Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map changes.
 
+### City-region outlines
+
+`data/city-regions.geojson` records the normalized geometry, input SHA-256,
+source URL, coordinate convention, and access date (2026-10-10).
+`art/city-regions.json` is its compact projected runtime representation.
+
+- Beijing municipality (110000), Nanjing prefecture (320100), and Suzhou
+  prefecture (320500): [DataV GeoAtlas](https://help.aliyun.com/en/datav/datav-7-0/user-guide/datav-geoatlas-widgets/).
+  The whole-unit sources are
+  `https://geo.datav.aliyun.com/areas_v3/bound/<adcode>.json`.
+  These are administrative extents, not just built-up city centers. DataV
+  documents AMAP provenance and a primarily
+  [GCJ-02 coordinate convention](https://www.alibabacloud.com/help/en/datav/datav-7-0/user-guide/map-data-format-1).
+  Coordinates remain as supplied, consistent with the existing national highlight;
+  do not describe the mixed-source map as survey-grade WGS84 alignment.
+  DataV presents these data for learning/communication and directs copyright
+  inquiries to AMAP; no blanket unrestricted license is asserted here.
+- Singapore: [URA Master Plan 2025 Planning Area Boundary (No Sea)](https://data.gov.sg/datasets/d_2cc750190544007400b2cfd5d7f53209/view),
+  used under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence).
+  Dissolving the 55 planning areas retains all 47 geographic components.
+  This is an indicative planning footprint excluding sea, **not** a territorial-water
+  or cadastral boundary, or a guarantee of present-day coastline precision.
+  The album displays source and license links; neither URA nor data.gov.sg endorses this site.
+
+To regenerate, save the four source collections as `beijing.json`, `nanjing.json`,
+`suzhou.json`, and `singapore.json` in a local source directory, then run:
+
+```sh
+python scripts/export_city_regions.py /path/to/city-region-sources --accessed YYYY-MM-DD
+python -m unittest discover -s scripts -p 'test_*.py'
+```
+
+The optional authoring/tests require Shapely and Pillow (`python -m pip install
+shapely Pillow`); serving the site does not. The exporter dissolves internal
+planning boundaries, preserves every geographic component, and limits simplification
+area change to 0.1%. It uses the same seam/projection compiler as the national map.
+Never change the pinned 277-component China source when refreshing city outlines.
+
 ## Adding city photos
 
-Add only owner-confirmed cities to `places.json`. The initial four cities use
-owner-requested placeholder photographs from Wikimedia Commons. Every image is
+Add only owner-confirmed cities to `places.json`. Suzhou now uses the owner's seven
+photographs. Beijing, Nanjing, and Singapore retain owner-requested placeholder
+photographs from Wikimedia Commons. Every placeholder is
 clearly labeled in both languages, with a linked source, author, and license;
-technical resize notices are not displayed in albums. The local photographs retain their individual
-licenses (CC BY-SA 4.0, or CC BY 3.0 for Suzhou); no endorsement is implied.
+technical resize notices are not displayed in albums. The placeholders retain
+their CC BY-SA 4.0 licenses; no endorsement is implied.
 They are 1280px Commons thumbnails, with no additional crops or color changes.
+The owner's photos are not relicensed under the placeholders' Creative Commons licenses.
 Each entry requires `id` (unique lowercase letters/numbers/hyphens), bilingual
 `name: { "en": "...", "zh": "..." }`, numeric `longitude` and `latitude` in degrees,
 and a non-empty `photos` array. Each photo has a local `src` under `photos/`,
-bilingual `alt`, and an optional bilingual `caption`. Third-party images also
+bilingual `alt`, and an optional bilingual `caption`. Supply positive integer
+`width` and `height` together to match the exported image's actual dimensions.
+Third-party images also
 use `credit: { author, title, source, license, licenseUrl, changes }`, where
 `source` and `licenseUrl` are HTTPS URLs and optional `changes` is bilingual.
 Supported formats are
@@ -334,12 +392,21 @@ New entries automatically create map pins, city-list buttons, and albums.
 Use optional `residence: true` for long-term places and `institution` for the
 confirmed mark (`microsoft`, `nju`, or `ntu`). Both fields are optional for
 future travel-only cities; do not infer a residence or institution from a photo.
+An optional `region` names a matching compiled geographic outline; an explicit
+missing/invalid outline is an error, never an invented fallback boundary.
 Replace a placeholder's `src`, `alt`, and `caption` with the owner's photograph
 and remove that placeholder's `credit`; keep attribution on any retained stock
 images. Add more photos to the same array to extend an album.
 An empty dataset still shows neither empty albums nor explanatory placeholder
 text. Remove private EXIF/GPS metadata from personal photographs before adding
 them to this public repository.
+
+For personal photos, use `python scripts/export_city_photos.py input.jpg photos/name.webp`.
+This optional Pillow exporter corrects EXIF orientation, converts embedded color
+profiles to sRGB, keeps the complete composition within 1600x1600, and writes only
+pixels (no EXIF/GPS, XMP, ICC, or auxiliary MPO frames). It never alters the source,
+upscales, or overwrites an existing destination. All seven current Suzhou exports
+use this pipeline, including the rotated garden image and portrait photographs.
 
 ## Updating identity assets
 
