@@ -255,7 +255,7 @@ html[data-effects="off"] .atlas-section :is(.atlas-city-anchor, .atlas-city-mark
 .atlas-city-list button[data-residence="true"] { border-bottom-color: var(--rust); }
 .atlas-city-status { color: var(--rust); font-size: 12px; }
 .city-popover { --paper: #faf7ef; --ink: #163443; --muted: #53646b; --accent: #205d7b; --rust: #a64b30; position: fixed; inset: auto; width: min(320px, calc(100vw - 24px)); max-height: min(420px, var(--city-available-height, calc(100dvh - 100px))); margin: 0; padding: 14px 10px 10px; border: 1px solid #dbd7cb; background: var(--paper) url("art/studio-paper.svg"); color: var(--ink); box-shadow: 0 18px 42px #06192440, 0 3px 8px #06192424; overflow: hidden; grid-template-rows: auto minmax(0, 1fr); opacity: 0; transform-origin: 0 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); pointer-events: none; transition: opacity 260ms, transform 440ms cubic-bezier(.2,.75,.25,1), display 440ms allow-discrete, overlay 440ms allow-discrete; }
-.city-popover[data-multiple] { height: min(410px, var(--city-available-height, calc(100dvh - 100px))); }
+.city-popover { height: min(370px, var(--city-available-height, calc(100dvh - 100px))); }
 .city-popover:popover-open { display: grid; opacity: 1; transform: none; pointer-events: auto; }
 @starting-style {
   .city-popover:popover-open { opacity: 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); }
@@ -269,33 +269,23 @@ html[data-effects="off"] .atlas-section :is(.atlas-city-anchor, .atlas-city-mark
 .city-institution::before { display: none; }
 .city-institution img { max-height: 34px; }
 .city-institution[hidden], .city-institution img[hidden] { display: none; }
-.city-region-credit { grid-column: 1 / -1; font: 7px/1.6 var(--font-mono); color: var(--muted); }
-.city-region-credit[hidden] { display: none; }
-.city-region-credit a { text-decoration: underline; text-underline-offset: 2px; }
-.city-gallery { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; padding: 8px 6px 0; overflow: hidden; }
-.city-popover:not([data-multiple]) .city-gallery { overflow: auto; }
-.city-popover:not([data-multiple]) .city-photo-stack { align-items: start; }
-.city-photo-stack { position: relative; isolation: isolate; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; min-height: 0; padding: 4px 0 8px; touch-action: pan-y pinch-zoom; }
-.city-popover[data-multiple] .city-photo-stack { container-type: size; }
-.city-print { grid-area: 1 / 1; width: min(calc(100% - 12px), calc(230px * var(--print-ratio) + 16px)); margin: 0; padding: 8px 8px 12px; background: #fffefa; box-shadow: 0 3px 8px #283b4530; transform: rotate(-1deg); transition: transform 380ms cubic-bezier(.2,.75,.25,1), opacity 220ms, box-shadow 220ms; }
-.city-popover[data-multiple] .city-print { width: min(calc(100% - 30px), calc(max(48px, min(230px, 100cqh - 52px)) * var(--print-ratio) + 16px)); }
+.city-region-credit, .city-photo-credit { grid-column: 1 / -1; font: 8px/1.6 var(--font-mono); color: var(--muted); }
+.city-region-credit[hidden], .city-photo-credit[hidden] { display: none; }
+.city-region-credit a, .city-photo-credit a { text-decoration: underline; text-underline-offset: 2px; }
+.city-gallery { display: grid; grid-template-rows: minmax(0, 1fr); min-height: 0; padding: 8px 6px 0; overflow: hidden; }
+.city-photo-stack { position: relative; isolation: isolate; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; min-height: 0; padding: 4px 0 8px; touch-action: pan-y pinch-zoom; container-type: size; }
+.city-print { grid-area: 1 / 1; width: min(calc(100% - 30px), calc(max(48px, min(230px, 100cqh - 32px)) * var(--print-ratio) + 16px)); margin: 0; padding: 8px; background: #fffefa; box-shadow: 0 3px 8px #283b4530; transform: rotate(-1deg); transition: transform 380ms cubic-bezier(.2,.75,.25,1), opacity 220ms, box-shadow 220ms; }
 .city-print[data-depth="0"] { z-index: 3; transform: translateX(var(--photo-drag, 0px)) rotate(calc(-1deg + var(--photo-turn, 0deg))); box-shadow: 0 5px 14px #283b4538; }
 .city-print[data-depth="1"] { z-index: 2; transform: translate(11px, 7px) rotate(4deg); }
 .city-print[data-depth="2"] { z-index: 1; transform: translate(-12px, 10px) rotate(-5deg); }
 .city-print[data-depth="3"] { visibility: hidden; pointer-events: none; opacity: 0; transform: translateY(16px) rotate(6deg) scale(.96); }
-.city-print:not([data-depth="0"]) figcaption { pointer-events: none; }
 .city-photo-stack[data-dragging] .city-print[data-depth="0"] { transition: none; }
 .city-photo-select { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: var(--print-ratio); padding: 0; border: 0; background: #e9e9dd; }
+.city-photo-select:disabled { cursor: default; }
 .city-photo-select img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; opacity: 0; transition: opacity 180ms; }
 .city-photo-select[data-loaded] img { opacity: 1; }
 .city-photo-select img[hidden], .city-photo-error[hidden] { display: none; }
 .city-photo-error { position: absolute; inset: 8px; display: grid; place-items: center; color: var(--rust); font-size: 11px; line-height: 1.6; }
-.city-gallery figcaption { margin-top: 8px; color: var(--muted); font-size: 10px; line-height: 1.5; }
-.city-gallery .city-photo-credit { display: block; margin-top: 5px; font-size: 9px; line-height: 1.7; }
-.city-photo-credit a { text-decoration: underline; text-underline-offset: 3px; }
-.city-photo-controls { display: flex; justify-content: center; align-items: center; min-height: 18px; padding-top: 4px; }
-.city-photo-controls[hidden] { display: none; }
-.city-photo-controls output { min-width: 44px; text-align: center; color: var(--muted); font: 9px var(--font-mono); }
 .city-close, .painting-close, .menu-toggle { border-radius: 50%; transition: color 180ms, background-color 180ms; }
 .header-cta { transition: color 180ms; }
 .header-cta:is(:hover, :focus-visible), .city-photo-credit a:is(:hover, :focus-visible), .city-region-credit a:is(:hover, :focus-visible) { color: var(--rust); }

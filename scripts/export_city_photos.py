@@ -15,6 +15,10 @@ def export_photo(source: Path, destination: Path) -> dict:
         raise ValueError("The destination must be a WebP file")
     if destination.exists():
         raise FileExistsError(f"Refusing to overwrite {destination}")
+    if source.suffix.lower() in (".heic", ".heif"):
+        from pillow_heif import register_heif_opener
+
+        register_heif_opener()
     with Image.open(source) as original:
         original.seek(0)
         image = ImageOps.exif_transpose(original)

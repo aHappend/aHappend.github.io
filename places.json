@@ -8,18 +8,43 @@
       "residence": true,
       "institution": "microsoft",
       "region": "beijing",
-      "photos": [{
-        "src": "photos/beijing-placeholder.jpg",
-        "alt": { "en": "Beijing CBD skyline under a blue sky", "zh": "蓝天下的北京中央商务区天际线" },
-        "caption": { "en": "Placeholder photo · Beijing skyline", "zh": "占位照片 · 北京天际线" },
-        "credit": {
-          "author": "N509FZ",
-          "title": "Skyline of Beijing CBD from the southeast (20210907094201)",
-          "source": "https://commons.wikimedia.org/wiki/File:Skyline_of_Beijing_CBD_from_the_southeast_(20210907094201).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      "photos": [
+        {
+          "src": "photos/beijing-lake-white-pagoda.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "Boats on a Beijing lake beneath a distant white pagoda and willow branches", "zh": "北京湖面上的游船、远处的白塔与垂柳枝条" }
+        },
+        {
+          "src": "photos/beijing-palace-pavilion.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "A tiered pavilion on a wooded hillside in Beijing", "zh": "北京林木掩映中的层叠楼阁" }
+        },
+        {
+          "src": "photos/beijing-msra-anniversary.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Microsoft Research Asia's name and twenty-fifth anniversary display", "zh": "微软亚洲研究院名称标识与二十五周年布置" }
+        },
+        {
+          "src": "photos/beijing-microsoft-sign.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Microsoft's bilingual sign beside a tree-lined pavement in Beijing", "zh": "北京林荫步道旁的微软中英文标识" }
+        },
+        {
+          "src": "photos/beijing-tiananmen.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Tiananmen Gate and red flags in afternoon light", "zh": "午后阳光下的天安门城楼与红旗" }
+        },
+        {
+          "src": "photos/beijing-temple-heaven.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "The illuminated Hall of Prayer for Good Harvests at the Temple of Heaven at night", "zh": "夜色中亮起灯光的天坛祈年殿" }
+        },
+        {
+          "src": "photos/beijing-microsoft-building.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "Sunlight reflected in a glass office building with Microsoft's name at the roofline", "zh": "阳光映在玻璃办公楼上，楼顶可见微软标识" }
         }
-      }]
+      ]
     },
     {
       "id": "nanjing",
@@ -29,18 +54,43 @@
       "residence": true,
       "institution": "nju",
       "region": "nanjing",
-      "photos": [{
-        "src": "photos/nanjing-placeholder.jpg",
-        "alt": { "en": "Illuminated buildings reflected in Nanjing's Qinhuai River at night", "zh": "南京秦淮河夜色与沿岸灯火的倒影" },
-        "caption": { "en": "Placeholder photo · Qinhuai River", "zh": "占位照片 · 秦淮河" },
-        "credit": {
-          "author": "Windmemories",
-          "title": "20240118 Night view of Qinhuai River 01",
-          "source": "https://commons.wikimedia.org/wiki/File:20240118_Night_view_of_Qinhuai_River_01.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      "photos": [
+        {
+          "src": "photos/nanjing-yangtze-bridge.webp",
+          "width": 1600, "height": 1200,
+          "alt": { "en": "The towers and elevated roadway of Nanjing's Yangtze River Bridge above trees", "zh": "绿树上方的南京长江大桥桥头堡与高架桥面" }
+        },
+        {
+          "src": "photos/nanjing-lantern-street.webp",
+          "width": 1200, "height": 1600,
+          "alt": { "en": "Colorful lanterns and a Jinling sign above a busy Nanjing street", "zh": "南京街巷中的彩灯、金陵招牌与行人" }
+        },
+        {
+          "src": "photos/nanjing-skyline-night.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Illuminated Nanjing skyscrapers seen past trees and a warm streetlight at night", "zh": "暖色路灯与树影后方亮起灯光的南京高楼" }
+        },
+        {
+          "src": "photos/nanjing-nju-gate.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "Nanjing University's campus gate beneath trees and a red flag", "zh": "绿树与红旗下的南京大学校门" }
+        },
+        {
+          "src": "photos/nanjing-campus-tower.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "An ivy-covered campus tower with a modern skyscraper behind it in Nanjing", "zh": "南京校园中爬满藤蔓的老楼与后方的现代高楼" }
+        },
+        {
+          "src": "photos/nanjing-temple-gate.webp",
+          "width": 1600, "height": 1067,
+          "alt": { "en": "A yellow temple gate and stone steps among wooded hills in Nanjing", "zh": "南京林木掩映中的黄色寺门与石阶" }
+        },
+        {
+          "src": "photos/nanjing-pond-skyline.webp",
+          "width": 1067, "height": 1600,
+          "alt": { "en": "Nanjing's skyline beyond a tree-lined pond with a stone waterside ornament", "zh": "池畔石雕、绿树与远处的南京城市天际线" }
         }
-      }]
+      ]
     },
     {
       "id": "suzhou",

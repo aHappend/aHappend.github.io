@@ -34,6 +34,7 @@ function createCityAtlas(atlas, getLanguage) {
   let restoredProgress = 0;
   let resumeRequested = false;
   let closing = false;
+  let openingAnchor = null;
   let lastMode = atlas.dataset.atlasMode;
   const institutions = {
     microsoft: { src: "institutions/microsoft.svg", name: { en: "Microsoft", zh: "微软" } },
@@ -146,11 +147,12 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   function positionAlbum() {
-    if (closing || !dialog.matches(":popover-open")) return;
+    const visible = dialog.matches(":popover-open");
+    if (closing || (!visible && !openingAnchor)) return;
     const entry = entries.find(({ place }) => place === selectedPlace);
     const point = entry.anchor.getBoundingClientRect();
     const bounds = viewport.getBoundingClientRect();
-    const regionalPhone = Boolean(entry.region) && projection.stacked && projection.width <= 600;
+    const regionalPhone = projection.stacked && projection.width <= 600;
     const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
       projection.stacked && !regionalPhone ? bounds.top : 0);
     const onMap = point.left >= bounds.left && point.left <= bounds.right
@@ -168,41 +170,39 @@ function createCityAtlas(atlas, getLanguage) {
       ? Math.min(350, Math.max(244, bounds.top - topEdge - 12 + bounds.height * .18))
       : Math.max(100, innerHeight - topEdge - 12);
     dialog.style.setProperty("--city-available-height", `${Math.min(available, innerHeight - topEdge - 12)}px`);
-    const width = dialog.offsetWidth;
-    const height = dialog.offsetHeight;
-    let right = x + 22 + width <= screenWidth - 12;
-    let preferredLeft = right ? x + 22 : x - width - 22;
-    if (entry.region && camera && !regionalPhone) {
-      const [west, , east] = entry.region.bounds;
-      const edgeLeft = bounds.left + projection.left + (west * camera.zoom + camera.x) * projection.unit;
-      const edgeRight = bounds.left + projection.left + (east * camera.zoom + camera.x) * projection.unit;
-      if (edgeRight + 18 + width <= screenWidth - 12) {
-        preferredLeft = Math.max(x + 22, edgeRight + 18);
-        right = true;
-      } else if (edgeLeft - width - 18 >= 12) {
-        preferredLeft = Math.min(x - width - 22, edgeLeft - width - 18);
-        right = false;
-      }
-    }
+    const width = visible ? dialog.offsetWidth : projection.cardWidth;
+    const height = visible ? dialog.offsetHeight : parseFloat(getComputedStyle(dialog).height);
+    const beside = projection.width - width - 64 >= 96;
+    const preferredLeft = regionalPhone ? bounds.left + (bounds.width - width) / 2
+      : beside ? bounds.right - width - 24
+        : bounds.left - width - 18 >= 12 ? bounds.left - width - 18 : bounds.right - width - 12;
     const left = Math.max(12, Math.min(screenWidth - width - 12, preferredLeft));
-    const preferredTop = regionalPhone ? bounds.top + bounds.height * .18 - height - 8 : y - height * .3;
+    const preferredTop = regionalPhone ? bounds.top + bounds.height * .18 - height - 8
+      : bounds.top + (bounds.height - height) / 2;
     const top = Math.max(topEdge, Math.min(innerHeight - height - 12, preferredTop));
     dialog.style.left = `${left}px`;
     dialog.style.top = `${top}px`;
-    dialog.style.setProperty("--city-retract-x", `${x - left}px`);
-    dialog.style.setProperty("--city-retract-y", `${y - top}px`);
-    dialog.dataset.side = right ? "right" : "left";
-    dialog.dataset.anchor = onMap ? "map" : "list";
+    dialog.style.setProperty("--city-retract-x", `${(openingAnchor?.x ?? x) - left}px`);
+    dialog.style.setProperty("--city-retract-y", `${(openingAnchor?.y ?? y) - top}px`);
+    dialog.dataset.side = left > x ? "right" : "left";
+    dialog.dataset.anchor = openingAnchor?.kind ?? (onMap ? "map" : "list");
     dialog.dataset.placement = regionalPhone ? "above-map" : "beside-map";
   }
 
   function open(place, control) {
-    if (dialog.matches(":popover-open") && selectedPlace === place) {
+    const visible = dialog.matches(":popover-open");
+    if (visible && selectedPlace === place) {
       dialog.hidePopover();
       return;
     }
-    if (dialog.matches(":popover-open")) dialog.hidePopover();
     if (!savedCamera) savedCamera = readCamera();
+    if (!visible) {
+      const entry = entries.find(entry => entry.place === place);
+      const fromList = control === entry.button;
+      const origin = (fromList ? control : entry.anchor).getBoundingClientRect();
+      openingAnchor = { x: origin.left + origin.width / 2, y: origin.top + origin.height / 2,
+        kind: fromList ? "list" : "map" };
+    }
     selectedPlace = place;
     trigger = control;
     renderGallery();
@@ -211,7 +211,10 @@ function createCityAtlas(atlas, getLanguage) {
     atlas.dataset.cityFocus = place.id;
     if (place.region) atlas.dataset.cityRegion = place.region;
     else atlas.removeAttribute("data-city-region");
-    dialog.showPopover({ source: control });
+    resize();
+    // Lay out the final slot before native autofocus or the opening animation.
+    positionAlbum();
+    if (!visible) dialog.showPopover({ source: control });
     dialog.scrollTop = gallery.scrollTop = 0;
     for (const { place: city, marker, button, anchor, regionPath } of entries) {
       const active = city === place;
@@ -220,7 +223,11 @@ function createCityAtlas(atlas, getLanguage) {
       anchor.toggleAttribute("data-open", active);
       regionPath?.toggleAttribute("data-active", active);
     }
-    animateCamera(() => cityCamera(place), "focusing", () => setCameraState("focused"));
+    animateCamera(() => cityCamera(place), "focusing", () => {
+      openingAnchor = null;
+      setCameraState("focused");
+      positionAlbum();
+    });
   }
 
   close.addEventListener("click", () => dialog.hidePopover());
@@ -231,6 +238,7 @@ function createCityAtlas(atlas, getLanguage) {
 
   dialog.addEventListener("beforetoggle", (event) => {
     if (event.newState !== "closed") return;
+    openingAnchor = null;
     closing = true;
     photoDeck.cancelGesture();
     atlas.removeAttribute("data-city-focus");
@@ -543,10 +551,15 @@ function createCityAtlas(atlas, getLanguage) {
         marker.className = "atlas-city-marker";
         marker.dataset.city = button.dataset.city = place.id;
         for (const control of [marker, button]) {
+          control.setAttribute("popovertarget", dialog.id);
+          control.setAttribute("popovertargetaction", "show");
           control.setAttribute("aria-haspopup", "dialog");
           control.setAttribute("aria-controls", dialog.id);
           control.setAttribute("aria-expanded", "false");
-          control.addEventListener("click", () => open(place, control));
+          control.addEventListener("click", event => {
+            event.preventDefault();
+            open(place, control);
+          });
         }
         anchor.append(leader, dot, marker);
         markers.append(anchor);

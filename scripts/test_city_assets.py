@@ -1,4 +1,5 @@
 import hashlib
+import importlib.util
 import json
 import re
 import tempfile
@@ -54,18 +55,43 @@ class CityAssetsTest(unittest.TestCase):
                 else:
                     self.assertIn("GCJ-02", properties["coordinateSystem"])
 
-    def test_suzhou_exports_match_dimensions_and_have_no_private_metadata(self):
+    def test_owner_exports_match_dimensions_and_have_no_private_metadata(self):
         places = json.loads((ROOT / "places.json").read_text())["places"]
-        suzhou, = [place for place in places if place["id"] == "suzhou"]
-        self.assertEqual(len(suzhou["photos"]), 7)
-        for photo in suzhou["photos"]:
-            with self.subTest(photo=photo["src"]), Image.open(ROOT / photo["src"]) as image:
-                self.assertEqual(image.format, "WEBP")
-                self.assertEqual(image.size, (photo["width"], photo["height"]))
-                self.assertEqual(max(image.size), 1600)
-                self.assertFalse(image.getexif())
-                self.assertFalse({"exif", "xmp", "icc_profile"} & image.info.keys())
-                self.assertEqual(image.n_frames, 1)
+        for city in ("beijing", "nanjing", "suzhou"):
+            place, = [place for place in places if place["id"] == city]
+            self.assertEqual(len(place["photos"]), 7)
+            for photo in place["photos"]:
+                with self.subTest(photo=photo["src"]), Image.open(ROOT / photo["src"]) as image:
+                    self.assertEqual(image.format, "WEBP")
+                    self.assertEqual(image.size, (photo["width"], photo["height"]))
+                    self.assertEqual(max(image.size), 1600)
+                    self.assertFalse(image.getexif())
+                    self.assertFalse({"exif", "xmp", "icc_profile"} & image.info.keys())
+                    self.assertEqual(image.n_frames, 1)
+
+    @unittest.skipUnless(importlib.util.find_spec("pillow_heif"), "HEIC authoring requires pillow-heif")
+    def test_heic_export_preserves_portrait_and_strips_metadata(self):
+        from pillow_heif import register_heif_opener
+
+        register_heif_opener()
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "oriented.heic"
+            destination = Path(temporary) / "clean.webp"
+            image = Image.new("RGB", (40, 80), "red")
+            image.paste("green", (0, 40, 40, 80))
+            exif = Image.Exif()
+            exif[315] = "Synthetic private metadata"
+            image.save(source, "HEIF", exif=exif)
+            original_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+            result = export_photo(source, destination)
+            self.assertEqual((result["width"], result["height"]), (40, 80))
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), original_hash)
+            with Image.open(destination) as exported:
+                self.assertFalse(exported.getexif())
+                self.assertFalse({"exif", "xmp", "icc_profile"} & exported.info.keys())
+                self.assertEqual(exported.n_frames, 1)
+                self.assertGreater(exported.getpixel((20, 10))[0], 200)
+                self.assertGreater(exported.getpixel((20, 70))[1], 100)
 
     def test_export_orients_pixels_strips_metadata_and_preserves_source(self):
         with tempfile.TemporaryDirectory() as temporary:

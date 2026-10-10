@@ -151,8 +151,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   composition. Scroll progress is measured from the story wrapper after the
   section reaches its sticky reading position, not from first entering the screen.
   `places.json` currently contains four owner-selected long-term places:
-  Beijing, Nanjing, Suzhou, and Singapore. Suzhou contains seven owner-supplied
-  photographs; the other three use explicitly labeled, licensed placeholders,
+  Beijing, Nanjing, Suzhou, and Singapore. Beijing, Nanjing, and Suzhou each contain seven
+  owner-supplied photographs; Singapore uses an openly credited placeholder,
   not claims about the owner's photography or dates of travel.
 - `art/atlas-world.svg` and `art/atlas-china.svg` are local geographic masks.
   They use different, explicitly documented sources; see [Map sources](#map-sources).
@@ -180,28 +180,41 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   offscreen surfaces; the geographic city outline remains visible through focus
   and return. Normal world/China views and print restore the unchanged base masks.
   Entries without a region keep point-based focus. An off-camera
-  city initially unfolds from its list entry before its point comes into view.
+  city unfolds from the clicked list entry before its point comes into view.
   The actual pre-open camera is retained, including a partial scroll zoom or
   interrupted manual transition, and restored on every dismissal. Switching
-  cities retains that original return view. Follow-scroll stays temporarily
+  cities updates the open card in place and retains that original return view.
+  Native popover invoker relationships prevent another city button from
+  light-dismissing the same album before its click is handled.
+  Follow-scroll stays temporarily
   suspended while the album is open; after restoring, the next scroll movement
   smoothly rejoins the current scroll view. Explicit map controls take precedence.
-  The card flips/clamps to stay within the viewport; on narrow stacked layouts
-  it unfolds above the map, leaving the actual geographic outline visible below.
-  Single-photo credits can scroll internally on short screens.
+  The card uses a stable, viewport-bounded slot rather than following moving
+  pin coordinates or flipping sides mid-zoom. Its opening origin stays fixed
+  through the entry animation; after focus, its closing origin follows the city.
+  On narrow stacked layouts it unfolds above the map, leaving the actual
+  geographic outline visible below.
+  Required third-party photo attribution appears in the album heading, outside
+  the prints. Single- and multiple-photo albums share a bounded height, with
+  complete photographs sized to the remaining space instead of changing the card's height.
   The rest of the page stays visible
   and scrollable, without a backdrop or focus trap. Printed-photo borders,
   paper shadows and slight rotations distinguish the pictures from a full-page
   gallery. `photo-deck.js` layers additional prints with exposed corners:
-  click a rear print to bring it forward, swipe horizontally on a phone, or
-  use Left/Right/Home/End while a print is focused. The small counter tracks
-  the current photograph. Vertical touch gestures remain native page scrolling.
+  click or tap any photograph to advance to the next one, including clicks on
+  exposed rear prints. There is no need to aim at a corner. Swipe horizontally
+  on a phone, or use Left/Right/Home/End while a print is focused; Enter/Space
+  also advance. Only the current print is in the tab order. Photos have symmetric
+  white borders with no captions or visible counter underneath; bilingual alt
+  text, action labels and a screen-reader-only counter preserve accessibility.
+  Vertical touch gestures remain native page scrolling. A swipe's synthetic
+  click is suppressed without blocking a subsequent intentional tap.
   Explicit image dimensions preserve portrait/landscape framing without cropping;
   legacy photos without dimensions use a contained 3:2 area.
   Only the selected and adjacent photos start loading; other photos load as needed.
   Outside clicks,
-  Escape, focus return, translated captions, and explicit data/image errors are
-  preserved. Scrolling keeps the card tied to its point and dismisses it when the
+  Escape, focus return, translated image descriptions, and explicit data/image errors are
+  preserved. Scrolling keeps the card aligned with the map and dismisses it when the
   point and list entry leave the readable screen. Reduced motion/effects-off remove
   the card and camera animations while preserving focus and restoration. Manual map transitions, portrait-tablet
   letterboxing, reduced motion, and effects-off apply to the pins as well.
@@ -367,18 +380,19 @@ Never change the pinned 277-component China source when refreshing city outlines
 
 ## Adding city photos
 
-Add only owner-confirmed cities to `places.json`. Suzhou now uses the owner's seven
-photographs. Beijing, Nanjing, and Singapore retain owner-requested placeholder
-photographs from Wikimedia Commons. Every placeholder is
-clearly labeled in both languages, with a linked source, author, and license;
-technical resize notices are not displayed in albums. The placeholders retain
-their CC BY-SA 4.0 licenses; no endorsement is implied.
-They are 1280px Commons thumbnails, with no additional crops or color changes.
+Add only owner-confirmed cities to `places.json`. Beijing, Nanjing, and Suzhou each use seven
+owner-supplied photographs. Singapore retains an owner-requested placeholder
+photograph from Wikimedia Commons, with linked source, author and license
+attribution in the album heading;
+technical resize notices are not displayed in albums. The placeholder retains
+its CC BY-SA 4.0 license; no endorsement is implied.
+It is a 1280px Commons thumbnail, with no additional crops or color changes.
 The owner's photos are not relicensed under the placeholders' Creative Commons licenses.
 Each entry requires `id` (unique lowercase letters/numbers/hyphens), bilingual
 `name: { "en": "...", "zh": "..." }`, numeric `longitude` and `latitude` in degrees,
 and a non-empty `photos` array. Each photo has a local `src` under `photos/`,
-bilingual `alt`, and an optional bilingual `caption`. Supply positive integer
+bilingual `alt`, and an optional bilingual `caption` retained as metadata but
+not displayed on the prints. Supply positive integer
 `width` and `height` together to match the exported image's actual dimensions.
 Third-party images also
 use `credit: { author, title, source, license, licenseUrl, changes }`, where
@@ -405,8 +419,10 @@ For personal photos, use `python scripts/export_city_photos.py input.jpg photos/
 This optional Pillow exporter corrects EXIF orientation, converts embedded color
 profiles to sRGB, keeps the complete composition within 1600x1600, and writes only
 pixels (no EXIF/GPS, XMP, ICC, or auxiliary MPO frames). It never alters the source,
-upscales, or overwrites an existing destination. All seven current Suzhou exports
-use this pipeline, including the rotated garden image and portrait photographs.
+upscales, or overwrites an existing destination. HEIC/HEIF input additionally
+requires `python -m pip install pillow-heif`; that decoder is loaded only for those
+formats. All twenty-one Beijing/Nanjing/Suzhou exports use this pipeline, including the two
+Nanjing HEIC files and orientation-tagged portrait photographs.
 
 ## Updating identity assets
 

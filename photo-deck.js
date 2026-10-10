@@ -1,14 +1,13 @@
 function createPhotoDeck(gallery, getLanguage) {
   const dialog = gallery.closest(".city-popover");
   const stack = document.createElement("div");
-  const controls = document.createElement("div");
+  const attribution = dialog.querySelector(".city-photo-credit");
   const status = document.createElement("output");
   stack.className = "city-photo-stack";
-  controls.className = "city-photo-controls";
+  status.className = "sr-only";
   status.setAttribute("aria-live", "polite");
   status.setAttribute("aria-atomic", "true");
-  controls.append(status);
-  gallery.append(stack, controls);
+  gallery.append(stack, status);
   gallery.setAttribute("role", "group");
   gallery.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight Home End");
   let photos = null;
@@ -17,6 +16,26 @@ function createPhotoDeck(gallery, getLanguage) {
   let gesture = null;
   let suppressClickUntil = 0;
   const text = value => value[getLanguage()];
+
+  function renderAttribution() {
+    const credit = photos[active].credit;
+    attribution.replaceChildren();
+    attribution.hidden = !credit;
+    if (!credit) return;
+    const source = document.createElement("a");
+    const license = document.createElement("a");
+    source.href = credit.source;
+    source.textContent = credit.author;
+    source.title = credit.title;
+    license.href = credit.licenseUrl;
+    license.textContent = credit.license;
+    for (const link of [source, license]) {
+      link.target = "_blank";
+      link.rel = "noreferrer";
+    }
+    attribution.append(getLanguage() === "zh" ? "图片 · " : "Photo · ", source, " · ", license);
+    if (credit.changes) attribution.append(` · ${text(credit.changes)}`);
+  }
 
   function cancelGesture() {
     const pointer = gesture?.pointer;
@@ -35,9 +54,8 @@ function createPhotoDeck(gallery, getLanguage) {
       const depth = index === active ? 0 : index === nextIndex ? 1 : index === previousIndex ? 2 : 3;
       print.figure.dataset.depth = depth;
       print.figure.setAttribute("aria-hidden", String(depth === 3));
-      print.button.tabIndex = depth < 3 ? 0 : -1;
-      print.button.setAttribute("aria-pressed", String(index === active));
-      print.caption.inert = index !== active;
+      print.button.tabIndex = index === active && count > 1 ? 0 : -1;
+      print.figure.setAttribute("aria-current", String(index === active));
       if (depth < 3 && !print.image.hasAttribute("src")) {
         print.image.loading = depth === 0 ? "eager" : "lazy";
         print.image.src = photos[index].src;
@@ -45,6 +63,7 @@ function createPhotoDeck(gallery, getLanguage) {
     }
     gallery.dataset.photoIndex = active;
     status.textContent = `${active + 1} / ${count}`;
+    renderAttribution();
   }
 
   function select(index) {
@@ -70,8 +89,9 @@ function createPhotoDeck(gallery, getLanguage) {
     }
   }, true);
   stack.addEventListener("pointerdown", event => {
-    if (!photos || photos.length < 2 || !event.isPrimary || event.pointerType === "mouse"
-      || event.target.closest("a")) return;
+    if (!photos || photos.length < 2 || !event.isPrimary) return;
+    suppressClickUntil = 0;
+    if (event.pointerType === "mouse") return;
     gesture = {
       pointer: event.pointerId, x: event.clientX, y: event.clientY,
       started: performance.now(), width: stack.getBoundingClientRect().width, dragging: false,
@@ -114,7 +134,6 @@ function createPhotoDeck(gallery, getLanguage) {
     prints = [];
     stack.replaceChildren();
     dialog.toggleAttribute("data-multiple", photos.length > 1);
-    controls.hidden = photos.length < 2;
     const chinese = getLanguage() === "zh";
     gallery.setAttribute("aria-label", chinese ? "城市照片" : "City photographs");
     status.setAttribute("aria-label", chinese ? "照片序号" : "Photograph number");
@@ -122,13 +141,14 @@ function createPhotoDeck(gallery, getLanguage) {
       const figure = document.createElement("figure");
       const button = document.createElement("button");
       const image = document.createElement("img");
-      const caption = document.createElement("figcaption");
       const failure = document.createElement("span");
       figure.className = "city-print";
       figure.style.setProperty("--print-ratio", photo.width ? photo.width / photo.height : 1.5);
       button.type = "button";
       button.className = "city-photo-select";
-      button.setAttribute("aria-label", `${text(photo.alt)} · ${index + 1} / ${photos.length}`);
+      button.disabled = photos.length < 2;
+      const action = photos.length > 1 ? `${chinese ? "下一张照片" : "Next photograph"} · ` : "";
+      button.setAttribute("aria-label", `${action}${text(photo.alt)} · ${index + 1} / ${photos.length}`);
       image.alt = text(photo.alt);
       image.decoding = "async";
       image.draggable = false;
@@ -147,31 +167,12 @@ function createPhotoDeck(gallery, getLanguage) {
         console.error("City photo could not be loaded:", photo.src);
       }, { once: true });
       button.append(image, failure);
-      if (photo.caption) caption.append(text(photo.caption));
-      if (photo.credit) {
-        const credit = document.createElement("span");
-        const source = document.createElement("a");
-        const license = document.createElement("a");
-        credit.className = "city-photo-credit";
-        source.href = photo.credit.source;
-        source.textContent = photo.credit.author;
-        source.title = photo.credit.title;
-        license.href = photo.credit.licenseUrl;
-        license.textContent = photo.credit.license;
-        for (const link of [source, license]) {
-          link.target = "_blank";
-          link.rel = "noreferrer";
-        }
-        credit.append(source, " · ", license);
-        if (photo.credit.changes) credit.append(` · ${text(photo.credit.changes)}`);
-        caption.append(credit);
-      }
-      figure.append(button, caption);
-      figure.addEventListener("click", event => {
-        if (!event.target.closest("a") && index !== active) select(index);
+      figure.append(button);
+      figure.addEventListener("click", () => {
+        if (photos.length > 1) select(active + 1);
       });
       stack.append(figure);
-      prints.push({ figure, button, image, caption });
+      prints.push({ figure, button, image });
     }
     arrange();
   }
