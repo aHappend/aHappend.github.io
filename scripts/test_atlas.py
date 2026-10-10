@@ -5,9 +5,10 @@ import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from shapely.geometry import Point, Polygon, box, mapping
+from shapely import get_num_coordinates
+from shapely.geometry import Point, Polygon, box, mapping, shape
 
-from export_atlas import WEST, geometry_path, shared_world_geometry
+from export_atlas import WEST, geometry_path, low_detail_china, polygonal_coverage, shared_world_geometry
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,14 +47,14 @@ class AtlasTest(unittest.TestCase):
                                     not any(inside_ring(point, hole) for hole in rings[1:])
                                     for rings in polygons))
 
-    def test_shared_world_contains_the_exact_china_path_once(self):
+    def test_shared_world_contains_the_low_detail_china_path_once(self):
         china, = json.loads((ROOT / "data/china-outline.geojson").read_text())["features"]
         world = ET.parse(ROOT / "art/atlas-world.svg").getroot()
         land = world.find(".//*[@id='atlas-land']")
         self.assertIsNotNone(land)
         self.assertEqual(len(land), 2)
         self.assertEqual(land.find("*[@id='atlas-china-land']").get("d"),
-                         geometry_path(china["geometry"]))
+                         geometry_path(low_detail_china(china["geometry"])))
         foreign = land.find("*[@id='atlas-other-land']").get("d")
         rings = [[[float(value) for value in point.split(",")] for point in ring.split("L")]
                  for ring in re.findall(r"M([^MZ]+)Z", foreign)]
@@ -66,6 +67,19 @@ class AtlasTest(unittest.TestCase):
             with self.subTest(region=name):
                 point = (((lon - WEST) % 360) / 360 * 1000, (90 - lat) / 180 * 500)
                 self.assertEqual(sum(inside_ring(point, ring) for ring in rings) % 2, expected)
+
+    def test_low_detail_preserves_regions_and_each_source_component(self):
+        feature, = json.loads((ROOT / "data/china-outline.geojson").read_text())["features"]
+        original = feature["geometry"]
+        simplified = shape(low_detail_china(original))
+        self.assertTrue(simplified.is_valid)
+        self.assertLess(get_num_coordinates(simplified), get_num_coordinates(shape(original)) * .3)
+        for rings in original["coordinates"]:
+            component = polygonal_coverage(Polygon(rings[0], rings[1:]))
+            self.assertGreater(simplified.intersection(component).area, component.area * .8)
+        for point in [(121, 23.7), (94.7, 28.2), (79.3, 35), (114.17, 22.32),
+                      (113.55, 22.18), (110, 19)]:
+            self.assertTrue(simplified.covers(Point(*point)), str(point))
 
     def test_shared_boundaries_close_seams_but_preserve_lakes(self):
         old_mainland = box(0, 0, 6, 6)
@@ -94,6 +108,15 @@ class AtlasTest(unittest.TestCase):
         self.assertIn('data-en="China" data-zh="中国">China</button>', html)
         self.assertIn('#atlas-china-land" fill="url(#atlas-china-pigment)"', html)
         self.assertNotIn("art/atlas-china.svg", html)
+
+    def test_residence_periods_are_not_added_to_travel_albums(self):
+        places = json.loads((ROOT / "places.json").read_text())["places"]
+        periods = {place["id"]: place["period"] for place in places if "period" in place}
+        self.assertEqual(periods, {
+            "nanjing": "2023.09–2024.07", "suzhou": "2024.09–2026.09",
+            "beijing": "2026.09–2026.12", "singapore": "2027.01–2027.05",
+        })
+        self.assertTrue(all(place.get("residence") for place in places if "period" in place))
 
     def test_east_china_and_japan_camera(self):
         css = (ROOT / "folio.css").read_text()

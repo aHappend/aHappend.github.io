@@ -125,15 +125,32 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   near 128°E, 34.5°N, emphasizing eastern China and Japan through ordinary
   scrolling. A native sticky `.atlas-story` lets the world map reach a readable
   position first, then holds the section while scrolling changes only the map
-  camera. Its 1.35-viewport scroll runway reserves the first and last 18% for
+  camera. Its 1.8-viewport scroll runway reserves the first and last 18% for
   the world and China views, with the zoom in between; it then releases naturally.
-  Reverse scrolling reverses the sequence. No wheel/touch events are intercepted.
+  Native proximity scroll-snap points inside those two pauses gently settle nearby
+  scroll gestures into readable views. They are not mandatory stops: continuing
+  to scroll or flinging beyond the map leaves normally. Once a view settles,
+  its snap point releases on the next gesture, including a short swipe/wheel step,
+  so repeated small inputs cannot get trapped. Points rearm after leaving the
+  atlas. Reverse scrolling reverses the sequence. No wheel/touch events are
+  prevented or replayed.
   The background painting pauses during this runway, leaving only the map camera
   moving. Scroll-linked variables are scoped to their visual layers rather than
   inherited by the entire document. Header/map dimensions and the city projection
   are cached until resize/reflow, map layers are prepared before entering the
   viewport, and pin positions use transforms rather than per-frame layout changes.
+  Only the small HTML pins are promoted with `will-change`. The zooming SVG is
+  deliberately not promoted: its textured continent layer otherwise causes large
+  rasterization stalls during scale changes, especially on desktop/high-DPI screens.
+  The atlas does not spawn decorative pointer particles or click ripples alongside
+  its camera/album animation. Camera frames update map transforms and pins without
+  remeasuring the card after each write; focused scrolling only checks the attached
+  card's visibility, rather than redrawing an unchanged city camera.
   Touch browsing does not repeatedly reset desktop-only pointer effects.
+  The map uses the small viewport height (`svh`), not the changing height of
+  retracting mobile browser chrome. Older touch browsers freeze that height until
+  the screen width changes. Address-bar movement does not change the scroll
+  runway, sticky position, or album slot; actual layout/rotation changes still refit.
   The city list reserves space for both rows while the local data loads, so inserting
   city names does not shift the page or sticky reading position.
   The section is centered below the header when it fits; short screens align its
@@ -161,7 +178,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   and Okinawa (four), not additional residences.
 - `art/atlas-world.svg` is the shared rendering geometry for the world and its
   China coloration. China changes its own gradient fill rather than receiving
-  a second, differently shaped overlay. `art/atlas-china.svg` retains the exact
+  a second, differently shaped overlay. Its China outline is simplified to the
+  world's low-detail visual scale, with topology-preserving simplification and
+  smaller tolerances for small islands. `art/atlas-china.svg` retains the exact
   pinned reference outline but is no longer a separate runtime mask.
   The world source and China source are documented in [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
@@ -179,6 +198,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   heading with the confirmed institution mark: Beijing/Microsoft,
   Nanjing/Nanjing University, Suzhou/Nanjing University, Singapore/NTU.
   Marks reuse the existing assets on the warm-white photo paper in either theme.
+  The four residence postcards show the confirmed `period` below the city name:
+  Nanjing 2023.09–2024.07, Suzhou 2024.09–2026.09, Beijing 2026.09–2026.12,
+  and Singapore 2027.01–2027.05. Travel albums omit this line.
   Travel pins use smaller 10px/600 labels and 6px dots, below the residences'
   12px/800 labels and 9px dots. Leaders are at most 42px, with shorter placements
   preferred; touch retains the larger hit targets.
@@ -189,7 +211,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   position as "A place called home / 久居之地", without claiming a residence or institution.
   A text city list provides a second way to open
   each album, including cities outside the current map frame. A small non-modal
-  native popover unfolds sideways from the real city point and retracts to it
+  card unfolds sideways from the real city point and retracts to it
   when closed. Opening also smoothly pans and zooms the map to fit the city's
   entire administrative outline (Singapore uses the planning footprint described below),
   keeping the map and every coordinate dot on one animated camera. It leaves
@@ -208,8 +230,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The actual pre-open camera is retained, including a partial scroll zoom or
   interrupted manual transition, and restored on every dismissal. Switching
   cities updates the open card in place and retains that original return view.
-  Native popover invoker relationships prevent another city button from
-  light-dismissing the same album before its click is handled.
+  The card is an absolutely positioned child of the sticky atlas, not a fixed
+  top-layer popover chasing scroll events. This keeps native/compositor scrolling
+  and the card on the same layer, and does not require the Popover API,
+  `@starting-style`, or discrete display/overlay transitions in older in-app browsers.
+  Explicit open/close state preserves outside-click dismissal, Escape, focus return,
+  and city switching without dismissing the album between two city buttons.
   Follow-scroll stays temporarily
   suspended while the album is open; after restoring, the next scroll movement
   smoothly rejoins the current scroll view. Explicit map controls take precedence.
@@ -233,9 +259,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   paper shadows and slight rotations distinguish the pictures from a full-page
   gallery. `photo-deck.js` layers additional prints with exposed corners:
   click or tap any photograph to advance to the next one, including clicks on
-  exposed rear prints. There is no need to aim at a corner. Swipe horizontally
-  on a phone, or use Left/Right/Home/End while a print is focused; Enter/Space
-  also advance. Only the current print is in the tab order. Photos have symmetric
+  exposed rear prints. The whole stack follows one cyclic queue: the current print
+  is highest, the next two prints expose their corners in order, and all remaining
+  prints retain their lower queue ranks. Advancing moves the old top print to
+  the tail. There is no previous-photo action. Swiping either left or right on
+  a phone, Left/Right while a print is focused, and Enter/Space all advance.
+  Only the current print is in the tab order. Photos have symmetric
   white borders with no captions or visible counter underneath; bilingual alt
   text, action labels and a screen-reader-only counter preserve accessibility.
   Vertical touch gestures remain native page scrolling. A swipe's synthetic
@@ -247,7 +276,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Phone cards use more of the available screen width while retaining a stable
   map-relative position and outer height when photographs change. Short phones
   reserve extra photo space without covering the remaining map or either city row.
-  Only the selected and adjacent photos start loading; other photos load as needed.
+  Only the selected and next two photos start loading eagerly; later photos load
+  as they approach the front of the queue, without lazy-loading visible rear prints.
   Outside clicks,
   Escape, focus return, translated image descriptions, and explicit data/image errors are
   preserved. Scrolling keeps the album attached to the map, not clamped to the
@@ -375,14 +405,20 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
   Consult the [official standard-map service](https://bzdt.ch.mnr.gov.cn/) when
   an approved standard-map publication is required.
 
-The shared world replaces the coarse CHN/TWN shapes with the exact pinned
-China path. The other-country path excludes that same coverage, so the two
+The shared world replaces the coarse CHN/TWN shapes with a low-detail version of
+the pinned China outline. Each of the 277 source components is normalized and
+simplified with topology preservation, using a maximum tolerance of 0.16 degrees
+and at most one eighth of the component's width/height or half its area/perimeter
+ratio for small or narrow islands and maritime indicators. The source and exact
+`art/atlas-china.svg` reference remain unchanged; the runtime China path has over
+70% fewer coordinates. Coverage tests
+retain the requested named regions and at least 80% of each source component.
+The other-country path excludes the same simplified coverage, so the two
 painted regions cannot overlap. Enclosed gaps caused by the different border
 resolutions are filled outside the China path, preserving original lakes and
 source holes. Known source self-intersections are normalized only in working
-copies used for these boolean operations; the rendered 277-component China
-path and its source file remain unchanged. Coloring changes the existing
-China path's gradient, while paper texture reuses the same combined geometry.
+copies used for these boolean operations and simplification. Coloring changes the
+existing China path's gradient, while paper texture reuses the same combined geometry.
 
 Regenerate the shared world and reference outline with
 `python scripts/export_atlas.py /path/to/ne_110m_admin_0_countries.geojson data/china-outline.geojson`.

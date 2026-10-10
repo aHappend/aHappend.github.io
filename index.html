@@ -36,7 +36,7 @@
     </noscript>
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261010-shared-atlas">
+    <link rel="stylesheet" href="folio.css?v=20261010-magnetic-atlas">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -372,6 +372,9 @@
       </section>
 
       <div class="atlas-story">
+      <span class="atlas-screen-size" aria-hidden="true"></span>
+      <span class="atlas-snap atlas-snap-world" aria-hidden="true"></span>
+      <span class="atlas-snap atlas-snap-china" aria-hidden="true"></span>
       <section class="atlas-section" id="elsewhere" aria-labelledby="atlas-title" data-atlas-mode="follow">
         <div class="atlas-copy">
           <p class="section-index mono" data-en="BETWEEN THE LINES" data-zh="研究之外">BETWEEN THE LINES</p>
@@ -408,9 +411,9 @@
               </g>
               <g class="atlas-geography">
                 <g class="atlas-context">
-                <use class="atlas-other-land" href="art/atlas-world.svg?v=20261010-shared-geometry#atlas-other-land" fill="url(#atlas-pigment)"/>
-                <use class="atlas-china-land" href="art/atlas-world.svg?v=20261010-shared-geometry#atlas-china-land" fill="url(#atlas-china-pigment)"/>
-                <use href="art/atlas-world.svg?v=20261010-shared-geometry#atlas-land" fill="url(#atlas-paper-pattern)" opacity=".22"/>
+                <use class="atlas-other-land" href="art/atlas-world.svg?v=20261010-low-detail#atlas-other-land" fill="url(#atlas-pigment)"/>
+                <use class="atlas-china-land" href="art/atlas-world.svg?v=20261010-low-detail#atlas-china-land" fill="url(#atlas-china-pigment)"/>
+                <use href="art/atlas-world.svg?v=20261010-low-detail#atlas-land" fill="url(#atlas-paper-pattern)" opacity=".22"/>
                 </g>
                 <g class="atlas-city-regions"></g>
               </g>
@@ -1337,12 +1340,13 @@
       <a href="#top" data-en="Back to top ↑" data-zh="返回顶部 ↑">Back to top ↑</a>
     </footer>
 
-    <div class="city-popover" id="city-album" popover="auto" role="dialog" aria-labelledby="city-album-title">
-      <button class="city-close" type="button" aria-label="Close city album" autofocus>×</button>
+    <div class="city-popover" id="city-album" hidden role="dialog" aria-modal="false" aria-labelledby="city-album-title">
+      <button class="city-close" type="button" aria-label="Close city album">×</button>
       <div class="city-heading">
         <div>
           <p class="city-residence" hidden></p>
           <h2 id="city-album-title"></h2>
+          <p class="city-period" hidden></p>
         </div>
         <div class="city-institution" hidden></div>
         <div class="city-region-credit" hidden></div>
@@ -1351,8 +1355,8 @@
       <div class="city-gallery"></div>
     </div>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="photo-deck.js?v=20261010-print-proportions"></script>
-    <script src="city-atlas.js?v=20261010-shared-atlas"></script>
-    <script src="script.js?v=20261012-travel-albums"></script>
+    <script src="photo-deck.js?v=20261010-magnetic-atlas"></script>
+    <script src="city-atlas.js?v=20261010-magnetic-atlas"></script>
+    <script src="script.js?v=20261010-magnetic-atlas"></script>
   </body>
 </html>

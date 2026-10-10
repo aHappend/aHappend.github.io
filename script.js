@@ -450,6 +450,10 @@ reducedMotion.addEventListener("change", stopFilterAnimations);
 let scrollFrame = null;
 let atlasLayoutDirty = true;
 let atlasLayout = null;
+let atlasScreenWidth = 0;
+let atlasScreenHeight = innerHeight;
+const atlasScreenSize = atlasStory.querySelector(".atlas-screen-size");
+const atlasSnaps = [...atlasStory.querySelectorAll(".atlas-snap")];
 const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
 const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
@@ -459,14 +463,24 @@ function updateScrollState() {
   const wasPinned = atlasStory.hasAttribute("data-pinned");
   const layoutChanged = atlasLayoutDirty || pinning !== wasPinned;
   if (atlasLayoutDirty) {
+    // Small viewport units exclude retracting browser chrome, including in-app browsers.
+    if (CSS.supports("height", "100svh") || !matchMedia("(pointer: coarse)").matches
+      || innerWidth !== atlasScreenWidth) {
+      atlasScreenHeight = atlasScreenSize.getBoundingClientRect().height;
+      atlasScreenWidth = innerWidth;
+    }
+    atlasStory.style.setProperty("--atlas-screen-height", `${atlasScreenHeight}px`);
     const height = atlas.getBoundingClientRect().height;
     const header = siteHeader.getBoundingClientRect().height;
-    const spare = innerHeight - header - 24 - height;
+    const spare = atlasScreenHeight - header - 24 - height;
     atlasLayout = {
-      header, pinTop: header + 12 + (spare >= 0 ? spare / 2 : spare), travel: innerHeight * 1.35,
+      header, pinTop: header + 12 + (spare >= 0 ? spare / 2 : spare), travel: atlasScreenHeight * 1.8,
     };
     atlasStory.style.setProperty("--atlas-story-height", `${height + atlasLayout.travel}px`);
     atlasStory.style.setProperty("--atlas-sticky-top", `${atlasLayout.pinTop}px`);
+    atlasStory.style.setProperty("--atlas-travel", `${atlasLayout.travel}px`);
+    atlasStory.style.setProperty("--atlas-snap-offset",
+      `${atlasLayout.pinTop - parseFloat(getComputedStyle(root).scrollPaddingTop)}px`);
     atlasLayoutDirty = false;
   }
   const { header, pinTop, travel } = atlasLayout;
@@ -478,9 +492,24 @@ function updateScrollState() {
       scrollBy({ top: atlas.getBoundingClientRect().top - beforePin.top, behavior: "instant" });
     }
   }
-  if (layoutChanged) cityAtlas.resize();
+  if (layoutChanged) cityAtlas.resize(atlasScreenHeight);
   const scrollable = root.scrollHeight - window.innerHeight;
-  const storyProgress = (pinTop - atlasStory.getBoundingClientRect().top) / travel;
+  const storyBounds = atlasStory.getBoundingClientRect();
+  atlasLayout.start = scrollY + storyBounds.top - pinTop;
+  const storyProgress = (pinTop - storyBounds.top) / travel;
+  if (storyBounds.bottom <= header || storyBounds.top >= innerHeight) {
+    atlasSnaps.forEach(point => {
+      point.removeAttribute("data-released");
+      point.removeAttribute("data-settled");
+    });
+  } else {
+    atlasSnaps.forEach((point, index) => {
+      const target = atlasLayout.start + travel * (index === 0 ? .08 : .92);
+      if (!point.hasAttribute("data-released") && Math.abs(scrollY - target) <= 32) {
+        point.setAttribute("data-settled", "");
+      }
+    });
+  }
   const layerRects = folioLayers.map((layer) => layer.getBoundingClientRect());
   const sectionTops = sections.map((section) => section.getBoundingClientRect().top);
   const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
@@ -520,6 +549,23 @@ function scheduleScrollUpdate() {
 }
 
 window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+function releaseAtlasSnap() {
+  if (!atlasLayout || !atlasStory.hasAttribute("data-pinned")) return;
+  for (const point of atlasSnaps) {
+    // Passive wheel delivery can occur after compositor scrolling has already moved.
+    if (point.hasAttribute("data-settled")) {
+      point.setAttribute("data-released", "");
+      point.removeAttribute("data-settled");
+    }
+  }
+}
+window.addEventListener("pointerdown", releaseAtlasSnap, { passive: true });
+window.addEventListener("wheel", event => {
+  if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) releaseAtlasSnap();
+}, { passive: true });
+window.addEventListener("keydown", event => {
+  if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) releaseAtlasSnap();
+});
 function invalidateAtlasLayout() {
   atlasLayoutDirty = true;
   scheduleScrollUpdate();
@@ -921,6 +967,7 @@ function drawParticles(now) {
 
 function scatterPetals(event, burst = false) {
   if (!petalContext || !canUsePointerEffects(event)) return;
+  if (event.target instanceof Element && event.target.closest(".atlas-section")) return;
   if (particles.some((particle) => particle.scene)) return;
   const now = performance.now();
   if (!burst && lastPetal &&
@@ -1059,6 +1106,7 @@ effectsButton.addEventListener("click", () => {
   sitePreferences.set("effects", effectsEnabled ? "on" : "off");
   syncNatureEffects();
 });
+atlas.addEventListener("pointerenter", clearPointerParticles);
 document.addEventListener("pointermove", (event) => {
   pointerScrollX = window.scrollX;
   pointerScrollY = window.scrollY;

@@ -11,6 +11,7 @@ function createCityAtlas(atlas, getLanguage) {
   const dialog = document.querySelector(".city-popover");
   const title = dialog.querySelector("h2");
   const residence = dialog.querySelector(".city-residence");
+  const period = dialog.querySelector(".city-period");
   const institution = dialog.querySelector(".city-institution");
   const gallery = dialog.querySelector(".city-gallery");
   const regionLayer = atlas.querySelector(".atlas-city-regions");
@@ -19,6 +20,10 @@ function createCityAtlas(atlas, getLanguage) {
   const close = dialog.querySelector(".city-close");
   const header = document.querySelector(".site-header");
   const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+  atlas.append(dialog);
+  let albumOpen = false;
+  let closeTimer = null;
+  let screenHeight = innerHeight;
   atlas.dataset.cityState = "loading";
   const entries = [];
   let selectedPlace = null;
@@ -65,6 +70,9 @@ function createCityAtlas(atlas, getLanguage) {
         || !Array.isArray(place.photos) || !place.photos.length
         || (place.region !== undefined && (typeof place.region !== "string" || !/^[a-z0-9-]+$/.test(place.region)))
         || (place.residence !== undefined && typeof place.residence !== "boolean")
+        || (place.period !== undefined && (!place.residence || typeof place.period !== "string"
+          || !/^\d{4}\.(0[1-9]|1[0-2])–\d{4}\.(0[1-9]|1[0-2])$/.test(place.period)
+          || place.period.slice(0, 7) > place.period.slice(8)))
         || (place.institution !== undefined && (typeof place.institution !== "string"
           || !Object.hasOwn(institutions, place.institution)))) {
         throw new TypeError("Each city needs a unique ID, bilingual name, coordinates, and photos");
@@ -118,6 +126,8 @@ function createCityAtlas(atlas, getLanguage) {
     residence.textContent = selectedPlace.residence
       ? (getLanguage() === "zh" ? "久居之地" : "A place called home")
       : (getLanguage() === "zh" ? "旅行" : "Travel");
+    period.hidden = !selectedPlace.period;
+    period.textContent = selectedPlace.period ?? "";
     institution.replaceChildren();
     institution.hidden = !selectedPlace.institution;
     if (selectedPlace.institution) {
@@ -157,14 +167,14 @@ function createCityAtlas(atlas, getLanguage) {
   function availableAlbumHeight(mapTop, mapHeight, topEdge, aboveMap, bottom) {
     const available = aboveMap
       ? Math.min(350, Math.max(248, mapTop - topEdge - 12 + mapHeight * .18))
-      : Math.max(100, innerHeight - topEdge - 12);
-    return Math.min(available, innerHeight - topEdge - 12,
+      : Math.max(100, screenHeight - topEdge - 12);
+    return Math.min(available, screenHeight - topEdge - 12,
       aboveMap ? Math.max(100, mapTop + mapHeight - topEdge - 72) : available,
       Math.max(100, bottom - topEdge - 12));
   }
 
   function measureAlbum() {
-    const visible = dialog.matches(":popover-open");
+    const visible = !dialog.hidden;
     const bounds = viewport.getBoundingClientRect();
     const aboveMap = projection.stacked && projection.width <= 600;
     const topEdge = Math.max(header.getBoundingClientRect().bottom + 12,
@@ -172,7 +182,7 @@ function createCityAtlas(atlas, getLanguage) {
     const screenWidth = document.documentElement.clientWidth;
     const width = visible ? dialog.offsetWidth : projection.cardWidth;
     const beside = projection.width - width - 64 >= 96;
-    const outsideLeft = innerWidth > 600 && innerHeight < 600 && bounds.left - width >= 24;
+    const outsideLeft = innerWidth > 600 && screenHeight < 600 && bounds.left - width >= 24;
     let available = availableAlbumHeight(bounds.top, bounds.height, topEdge, aboveMap,
       atlas.getBoundingClientRect().bottom);
     if (!aboveMap && !outsideLeft) available = Math.min(available, bounds.height);
@@ -184,26 +194,26 @@ function createCityAtlas(atlas, getLanguage) {
     const left = Math.max(12, Math.min(screenWidth - width - 12, preferredLeft));
     const preferredTop = aboveMap ? bounds.top + bounds.height * .18 - height - 8
       : bounds.top + (bounds.height - height) / 2;
-    const top = Math.max(topEdge, Math.min(innerHeight - height - 12, preferredTop));
+    const top = Math.max(topEdge, Math.min(screenHeight - height - 12, preferredTop));
     return { x: left - bounds.left, y: top - bounds.top, height, aboveMap, outsideLeft };
   }
 
   function positionAlbum() {
-    const visible = dialog.matches(":popover-open");
+    const visible = albumOpen;
     if (!visible && !openingAnchor && !(closing && dialog.offsetHeight)) return;
     if (!albumPlacement) albumPlacement = measureAlbum();
     const bounds = viewport.getBoundingClientRect();
+    const area = atlas.getBoundingClientRect();
     const headerBottom = header.getBoundingClientRect().bottom;
     const left = bounds.left + albumPlacement.x;
     const top = bounds.top + albumPlacement.y;
-    dialog.style.left = `${left}px`;
-    dialog.style.top = `${top}px`;
-    dialog.style.setProperty("--city-clip-top", `${Math.max(0, headerBottom - top)}px`);
+    // The sticky ancestor carries the card through compositor-driven touch scrolling.
+    dialog.style.left = `${left - area.left - atlas.clientLeft}px`;
+    dialog.style.top = `${top - area.top - atlas.clientTop}px`;
     if (closing) return;
-    const area = atlas.getBoundingClientRect();
     if (visible && (area.bottom <= headerBottom || area.top >= innerHeight)) {
       dialog.setAttribute("data-scroll-exit", "");
-      dialog.hidePopover();
+      hideAlbum();
       return;
     }
     const entry = entries.find(({ place }) => place === selectedPlace);
@@ -221,14 +231,13 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   function open(place, control) {
-    const visible = dialog.matches(":popover-open");
+    const visible = albumOpen;
     if (visible && selectedPlace === place) {
-      dialog.hidePopover();
+      hideAlbum();
       return;
     }
     if (!savedCamera) savedCamera = readCamera();
     dialog.removeAttribute("data-scroll-exit");
-    dialog.style.removeProperty("--city-clip-top");
     if (!visible) {
       albumPlacement = null;
       const entry = entries.find(entry => entry.place === place);
@@ -242,13 +251,20 @@ function createCityAtlas(atlas, getLanguage) {
     renderGallery();
     control.focus({ preventScroll: true });
     closing = false;
+    clearTimeout(closeTimer);
     atlas.dataset.cityFocus = place.id;
     if (place.region) atlas.dataset.cityRegion = place.region;
     else atlas.removeAttribute("data-city-region");
     resize();
-    // Lay out the final slot before native autofocus or the opening animation.
+    // Lay out the final slot before exposing the card's opening state.
     positionAlbum();
-    if (!visible) dialog.showPopover({ source: control });
+    if (!visible) {
+      dialog.hidden = false;
+      dialog.getBoundingClientRect();
+      albumOpen = true;
+      dialog.setAttribute("data-open", "");
+      close.focus({ preventScroll: true });
+    }
     dialog.scrollTop = gallery.scrollTop = 0;
     for (const { place: city, marker, button, anchor, regionPath } of entries) {
       const active = city === place;
@@ -264,14 +280,16 @@ function createCityAtlas(atlas, getLanguage) {
     });
   }
 
-  close.addEventListener("click", () => dialog.hidePopover());
+  close.addEventListener("click", hideAlbum);
   function clearRegion() {
     atlas.removeAttribute("data-city-region");
     for (const { regionPath } of entries) regionPath?.removeAttribute("data-active");
   }
 
-  dialog.addEventListener("beforetoggle", (event) => {
-    if (event.newState !== "closed") return;
+  function hideAlbum() {
+    if (!albumOpen) return;
+    albumOpen = false;
+    dialog.removeAttribute("data-open");
     openingAnchor = null;
     closing = true;
     photoDeck.cancelGesture();
@@ -291,6 +309,23 @@ function createCityAtlas(atlas, getLanguage) {
         setCameraState("restored");
       });
     } else clearRegion();
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      if (!albumOpen) {
+        dialog.hidden = true;
+        closing = false;
+      }
+    }, cameraMotion() ? (dialog.hasAttribute("data-scroll-exit") ? 180 : 440) : 0);
+  }
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && albumOpen) {
+      event.preventDefault();
+      hideAlbum();
+    }
+  });
+  document.addEventListener("click", event => {
+    if (albumOpen && !dialog.contains(event.target)
+      && !event.target.closest(".atlas-city-marker, .atlas-city-list button, .lang-toggle, .theme-toggle, .effects-toggle")) hideAlbum();
   });
   new ResizeObserver(positionAlbum).observe(dialog);
 
@@ -311,7 +346,7 @@ function createCityAtlas(atlas, getLanguage) {
     if (loadingError) status.textContent = getLanguage() === "zh"
       ? "城市相册或行政区数据暂时无法加载，世界地图仍可浏览。"
       : "City albums or region outlines could not be loaded. The world map is still available.";
-    if (dialog.matches(":popover-open")) {
+    if (albumOpen) {
       renderGallery();
       positionAlbum();
     }
@@ -347,7 +382,8 @@ function createCityAtlas(atlas, getLanguage) {
     entries.forEach(({ marker }, index) => { marker.hidden = hidden[index]; });
   }
 
-  function resize() {
+  function resize(nextScreenHeight = screenHeight) {
+    screenHeight = nextScreenHeight;
     const style = getComputedStyle(atlas);
     // Match SVG xMidYMid meet, including the portrait tablet's letterboxing.
     const { width, height, top: mapTop, left: mapLeft } = map.getBoundingClientRect();
@@ -368,7 +404,7 @@ function createCityAtlas(atlas, getLanguage) {
     const area = atlas.getBoundingClientRect();
     // Pinning/motion changes and the final reading position may settle after resize.
     const key = `${style.position}:${style.top}:${style.getPropertyValue("--atlas-sticky-top")}:` + [
-      innerWidth, innerHeight, width, height, projection.cardWidth, Number(projection.stacked),
+      innerWidth, screenHeight, width, height, projection.cardWidth, Number(projection.stacked),
       header.getBoundingClientRect().height, area.width, area.height, mapTop - area.top, mapLeft - area.left]
       .map(value => value.toFixed(1)).join(":");
     // Refit after layout changes, never just because the page scrolled.
@@ -465,7 +501,6 @@ function createCityAtlas(atlas, getLanguage) {
     const focusing = state === "focusing";
     const bounds = focusing ? entries.find(entry => entry.place === selectedPlace).region?.bounds : null;
     const duration = focusing ? 1200 : 560;
-    resize();
     cancelAnimationFrame(cameraFrame);
     cameraFrame = null;
     const active = { source, destination, finish, start: performance.now() };
@@ -485,7 +520,10 @@ function createCityAtlas(atlas, getLanguage) {
       }
       // Print/rotation can change the SVG before the parent resize observer fires.
       const { width, height } = map.getBoundingClientRect();
-      if (width !== projection.width || height !== projection.height) resize();
+      if (width !== projection.width || height !== projection.height) {
+        resize();
+        positionAlbum();
+      }
       const fraction = Math.max(0, Math.min(1, (now - active.start) / duration));
       const eased = 1 - (1 - fraction) ** 3;
       const target = destination();
@@ -506,7 +544,6 @@ function createCityAtlas(atlas, getLanguage) {
         }
       }
       renderCamera(view);
-      // Positioning can dismiss an album that has scrolled offscreen.
       if (animation !== active) return;
       if (fraction < 1) {
         cameraFrame = requestAnimationFrame(frame);
@@ -519,7 +556,7 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   function resumeCamera() {
-    if (dialog.matches(":popover-open")) dialog.hidePopover();
+    if (albumOpen) hideAlbum();
     savedCamera = null;
     animateCamera(baseCamera, "resuming", () => {
       camera = null;
@@ -547,12 +584,15 @@ function createCityAtlas(atlas, getLanguage) {
     }
     if (animation) {
       if (!cameraMotion()) finishAnimation();
-      else if (projectionDirty && camera) renderPoints(camera);
-      else positionAlbum();
+      else {
+        if (projectionDirty && camera) renderPoints(camera);
+        positionAlbum();
+      }
       return;
     }
     if (camera) {
-      renderCamera(cameraState === "focused" ? cityCamera(selectedPlace) : camera);
+      if (projectionDirty) renderCamera(cameraState === "focused" ? cityCamera(selectedPlace) : camera);
+      positionAlbum();
       return;
     }
     atlas.style.setProperty("--atlas-progress", progress.toFixed(4));
@@ -562,6 +602,7 @@ function createCityAtlas(atlas, getLanguage) {
     }
     renderedProgress = progress;
     renderPoints(baseCamera());
+    positionAlbum();
   }
 
   motionPreference.addEventListener("change", () => {
@@ -621,7 +662,6 @@ function createCityAtlas(atlas, getLanguage) {
         leader.style.rotate = `${Math.atan2(position.endY, position.endX)}rad`;
       }
     }
-    positionAlbum();
   }
 
   async function loadJson(path) {
@@ -636,9 +676,6 @@ function createCityAtlas(atlas, getLanguage) {
       const regions = validateRegions(regionData);
       for (const place of places) {
         if (place.region && !regions.has(place.region)) throw new TypeError(`Missing region outline: ${place.region}`);
-      }
-      if (places.length && typeof dialog.showPopover !== "function") {
-        throw new Error("City albums require native popover support");
       }
       for (const place of places) {
         const anchor = document.createElement("span");
@@ -660,8 +697,6 @@ function createCityAtlas(atlas, getLanguage) {
         marker.append(label);
         marker.dataset.city = button.dataset.city = place.id;
         for (const control of [marker, button]) {
-          control.setAttribute("popovertarget", dialog.id);
-          control.setAttribute("popovertargetaction", "show");
           control.setAttribute("aria-haspopup", "dialog");
           control.setAttribute("aria-controls", dialog.id);
           control.setAttribute("aria-expanded", "false");

@@ -3,6 +3,7 @@
     {
       "id": "beijing",
       "name": { "en": "Beijing", "zh": "北京" },
+      "period": "2026.09–2026.12",
       "longitude": 116.4074,
       "latitude": 39.9042,
       "residence": true,
@@ -49,6 +50,7 @@
     {
       "id": "nanjing",
       "name": { "en": "Nanjing", "zh": "南京" },
+      "period": "2023.09–2024.07",
       "longitude": 118.7969,
       "latitude": 32.0603,
       "residence": true,
@@ -95,6 +97,7 @@
     {
       "id": "suzhou",
       "name": { "en": "Suzhou", "zh": "苏州" },
+      "period": "2024.09–2026.09",
       "longitude": 120.5853,
       "latitude": 31.2989,
       "residence": true,
@@ -148,6 +151,7 @@
     {
       "id": "singapore",
       "name": { "en": "Singapore", "zh": "新加坡" },
+      "period": "2027.01–2027.05",
       "longitude": 103.8198,
       "latitude": 1.3521,
       "residence": true,

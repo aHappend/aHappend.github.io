@@ -9,7 +9,7 @@ function createPhotoDeck(gallery, getLanguage) {
   status.setAttribute("aria-atomic", "true");
   gallery.append(stack, status);
   gallery.setAttribute("role", "group");
-  gallery.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight Home End");
+  gallery.setAttribute("aria-keyshortcuts", "ArrowLeft ArrowRight");
   let photos = null;
   let prints = [];
   let active = 0;
@@ -48,16 +48,16 @@ function createPhotoDeck(gallery, getLanguage) {
 
   function arrange() {
     const count = photos.length;
-    const nextIndex = (active + 1) % count;
-    const previousIndex = (active - 1 + count) % count;
     for (const [index, print] of prints.entries()) {
-      const depth = index === active ? 0 : index === nextIndex ? 1 : index === previousIndex ? 2 : 3;
+      const depth = (index - active + count) % count;
       print.figure.dataset.depth = depth;
-      print.figure.setAttribute("aria-hidden", String(depth === 3));
+      print.figure.style.zIndex = count - depth;
+      print.figure.toggleAttribute("data-queued", depth >= 3);
+      print.figure.setAttribute("aria-hidden", String(depth >= 3));
       print.button.tabIndex = index === active && count > 1 ? 0 : -1;
       print.figure.setAttribute("aria-current", String(index === active));
       if (depth < 3 && !print.image.hasAttribute("src")) {
-        print.image.loading = depth === 0 ? "eager" : "lazy";
+        print.image.loading = "eager";
         print.image.src = photos[index].src;
       }
     }
@@ -76,11 +76,9 @@ function createPhotoDeck(gallery, getLanguage) {
 
   gallery.addEventListener("keydown", event => {
     if (!photos || photos.length < 2 || event.altKey || event.ctrlKey || event.metaKey) return;
-    const index = event.key === "ArrowLeft" ? active - 1 : event.key === "ArrowRight" ? active + 1
-      : event.key === "Home" ? 0 : event.key === "End" ? photos.length - 1 : null;
-    if (index === null) return;
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
-    select(index);
+    select(active + 1);
   });
   stack.addEventListener("click", event => {
     if (performance.now() < suppressClickUntil) {
@@ -102,6 +100,10 @@ function createPhotoDeck(gallery, getLanguage) {
     const dx = event.clientX - gesture.x;
     const dy = event.clientY - gesture.y;
     if (!gesture.dragging) {
+      if (Math.abs(dy) >= 12 && Math.abs(dy) >= Math.abs(dx)) {
+        cancelGesture();
+        return;
+      }
       if (Math.abs(dx) < 12 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
       gesture.dragging = true;
       stack.setPointerCapture(event.pointerId);
@@ -119,7 +121,7 @@ function createPhotoDeck(gallery, getLanguage) {
     const dragging = gesture.dragging;
     if (dragging) suppressClickUntil = performance.now() + 350;
     cancelGesture();
-    if (dragging && advance) select(active + (dx < 0 ? 1 : -1));
+    if (dragging && advance) select(active + 1);
   });
   stack.addEventListener("pointercancel", cancelGesture);
   stack.addEventListener("lostpointercapture", event => {
