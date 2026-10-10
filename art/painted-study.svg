@@ -61,5 +61,6 @@
   </g>
   <g id="sun-disc" filter="url(#pigment)">
     <circle cx="1280" cy="182" r="99" fill="url(#sun)"/>
+    <circle cx="1280" cy="182" r="78" fill="#d9a766" opacity=".82"/>
   </g>
 </svg>

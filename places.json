@@ -2,7 +2,10 @@
   "places": [
     {
       "id": "beijing",
-      "name": { "en": "Beijing", "zh": "北京" },
+      "name": {
+        "en": "Beijing",
+        "zh": "北京"
+      },
       "period": "2026.09–2026.12",
       "longitude": 116.4074,
       "latitude": 39.9042,
@@ -12,44 +15,82 @@
       "photos": [
         {
           "src": "photos/beijing-lake-white-pagoda.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "Boats on a Beijing lake beneath a distant white pagoda and willow branches", "zh": "北京湖面上的游船、远处的白塔与垂柳枝条" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "Boats on a Beijing lake beneath a distant white pagoda and willow branches",
+            "zh": "北京湖面上的游船、远处的白塔与垂柳枝条"
+          },
+          "mobileSrc": "photos/mobile/beijing-lake-white-pagoda.webp"
         },
         {
           "src": "photos/beijing-palace-pavilion.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A tiered pavilion on a wooded hillside in Beijing", "zh": "北京林木掩映中的层叠楼阁" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A tiered pavilion on a wooded hillside in Beijing",
+            "zh": "北京林木掩映中的层叠楼阁"
+          },
+          "mobileSrc": "photos/mobile/beijing-palace-pavilion.webp"
         },
         {
           "src": "photos/beijing-msra-anniversary.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Microsoft Research Asia's name and twenty-fifth anniversary display", "zh": "微软亚洲研究院名称标识与二十五周年布置" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Microsoft Research Asia's name and twenty-fifth anniversary display",
+            "zh": "微软亚洲研究院名称标识与二十五周年布置"
+          },
+          "mobileSrc": "photos/mobile/beijing-msra-anniversary.webp"
         },
         {
           "src": "photos/beijing-microsoft-sign.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Microsoft's bilingual sign beside a tree-lined pavement in Beijing", "zh": "北京林荫步道旁的微软中英文标识" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Microsoft's bilingual sign beside a tree-lined pavement in Beijing",
+            "zh": "北京林荫步道旁的微软中英文标识"
+          },
+          "mobileSrc": "photos/mobile/beijing-microsoft-sign.webp"
         },
         {
           "src": "photos/beijing-tiananmen.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Tiananmen Gate and red flags in afternoon light", "zh": "午后阳光下的天安门城楼与红旗" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Tiananmen Gate and red flags in afternoon light",
+            "zh": "午后阳光下的天安门城楼与红旗"
+          },
+          "mobileSrc": "photos/mobile/beijing-tiananmen.webp"
         },
         {
           "src": "photos/beijing-temple-heaven.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "The illuminated Hall of Prayer for Good Harvests at the Temple of Heaven at night", "zh": "夜色中亮起灯光的天坛祈年殿" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "The illuminated Hall of Prayer for Good Harvests at the Temple of Heaven at night",
+            "zh": "夜色中亮起灯光的天坛祈年殿"
+          },
+          "mobileSrc": "photos/mobile/beijing-temple-heaven.webp"
         },
         {
           "src": "photos/beijing-microsoft-building.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "Sunlight reflected in a glass office building with Microsoft's name at the roofline", "zh": "阳光映在玻璃办公楼上，楼顶可见微软标识" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "Sunlight reflected in a glass office building with Microsoft's name at the roofline",
+            "zh": "阳光映在玻璃办公楼上，楼顶可见微软标识"
+          },
+          "mobileSrc": "photos/mobile/beijing-microsoft-building.webp"
         }
       ]
     },
     {
       "id": "nanjing",
-      "name": { "en": "Nanjing", "zh": "南京" },
+      "name": {
+        "en": "Nanjing",
+        "zh": "南京"
+      },
       "period": "2023.09–2024.07",
       "longitude": 118.7969,
       "latitude": 32.0603,
@@ -59,44 +100,82 @@
       "photos": [
         {
           "src": "photos/nanjing-yangtze-bridge.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "The towers and elevated roadway of Nanjing's Yangtze River Bridge above trees", "zh": "绿树上方的南京长江大桥桥头堡与高架桥面" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "The towers and elevated roadway of Nanjing's Yangtze River Bridge above trees",
+            "zh": "绿树上方的南京长江大桥桥头堡与高架桥面"
+          },
+          "mobileSrc": "photos/mobile/nanjing-yangtze-bridge.webp"
         },
         {
           "src": "photos/nanjing-lantern-street.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "Colorful lanterns and a Jinling sign above a busy Nanjing street", "zh": "南京街巷中的彩灯、金陵招牌与行人" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "Colorful lanterns and a Jinling sign above a busy Nanjing street",
+            "zh": "南京街巷中的彩灯、金陵招牌与行人"
+          },
+          "mobileSrc": "photos/mobile/nanjing-lantern-street.webp"
         },
         {
           "src": "photos/nanjing-skyline-night.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Illuminated Nanjing skyscrapers seen past trees and a warm streetlight at night", "zh": "暖色路灯与树影后方亮起灯光的南京高楼" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Illuminated Nanjing skyscrapers seen past trees and a warm streetlight at night",
+            "zh": "暖色路灯与树影后方亮起灯光的南京高楼"
+          },
+          "mobileSrc": "photos/mobile/nanjing-skyline-night.webp"
         },
         {
           "src": "photos/nanjing-nju-gate.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Nanjing University's campus gate beneath trees and a red flag", "zh": "绿树与红旗下的南京大学校门" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Nanjing University's campus gate beneath trees and a red flag",
+            "zh": "绿树与红旗下的南京大学校门"
+          },
+          "mobileSrc": "photos/mobile/nanjing-nju-gate.webp"
         },
         {
           "src": "photos/nanjing-campus-tower.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "An ivy-covered campus tower with a modern skyscraper behind it in Nanjing", "zh": "南京校园中爬满藤蔓的老楼与后方的现代高楼" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "An ivy-covered campus tower with a modern skyscraper behind it in Nanjing",
+            "zh": "南京校园中爬满藤蔓的老楼与后方的现代高楼"
+          },
+          "mobileSrc": "photos/mobile/nanjing-campus-tower.webp"
         },
         {
           "src": "photos/nanjing-temple-gate.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A yellow temple gate and stone steps among wooded hills in Nanjing", "zh": "南京林木掩映中的黄色寺门与石阶" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A yellow temple gate and stone steps among wooded hills in Nanjing",
+            "zh": "南京林木掩映中的黄色寺门与石阶"
+          },
+          "mobileSrc": "photos/mobile/nanjing-temple-gate.webp"
         },
         {
           "src": "photos/nanjing-pond-skyline.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Nanjing's skyline beyond a tree-lined pond with a stone waterside ornament", "zh": "池畔石雕、绿树与远处的南京城市天际线" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Nanjing's skyline beyond a tree-lined pond with a stone waterside ornament",
+            "zh": "池畔石雕、绿树与远处的南京城市天际线"
+          },
+          "mobileSrc": "photos/mobile/nanjing-pond-skyline.webp"
         }
       ]
     },
     {
       "id": "suzhou",
-      "name": { "en": "Suzhou", "zh": "苏州" },
+      "name": {
+        "en": "Suzhou",
+        "zh": "苏州"
+      },
       "period": "2024.09–2026.09",
       "longitude": 120.5853,
       "latitude": 31.2989,
@@ -106,74 +185,148 @@
       "photos": [
         {
           "src": "photos/suzhou-skyline.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Suzhou's lakeside skyline across blue water", "zh": "碧蓝湖水对岸的苏州城市天际线" },
-          "caption": { "en": "Along the lake", "zh": "湖畔天际线" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Suzhou's lakeside skyline across blue water",
+            "zh": "碧蓝湖水对岸的苏州城市天际线"
+          },
+          "caption": {
+            "en": "Along the lake",
+            "zh": "湖畔天际线"
+          },
+          "mobileSrc": "photos/mobile/suzhou-skyline.webp"
         },
         {
           "src": "photos/suzhou-nju-facade.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Nanjing University's name and emblem on a glass campus facade in Suzhou", "zh": "苏州校园玻璃幕墙上的南京大学校名与校徽" },
-          "caption": { "en": "A familiar name", "zh": "熟悉的校名" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Nanjing University's name and emblem on a glass campus facade in Suzhou",
+            "zh": "苏州校园玻璃幕墙上的南京大学校名与校徽"
+          },
+          "caption": {
+            "en": "A familiar name",
+            "zh": "熟悉的校名"
+          },
+          "mobileSrc": "photos/mobile/suzhou-nju-facade.webp"
         },
         {
           "src": "photos/suzhou-campus-motto.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Nanjing University's motto reflected in a pool beside a campus building", "zh": "南京大学校训与校园建筑映在水池中" },
-          "caption": { "en": "Words in reflection", "zh": "校训与倒影" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Nanjing University's motto reflected in a pool beside a campus building",
+            "zh": "南京大学校训与校园建筑映在水池中"
+          },
+          "caption": {
+            "en": "Words in reflection",
+            "zh": "校训与倒影"
+          },
+          "mobileSrc": "photos/mobile/suzhou-campus-motto.webp"
         },
         {
           "src": "photos/suzhou-pagoda.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A tall, weathered stone pagoda rising above trees in Suzhou", "zh": "苏州古塔的层层塔檐与树梢" },
-          "caption": { "en": "Looking upward", "zh": "仰望古塔" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A tall, weathered stone pagoda rising above trees in Suzhou",
+            "zh": "苏州古塔的层层塔檐与树梢"
+          },
+          "caption": {
+            "en": "Looking upward",
+            "zh": "仰望古塔"
+          },
+          "mobileSrc": "photos/mobile/suzhou-pagoda.webp"
         },
         {
           "src": "photos/suzhou-canal-boats.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Wooden boats passing whitewashed houses along a Suzhou canal", "zh": "木船驶过苏州水巷，两岸是白墙黛瓦" },
-          "caption": { "en": "Through the water lanes", "zh": "水巷行舟" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Wooden boats passing whitewashed houses along a Suzhou canal",
+            "zh": "木船驶过苏州水巷，两岸是白墙黛瓦"
+          },
+          "caption": {
+            "en": "Through the water lanes",
+            "zh": "水巷行舟"
+          },
+          "mobileSrc": "photos/mobile/suzhou-canal-boats.webp"
         },
         {
           "src": "photos/suzhou-canal-view.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A view along a Suzhou canal from beneath a yellow boat canopy", "zh": "从黄色船篷下望向苏州沿河街巷" },
-          "caption": { "en": "From the boat", "zh": "舟中望去" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A view along a Suzhou canal from beneath a yellow boat canopy",
+            "zh": "从黄色船篷下望向苏州沿河街巷"
+          },
+          "caption": {
+            "en": "From the boat",
+            "zh": "舟中望去"
+          },
+          "mobileSrc": "photos/mobile/suzhou-canal-view.webp"
         },
         {
           "src": "photos/suzhou-garden.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A white garden corridor and green trees reflected in a still pond", "zh": "园林白墙长廊与绿树倒映在静水中" },
-          "caption": { "en": "A quieter corner", "zh": "园林一隅" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A white garden corridor and green trees reflected in a still pond",
+            "zh": "园林白墙长廊与绿树倒映在静水中"
+          },
+          "caption": {
+            "en": "A quieter corner",
+            "zh": "园林一隅"
+          },
+          "mobileSrc": "photos/mobile/suzhou-garden.webp"
         }
       ]
     },
     {
       "id": "singapore",
-      "name": { "en": "Singapore", "zh": "新加坡" },
+      "name": {
+        "en": "Singapore",
+        "zh": "新加坡"
+      },
       "period": "2027.01–2027.05",
       "longitude": 103.8198,
       "latitude": 1.3521,
       "residence": true,
       "institution": "ntu",
       "region": "singapore",
-      "photos": [{
-        "src": "photos/singapore-placeholder.jpg",
-        "alt": { "en": "Singapore's ArtScience Museum and Marina Bay skyline in the afternoon", "zh": "午后的新加坡艺术科学博物馆与滨海湾天际线" },
-        "caption": { "en": "Placeholder photo · Marina Bay", "zh": "占位照片 · 滨海湾" },
-        "credit": {
-          "author": "Basile Morin",
-          "title": "ArtScience Museum, Marina Bay Sands, Singapore",
-          "source": "https://commons.wikimedia.org/wiki/File:ArtScience_Museum,_Marina_Bay_Sands,_Singapore.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      "photos": [
+        {
+          "src": "photos/singapore-placeholder.jpg",
+          "alt": {
+            "en": "Singapore's ArtScience Museum and Marina Bay skyline in the afternoon",
+            "zh": "午后的新加坡艺术科学博物馆与滨海湾天际线"
+          },
+          "caption": {
+            "en": "Placeholder photo · Marina Bay",
+            "zh": "占位照片 · 滨海湾"
+          },
+          "credit": {
+            "author": "Basile Morin",
+            "title": "ArtScience Museum, Marina Bay Sands, Singapore",
+            "source": "https://commons.wikimedia.org/wiki/File:ArtScience_Museum,_Marina_Bay_Sands,_Singapore.jpg",
+            "license": "CC BY-SA 4.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+          },
+          "mobileSrc": "photos/mobile/singapore-placeholder.webp"
         }
-      }]
+      ]
     },
     {
       "id": "hangzhou",
-      "name": { "en": "Hangzhou", "zh": "杭州" },
-      "albumTitle": { "en": "Hangzhou & Shaoxing", "zh": "杭州 · 绍兴" },
+      "name": {
+        "en": "Hangzhou",
+        "zh": "杭州"
+      },
+      "albumTitle": {
+        "en": "Hangzhou & Shaoxing",
+        "zh": "杭州 · 绍兴"
+      },
       "longitude": 120.1551,
       "latitude": 30.2741,
       "residence": false,
@@ -181,44 +334,82 @@
       "photos": [
         {
           "src": "photos/hangzhou-football-stands.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "Red-clad football supporters in the stands and players beside a stadium track", "zh": "看台上身穿红衣的球迷与体育场跑道旁的球员" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "Red-clad football supporters in the stands and players beside a stadium track",
+            "zh": "看台上身穿红衣的球迷与体育场跑道旁的球员"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-football-stands.webp"
         },
         {
           "src": "photos/hangzhou-lakeside-arch.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "A stone archway beside the lake, framed by spring willow branches", "zh": "湖畔石牌坊与春日垂柳枝条" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "A stone archway beside the lake, framed by spring willow branches",
+            "zh": "湖畔石牌坊与春日垂柳枝条"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-lakeside-arch.webp"
         },
         {
           "src": "photos/hangzhou-willows-blossoms.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "Pink blossoms and willow branches over a lake with low hills beyond", "zh": "湖面上方的粉色花朵与柳枝，以及对岸的低山" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "Pink blossoms and willow branches over a lake with low hills beyond",
+            "zh": "湖面上方的粉色花朵与柳枝，以及对岸的低山"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-willows-blossoms.webp"
         },
         {
           "src": "photos/hangzhou-waterside-tree.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "A spreading green tree and its reflection in still water", "zh": "舒展枝条的绿树与静水中的倒影" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "A spreading green tree and its reflection in still water",
+            "zh": "舒展枝条的绿树与静水中的倒影"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-waterside-tree.webp"
         },
         {
           "src": "photos/hangzhou-shaoxing-luxun.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "Visitors beside the entrance and mural at Lu Xun's hometown in Shaoxing", "zh": "绍兴鲁迅故里入口、壁画与往来的游客" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "Visitors beside the entrance and mural at Lu Xun's hometown in Shaoxing",
+            "zh": "绍兴鲁迅故里入口、壁画与往来的游客"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-shaoxing-luxun.webp"
         },
         {
           "src": "photos/hangzhou-shen-garden-stone.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "An inscribed stone marking Shen Garden among trees", "zh": "树木掩映中的沈园题字石" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "An inscribed stone marking Shen Garden among trees",
+            "zh": "树木掩映中的沈园题字石"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-shen-garden-stone.webp"
         },
         {
           "src": "photos/hangzhou-shen-garden-gate.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "The traditional gateway to Shen Garden in Shaoxing", "zh": "绍兴沈氏园的传统园门" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "The traditional gateway to Shen Garden in Shaoxing",
+            "zh": "绍兴沈氏园的传统园门"
+          },
+          "mobileSrc": "photos/mobile/hangzhou-shen-garden-gate.webp"
         }
       ]
     },
     {
       "id": "shanghai",
-      "name": { "en": "Shanghai", "zh": "上海" },
+      "name": {
+        "en": "Shanghai",
+        "zh": "上海"
+      },
       "longitude": 121.4737,
       "latitude": 31.2304,
       "residence": false,
@@ -226,34 +417,62 @@
       "photos": [
         {
           "src": "photos/shanghai-jingan-temple.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "Jing'an Temple's golden roofs beside modern buildings and street traffic in Shanghai", "zh": "上海静安寺的金色屋顶、现代楼宇与街头车流" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "Jing'an Temple's golden roofs beside modern buildings and street traffic in Shanghai",
+            "zh": "上海静安寺的金色屋顶、现代楼宇与街头车流"
+          },
+          "mobileSrc": "photos/mobile/shanghai-jingan-temple.webp"
         },
         {
           "src": "photos/shanghai-canal-boat.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A wooden boat on a narrow canal between waterside houses", "zh": "水乡民居之间的狭窄河道与木船" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A wooden boat on a narrow canal between waterside houses",
+            "zh": "水乡民居之间的狭窄河道与木船"
+          },
+          "mobileSrc": "photos/mobile/shanghai-canal-boat.webp"
         },
         {
           "src": "photos/shanghai-oriental-pearl-night.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "The illuminated Oriental Pearl Tower and Shanghai's riverfront skyline at night", "zh": "夜色中亮起灯光的东方明珠塔与上海江畔天际线" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "The illuminated Oriental Pearl Tower and Shanghai's riverfront skyline at night",
+            "zh": "夜色中亮起灯光的东方明珠塔与上海江畔天际线"
+          },
+          "mobileSrc": "photos/mobile/shanghai-oriental-pearl-night.webp"
         },
         {
           "src": "photos/shanghai-street-corner.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A rounded red-brick apartment building at a Shanghai street corner", "zh": "上海街角带有圆弧转角的红砖公寓楼" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A rounded red-brick apartment building at a Shanghai street corner",
+            "zh": "上海街角带有圆弧转角的红砖公寓楼"
+          },
+          "mobileSrc": "photos/mobile/shanghai-street-corner.webp"
         },
         {
           "src": "photos/shanghai-racing-car.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A red racing car passing crowded grandstands at a Shanghai circuit", "zh": "上海赛车场上驶过观众看台的红色赛车" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A red racing car passing crowded grandstands at a Shanghai circuit",
+            "zh": "上海赛车场上驶过观众看台的红色赛车"
+          },
+          "mobileSrc": "photos/mobile/shanghai-racing-car.webp"
         }
       ]
     },
     {
       "id": "wuxi",
-      "name": { "en": "Wuxi", "zh": "无锡" },
+      "name": {
+        "en": "Wuxi",
+        "zh": "无锡"
+      },
       "longitude": 120.3119,
       "latitude": 31.4912,
       "residence": false,
@@ -261,45 +480,86 @@
       "photos": [
         {
           "src": "photos/wuxi-pagoda.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A pagoda above red lanterns and colorful flags", "zh": "红灯笼与彩旗上方的古塔" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A pagoda above red lanterns and colorful flags",
+            "zh": "红灯笼与彩旗上方的古塔"
+          },
+          "mobileSrc": "photos/mobile/wuxi-pagoda.webp"
         },
         {
           "src": "photos/wuxi-temple-flags.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A temple facade beneath rows of colorful flags", "zh": "成排彩旗下的寺院建筑" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A temple facade beneath rows of colorful flags",
+            "zh": "成排彩旗下的寺院建筑"
+          },
+          "mobileSrc": "photos/mobile/wuxi-temple-flags.webp"
         },
         {
           "src": "photos/wuxi-canal-houses.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Canal-side houses, red lanterns and a stone parapet in Wuxi", "zh": "无锡沿河民居、红灯笼与石栏" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Canal-side houses, red lanterns and a stone parapet in Wuxi",
+            "zh": "无锡沿河民居、红灯笼与石栏"
+          },
+          "mobileSrc": "photos/mobile/wuxi-canal-houses.webp"
         },
         {
           "src": "photos/wuxi-stone-bridge.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "An arched stone bridge across a canal in Wuxi", "zh": "横跨无锡河道的石拱桥" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "An arched stone bridge across a canal in Wuxi",
+            "zh": "横跨无锡河道的石拱桥"
+          },
+          "mobileSrc": "photos/mobile/wuxi-stone-bridge.webp"
         },
         {
           "src": "photos/wuxi-city-avenue.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A Wuxi street leading toward distant towers", "zh": "伸向远处高楼的无锡街道" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A Wuxi street leading toward distant towers",
+            "zh": "伸向远处高楼的无锡街道"
+          },
+          "mobileSrc": "photos/mobile/wuxi-city-avenue.webp"
         },
         {
           "src": "photos/wuxi-taihu-sign.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "An inscribed stone and flowerbeds at a Taihu scenic area", "zh": "太湖景区的题字石与花木" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "An inscribed stone and flowerbeds at a Taihu scenic area",
+            "zh": "太湖景区的题字石与花木"
+          },
+          "mobileSrc": "photos/mobile/wuxi-taihu-sign.webp"
         },
         {
           "src": "photos/wuxi-lakeside-pavilion.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "An ornate pavilion gateway framed by green trees", "zh": "绿树环绕的精致楼阁式门楼" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "An ornate pavilion gateway framed by green trees",
+            "zh": "绿树环绕的精致楼阁式门楼"
+          },
+          "mobileSrc": "photos/mobile/wuxi-lakeside-pavilion.webp"
         }
       ]
     },
     {
       "id": "tokyo",
-      "name": { "en": "Tokyo", "zh": "东京" },
-      "albumTitle": { "en": "Tokyo, Yokohama & Mount Fuji", "zh": "东京 · 横滨 · 富士山" },
+      "name": {
+        "en": "Tokyo",
+        "zh": "东京"
+      },
+      "albumTitle": {
+        "en": "Tokyo, Yokohama & Mount Fuji",
+        "zh": "东京 · 横滨 · 富士山"
+      },
       "longitude": 139.7671,
       "latitude": 35.6812,
       "residence": false,
@@ -307,40 +567,76 @@
       "photos": [
         {
           "src": "photos/tokyo-tower.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Tokyo Tower rising above trees and buildings in daylight", "zh": "日光下高出树木与楼宇的东京塔" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Tokyo Tower rising above trees and buildings in daylight",
+            "zh": "日光下高出树木与楼宇的东京塔"
+          },
+          "mobileSrc": "photos/mobile/tokyo-tower.webp"
         },
         {
           "src": "photos/tokyo-yokohama-waterfront.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "Cable cars over Yokohama's waterfront at dusk", "zh": "暮色中横滨水岸上方的缆车" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "Cable cars over Yokohama's waterfront at dusk",
+            "zh": "暮色中横滨水岸上方的缆车"
+          },
+          "mobileSrc": "photos/mobile/tokyo-yokohama-waterfront.webp"
         },
         {
           "src": "photos/tokyo-mount-fuji.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Snow-covered Mount Fuji beneath sunset clouds", "zh": "晚霞云层下积雪的富士山" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Snow-covered Mount Fuji beneath sunset clouds",
+            "zh": "晚霞云层下积雪的富士山"
+          },
+          "mobileSrc": "photos/mobile/tokyo-mount-fuji.webp"
         },
         {
           "src": "photos/tokyo-shinjuku-display.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A penguin-character shop display in Shinjuku", "zh": "新宿商店里的企鹅形象陈列" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A penguin-character shop display in Shinjuku",
+            "zh": "新宿商店里的企鹅形象陈列"
+          },
+          "mobileSrc": "photos/mobile/tokyo-shinjuku-display.webp"
         },
         {
           "src": "photos/tokyo-ginza-street.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Ginza's buildings and street traffic in Tokyo", "zh": "东京银座的楼宇与街头车流" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Ginza's buildings and street traffic in Tokyo",
+            "zh": "东京银座的楼宇与街头车流"
+          },
+          "mobileSrc": "photos/mobile/tokyo-ginza-street.webp"
         },
         {
           "src": "photos/tokyo-skyline-night.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Tokyo's illuminated skyline and tower at night", "zh": "夜色中亮起灯光的东京天际线与高塔" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Tokyo's illuminated skyline and tower at night",
+            "zh": "夜色中亮起灯光的东京天际线与高塔"
+          },
+          "mobileSrc": "photos/mobile/tokyo-skyline-night.webp"
         }
       ]
     },
     {
       "id": "osaka",
-      "name": { "en": "Osaka", "zh": "大阪" },
-      "albumTitle": { "en": "Osaka, Kyoto, Nara & Kobe", "zh": "大阪 · 京都 · 奈良 · 神户" },
+      "name": {
+        "en": "Osaka",
+        "zh": "大阪"
+      },
+      "albumTitle": {
+        "en": "Osaka, Kyoto, Nara & Kobe",
+        "zh": "大阪 · 京都 · 奈良 · 神户"
+      },
       "longitude": 135.5023,
       "latitude": 34.6937,
       "residence": false,
@@ -348,74 +644,142 @@
       "photos": [
         {
           "src": "photos/osaka-night-stall.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "An illuminated takoyaki shop on a busy street at night", "zh": "夜晚街头亮着灯的章鱼烧店" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "An illuminated takoyaki shop on a busy street at night",
+            "zh": "夜晚街头亮着灯的章鱼烧店"
+          },
+          "mobileSrc": "photos/mobile/osaka-night-stall.webp"
         },
         {
           "src": "photos/osaka-universal-globe.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "The Universal Studios globe beneath a blue sky", "zh": "蓝天下的环球影城地球标志" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "The Universal Studios globe beneath a blue sky",
+            "zh": "蓝天下的环球影城地球标志"
+          },
+          "mobileSrc": "photos/mobile/osaka-universal-globe.webp"
         },
         {
           "src": "photos/osaka-nara-temple-gate.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A large wooden temple gate beneath a clear sky", "zh": "晴空下高大的木构寺门" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A large wooden temple gate beneath a clear sky",
+            "zh": "晴空下高大的木构寺门"
+          },
+          "mobileSrc": "photos/mobile/osaka-nara-temple-gate.webp"
         },
         {
           "src": "photos/osaka-nara-deer.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A deer beside a pond and temple building in Nara", "zh": "奈良池塘与寺院建筑旁的小鹿" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A deer beside a pond and temple building in Nara",
+            "zh": "奈良池塘与寺院建筑旁的小鹿"
+          },
+          "mobileSrc": "photos/mobile/osaka-nara-deer.webp"
         },
         {
           "src": "photos/osaka-kyoto-tower.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Kyoto Tower above the city with hills beyond", "zh": "京都塔、城市楼宇与远山" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Kyoto Tower above the city with hills beyond",
+            "zh": "京都塔、城市楼宇与远山"
+          },
+          "mobileSrc": "photos/mobile/osaka-kyoto-tower.webp"
         },
         {
           "src": "photos/osaka-kyoto-street.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Shopfronts and pedestrians along a city shopping street", "zh": "城市商业街上的店铺与行人" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Shopfronts and pedestrians along a city shopping street",
+            "zh": "城市商业街上的店铺与行人"
+          },
+          "mobileSrc": "photos/mobile/osaka-kyoto-street.webp"
         },
         {
           "src": "photos/osaka-castle.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "Osaka Castle above its stone walls", "zh": "石垣上方的大阪城天守阁" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "Osaka Castle above its stone walls",
+            "zh": "石垣上方的大阪城天守阁"
+          },
+          "mobileSrc": "photos/mobile/osaka-castle.webp"
         },
         {
           "src": "photos/osaka-city-avenue.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "An avenue and surrounding buildings viewed from above", "zh": "从高处俯瞰的城市道路与两侧楼宇" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "An avenue and surrounding buildings viewed from above",
+            "zh": "从高处俯瞰的城市道路与两侧楼宇"
+          },
+          "mobileSrc": "photos/mobile/osaka-city-avenue.webp"
         },
         {
           "src": "photos/osaka-kobe-waterfront.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Kobe Port Tower and the Maritime Museum beside the waterfront", "zh": "水岸旁的神户港塔与海洋博物馆" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Kobe Port Tower and the Maritime Museum beside the waterfront",
+            "zh": "水岸旁的神户港塔与海洋博物馆"
+          },
+          "mobileSrc": "photos/mobile/osaka-kobe-waterfront.webp"
         },
         {
           "src": "photos/osaka-dotonbori-billboards.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "Dotonbori's illuminated billboards and Glico sign at night", "zh": "夜晚道顿堀亮起灯光的广告牌与格力高标志" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "Dotonbori's illuminated billboards and Glico sign at night",
+            "zh": "夜晚道顿堀亮起灯光的广告牌与格力高标志"
+          },
+          "mobileSrc": "photos/mobile/osaka-dotonbori-billboards.webp"
         },
         {
           "src": "photos/osaka-dotonbori-gate.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A Dotonbori gateway over a brightly lit street at night", "zh": "夜间灯火明亮街道上方的道顿堀入口招牌" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A Dotonbori gateway over a brightly lit street at night",
+            "zh": "夜间灯火明亮街道上方的道顿堀入口招牌"
+          },
+          "mobileSrc": "photos/mobile/osaka-dotonbori-gate.webp"
         },
         {
           "src": "photos/osaka-city-blue-sky.webp",
-          "width": 1600, "height": 1200,
-          "alt": { "en": "A glass tower seen past an elevated roadway against blue sky", "zh": "越过高架道路望向蓝天下的玻璃高楼" }
+          "width": 1600,
+          "height": 1200,
+          "alt": {
+            "en": "A glass tower seen past an elevated roadway against blue sky",
+            "zh": "越过高架道路望向蓝天下的玻璃高楼"
+          },
+          "mobileSrc": "photos/mobile/osaka-city-blue-sky.webp"
         },
         {
           "src": "photos/osaka-kyoto-pagoda.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A red temple gate and pagoda against a blue sky", "zh": "蓝天下的朱红寺门与塔楼" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A red temple gate and pagoda against a blue sky",
+            "zh": "蓝天下的朱红寺门与塔楼"
+          },
+          "mobileSrc": "photos/mobile/osaka-kyoto-pagoda.webp"
         }
       ]
     },
     {
       "id": "okinawa",
-      "name": { "en": "Okinawa", "zh": "冲绳" },
+      "name": {
+        "en": "Okinawa",
+        "zh": "冲绳"
+      },
       "longitude": 127.6809,
       "latitude": 26.2124,
       "residence": false,
@@ -423,23 +787,43 @@
       "photos": [
         {
           "src": "photos/okinawa-aquarium.webp",
-          "width": 1067, "height": 1600,
-          "alt": { "en": "A whale shark and smaller fish in a large blue aquarium tank", "zh": "蓝色大型水族箱里的鲸鲨与鱼群" }
+          "width": 1067,
+          "height": 1600,
+          "alt": {
+            "en": "A whale shark and smaller fish in a large blue aquarium tank",
+            "zh": "蓝色大型水族箱里的鲸鲨与鱼群"
+          },
+          "mobileSrc": "photos/mobile/okinawa-aquarium.webp"
         },
         {
           "src": "photos/okinawa-market-night.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "An illuminated Okinawa souvenir shop at night", "zh": "夜晚亮着灯的冲绳纪念品商店" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "An illuminated Okinawa souvenir shop at night",
+            "zh": "夜晚亮着灯的冲绳纪念品商店"
+          },
+          "mobileSrc": "photos/mobile/okinawa-market-night.webp"
         },
         {
           "src": "photos/okinawa-turquoise-beach.webp",
-          "width": 1600, "height": 1067,
-          "alt": { "en": "A sandy Okinawa beach beside turquoise water", "zh": "冲绳沙滩与碧蓝海水" }
+          "width": 1600,
+          "height": 1067,
+          "alt": {
+            "en": "A sandy Okinawa beach beside turquoise water",
+            "zh": "冲绳沙滩与碧蓝海水"
+          },
+          "mobileSrc": "photos/mobile/okinawa-turquoise-beach.webp"
         },
         {
           "src": "photos/okinawa-coastal-cliff.webp",
-          "width": 1200, "height": 1600,
-          "alt": { "en": "A coastal rock arch and cliff above the sea in Okinawa", "zh": "冲绳海边的岩石拱洞与峭壁" }
+          "width": 1200,
+          "height": 1600,
+          "alt": {
+            "en": "A coastal rock arch and cliff above the sea in Okinawa",
+            "zh": "冲绳海边的岩石拱洞与峭壁"
+          },
+          "mobileSrc": "photos/mobile/okinawa-coastal-cliff.webp"
         }
       ]
     }

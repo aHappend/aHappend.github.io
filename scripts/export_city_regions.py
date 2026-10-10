@@ -95,6 +95,21 @@ def load_source(source_directory, identifier, adcode):
     return features, properties
 
 
+def write_region_index(regions):
+    directory = ROOT / "art/city-regions"
+    directory.mkdir(exist_ok=True)
+    index = []
+    for region in regions:
+        path = f"art/city-regions/{region['id']}.json"
+        (ROOT / path).write_text(json.dumps(
+            {"id": region["id"], "path": region["path"]}, separators=(",", ":")
+        ) + "\n")
+        index.append({key: value for key, value in region.items() if key != "path"} | {"pathFile": path})
+    (ROOT / "art/city-index.json").write_text(json.dumps(
+        {"west": WEST, "regions": index}, separators=(",", ":")
+    ) + "\n")
+
+
 def compile_regions(source_directory, accessed):
     features = []
     regions = []
@@ -158,6 +173,7 @@ def compile_regions(source_directory, accessed):
     (ROOT / "art/city-regions.json").write_text(json.dumps(
         {"west": WEST, "regions": regions}, separators=(",", ":")
     ) + "\n")
+    write_region_index(regions)
 
 
 if __name__ == "__main__":

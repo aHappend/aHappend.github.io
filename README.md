@@ -104,9 +104,14 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   JS it links directly to the SVG. Reduced motion/effects off/no JS show the
   complete painting, and print removes decorative layers. The earlier
   `art/paper-washes.svg` remains an unused source asset.
-  Its `landscape`, `sun-disc`, and `moon-disc` groups are reused through external
-  SVG `use` references: the background has only one sun/moon, not a fixed sun
-  underneath another celestial image. Switching theme lowers the outgoing sun
+  Its `landscape` group is reused through an external SVG `use` reference.
+  `scripts/export_sky.py` bakes its shared `sun-disc` and `moon-disc` into separate
+  640×640 transparent WebP images, with 320×320 phone variants selected by
+  `picture`. This avoids WebKit's missing gradient/mask
+  rendering through external SVG fragments and live pigment-filter work.
+  The sun has a warm round pigment core; the moon retains its crescent cutout.
+  The background has only one sun/moon, not a fixed sun underneath another
+  celestial image. Switching theme lowers the outgoing sun
   or moon and raises the other; reduced motion and effects-off switch directly.
   Opening the standalone painting still shows the complete original sunlit work.
 - `art/painted-study-portrait.svg` is a separately composed 720×1280 mountain,
@@ -114,11 +119,14 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The complete image uses `object-fit: contain`, with transparent feathered edges
   on all four sides blending into the blue paper. Its own pencil contours replace
   the wide-screen sketch; the shared sun/moon stays proportional and changes with
-  the theme. `scripts/export_portrait_background.py` bakes pigment filters into
+  the theme. Phone/tablet sky images sit below the measured header in both
+  orientations, with enough contrast to remain visible before scrolling.
+  `scripts/export_portrait_background.py` bakes pigment filters into
   the corresponding transparent WebP once, so phones only composite a cached image
   instead of running turbulence filters while scrolling. Regenerate with
   `python scripts/export_portrait_background.py` using the existing optional
-  Pillow/Playwright/Chrome authoring setup. The website still needs no build step.
+  Pillow/Playwright/Chrome authoring setup. Regenerate the sky images separately
+  with `python scripts/export_sky.py`. The website still needs no build step.
 - The `#elsewhere` interlude defaults to **Follow scroll** on every page load.
   Its Pacific-centered world view places Asia on the left and the Americas on
   the right, with the longitude seam at 30°W. It moves to an 8x view centered
@@ -185,7 +193,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   The world source and China source are documented in [Map sources](#map-sources).
   No remote map service, API key, or runtime map dependency is used.
   The map uses a short bilingual accessible name, not a long SVG-title tooltip.
-- `city-atlas.js` reads the local `places.json` and `art/city-regions.json`, and projects longitude/latitude
+- `city-atlas.js` reads the local `places.json` and small `art/city-index.json`
+  only when the map approaches the viewport. It fetches each exact outline from
+  `art/city-regions/<id>.json` on first opening that city, rather than downloading
+  all outlines before the first screen. Photographs and the camera can open while
+  an outline loads; a visible status identifies pending or failed geometry.
+  Failed data requests have a retry button and a bounded request timeout.
+  It projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
   true coordinates; frameless, subtly shadowed names use collision-aware
   callouts and short leaders that stop before the actual text rather than running
@@ -278,6 +292,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   reserve extra photo space without covering the remaining map or either city row.
   Only the selected and next two photos start loading eagerly; later photos load
   as they approach the front of the queue, without lazy-loading visible rear prints.
+  The selected image has higher fetch priority than rear prints. A `picture`
+  source selects metadata-free, 768px-long-edge derivatives on phone layouts,
+  while desktop retains the original 1600px exports. Loading photographs have
+  a visible status; failures expose a retry action without advancing the queue.
   Outside clicks,
   Escape, focus return, translated image descriptions, and explicit data/image errors are
   preserved. Scrolling keeps the album attached to the map, not clamped to the
@@ -380,9 +398,15 @@ chapter headlines use concise internal rhymes; preserve the separate Chinese cop
 
 The page remains readable and navigable without JavaScript. Browser storage is
 optional; unavailable storage emits a console warning and settings remain usable
-for the current page. External font styles load without blocking first paint or
-map initialization; unavailable fonts retain system fallbacks. A `noscript`
-stylesheet preserves the web fonts when JavaScript is disabled.
+for the current page. Typography is self-hosted under `fonts/`, with `font-display:
+swap` and system fallbacks. No Google Fonts or GitHub avatar request is required
+to render the page. `scripts/export_web_fonts.py` downloads the existing Latin
+families and Chinese subsets covering published translations, and retains each
+family's SIL Open Font License alongside the WOFF2 files. Regenerate after adding
+Chinese copy; new glyphs still have native fallbacks. Chinese faces are restricted
+to CJK ranges so an English-page arrow cannot trigger a full Chinese-font download.
+The profile avatar and compact NTU logo are local; below-fold illustration and
+institution images use native lazy loading and low fetch priority.
 Reduced-motion preferences disable entrance/filter animation and pointer effects.
 
 ## Map sources
@@ -432,7 +456,10 @@ Run `python -m unittest discover -s scripts -p 'test_atlas.py'` after map change
 
 `data/city-regions.geojson` records the normalized geometry, input SHA-256,
 source URL, coordinate convention, and access date (2026-10-10).
-`art/city-regions.json` is its compact projected runtime representation.
+`art/city-regions.json` retains the complete projected reference and compatibility
+asset. The exporter also writes `art/city-index.json` (bounds and provenance) and
+separate `art/city-regions/<id>.json` paths for on-demand delivery. Splitting does
+not simplify or discard any components, including Okinawa's small islands.
 
 - Beijing municipality (110000), Nanjing prefecture (320100), Suzhou prefecture
   (320500), Hangzhou prefecture (330100), Shanghai municipality (310000),
@@ -542,6 +569,11 @@ upscales, or overwrites an existing destination. HEIC/HEIF input additionally
 requires `python -m pip install pillow-heif`; that decoder is loaded only for those
 formats. All 63 owner-photo exports use this pipeline, including the two
 Nanjing and three additional Hangzhou/Shaoxing HEIC files and orientation-tagged portraits.
+After updating `places.json`, run `python scripts/export_mobile_assets.py` to
+generate missing 768px WebP derivatives and record each optional `mobileSrc`.
+This reuses the metadata-safe exporter, preserves full-size photos, and refreshes
+the small local avatar and NTU logo. Keep a changed photo's source filename unique
+so existing derivatives are not mistaken for new content.
 
 ## Updating identity assets
 

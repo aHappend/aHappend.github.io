@@ -472,6 +472,7 @@ function updateScrollState() {
     atlasStory.style.setProperty("--atlas-screen-height", `${atlasScreenHeight}px`);
     const height = atlas.getBoundingClientRect().height;
     const header = siteHeader.getBoundingClientRect().height;
+    scrollStudy.style.setProperty("--sky-header-height", `${header}px`);
     const spare = atlasScreenHeight - header - 24 - height;
     atlasLayout = {
       header, pinTop: header + 12 + (spare >= 0 ? spare / 2 : spare), travel: atlasScreenHeight * 1.8,

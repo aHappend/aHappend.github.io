@@ -10,7 +10,7 @@ from pathlib import Path
 from PIL import Image, ImageCms, ImageOps
 
 
-def export_photo(source: Path, destination: Path) -> dict:
+def export_photo(source: Path, destination: Path, *, max_edge=1600, quality=85) -> dict:
     if destination.suffix.lower() != ".webp":
         raise ValueError("The destination must be a WebP file")
     if destination.exists():
@@ -32,11 +32,11 @@ def export_photo(source: Path, destination: Path) -> dict:
             )
         else:
             image = image.convert("RGB")
-        image.thumbnail((1600, 1600), Image.Resampling.LANCZOS)
+        image.thumbnail((max_edge, max_edge), Image.Resampling.LANCZOS)
         clean = Image.new("RGB", image.size)
         clean.paste(image)
         destination.parent.mkdir(parents=True, exist_ok=True)
-        clean.save(destination, "WEBP", quality=85, method=6)
+        clean.save(destination, "WEBP", quality=quality, method=6)
 
     with Image.open(destination) as exported:
         if exported.getexif() or any(

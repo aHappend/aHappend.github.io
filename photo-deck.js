@@ -58,6 +58,8 @@ function createPhotoDeck(gallery, getLanguage) {
       print.figure.setAttribute("aria-current", String(index === active));
       if (depth < 3 && !print.image.hasAttribute("src")) {
         print.image.loading = "eager";
+        print.image.fetchPriority = depth === 0 ? "high" : "low";
+        if (print.source) print.source.srcset = photos[index].mobileSrc;
         print.image.src = photos[index].src;
       }
     }
@@ -144,6 +146,14 @@ function createPhotoDeck(gallery, getLanguage) {
       const button = document.createElement("button");
       const image = document.createElement("img");
       const failure = document.createElement("span");
+      const retry = document.createElement("button");
+      const picture = document.createElement("picture");
+      const source = photo.mobileSrc ? document.createElement("source") : null;
+      if (source) {
+        source.media = "(max-width: 900px)";
+        picture.append(source);
+      }
+      picture.append(image);
       figure.className = "city-print";
       const ratio = photo.width ? photo.width / photo.height : 1.5;
       figure.style.setProperty("--print-ratio", ratio);
@@ -161,22 +171,46 @@ function createPhotoDeck(gallery, getLanguage) {
         image.height = photo.height;
       }
       failure.className = "city-photo-error";
-      failure.hidden = true;
+      failure.hidden = false;
       failure.setAttribute("role", "status");
-      failure.textContent = chinese ? "这张照片暂时无法加载。" : "This photo could not be loaded.";
-      image.addEventListener("load", () => button.setAttribute("data-loaded", ""), { once: true });
+      const loadingText = chinese ? "照片加载中…" : "Loading photograph…";
+      failure.textContent = loadingText;
+      retry.type = "button";
+      retry.className = "city-photo-retry";
+      retry.textContent = chinese ? "重试" : "Retry";
+      retry.hidden = true;
+      retry.addEventListener("click", event => {
+        event.stopPropagation();
+        cancelGesture();
+        retry.hidden = true;
+        figure.removeAttribute("data-error");
+        failure.textContent = loadingText;
+        const query = `?retry=${Date.now()}`;
+        if (source) source.srcset = photo.mobileSrc + query;
+        image.src = photo.src + query;
+      });
+      image.addEventListener("load", () => {
+        button.setAttribute("data-loaded", "");
+        image.hidden = false;
+        failure.hidden = retry.hidden = true;
+        figure.removeAttribute("data-error");
+      });
       image.addEventListener("error", () => {
+        button.removeAttribute("data-loaded");
+        figure.setAttribute("data-error", "");
         image.hidden = true;
         failure.hidden = false;
-        console.error("City photo could not be loaded:", photo.src);
-      }, { once: true });
-      button.append(image, failure);
-      figure.append(button);
+        retry.hidden = false;
+        failure.textContent = chinese ? "这张照片暂时无法加载。" : "This photo could not be loaded.";
+        console.error("City photo could not be loaded:", image.currentSrc || photo.src);
+      });
+      button.append(picture, failure);
+      figure.append(button, retry);
       figure.addEventListener("click", () => {
         if (photos.length > 1) select(active + 1);
       });
       stack.append(figure);
-      prints.push({ figure, button, image });
+      prints.push({ figure, button, image, source });
     }
     arrange();
   }

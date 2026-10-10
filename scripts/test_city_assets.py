@@ -19,6 +19,38 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class CityAssetsTest(unittest.TestCase):
+    def test_on_demand_index_preserves_every_outline(self):
+        complete = json.loads((ROOT / "art/city-regions.json").read_text())
+        index = json.loads((ROOT / "art/city-index.json").read_text())
+        self.assertLess((ROOT / "art/city-index.json").stat().st_size, 5000)
+        self.assertEqual(index["west"], complete["west"])
+        self.assertEqual(len(index["regions"]), len(complete["regions"]))
+        for entry, original in zip(index["regions"], complete["regions"]):
+            self.assertEqual(entry["id"], original["id"])
+            self.assertEqual(entry["bounds"], original["bounds"])
+            self.assertEqual(entry.get("credit"), original.get("credit"))
+            self.assertNotIn("path", entry)
+            outline = json.loads((ROOT / entry["pathFile"]).read_text())
+            self.assertEqual(outline, {"id": original["id"], "path": original["path"]})
+
+    def test_mobile_photos_preserve_composition_without_private_metadata(self):
+        places = json.loads((ROOT / "places.json").read_text())["places"]
+        original_bytes = mobile_bytes = 0
+        for place in places:
+            for photo in place["photos"]:
+                with self.subTest(photo=photo["src"]):
+                    source, target = ROOT / photo["src"], ROOT / photo["mobileSrc"]
+                    original_bytes += source.stat().st_size
+                    mobile_bytes += target.stat().st_size
+                    with Image.open(source) as original, Image.open(target) as image:
+                        self.assertLessEqual(max(image.size), 768)
+                        self.assertAlmostEqual(image.width / image.height,
+                                               original.width / original.height, delta=.004)
+                        self.assertFalse(image.getexif())
+                        self.assertFalse({"exif", "xmp", "icc_profile"} & image.info.keys())
+                        self.assertEqual(image.n_frames, 1)
+        self.assertLess(mobile_bytes, original_bytes * .3)
+
     def test_region_topology_provenance_and_projection(self):
         features = json.loads((ROOT / "data/city-regions.geojson").read_text())["features"]
         compiled = json.loads((ROOT / "art/city-regions.json").read_text())

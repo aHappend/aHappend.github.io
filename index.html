@@ -15,7 +15,7 @@
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ahappend.github.io/">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/228031504?v=4">
+    <meta property="og:image" content="https://ahappend.github.io/brand/avatar.webp">
     <link rel="canonical" href="https://ahappend.github.io/">
     <title>Sufeng Guo | AI Systems &amp; Silicon</title>
     <link rel="icon" href="/favicon.ico?v=20260906-sg-seal" type="image/x-icon" sizes="16x16 32x32 48x48">
@@ -25,25 +25,17 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260906-sg-seal" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest?v=20260906-sg-seal">
     <script src="preferences.js?v=20260906-living-garden"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"
-      rel="stylesheet" media="print" onload="this.media='all'" data-web-fonts
-    >
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
-    </noscript>
+    <link rel="stylesheet" href="fonts/site-fonts.css?v=20261010-mobile-loading">
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261005-about-first">
-    <link rel="stylesheet" href="folio.css?v=20261010-magnetic-atlas">
+    <link rel="stylesheet" href="folio.css?v=20261010-mobile-loading">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Sufeng Guo",
         "url": "https://ahappend.github.io/",
-        "image": "https://avatars.githubusercontent.com/u/228031504?v=4",
+        "image": "https://ahappend.github.io/brand/avatar.webp",
         "affiliation": {
           "@type": "CollegeOrUniversity",
           "name": "Nanjing University"
@@ -74,13 +66,19 @@
     <div class="scroll-study" aria-hidden="true">
       <div class="study-wash">
         <svg class="study-paint" viewBox="0 0 1600 1000" preserveAspectRatio="none">
-          <use href="art/painted-study.svg?v=20261011-sky-cycle#landscape"/>
+          <use href="art/painted-study.svg?v=20261010-mobile-sky#landscape"/>
         </svg>
         <img class="study-paint-portrait" src="art/painted-study-portrait.webp?v=20261012-portrait" width="720" height="1280" alt="" decoding="async">
       </div>
       <div class="study-sky">
-        <svg class="study-sun" viewBox="1160 62 240 240"><use href="art/painted-study.svg?v=20261011-sky-cycle#sun-disc"/></svg>
-        <svg class="study-moon" viewBox="1160 62 240 240"><use href="art/painted-study.svg?v=20261011-sky-cycle#moon-disc"/></svg>
+        <picture>
+          <source media="(max-width: 900px)" srcset="art/study-sun-mobile.webp?v=20261010-mobile-loading">
+          <img class="study-sun" src="art/study-sun.webp?v=20261010-mobile-sky" width="640" height="640" alt="" decoding="async">
+        </picture>
+        <picture>
+          <source media="(max-width: 900px)" srcset="art/study-moon-mobile.webp?v=20261010-mobile-loading">
+          <img class="study-moon" src="art/study-moon.webp?v=20261010-mobile-sky" width="640" height="640" alt="" decoding="async">
+        </picture>
       </div>
       <svg class="study-sketch" viewBox="0 0 1600 1000" preserveAspectRatio="none" fill="none">
         <g class="study-contours">
@@ -222,7 +220,7 @@
           <div class="profile-top">
             <img
               class="avatar"
-              src="https://avatars.githubusercontent.com/u/228031504?v=4"
+              src="brand/avatar.webp"
               alt="Portrait of Sufeng Guo"
               width="112"
               height="112"
@@ -267,7 +265,7 @@
           <button class="scene-art scene-fern" type="button" data-scene="fern" disabled
                   aria-label="A gentle touch, and the fronds awaken."
                   data-label-en="A gentle touch, and the fronds awaken." data-label-zh="轻触，让一缕新绿在蕨间醒来。">
-            <img src="art/woodland-ferns.svg" alt="" width="850" height="1000" decoding="async">
+            <img src="art/woodland-ferns.svg" alt="" width="850" height="1000" loading="lazy" fetchpriority="low" decoding="async">
             <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Where new green unfolds" data-zh="新绿渐生">Where new green unfolds</span><span class="scene-state"></span></span>
           </button>
           <div class="about-stack">
@@ -297,7 +295,7 @@
                  href="https://ic.nju.edu.cn/"
                  target="_blank" rel="noreferrer">
                   <span class="institution-logo institution-logo-nju" aria-hidden="true">
-                    <img src="institutions/nju.svg" alt="">
+                    <img src="institutions/nju.svg" alt="" loading="lazy" fetchpriority="low">
                   </span>
                   <span class="milestone-copy">
                     <span class="experience-meta">
@@ -323,7 +321,7 @@
                      href="https://www.microsoft.com/en-us/research/group/systems-research-group-asia/"
                      target="_blank" rel="noreferrer">
                     <span class="institution-logo institution-logo-microsoft" aria-hidden="true">
-                      <img src="institutions/microsoft.svg" alt="">
+                      <img src="institutions/microsoft.svg" alt="" loading="lazy" fetchpriority="low">
                     </span>
                     <span class="milestone-copy">
                       <span class="experience-meta">
@@ -346,7 +344,7 @@
                      href="https://www.ntu.edu.sg/education/student-exchanges/exchange-programmes/inbound-programmes"
                      target="_blank" rel="noreferrer">
                     <span class="institution-logo institution-logo-ntu" aria-hidden="true">
-                      <img src="institutions/ntu-lockup.png?v=20261004" alt="" width="1200" height="430">
+                      <img src="institutions/ntu-lockup.webp" alt="" width="360" height="129" loading="lazy" fetchpriority="low">
                     </span>
                     <span class="milestone-copy">
                       <span class="experience-meta">
@@ -451,7 +449,7 @@
           <button class="scene-art work-landscape" type="button" data-scene="mountain" disabled
                   aria-label="Send a flock of birds across the mountain valley"
                   data-label-en="Send a flock of birds across the mountain valley" data-label-zh="唤起群鸟，掠过山谷">
-            <img src="art/mountain-valley.svg" alt="" width="1500" height="800" decoding="async">
+            <img src="art/mountain-valley.svg" alt="" width="1500" height="800" loading="lazy" fetchpriority="low" decoding="async">
             <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Birds over the valley" data-zh="山谷飞鸟">Birds over the valley</span><span class="scene-state"></span></span>
           </button>
         </div>
@@ -837,7 +835,7 @@
             <button class="scene-art scene-aside" type="button" data-scene="meadow" disabled
                     aria-label="Send wildflower seeds drifting on the breeze"
                     data-label-en="Send wildflower seeds drifting on the breeze" data-label-zh="拂过草甸，让花絮随风飞散">
-              <img src="art/flower-meadow.svg" alt="" width="1500" height="650" decoding="async">
+              <img src="art/flower-meadow.svg" alt="" width="1500" height="650" loading="lazy" fetchpriority="low" decoding="async">
               <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Seeds on the breeze" data-zh="随风扬絮">Seeds on the breeze</span><span class="scene-state"></span></span>
             </button>
             <p
@@ -1061,7 +1059,7 @@
             <button class="scene-art scene-aside" type="button" data-scene="pond" disabled
                     aria-label="Ripple the lily pond and stir the dragonfly"
                     data-label-en="Ripple the lily pond and stir the dragonfly" data-label-zh="轻点睡莲池，泛起涟漪，惊起蜻蜓">
-              <img src="art/pond-garden.svg" alt="" width="1500" height="760" decoding="async">
+              <img src="art/pond-garden.svg" alt="" width="1500" height="760" loading="lazy" fetchpriority="low" decoding="async">
               <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="Ripples &amp; dragonfly" data-zh="涟漪与蜻蜓">Ripples &amp; dragonfly</span><span class="scene-state"></span></span>
             </button>
             <p
@@ -1195,7 +1193,7 @@
             <button class="scene-art scene-aside" type="button" data-scene="rose" disabled
                     aria-label="Open the wild roses in a swirl of petals"
                     data-label-en="Open the wild roses in a swirl of petals" data-label-zh="唤醒蔷薇，让花瓣旋舞绽放">
-              <img src="art/wild-rose-branch.svg" alt="" width="1100" height="730" decoding="async">
+              <img src="art/wild-rose-branch.svg" alt="" width="1100" height="730" loading="lazy" fetchpriority="low" decoding="async">
               <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="A little rose bloom" data-zh="蔷薇旋舞">A little rose bloom</span><span class="scene-state"></span></span>
             </button>
             <p
@@ -1297,7 +1295,7 @@
         <button class="scene-art scene-coast" type="button" data-scene="coast" disabled
                 aria-label="Bring a gentle tide onto the beach"
                 data-label-en="Bring a gentle tide onto the beach" data-label-zh="让海潮轻轻漫过沙滩">
-          <img src="art/coastal-light.svg" alt="" width="1500" height="850" decoding="async">
+          <img src="art/coastal-light.svg" alt="" width="1500" height="850" loading="lazy" fetchpriority="low" decoding="async">
           <span class="scene-hint" aria-hidden="true"><span class="scene-action" data-en="A gentle tide" data-zh="海潮轻涌">A gentle tide</span><span class="scene-state"></span></span>
         </button>
         <p class="mono" data-en="06 / CONTACT" data-zh="06 / 联系">
@@ -1315,7 +1313,7 @@
             <span data-en="More links" data-zh="更多链接">More links</span>
             <span aria-hidden="true">↗</span>
           </a>
-          <a class="text-link painting-open" href="art/painted-study.svg?v=20261011-sky-cycle">
+          <a class="text-link painting-open" href="art/painted-study.svg?v=20261010-mobile-sky">
             <span data-en="See the finished watercolor" data-zh="看看刚刚画完的水彩">See the finished watercolor</span>
             <span aria-hidden="true">↗</span>
           </a>
@@ -1326,7 +1324,7 @@
     <dialog class="painting-dialog" aria-labelledby="painting-title">
       <form method="dialog"><button type="submit" aria-label="Close watercolor" class="painting-close">×</button></form>
       <p class="mono" id="painting-title" data-en="FROM A FEW LINES, A LANDSCAPE." data-zh="从几笔线条，到一幅风景。">FROM A FEW LINES, A LANDSCAPE.</p>
-      <img src="art/painted-study.svg?v=20261011-sky-cycle" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
+      <img src="art/painted-study.svg?v=20261010-mobile-sky" alt="An original watercolor landscape of mountains, a lake, and a warm sun." width="1600" height="1000" loading="lazy">
       <p data-en="An original study for this website—not a photograph of a place I've visited."
          data-zh="为这个网站创作的风景习作，并非某次旅行的实景记录。">An original study for this website—not a photograph of a place I've visited.</p>
     </dialog>
@@ -1355,8 +1353,8 @@
       <div class="city-gallery"></div>
     </div>
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
-    <script src="photo-deck.js?v=20261010-magnetic-atlas"></script>
-    <script src="city-atlas.js?v=20261010-magnetic-atlas"></script>
-    <script src="script.js?v=20261010-magnetic-atlas"></script>
+    <script src="photo-deck.js?v=20261010-mobile-loading"></script>
+    <script src="city-atlas.js?v=20261010-mobile-loading"></script>
+    <script src="script.js?v=20261010-mobile-loading"></script>
   </body>
 </html>

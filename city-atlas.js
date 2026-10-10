@@ -8,6 +8,15 @@ function createCityAtlas(atlas, getLanguage) {
   const homeRow = list.querySelector('[data-residence="true"]');
   const travelRow = list.querySelector('[data-residence="false"]');
   const status = atlas.querySelector(".atlas-city-status");
+  const retry = document.createElement("button");
+  retry.type = "button";
+  retry.className = "atlas-city-retry";
+  retry.hidden = true;
+  const feedback = document.createElement("div");
+  feedback.className = "atlas-city-feedback";
+  feedback.hidden = true;
+  feedback.append(status, retry);
+  viewport.append(feedback);
   const dialog = document.querySelector(".city-popover");
   const title = dialog.querySelector("h2");
   const residence = dialog.querySelector(".city-residence");
@@ -24,11 +33,12 @@ function createCityAtlas(atlas, getLanguage) {
   let albumOpen = false;
   let closeTimer = null;
   let screenHeight = innerHeight;
-  atlas.dataset.cityState = "loading";
+  atlas.dataset.cityState = "waiting";
   const entries = [];
   let selectedPlace = null;
   let trigger = null;
   let loadingError = false;
+  let initializing = false;
   let progress = 0;
   let projection = null;
   let projectionDirty = true;
@@ -48,7 +58,7 @@ function createCityAtlas(atlas, getLanguage) {
   const institutions = {
     microsoft: { src: "institutions/microsoft.svg", name: { en: "Microsoft", zh: "微软" } },
     nju: { src: "institutions/nju.svg", name: { en: "Nanjing University", zh: "南京大学" } },
-    ntu: { src: "institutions/ntu-lockup.png?v=20261004", name: { en: "Nanyang Technological University", zh: "南洋理工大学" } },
+    ntu: { src: "institutions/ntu-lockup.webp", name: { en: "Nanyang Technological University", zh: "南洋理工大学" } },
   };
 
   const text = (value) => value[getLanguage()];
@@ -56,6 +66,9 @@ function createCityAtlas(atlas, getLanguage) {
     (key) => typeof value[key] === "string" && value[key].trim()
   );
   const nonempty = (value) => typeof value === "string" && value.trim();
+  const localPhoto = value => typeof value === "string"
+    && /^photos\/[a-z0-9_./-]+\.(avif|jpe?g|png|webp)$/i.test(value)
+    && !value.split("/").includes("..");
   const webLink = (value) => typeof value === "string"
     && /^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(value);
 
@@ -74,14 +87,13 @@ function createCityAtlas(atlas, getLanguage) {
           || !/^\d{4}\.(0[1-9]|1[0-2])–\d{4}\.(0[1-9]|1[0-2])$/.test(place.period)
           || place.period.slice(0, 7) > place.period.slice(8)))
         || (place.institution !== undefined && (typeof place.institution !== "string"
-          || !Object.hasOwn(institutions, place.institution)))) {
+          || !Object.prototype.hasOwnProperty.call(institutions, place.institution)))) {
         throw new TypeError("Each city needs a unique ID, bilingual name, coordinates, and photos");
       }
       ids.add(place.id);
       for (const photo of place.photos) {
-        if (!photo || typeof photo.src !== "string"
-          || !/^photos\/[a-z0-9_./-]+\.(avif|jpe?g|png|webp)$/i.test(photo.src)
-          || photo.src.split("/").includes("..") || !localized(photo.alt)
+        if (!photo || !localPhoto(photo.src) || !localized(photo.alt)
+          || (photo.mobileSrc !== undefined && !localPhoto(photo.mobileSrc))
           || ((photo.width !== undefined || photo.height !== undefined)
             && (![photo.width, photo.height].every(value => Number.isSafeInteger(value) && value > 0)))
           || (photo.caption !== undefined && !localized(photo.caption))
@@ -102,7 +114,7 @@ function createCityAtlas(atlas, getLanguage) {
     const regions = new Map();
     for (const region of data.regions) {
       if (!region || typeof region.id !== "string" || !/^[a-z0-9-]+$/.test(region.id) || regions.has(region.id)
-        || typeof region.path !== "string" || !/^M[MLZ\d.,-]+$/.test(region.path)
+        || region.pathFile !== `art/city-regions/${region.id}.json`
         || !Array.isArray(region.bounds) || region.bounds.length !== 4
         || !region.bounds.every(Number.isFinite)
         || region.bounds[0] < 0 || region.bounds[1] < 0
@@ -255,6 +267,9 @@ function createCityAtlas(atlas, getLanguage) {
     atlas.dataset.cityFocus = place.id;
     if (place.region) atlas.dataset.cityRegion = place.region;
     else atlas.removeAttribute("data-city-region");
+    const entry = entries.find(entry => entry.place === place);
+    atlas.toggleAttribute("data-region-pending", Boolean(entry.region && !entry.regionPath.hasAttribute("d")));
+    loadRegion(entry);
     resize();
     // Lay out the final slot before exposing the card's opening state.
     positionAlbum();
@@ -278,17 +293,21 @@ function createCityAtlas(atlas, getLanguage) {
       setCameraState("focused");
       positionAlbum();
     });
+    updateLoadStatus();
   }
 
   close.addEventListener("click", hideAlbum);
   function clearRegion() {
     atlas.removeAttribute("data-city-region");
+    atlas.removeAttribute("data-region-pending");
     for (const { regionPath } of entries) regionPath?.removeAttribute("data-active");
+    updateLoadStatus();
   }
 
   function hideAlbum() {
     if (!albumOpen) return;
     albumOpen = false;
+    updateLoadStatus();
     dialog.removeAttribute("data-open");
     openingAnchor = null;
     closing = true;
@@ -329,6 +348,25 @@ function createCityAtlas(atlas, getLanguage) {
   });
   new ResizeObserver(positionAlbum).observe(dialog);
 
+  function updateLoadStatus() {
+    const entry = albumOpen && entries.find(entry => entry.place === selectedPlace);
+    const regionError = Boolean(entry?.regionError);
+    const regionLoading = Boolean(entry?.regionLoading);
+    const loading = atlas.dataset.cityState === "loading";
+    const chinese = getLanguage() === "zh";
+    status.hidden = !loadingError && !regionError && !regionLoading && !loading;
+    feedback.hidden = status.hidden;
+    retry.hidden = !loadingError && !regionError;
+    retry.textContent = chinese ? "重试" : "Retry";
+    status.textContent = loadingError
+      ? (chinese ? "城市相册数据暂时无法加载，世界地图仍可浏览。" : "City albums could not be loaded. The world map is still available.")
+      : regionError
+        ? (chinese ? "城市轮廓暂时无法加载，相册仍可浏览。" : "The city outline could not be loaded. The photo album is still available.")
+        : regionLoading
+          ? (chinese ? "城市轮廓加载中…" : "Loading city outline…")
+          : (chinese ? "城市相册加载中…" : "Loading city albums…");
+  }
+
   function updateLabels() {
     map.setAttribute("aria-label", getLanguage() === "zh" ? "世界地图" : "World map");
     close.setAttribute("aria-label", getLanguage() === "zh" ? "关闭城市相册" : "Close city album");
@@ -342,10 +380,7 @@ function createCityAtlas(atlas, getLanguage) {
       marker.setAttribute("aria-label", `${text(place.name)} · ${getLanguage() === "zh" ? "打开相册" : "Open album"}`);
       marker.title = text(place.name);
     }
-    status.hidden = !loadingError;
-    if (loadingError) status.textContent = getLanguage() === "zh"
-      ? "城市相册或行政区数据暂时无法加载，世界地图仍可浏览。"
-      : "City albums or region outlines could not be loaded. The world map is still available.";
+    updateLoadStatus();
     if (albumOpen) {
       renderGallery();
       positionAlbum();
@@ -665,13 +700,48 @@ function createCityAtlas(atlas, getLanguage) {
   }
 
   async function loadJson(path) {
-    const response = await fetch(path, { cache: "no-cache" });
-    if (!response.ok) throw new Error(`City data request failed: ${path}, HTTP ${response.status}`);
-    return response.json();
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000);
+    try {
+      const response = await fetch(path, { cache: "no-cache", signal: controller.signal });
+      if (!response.ok) throw new Error(`City data request failed: ${path}, HTTP ${response.status}`);
+      return await response.json();
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
-  Promise.all([loadJson("places.json"), loadJson("art/city-regions.json")])
-    .then(([data, regionData]) => {
+  function loadRegion(entry) {
+    if (!entry.region || entry.regionPath.hasAttribute("d") || entry.regionLoading) return;
+    entry.regionLoading = true;
+    entry.regionError = false;
+    updateLoadStatus();
+    loadJson(entry.region.pathFile)
+      .then(data => {
+        if (data.id !== entry.region.id || typeof data.path !== "string" || !/^M[MLZ\d.,-]+$/.test(data.path)) {
+          throw new TypeError("Invalid administrative-region outline");
+        }
+        entry.regionPath.setAttribute("d", data.path);
+        if (albumOpen && selectedPlace === entry.place) atlas.removeAttribute("data-region-pending");
+      })
+      .catch(error => {
+        entry.regionError = true;
+        console.error("City region could not be loaded:", entry.region.pathFile, error);
+      })
+      .finally(() => {
+        entry.regionLoading = false;
+        updateLoadStatus();
+      });
+  }
+
+  async function loadCities() {
+    if (initializing || atlas.dataset.cityState === "ready") return;
+    initializing = true;
+    loadingError = false;
+    atlas.dataset.cityState = "loading";
+    updateLoadStatus();
+    try {
+      const [data, regionData] = await Promise.all([loadJson("places.json"), loadJson("art/city-index.json")]);
       const places = validate(data);
       const regions = validateRegions(regionData);
       for (const place of places) {
@@ -715,7 +785,6 @@ function createCityAtlas(atlas, getLanguage) {
           regionPath.classList.add("atlas-city-region");
           regionPath.dataset.city = place.id;
           regionPath.setAttribute("fill-rule", "evenodd");
-          regionPath.setAttribute("d", region.path);
           regionLayer.append(regionPath);
         }
         entries.push({ place, anchor, marker, label, leader, button, region, regionPath });
@@ -727,13 +796,29 @@ function createCityAtlas(atlas, getLanguage) {
       renderedProgress = NaN;
       updateLabels();
       update(progress);
-    })
-    .catch((error) => {
+    } catch (error) {
       loadingError = true;
       atlas.dataset.cityState = "error";
       console.error("City atlas initialization failed:", error);
       updateLabels();
-    });
+    } finally {
+      initializing = false;
+    }
+  }
+
+  retry.addEventListener("click", event => {
+    event.stopPropagation();
+    if (loadingError) loadCities();
+    else if (albumOpen) loadRegion(entries.find(entry => entry.place === selectedPlace));
+  });
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(changes => {
+      if (!changes.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      loadCities();
+    }, { rootMargin: "1000px" });
+    observer.observe(atlas);
+  } else loadCities();
 
   return { update, updateLabels, resize, resume: () => { resumeRequested = true; } };
 }
