@@ -621,8 +621,8 @@ html[data-theme="dark"] .argus-logo-dark { display: block; }
 .about-stack h3,
 .timeline-heading { color: var(--rust); font-weight: 400; font-size: 10px; }
 .about-stack h3 { margin-bottom: 18px; }
-.timeline-heading { margin: 0 0 18px; padding-left: 24px; }
-.timeline-heading-secondary { margin-top: 34px; }
+.timeline-heading { margin: 0 0 14px; padding-left: 20px; }
+.timeline-heading-secondary { margin-top: 26px; }
 .experience-panel { padding-top: 28px; border-top: 1px solid var(--line); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
 .tag-list li { padding: 3px 9px; border: 1px solid var(--line); font-size: 10px; color: var(--muted); }
@@ -645,10 +645,11 @@ html[data-theme="dark"] .institution-logo img { filter: none; }
 .experience-timeline::before { content: ""; position: absolute; top: 32px; bottom: 32px; left: -.5px; width: 1px; background: var(--line); }
 .timeline-entry { position: relative; min-height: 64px; }
 .timeline-entry::after { content: ""; position: absolute; z-index: 1; top: 50%; left: -4px; width: 8px; height: 8px; border: 1px solid var(--rust); border-radius: 50%; background: var(--paper); transform: translateY(-50%); }
-.institution-entry { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
-.about-milestones { display: flex; flex-direction: column; gap: 22px; }
-.about-milestones a { display: grid; grid-template-columns: 104px 1fr; align-items: center; gap: 17px; padding-left: 24px; }
-.about-milestones .institution-logo { margin: 0; color: inherit; }
+.institution-entry { display: grid; grid-template-columns: 164px minmax(0, 1fr); align-items: center; gap: 14px; padding-left: 20px; }
+.about-milestones { display: flex; flex-direction: column; gap: 18px; }
+.about-milestones a { display: grid; grid-template-columns: 164px minmax(0, 1fr); align-items: center; gap: 14px; padding-left: 20px; }
+.experience-timeline .institution-logo { width: 100%; min-height: 0; margin: 0; color: inherit; }
+.experience-timeline .institution-logo img { max-height: 64px; }
 .milestone-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .experience-meta { display: flex; flex-wrap: wrap; gap: 5px 18px; }
 .experience-meta > span { color: var(--muted); font-size: 8px; letter-spacing: .08em; }

@@ -55,6 +55,7 @@ function createCityAtlas(atlas, getLanguage) {
   let albumPlacement = null;
   let albumLayoutKey = "";
   let lastMode = atlas.dataset.atlasMode;
+  let progressStyle = "";
   const institutions = {
     microsoft: { src: "institutions/microsoft.svg", name: { en: "Microsoft", zh: "微软" } },
     nju: { src: "institutions/nju.svg", name: { en: "Nanjing University", zh: "南京大学" } },
@@ -509,10 +510,17 @@ function createCityAtlas(atlas, getLanguage) {
     atlas.dataset.cameraState = state;
   }
 
+  function renderProgress(value) {
+    const next = value.toFixed(4);
+    if (next === progressStyle) return;
+    progressStyle = next;
+    atlas.style.setProperty("--atlas-progress", next);
+  }
+
   function renderCamera(view) {
     camera = view;
     atlas.toggleAttribute("data-city-detail", view.zoom > 12);
-    atlas.style.setProperty("--atlas-progress", view.progress.toFixed(4));
+    renderProgress(view.progress);
     geography.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.zoom})`;
     renderPoints(view);
   }
@@ -630,7 +638,7 @@ function createCityAtlas(atlas, getLanguage) {
       positionAlbum();
       return;
     }
-    atlas.style.setProperty("--atlas-progress", progress.toFixed(4));
+    renderProgress(progress);
     if (renderedProgress === progress) {
       positionAlbum();
       return;
@@ -662,13 +670,14 @@ function createCityAtlas(atlas, getLanguage) {
       const x = left + (longitude / 360 * 1000 * zoom + xOffset) * unit;
       const y = top + ((90 - place.latitude) / 180 * 500 * zoom + yOffset) * unit;
       const visible = x >= 0 && x <= width && y >= 0 && y <= height;
-      return { ...entry, x, y, visible };
+      return { entry, x, y, visible };
     });
     const focused = atlas.hasAttribute("data-city-focus");
-    points.sort((a, b) => (focused ? Number(b.place === selectedPlace) - Number(a.place === selectedPlace) : 0)
-      || Number(Boolean(b.place.residence)) - Number(Boolean(a.place.residence)));
+    points.sort((a, b) => (focused ? Number(b.entry.place === selectedPlace) - Number(a.entry.place === selectedPlace) : 0)
+      || Number(Boolean(b.entry.place.residence)) - Number(Boolean(a.entry.place.residence)));
     const occupied = [];
-    for (const { anchor, marker, leader, button, labelWidth, labelHeight, labelOffsets, x, y, visible } of points) {
+    for (const { entry, x, y, visible } of points) {
+      const { anchor, marker, leader, button, labelWidth, labelHeight, labelOffsets } = entry;
       anchor.style.transform = `translate(${x}px, ${y}px)`;
       // Move only the callout; its dot and leader stay tied to the true coordinates.
       const halfWidth = labelWidth / 2;
@@ -682,13 +691,16 @@ function createCityAtlas(atlas, getLanguage) {
           && points.every(q => !q.visible || Math.abs(labelX - q.x) >= halfWidth + 6
             || Math.abs(labelY - q.y) >= halfHeight + 6);
       });
+      if (position) occupied.push({ x: x + position.dx, y: y + position.dy, halfWidth, halfHeight });
+      if (entry.labelRendered && entry.renderedLabel === position) continue;
+      entry.labelRendered = true;
+      entry.renderedLabel = position;
       marker.hidden = !position;
       leader.hidden = !position || position.length <= 8;
       if (!position && document.activeElement === marker) button.focus({ preventScroll: true });
       marker.tabIndex = position ? 0 : -1;
       marker.setAttribute("aria-hidden", String(!position));
       if (position) {
-        occupied.push({ x: x + position.dx, y: y + position.dy, halfWidth, halfHeight });
         marker.style.left = `${position.dx}px`;
         marker.style.top = `${position.dy}px`;
         leader.style.left = `${position.endX / position.length * 6}px`;
@@ -703,7 +715,7 @@ function createCityAtlas(atlas, getLanguage) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 20000);
     try {
-      const response = await fetch(path, { cache: "no-cache", signal: controller.signal, priority });
+      const response = await fetch(`${path}?v=20261011-atlas`, { signal: controller.signal, priority });
       if (!response.ok) throw new Error(`City data request failed: ${path}, HTTP ${response.status}`);
       return await response.json();
     } finally {
@@ -718,9 +730,11 @@ function createCityAtlas(atlas, getLanguage) {
     updateLoadStatus();
     loadJson(entry.region.pathFile, "low")
       .then(data => {
-        if (data.id !== entry.region.id || typeof data.path !== "string" || !/^M[MLZ\d.,-]+$/.test(data.path)) {
+        if (data.id !== entry.region.id || typeof data.path !== "string" || !/^M[MLlZ\d., -]+$/.test(data.path)
+          || (data.scale !== undefined && data.scale !== .0001)) {
           throw new TypeError("Invalid administrative-region outline");
         }
+        entry.regionPath.setAttribute("transform", `scale(${data.scale ?? 1})`);
         entry.regionPath.setAttribute("d", data.path);
         if (albumOpen && selectedPlace === entry.place) atlas.removeAttribute("data-region-pending");
       })

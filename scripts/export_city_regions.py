@@ -14,6 +14,7 @@ from export_atlas import WEST, geometry_path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PATH_SCALE = .0001
 SOURCES = {
     "beijing": (110000, "Beijing"),
     "nanjing": (320100, "Nanjing"),
@@ -95,6 +96,37 @@ def load_source(source_directory, identifier, adcode):
     return features, properties
 
 
+def compact_path(path):
+    """Losslessly encode the existing four-decimal lattice as relative SVG integers."""
+    if not path.endswith("Z"):
+        raise ValueError("Expected closed region rings")
+    rings = []
+    for ring in path[:-1].split("Z"):
+        if not ring.startswith("M"):
+            raise ValueError("Expected an absolute ring origin")
+        points = []
+        for pair in ring[1:].split("L"):
+            coordinates = []
+            for value in pair.split(","):
+                whole, fraction = value.split(".")
+                if not whole.isdecimal() or not fraction.isdecimal() or len(fraction) != 4:
+                    raise ValueError("Expected nonnegative four-decimal coordinates")
+                coordinates.append(int(whole) * 10000 + int(fraction))
+            if len(coordinates) != 2:
+                raise ValueError("Expected coordinate pairs")
+            points.append(tuple(coordinates))
+        if len(points) < 2 or points[-1] != points[0]:
+            raise ValueError("Expected an explicitly closed region ring")
+        points.pop()
+        x, y = points[0]
+        commands = [f"M{x},{y}"]
+        for index, (next_x, next_y) in enumerate(points[1:]):
+            commands.append(f"{'l' if index == 0 else ' '}{next_x - x},{next_y - y}")
+            x, y = next_x, next_y
+        rings.append("".join(commands) + "Z")
+    return "".join(rings)
+
+
 def write_region_index(regions):
     directory = ROOT / "art/city-regions"
     directory.mkdir(exist_ok=True)
@@ -102,7 +134,8 @@ def write_region_index(regions):
     for region in regions:
         path = f"art/city-regions/{region['id']}.json"
         (ROOT / path).write_text(json.dumps(
-            {"id": region["id"], "path": region["path"]}, separators=(",", ":")
+            {"id": region["id"], "scale": PATH_SCALE, "path": compact_path(region["path"])},
+            separators=(",", ":")
         ) + "\n")
         index.append({key: value for key, value in region.items() if key != "path"} | {"pathFile": path})
     (ROOT / "art/city-index.json").write_text(json.dumps(
@@ -178,7 +211,17 @@ def compile_regions(source_directory, accessed):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source_directory", type=Path)
-    parser.add_argument("--accessed", required=True, help="Source access date, YYYY-MM-DD")
+    parser.add_argument("source_directory", type=Path, nargs="?")
+    parser.add_argument("--accessed", help="Source access date, YYYY-MM-DD")
+    parser.add_argument("--runtime-only", action="store_true",
+                        help="Re-encode the retained full outlines without changing source geography")
     args = parser.parse_args()
-    compile_regions(args.source_directory, args.accessed)
+    if args.runtime_only:
+        complete = json.loads((ROOT / "art/city-regions.json").read_text())
+        if complete["west"] != WEST:
+            raise ValueError("Unexpected retained outline projection")
+        write_region_index(complete["regions"])
+    else:
+        if args.source_directory is None or args.accessed is None:
+            parser.error("source_directory and --accessed are required without --runtime-only")
+        compile_regions(args.source_directory, args.accessed)

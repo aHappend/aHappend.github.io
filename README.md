@@ -70,7 +70,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   card uses Microsoft's four-square mark so it stays legible at phone size; the
   experience timeline continues to use the full corporate wordmark. In the
   single-column layout, show the introduction and full timeline before the
-  technology stack.
+  technology stack. Timeline lockups use a 164px desktop column without the
+  former restrictive image-height caps. On phones, the larger mark and metadata
+  share the first row; the title and detail then use the full width. Do not squeeze
+  those titles into a narrow column just to enlarge the mark. Timeline spacing
+  is tighter, and postcard lockups are sized independently.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
@@ -94,6 +98,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `art/studio-paper.svg`: original tiled cold-pressed paper texture, with diffuse
   lighting for the paper tooth and a separate fine-fiber layer. It is rendered
   once as a background, never regenerated in the scroll callback.
+  The moving map pattern and postcard use the 256px transparent
+  `art/studio-paper.webp` derivative instead of reevaluating SVG lighting/noise
+  during scale changes. Regenerate with `python scripts/export_atlas_paper.py`
+  using the same optional Pillow/Playwright/Chrome authoring setup as the sky.
 - `art/painted-study.svg`: a separate original mountain-and-lake study, not a
   photograph or a claim about travel. The paper stays visibly blue from the
   first screen; scrolling draws the pencil underpainting, then reveals stronger
@@ -160,6 +168,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   its camera/album animation. Camera frames update map transforms and pins without
   remeasuring the card after each write; focused scrolling only checks the attached
   card's visibility, rather than redrawing an unchanged city camera.
+  Unchanged pigment progress and label layouts are not rewritten on every
+  camera frame. Once the close-up exceeds 12x, the world-context layer is hidden
+  even while the requested city outline is still pending; photos and the
+  explicit loading/error status remain independent.
   Touch browsing does not repeatedly reset desktop-only pointer effects.
   The map uses the small viewport height (`svh`), not the changing height of
   retracting mobile browser chrome. Older touch browsers freeze that height until
@@ -205,6 +217,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   all outlines before the first screen. Photographs and the camera can open while
   an outline loads; a visible status identifies pending or failed geometry.
   Outline requests use low fetch priority so photographs can appear first.
+  Local JSON uses a release-versioned URL and normal HTTP caching instead of
+  forcing revalidation on every visit; bump that version when the data changes.
   Failed data requests have a retry button and a bounded request timeout.
   It projects longitude/latitude
   into the same Pacific-centered coordinates as the map. Dots remain at their
@@ -503,6 +517,15 @@ source URL, coordinate convention, and access date (2026-10-10).
 asset. The exporter also writes `art/city-index.json` (bounds and provenance) and
 separate `art/city-regions/<id>.json` paths for on-demand delivery. Splitting does
 not simplify or discard any components, including Okinawa's small islands.
+Runtime paths losslessly encode the reference's four-decimal coordinates as
+integer origins and relative `l` segments, with `scale: 0.0001` applied to the
+SVG path. No JavaScript decompressor or geographic simplification is needed.
+Every vertex, ring, original camera bound and source definition is retained;
+tests independently reconstruct and compare all coordinate sequences.
+This cuts Okinawa's JSON from 1,160,065 to under 400,000 bytes and every other
+city's path by more than half, before HTTP compression. Rebuild only these
+derivatives with `python scripts/export_city_regions.py --runtime-only`;
+the retained GeoJSON and full projected reference are not modified.
 
 - Beijing municipality (110000), Nanjing prefecture (320100), Suzhou prefecture
   (320500), Hangzhou prefecture (330100), Shanghai municipality (310000),

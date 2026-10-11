@@ -224,7 +224,7 @@ html[data-effects="on"] { scroll-snap-type: y proximity; }
 .atlas-geography { transform-origin: 0 0; transform: translate(calc(var(--atlas-progress) * var(--atlas-x) * 1px), calc(var(--atlas-progress) * var(--atlas-y) * 1px)) scale(calc(1 + var(--atlas-progress) * (var(--atlas-zoom) - 1))); }
 .atlas-context { transition: opacity 300ms; }
 .atlas-section[data-city-region] .atlas-context { opacity: .12; }
-.atlas-section[data-city-detail]:not([data-region-pending]) .atlas-context { display: none; }
+.atlas-section[data-city-detail] .atlas-context { display: none; }
 .atlas-city-region { fill: color-mix(in srgb, var(--accent) 28%, var(--paper)); fill-opacity: .86; stroke: var(--accent); stroke-width: 1.5px; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity 260ms; pointer-events: none; }
 .atlas-city-region[data-active] { opacity: 1; }
 .atlas-section:not([data-atlas-mode="follow"]) .atlas-geography { transition: transform 650ms cubic-bezier(.2,.75,.25,1); }
@@ -273,13 +273,13 @@ html[data-effects="off"] .atlas-section :is(.atlas-city-anchor, .atlas-city-mark
 .atlas-city-feedback[hidden] { display: none; }
 .atlas-city-status { margin: 0; color: var(--rust); font-size: 12px; }
 .atlas-city-retry { flex-shrink: 0; padding: 6px 10px; border: 1px solid var(--line); background: var(--paper); color: var(--accent); font: 12px var(--font-sans); }
-.city-popover { --paper: #faf7ef; --ink: #163443; --muted: #53646b; --accent: #205d7b; --rust: #a64b30; position: absolute; z-index: 10; inset: auto; display: grid; width: min(320px, calc(100vw - 24px)); max-height: min(420px, var(--city-available-height, calc(var(--atlas-screen-height, 100vh) - 100px))); margin: 0; padding: 14px 10px 10px; border: 1px solid #dbd7cb; background: var(--paper) url("art/studio-paper.svg"); color: var(--ink); box-shadow: 0 18px 42px #06192440, 0 3px 8px #06192424; overflow: hidden; grid-template-rows: auto minmax(0, 1fr); opacity: 0; transform-origin: 0 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); pointer-events: none; transition: opacity 260ms, transform 440ms cubic-bezier(.2,.75,.25,1); }
-.city-popover { height: min(370px, var(--city-available-height, calc(var(--atlas-screen-height, 100vh) - 100px))); }
+.city-popover { --paper: #faf7ef; --ink: #163443; --muted: #53646b; --accent: #205d7b; --rust: #a64b30; position: absolute; z-index: 10; inset: auto; display: grid; width: min(320px, calc(100vw - 24px)); max-height: min(420px, var(--city-available-height, calc(var(--atlas-screen-height, 100vh) - 100px))); margin: 0; padding: 14px 10px 10px; border: 1px solid #dbd7cb; background: var(--paper) url("art/studio-paper.webp"); color: var(--ink); box-shadow: 0 18px 42px #06192440, 0 3px 8px #06192424; overflow: hidden; grid-template-rows: auto minmax(0, 1fr); opacity: 0; transform-origin: 0 0; transform: translate(var(--city-retract-x, 0px), var(--city-retract-y, 0px)) scale(.08) rotate(-4deg); pointer-events: none; transition: opacity 260ms, transform 440ms cubic-bezier(.2,.75,.25,1); }
+.city-popover { height: min(370px, var(--city-available-height, calc(var(--atlas-screen-height, 100vh) - 100px))); background-size: 512px 512px; }
 .city-popover[hidden] { display: none; }
 .city-popover[data-open] { opacity: 1; transform: none; pointer-events: auto; transition-duration: 260ms, 700ms; transition-timing-function: ease, ease-in-out; }
 .city-popover[data-scroll-exit] { transform: none; transition: opacity 180ms; }
 .city-close { position: absolute; z-index: 5; right: 0; top: 0; width: 44px; height: 44px; border: 0; background: transparent; font-size: 22px; }
-.city-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 0 32px 0 6px; margin-bottom: 8px; }
+.city-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 0 36px 0 6px; margin-bottom: 8px; }
 .city-heading:has(.city-institution[hidden]) { grid-template-columns: minmax(0, 1fr); }
 .city-popover h2 { margin: 0; font: 24px var(--font-display); overflow-wrap: anywhere; }
 .city-popover[data-residence="false"] h2 { font-size: 22px; }
@@ -287,9 +287,9 @@ html[data-effects="off"] .atlas-section :is(.atlas-city-anchor, .atlas-city-mark
 .city-period { margin: 6px 0 0; color: var(--muted); font: 9px/1.4 var(--font-mono); white-space: nowrap; }
 .city-period[hidden] { display: none; }
 .city-popover[data-residence="false"] .city-residence { color: var(--accent); }
-.city-institution { width: 82px; }
+.city-institution { width: 100px; }
 .city-institution::before { display: none; }
-.city-institution img { max-height: 34px; }
+.city-institution img { max-height: 40px; }
 .city-institution[hidden], .city-institution img[hidden] { display: none; }
 .city-region-credit, .city-photo-credit { grid-column: 1 / -1; font: 8px/1.6 var(--font-mono); color: var(--muted); }
 .city-region-credit[hidden], .city-photo-credit[hidden] { display: none; }
@@ -491,7 +491,13 @@ html[lang="zh-CN"] .folio-browse-note { font: 12px var(--font-sans); }
   .tag-list { gap: 5px; }
   .tag-list li { padding: 2px 7px; font-size: 9px; }
   .experience-panel { padding-top: 20px; }
-  .timeline-heading-secondary { margin-top: 25px; }
+  .timeline-heading-secondary { margin-top: 20px; }
+  .experience-timeline .timeline-entry { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 14px; padding-left: 18px; }
+  .experience-timeline .institution-logo { width: min(148px, 100%); grid-column: 1; grid-row: 1; }
+  .experience-timeline .milestone-copy { display: contents; }
+  .experience-timeline .experience-meta { grid-column: 2; grid-row: 1; align-self: center; }
+  .experience-timeline .milestone-copy > strong,
+  .experience-timeline .experience-detail { grid-column: 1 / -1; }
   .folio-work .section-heading > div:first-child { min-height: 106px; padding-right: 136px; }
   .folio-work .work-landscape { width: 126px; height: 96px; }
   .folio-toolbar { display: block; margin-bottom: 22px; padding-block: 10px; }
@@ -545,7 +551,7 @@ html[lang="zh-CN"] .folio-browse-note { font: 12px var(--font-sans); }
   .city-residence { margin-bottom: 3px; }
   .city-popover h2 { font-size: 22px; }
   .city-popover[data-residence="false"] h2 { font-size: 20px; }
-  .city-institution { width: 68px; }
+  .city-institution { width: 88px; }
   .atlas-viewport { aspect-ratio: 2 / 1; border-inline: 0; border-radius: 0; }
   .atlas-view-label { font-size: 7px; inset: 8px auto auto 10px; }
   .atlas-scale { bottom: 10px; left: 10px; }

@@ -12,13 +12,26 @@ from shapely.geometry import Point, shape
 
 from export_atlas import WEST, geometry_path
 from export_city_photos import export_photo
-from export_city_regions import JAPAN_SOURCES, load_source
+from export_city_regions import JAPAN_SOURCES, compact_path, load_source
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class CityAssetsTest(unittest.TestCase):
+    def test_moving_paper_is_small_translucent_raster(self):
+        target = ROOT / "art/studio-paper.webp"
+        self.assertLess(target.stat().st_size, 50000)
+        with Image.open(target) as image:
+            self.assertEqual(image.size, (256, 256))
+            self.assertEqual(image.mode, "RGBA")
+            self.assertGreater(image.getchannel("A").getextrema()[0], 0)
+            self.assertLess(image.getchannel("A").getextrema()[1], 128)
+        html = (ROOT / "index.html").read_text()
+        pattern, = re.findall(r'<pattern id="atlas-paper-pattern"[^>]*>(.*?)</pattern>', html, re.S)
+        self.assertIn('href="art/studio-paper.webp"', pattern)
+        self.assertNotIn("studio-paper.svg", pattern)
+
     def test_on_demand_index_preserves_every_outline(self):
         complete = json.loads((ROOT / "art/city-regions.json").read_text())
         index = json.loads((ROOT / "art/city-index.json").read_text())
@@ -31,7 +44,39 @@ class CityAssetsTest(unittest.TestCase):
             self.assertEqual(entry.get("credit"), original.get("credit"))
             self.assertNotIn("path", entry)
             outline = json.loads((ROOT / entry["pathFile"]).read_text())
-            self.assertEqual(outline, {"id": original["id"], "path": original["path"]})
+            self.assertEqual(outline["id"], original["id"])
+            self.assertEqual(outline["scale"], .0001)
+            self.assertLess(len(outline["path"]), len(original["path"]) * .5)
+            source_rings = re.findall(r"M([^Z]+)Z", original["path"])
+            packed_rings = re.findall(r"M([^Z]+)Z", outline["path"])
+            self.assertEqual(len(source_rings), len(packed_rings))
+            for source, packed in zip(source_rings, packed_rings):
+                expected = [
+                    tuple(round(float(value) * 10000) for value in pair.split(","))
+                    for pair in source.split("L")
+                ]
+                origin, *relative = packed.split("l")
+                points = [tuple(map(int, origin.split(",")))]
+                if relative:
+                    self.assertEqual(len(relative), 1)
+                    for delta in relative[0].split(" "):
+                        dx, dy = map(int, delta.split(","))
+                        x, y = points[-1]
+                        points.append((x + dx, y + dy))
+                points.append(points[0])
+                self.assertEqual(points, expected)
+        self.assertLess((ROOT / "art/city-regions/okinawa.json").stat().st_size, 400000)
+
+    def test_compact_path_preserves_integer_deltas_and_rejects_invalid_input(self):
+        self.assertEqual(
+            compact_path("M1.0000,2.0000L1.0001,2.0002L0.9999,2.0002L1.0000,2.0000Z"),
+            "M10000,20000l1,2 -2,0Z",
+        )
+        for path in ("M1.0000,2.0000", "L1.0000,2.0000Z",
+                     "M1.000,2.0000L1.000,2.0000Z",
+                     "M1.0000,2.0000L3.0000,4.0000Z"):
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                compact_path(path)
 
     def test_mobile_photos_preserve_composition_without_private_metadata(self):
         places = json.loads((ROOT / "places.json").read_text())["places"]
