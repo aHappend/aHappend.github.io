@@ -491,13 +491,7 @@ html[lang="zh-CN"] .folio-browse-note { font: 12px var(--font-sans); }
   .tag-list { gap: 5px; }
   .tag-list li { padding: 2px 7px; font-size: 9px; }
   .experience-panel { padding-top: 20px; }
-  .timeline-heading-secondary { margin-top: 20px; }
-  .experience-timeline .timeline-entry { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 14px; padding-left: 18px; }
-  .experience-timeline .institution-logo { width: min(148px, 100%); grid-column: 1; grid-row: 1; }
-  .experience-timeline .milestone-copy { display: contents; }
-  .experience-timeline .experience-meta { grid-column: 2; grid-row: 1; align-self: center; }
-  .experience-timeline .milestone-copy > strong,
-  .experience-timeline .experience-detail { grid-column: 1 / -1; }
+  .timeline-heading-secondary { margin-top: 25px; }
   .folio-work .section-heading > div:first-child { min-height: 106px; padding-right: 136px; }
   .folio-work .work-landscape { width: 126px; height: 96px; }
   .folio-toolbar { display: block; margin-bottom: 22px; padding-block: 10px; }

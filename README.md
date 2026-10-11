@@ -70,11 +70,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   card uses Microsoft's four-square mark so it stays legible at phone size; the
   experience timeline continues to use the full corporate wordmark. In the
   single-column layout, show the introduction and full timeline before the
-  technology stack. Timeline lockups use a 164px desktop column without the
-  former restrictive image-height caps. On phones, the larger mark and metadata
-  share the first row; the title and detail then use the full width. Do not squeeze
-  those titles into a narrow column just to enlarge the mark. Timeline spacing
-  is tighter, and postcard lockups are sized independently.
+  technology stack. Keep the timeline's original compact marks, spacing, and
+  side-by-side layout: 104px logo columns on desktop and 92px on phones.
+  Logo enlargement belongs only inside the map postcards, through
+  `.city-institution` (100px desktop, 88px phone); do not apply it to the
+  education/experience timeline or other institutional marks.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
