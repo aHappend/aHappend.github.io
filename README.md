@@ -73,8 +73,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   technology stack. Keep the timeline's original compact marks, spacing, and
   side-by-side layout: 104px logo columns on desktop and 92px on phones.
   Logo enlargement belongs only inside the map postcards, through
-  `.city-institution` (100px desktop, 88px phone); do not apply it to the
-  education/experience timeline or other institutional marks.
+  `.city-institution` (128px desktop, 120px phone portrait, 100px in compact
+  landscape cards). Preserve room for the city, dates, and close control.
+  Do not apply it to the education/experience timeline or other institutional marks.
 - `brand/mark.svg`: the SG ink-seal master for the navigation mark and application
   icons. `favicon.svg` is its optically simplified small-size companion, with
   heavier strokes at 16px and no texture. Brand marks deliberately remain
