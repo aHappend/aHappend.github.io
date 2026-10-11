@@ -2,9 +2,9 @@
 
 import re
 import subprocess
+from hashlib import sha256
 from pathlib import Path
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,8 +13,11 @@ AGENT = "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Saf
 
 
 def download(url):
-    with urlopen(Request(url, headers={"User-Agent": AGENT}), timeout=60) as response:
-        return response.read()
+    return subprocess.check_output([
+        "curl", "--fail", "--silent", "--show-error", "--location",
+        "--retry", "2", "--retry-all-errors", "--connect-timeout", "15",
+        "--max-time", "90", "--user-agent", AGENT, url,
+    ])
 
 
 def main():
@@ -51,7 +54,7 @@ def main():
             raise ValueError(f"Expected WOFF2 from {url}")
         name = f"site-{index}.woff2"
         (OUTPUT / name).write_bytes(data)
-        compiled.append(block.replace(url, name))
+        compiled.append(block.replace(url, f"{name}?v={sha256(data).hexdigest()[:12]}"))
         print(f"{name}: {len(data)} bytes")
     (OUTPUT / "site-fonts.css").write_text("\n".join(compiled) + "\n")
     for family in ("dmmono", "manrope", "newsreader", "notosanssc", "notoserifsc"):

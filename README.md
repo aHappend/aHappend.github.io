@@ -328,6 +328,11 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - The Argus ecosystem grid tracks public team repositories with meaningful
   team-owned or maintained work. Use organization URLs for ACE mirrors and
   maintained downstream projects; omit untouched integration/staging forks.
+  ArgusAgent is the official source channel; `lbx154/Argus` is the development
+  preview of the same runtime, not a second independent collaboration. Source
+  updates do not imply a new packaged desktop release. Public research archives
+  are not necessarily open-source licensed; preserve the Mathematics rights
+  notice and each project's execution and claim boundaries.
 - The Selected Work illustrations combine the original HTML/SVG ACE-3 chip
   with three inline technical SVGs. They use
   seamless hover/focus loops on pointers and run while a phone touch is actively
@@ -414,11 +419,38 @@ swap` and system fallbacks. No Google Fonts or GitHub avatar request is required
 to render the page. `scripts/export_web_fonts.py` downloads the existing Latin
 families and Chinese subsets covering published translations, and retains each
 family's SIL Open Font License alongside the WOFF2 files. Regenerate after adding
-Chinese copy; new glyphs still have native fallbacks. Chinese faces are restricted
+Chinese copy; new glyphs still have native fallbacks. The exporter uses `curl`
+with bounded retries and normal TLS verification, and content-hashed font URLs
+invalidate cached subsets when glyph coverage changes. Chinese faces are restricted
 to CJK ranges so an English-page arrow cannot trigger a full Chinese-font download.
 The profile avatar and compact NTU logo are local; below-fold illustration and
 institution images use native lazy loading and low fetch priority.
 Reduced-motion preferences disable entrance/filter animation and pointer effects.
+
+## Public project source review
+
+Last reviewed: **2026-10-11**. These are public-source checks, not fresh
+executions of the upstream experiments. Dated checkpoints describe their
+publication state, not a live campaign. Keep both languages, Selected Work,
+the ecosystem grid, and the research evidence labels consistent.
+
+| Surface | Source and publication boundary |
+| --- | --- |
+| Argus channels | [Official ArgusAgent README](https://github.com/microsoft/ArgusAgent) and [development-preview README](https://github.com/lbx154/Argus/blob/d0e87b8b92f466c0335ac726241f746820b7b1a9/README.md): two channels of the same runtime, not two independent systems. Do not imply that their source revisions or desktop packages are synchronized. |
+| Argus Verticals | [Catalog](https://github.com/Argus-AiTeam/argus-verticals/blob/73eecd72e1d6a4c530fca0a379576b5554fb5eec/catalog.json) contains **24** community packs; [readiness boundaries](https://github.com/Argus-AiTeam/argus-verticals/blob/73eecd72e1d6a4c530fca0a379576b5554fb5eec/README.md#hardware-readiness-boundaries) distinguish **8** primary hardware domains from bounded native-tool support. The October 9 update declares per-domain round policies. Older prose still mentioning 17 community packs is not authoritative for the current count. |
+| Argus-Pi | [Downstream README](https://github.com/Argus-AiTeam/Argus-Pi/blob/ba9947aba37934ee01025b18a0f90817cc1b5cf2/README.md): source preview, selective PDF/notebook reading, and explicit execution/retry status; not a separately published package or a replacement orchestrator. |
+| ACE-3 | [September 28 result](https://github.com/Argus-AiTeam/ace-3/blob/aad9515ae9f9ca552d7eb7c47d10731ff668f89c/docs/results/STAGE11_EXACT_O_PROJ_20260928.md): CPU exact-integer o_proj implementation checkpoint; first entry failed before numerical execution. Do not promote it to numerical success, new RTL acceptance, or a complete accelerator. |
+| ACE-2 | [September 26 result](https://github.com/Argus-AiTeam/ace-2/blob/efec4ce788d65a70800330a71cc26c1c25693263/docs/results/PERSISTENT_CONVERSATION_20260926.md): accepted two-turn/four-token-per-turn RTL evidence; the three-turn diagnostic is unfinished in that snapshot. No FPGA/silicon measurement is implied. |
+| Mathematics | [Archive README](https://github.com/Argus-AiTeam/argus-mathematics/blob/ed18d951259173d930e2ba83a1fc35ab0d933900/README.md): 17 public result packages with claim-specific limitations. Original materials are **All Rights Reserved**, not open-source licensed; link and summarize facts rather than reproduce reports. |
+| Hilbert XVI | [Observatory](https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory/tree/bde56cd1eeb19467de5fba820bbc55adb464b9a8): bilingual records, not a claimed complete solution or proof that historical processes are still running. |
+| MiniMax-H3 Desktop | [Published campaign](https://github.com/Argus-AiTeam/minimax-h3-desktop/blob/bd7eb21278cf10e11a4ee63de4a514c8bcc8df9f/README.md): completed A6000 research with benchmarks and retained negative results. Turbo changes the sampling schedule; do not advertise its speedup as a fidelity-preserving hardware gain. |
+| MiniMax-H3 Mac / ComfyUI | [Mac evidence](https://github.com/Argus-AiTeam/minimax-h3-mac/blob/3fcc9f8c557cf353400b1acf737b985e524a509f/README.md) is for an M4 Pro with 24 GB unified memory. [ComfyUI](https://github.com/Argus-AiTeam/ComfyUI-MiniMax-H3-MLX/blob/ab1756d571ebb14fed3168354dae42966a04348b/README.md) registers four MLX nodes; prepared Registry metadata is not proof of a Registry release. |
+
+The grid remains nine team repositories plus two Argus source channels.
+The organization profile repository is not a separate project.
+The SGLang integration/staging fork has no verified team-specific addition
+warranting a card in this review. Private or unreleased projects are excluded;
+never infer public permission from authenticated repository access.
 
 ## Map sources
 
