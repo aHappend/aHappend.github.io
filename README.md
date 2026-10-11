@@ -5,6 +5,11 @@ Sufeng Guo's research and engineering work in autonomous AI systems, AI accelera
 and hardware-software co-design.
 
 The site is built with plain HTML, CSS, and JavaScript and is deployed through GitHub Pages.
+The header (including the mobile menu) and footer link to the separate
+[Vulcan project website](https://ahappend.github.io/vulcan/), which links back
+to this homepage. Cross-site links use ordinary same-tab navigation and do
+not participate in section tracking or in-page focus restoration. Each site
+retains its own theme, language and motion preferences.
 
 
 ## Local preview

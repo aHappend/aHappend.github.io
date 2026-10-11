@@ -7,6 +7,7 @@ const sceneStatus = document.getElementById("scene-status");
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".desktop-nav");
 const navLinks = [...navigation.querySelectorAll("a")];
+const sectionLinks = navLinks.filter((link) => link.getAttribute("href").startsWith("#"));
 const filters = [...document.querySelectorAll(".filter")];
 const projectCards = [...document.querySelectorAll(".project-card")];
 const workSection = document.querySelector(".folio-work");
@@ -406,12 +407,14 @@ menuButton.addEventListener("click", () => {
 
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
-    const destination = document.querySelector(link.getAttribute("href"));
     if (mobileNavigation.matches) {
       setMenu(false);
-      // Keep keyboard focus at the destination when its menu link is hidden.
-      destination.tabIndex = -1;
-      destination.focus({ preventScroll: true });
+      if (link.getAttribute("href").startsWith("#")) {
+        const destination = document.querySelector(link.hash);
+        // Keep keyboard focus at the destination when its menu link is hidden.
+        destination.tabIndex = -1;
+        destination.focus({ preventScroll: true });
+      }
     }
   });
 });
@@ -483,7 +486,7 @@ let atlasScreenWidth = 0;
 let atlasScreenHeight = innerHeight;
 const atlasScreenSize = atlasStory.querySelector(".atlas-screen-size");
 const atlasSnaps = [...atlasStory.querySelectorAll(".atlas-snap")];
-const sections = navLinks.map((link) => document.querySelector(link.getAttribute("href")));
+const sections = sectionLinks.map((link) => document.querySelector(link.hash));
 const folioLayers = [...document.querySelectorAll(".folio-work .silicon-visual")];
 
 function updateScrollState() {
@@ -565,7 +568,7 @@ function updateScrollState() {
   for (let index = 0; index < sections.length; index += 1) {
     if (sectionTops[index] <= 170) current = sections[index].id;
   }
-  navLinks.forEach((link) => {
+  sectionLinks.forEach((link) => {
     if (link.hash === `#${current}`) {
       link.setAttribute("aria-current", "location");
     } else {
