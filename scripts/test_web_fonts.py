@@ -8,6 +8,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class WebFontsTest(unittest.TestCase):
+    def test_header_controls_keep_compact_geometry(self):
+        css = (ROOT / "styles.css").read_text()
+        script = (ROOT / "script.js").read_text()
+        self.assertIn("--header-height: 64px", css)
+        self.assertIn("--header-height: 60px", css)
+        self.assertIn("@media (max-width: 1100px)", css)
+        self.assertIn('window.matchMedia("(max-width: 1100px)")', script)
+        self.assertIn("width: 20px; height: 20px", css)
+        self.assertIn("width: 22px; height: 22px", css)
+        self.assertIn('querySelectorAll(".button, .filter")', script)
+        self.assertNotIn('querySelectorAll(".button, .theme-toggle, .filter")', script)
+
     def test_action_arrows_do_not_depend_on_font_or_emoji_glyphs(self):
         html = (ROOT / "index.html").read_text()
         for source in ("index.html", "styles.css", "folio.css"):

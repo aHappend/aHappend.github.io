@@ -11,6 +11,12 @@ to this homepage. Cross-site links use ordinary same-tab navigation and do
 not participate in section tracking or in-page focus restoration. Each site
 retains its own theme, language and motion preferences.
 
+Both mastheads use single-line branding, a 64px desktop / 60px compact height,
+44px icon targets, 20px theme and 22px language icons, and a 1100px mobile-menu
+breakpoint. Keep the CSS and JS breakpoint in agreement. Header controls stay
+in place on hover and language changes; page-specific animations and body
+typography remain independent.
+
 
 ## Local preview
 

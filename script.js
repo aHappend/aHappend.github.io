@@ -24,7 +24,7 @@ const atlasControls = [...document.querySelectorAll("[data-atlas-view]")];
 const paintingDialog = document.querySelector(".painting-dialog");
 const filterStatus = document.getElementById("filter-status");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const mobileNavigation = window.matchMedia("(max-width: 900px)");
+const mobileNavigation = window.matchMedia("(max-width: 1100px)");
 let language = sitePreferences.get("language") === "zh" ? "zh" : "en";
 let selectedFilter = "all";
 let effectsEnabled = sitePreferences.get("effects") !== "off";
@@ -422,7 +422,7 @@ navLinks.forEach((link) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
     setMenu(false);
-    menuButton.focus();
+    menuButton.focus({ preventScroll: true });
   }
 });
 
@@ -441,7 +441,7 @@ document.querySelector(".site-header").addEventListener("focusout", (event) => {
 mobileNavigation.addEventListener("change", () => {
   const focusWillHide = mobileNavigation.matches && navigation.contains(document.activeElement);
   setMenu(false);
-  if (focusWillHide) menuButton.focus();
+  if (focusWillHide) menuButton.focus({ preventScroll: true });
 });
 
 let filterAnimations = [];
@@ -745,7 +745,7 @@ document.addEventListener("pointercancel", clearTouchActiveCards, { passive: tru
 function clearSpotlights() {
   spotlightCards.forEach(clearSpotlight);
 }
-const magneticControls = [...document.querySelectorAll(".button, .theme-toggle, .filter")];
+const magneticControls = [...document.querySelectorAll(".button, .filter")];
 const magneticFrames = new Map();
 
 function resetMagnet(control) {
