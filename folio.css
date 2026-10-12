@@ -184,9 +184,9 @@ html[data-effects="off"] .silicon-visual :is(.chip, .chip-array i) { animation: 
 .folio-work[data-project-browser] .folio-project-title { display: grid; grid-template-columns: minmax(0, 1fr) 64px; }
 .folio-work[data-project-browser] .folio-seal { text-align: right; }
 .project-select { display: grid; grid-template-columns: minmax(0, 1fr) 24px; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 0; border: 0; background: none; color: inherit; text-align: left; font: inherit; letter-spacing: inherit; }
-.project-select::after { content: "↗"; grid-column: 2; text-align: center; font: 21px var(--font-sans); color: var(--muted); }
+.project-select::after { content: ""; grid-column: 2; justify-self: center; width: 21px; height: 21px; color: var(--muted); background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 19 19 5M5 5h14v14' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
 .project-select[aria-pressed="true"] { color: var(--accent); }
-.project-select[aria-pressed="true"]::after { content: "→"; color: var(--rust); }
+.project-select[aria-pressed="true"]::after { transform: rotate(45deg); color: var(--rust); }
 .folio-work[data-project-browser] .project-deck { margin-block: 4px 0; font-size: 12px; }
 .folio-work[data-project-browser] .project-disclosure { margin-top: 0; border-top: 0; }
 .folio-work[data-project-browser] .project-card > .project-spec { position: absolute; inset: 0 0 auto auto; display: none; width: 50%; height: 460px; padding: 30px; }

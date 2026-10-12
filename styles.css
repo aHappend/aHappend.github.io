@@ -137,6 +137,7 @@ a:focus-visible, button:focus-visible {
 }
 button:disabled { cursor: wait; }
 img, svg { display: block; max-width: 100%; }
+.icon-arrow { display: inline-block; flex: none; width: 1em; height: 1em; max-width: none; vertical-align: -.125em; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
 figure, p, h1, h2, h3 { margin: 0; }
 [hidden] { display: none !important; }
 .mono { font-family: var(--font-mono); font-size: 11px; letter-spacing: .045em; }

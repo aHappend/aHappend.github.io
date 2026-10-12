@@ -25,6 +25,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
 - `index.html`: portfolio content. Keep `data-en` and `data-zh` translations together.
   The large bilingual headlines are the owner's rhyming poetry; preserve their
   wording and punctuation, and adapt the layout rather than rewriting them.
+  Decorative arrows use inline SVG paths, not Unicode glyphs that phones can
+  render as emoji. Keep icons outside translated text nodes so language changes
+  preserve them. Icons inherit `currentColor` and are hidden from assistive
+  technology; the project-selector pseudo-element uses the same SVG as a mask.
 - `styles.css`: the watercolor field-guide design, responsive layouts, original
   sky-blue/cyan/orange palette and blue-black dark theme, reduced-motion support,
   and print layout.

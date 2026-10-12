@@ -1,12 +1,30 @@
 import re
 import unittest
 from pathlib import Path
+from xml.etree import ElementTree
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class WebFontsTest(unittest.TestCase):
+    def test_action_arrows_do_not_depend_on_font_or_emoji_glyphs(self):
+        html = (ROOT / "index.html").read_text()
+        for source in ("index.html", "styles.css", "folio.css"):
+            self.assertNotRegex((ROOT / source).read_text(), r"[\u2197\u2198\u2191\u2193]")
+        icons = re.findall(r'<svg class="icon-arrow".*?</svg>', html, re.S)
+        self.assertGreaterEqual(len(icons), 30)
+        for markup in icons:
+            icon = ElementTree.fromstring(markup)
+            self.assertEqual(icon.get("viewBox"), "0 0 24 24")
+            self.assertEqual(icon.get("aria-hidden"), "true")
+            self.assertEqual(icon.get("focusable"), "false")
+            self.assertIsNotNone(icon.find("path"))
+        folio = (ROOT / "folio.css").read_text()
+        indicator = re.search(r"\.project-select::after\s*\{([^}]+)\}", folio).group(1)
+        self.assertIn('content: ""', indicator)
+        self.assertIn('mask: url("data:image/svg+xml,', indicator)
+
     def test_fonts_and_avatar_do_not_depend_on_external_hosts(self):
         html = (ROOT / "index.html").read_text()
         self.assertNotIn("fonts.googleapis.com", html)
