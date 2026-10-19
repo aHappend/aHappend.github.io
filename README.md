@@ -363,11 +363,13 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   updates do not imply a new packaged desktop release. Public research archives
   are not necessarily open-source licensed; preserve the Mathematics rights
   notice and each project's execution and claim boundaries.
-- Selected Work has four groups: Vulcan/Argus engineering systems, ACE/ANVIL
+- Selected Work has four groups: the independent Vulcan project, ACE/ANVIL
   accelerators, RIVET/BILLET reusable RTL families, and classic FFT/op-amp
   hardware studies. Generations stay inside family repositories. SABLE and the
   ten component IPs are supplementary links, not extra project cards. Link
   public Vulcan deliveries; do not publish private CV PDFs or framework source.
+  Vulcan is not part of Argus AI Team. Keep Argus in its separate collaboration
+  and publication entries; do not place Vulcan's families in the Argus paper diagram.
   `python3 -m unittest discover -s scripts -p 'test_portfolio.py'` checks grouping,
   bilingual copy, source links and evidence boundaries.
 - The Selected Work illustrations combine the original HTML/SVG layered chip
@@ -375,7 +377,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   seamless hover/focus loops on pointers and run while a phone touch is actively
   pressing or passing over a card; reduced motion and print disable those
   animations. They share a theme-aware graph-paper stage and cyan/orange
-  accents, not the same drawing. The Vulcan/Argus group retains the angled chip,
+  accents, not the same drawing. The independent Vulcan entry retains the angled chip,
   decorative array, registration sheets, traces and scroll alignment, explicitly
   labeled as a workflow concept. Its cell count is not a model-layer claim.
   Keep the memory, FFT and op-amp SVGs text-free. The ACE/ANVIL group's illustration

@@ -17,7 +17,7 @@ class PortfolioTest(unittest.TestCase):
 
     def test_four_groups_keep_unique_visual_and_heading_ids(self):
         self.assertEqual(len(self.cards), 4)
-        titles = ("Vulcan / Argus", "ACE / ANVIL", "RIVET / BILLET", "Hardware studies")
+        titles = ("Vulcan", "ACE / ANVIL", "RIVET / BILLET", "Hardware studies")
         for index, (card, title) in enumerate(zip(self.cards, titles), 1):
             self.assertIn(title, card)
             self.assertIn(f'id="project-title-{index}"', card)
@@ -28,7 +28,7 @@ class PortfolioTest(unittest.TestCase):
 
     def test_family_and_classic_links_stay_in_their_groups(self):
         repositories = (
-            ("microsoft/ArgusAgent", "aHappend/vulcan-showcase"),
+            ("aHappend/vulcan-showcase",),
             ("aHappend/ace-2", "aHappend/ace-3", "aHappend/anvil-e", "aHappend/anvil-q"),
             ("aHappend/rivet-a", "aHappend/rivet-h", "aHappend/billet-t",
              "aHappend/billet-f", "aHappend/sable", "aHappend/vulcan-showcase"),
@@ -65,10 +65,24 @@ class PortfolioTest(unittest.TestCase):
             "full-regression, full-model and hardware acceptance remain open",
             "Q16.16 execution", "E3/Q2 remain developmental",
             "WORKFLOW CONCEPT", "ACE-2 / K/V REUSE", "BILLET-T CONCEPT",
-            "not every family's architecture", "not results claimed by this paper",
+            "not every family's architecture",
         ):
             self.assertIn(required, self.html)
         self.assertIn('data-en="Work groups"', self.html)
+
+    def test_vulcan_is_separate_from_argus_team_and_paper(self):
+        self.assertNotIn("Vulcan / Argus", self.html)
+        self.assertIn("not part of Argus AI Team", self.cards[0])
+        self.assertIn("不属于 Argus AI Team", self.cards[0])
+        self.assertNotIn("microsoft/ArgusAgent", self.cards[0])
+        paper = re.search(
+            r'<a\b[^>]*href="https://arxiv.org/abs/2608\.05144"[^>]*>.*?</a>',
+            self.html, re.S,
+        )
+        self.assertIsNotNone(paper)
+        self.assertIn("Argus AI Team's runtime", paper.group())
+        for independent_work in ("Vulcan", "ANVIL", "RIVET", "BILLET", "SABLE"):
+            self.assertNotIn(independent_work, paper.group())
 
 
 if __name__ == "__main__":
