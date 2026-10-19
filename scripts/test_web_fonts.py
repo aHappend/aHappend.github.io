@@ -1,5 +1,6 @@
 import re
 import unittest
+from hashlib import sha256
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -46,9 +47,12 @@ class WebFontsTest(unittest.TestCase):
         css = (ROOT / "fonts/site-fonts.css").read_text()
         self.assertEqual(css.count("@font-face"), 7)
         self.assertEqual(css.count("font-display: swap"), 7)
-        for name in re.findall(r"url\(([^)]+)\)", css):
-            self.assertRegex(name, r"^site-\d+\.woff2$")
-            self.assertEqual((ROOT / "fonts" / name).read_bytes()[:4], b"wOF2")
+        for url in re.findall(r"url\(([^)]+)\)", css):
+            self.assertRegex(url, r"^site-\d+\.woff2\?v=[0-9a-f]{12}$")
+            name, version = url.split("?v=")
+            data = (ROOT / "fonts" / name).read_bytes()
+            self.assertEqual(data[:4], b"wOF2")
+            self.assertEqual(version, sha256(data).hexdigest()[:12])
         for family in ("dmmono", "manrope", "newsreader", "notosanssc", "notoserifsc"):
             self.assertIn("SIL OPEN FONT LICENSE", (ROOT / "fonts" / f"{family}-LICENSE.txt").read_text())
 

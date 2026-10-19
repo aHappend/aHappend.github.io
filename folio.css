@@ -171,6 +171,8 @@ html[data-effects="off"] .silicon-visual :is(.chip, .chip-array i) { animation: 
 .folio-work .project-notes .project-meta { margin-bottom: 12px; font-size: 9px; }
 .folio-work .project-notes p { max-width: none; margin: 0 0 14px; font-size: 12px; }
 .folio-work .project-notes a { max-width: none; min-height: 44px; padding-top: 10px; }
+.project-links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.folio-work .project-links a { flex: 1 1 110px; min-width: 44px; margin: 0; padding: 10px 0; }
 .folio-endnote { display: flex; justify-content: space-between; gap: 16px; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; }
 
 /* One DOM copy of each diagram; desktop places the selected one beside the index. */

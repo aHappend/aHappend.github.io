@@ -109,8 +109,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   of readable text and controls; the coastal underlay is the deliberate
   background-layer exception. Each painting appears exactly once inside an
   accessible `.scene-art` button; the image itself never intercepts pointer input.
-  ACE-3 retains the original angled chip and layered drawings, not a die
-  photograph or a physical-layout result.
+  The engineering-system group retains the original angled chip and layered
+  drawings as a workflow concept, not a die photograph or physical-layout result.
 - `art/studio-paper.svg`: original tiled cold-pressed paper texture, with diffuse
   lighting for the paper tooth and a separate fine-fiber layer. It is rendered
   once as a background, never regenerated in the scroll callback.
@@ -363,17 +363,27 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   updates do not imply a new packaged desktop release. Public research archives
   are not necessarily open-source licensed; preserve the Mathematics rights
   notice and each project's execution and claim boundaries.
-- The Selected Work illustrations combine the original HTML/SVG ACE-3 chip
+- Selected Work has four groups: Vulcan/Argus engineering systems, ACE/ANVIL
+  accelerators, RIVET/BILLET reusable RTL families, and classic FFT/op-amp
+  hardware studies. Generations stay inside family repositories. SABLE and the
+  ten component IPs are supplementary links, not extra project cards. Link
+  public Vulcan deliveries; do not publish private CV PDFs or framework source.
+  `python3 -m unittest discover -s scripts -p 'test_portfolio.py'` checks grouping,
+  bilingual copy, source links and evidence boundaries.
+- The Selected Work illustrations combine the original HTML/SVG layered chip
   with three inline technical SVGs. They use
   seamless hover/focus loops on pointers and run while a phone touch is actively
   pressing or passing over a card; reduced motion and print disable those
   animations. They share a theme-aware graph-paper stage and cyan/orange
-  accents, not the same drawing. ACE-3 retains its angled chip, 24 cells,
-  registration sheets, traces, and scroll alignment; its compact lower ledger
-  preserves the 24-layer/624-tensor facts and conceptual status. Keep ACE-2,
-  FFT, and op-amp diagrams text-free. ACE-2 shows two token streams entering an RTL compute
+  accents, not the same drawing. The Vulcan/Argus group retains the angled chip,
+  decorative array, registration sheets, traces and scroll alignment, explicitly
+  labeled as a workflow concept. Its cell count is not a model-layer claim.
+  Keep the memory, FFT and op-amp SVGs text-free. The ACE/ANVIL group's illustration
+  is an ACE-2 K/V-reuse example, not a shared architecture for every family.
+  It shows two token streams entering an RTL compute
   array, retained state banks, and the state-reuse return path. The FFT time
-  waveform is one fixed trace: a sinusoidal segment followed by a long,
+  drawing is a BILLET-T frequency-domain concept, not a fixed 64-point family
+  specification. Its waveform is one fixed trace: a sinusoidal segment followed by a long,
   irregular segment. Two identical copies move right at constant speed through
   a clipped viewport; the SVG path itself never morphs, and the 216-unit tile
   offset makes the loop seamless. Spectrum bins remain independent stems
@@ -459,7 +469,8 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
 
 ## Public project source review
 
-Last reviewed: **2026-10-11**. These are public-source checks, not fresh
+Portfolio families and ACE boundaries refreshed: **2026-10-19**. Unchanged
+ecosystem entries retain the **2026-10-11** source review. These are public-source checks, not fresh
 executions of the upstream experiments. Dated checkpoints describe their
 publication state, not a live campaign. Keep both languages, Selected Work,
 the ecosystem grid, and the research evidence labels consistent.
@@ -469,8 +480,10 @@ the ecosystem grid, and the research evidence labels consistent.
 | Argus channels | [Official ArgusAgent README](https://github.com/microsoft/ArgusAgent) and [development-preview README](https://github.com/lbx154/Argus/blob/d0e87b8b92f466c0335ac726241f746820b7b1a9/README.md): two channels of the same runtime, not two independent systems. Do not imply that their source revisions or desktop packages are synchronized. |
 | Argus Verticals | [Catalog](https://github.com/Argus-AiTeam/argus-verticals/blob/73eecd72e1d6a4c530fca0a379576b5554fb5eec/catalog.json) contains **24** community packs; [readiness boundaries](https://github.com/Argus-AiTeam/argus-verticals/blob/73eecd72e1d6a4c530fca0a379576b5554fb5eec/README.md#hardware-readiness-boundaries) distinguish **8** primary hardware domains from bounded native-tool support. The October 9 update declares per-domain round policies. Older prose still mentioning 17 community packs is not authoritative for the current count. |
 | Argus-Pi | [Downstream README](https://github.com/Argus-AiTeam/Argus-Pi/blob/ba9947aba37934ee01025b18a0f90817cc1b5cf2/README.md): source preview, selective PDF/notebook reading, and explicit execution/retry status; not a separately published package or a replacement orchestrator. |
-| ACE-3 | [September 28 result](https://github.com/Argus-AiTeam/ace-3/blob/aad9515ae9f9ca552d7eb7c47d10731ff668f89c/docs/results/STAGE11_EXACT_O_PROJ_20260928.md): CPU exact-integer o_proj implementation checkpoint; first entry failed before numerical execution. Do not promote it to numerical success, new RTL acceptance, or a complete accelerator. |
-| ACE-2 | [September 26 result](https://github.com/Argus-AiTeam/ace-2/blob/efec4ce788d65a70800330a71cc26c1c25693263/docs/results/PERSISTENT_CONVERSATION_20260926.md): accepted two-turn/four-token-per-turn RTL evidence; the three-turn diagnostic is unfinished in that snapshot. No FPGA/silicon measurement is implied. |
+| ACE-3 | [Current public boundary](https://github.com/aHappend/ace-3/blob/87f050d97beb560f0bd56e542c28331a9cf7a1a1/README.md): G128 projection and bounded FP16-boundary blocks; October repairs/V10 adapter are development evidence. Full-regression, full-model and hardware acceptance remain open. Retire the earlier full-cascade/624-tensor headline. |
+| ACE-2 | [Accepted persistent result](https://github.com/aHappend/ace-2/blob/9fe36b70c041de4b9ce8fcaec944df7370ecdd1f/docs/results/PERSISTENT_CONVERSATION_20260926.md): two turns, four tokens per turn, 24 retained K/V layers, zero mismatches and no fallback. Three-turn work remains diagnostic; current public acceptance does not include PPA or deployed hardware. |
+| ANVIL | [E1](https://github.com/aHappend/anvil-e/tree/084785982f6a3b89ae4bf01bf75e69823c5edfbf), [E2/E3](https://github.com/aHappend/anvil-e/tree/9f761095a965184b9acf19be4e5a7d23c376baf5), [Q1](https://github.com/aHappend/anvil-q/tree/6ef0519b46443cb89b32534640587ea78a38fdc3) and [Q2](https://github.com/aHappend/anvil-q/tree/4083fa49eb98b83f8271d7777b99092b73e337a8): E1/E2 and Q1 packages are published; official-weight comparisons are bounded remapped slices. Q1 uses Q16.16 execution after binary16 conversion. E3/Q2 remain developmental. |
+| Reusable families | [RIVET-A](https://github.com/aHappend/rivet-a/tree/32c06b9f7471d46796a03d11e896a55b9f93c5ff), [RIVET-H](https://github.com/aHappend/rivet-h/tree/aaf2633c3d211092df08fa78e93da15bf695ba0f), [BILLET-T](https://github.com/aHappend/billet-t/tree/4cb761b31b58b951be7f2d65fd7358dc55c61951) and [BILLET-F](https://github.com/aHappend/billet-f/tree/c33749912cf0402b8ff6bfabf89698da31addb2d): grouped crypto/DSP RTL/report packages, not fabricated chips or security certification. [SABLE](https://github.com/aHappend/sable/tree/84b66a4a2f824d0a7f37e383f1444e836a124a0e) is a separate protocol system. |
 | Mathematics | [Archive README](https://github.com/Argus-AiTeam/argus-mathematics/blob/ed18d951259173d930e2ba83a1fc35ab0d933900/README.md): 17 public result packages with claim-specific limitations. Original materials are **All Rights Reserved**, not open-source licensed; link and summarize facts rather than reproduce reports. |
 | Hilbert XVI | [Observatory](https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory/tree/bde56cd1eeb19467de5fba820bbc55adb464b9a8): bilingual records, not a claimed complete solution or proof that historical processes are still running. |
 | MiniMax-H3 Desktop | [Published campaign](https://github.com/Argus-AiTeam/minimax-h3-desktop/blob/bd7eb21278cf10e11a4ee63de4a514c8bcc8df9f/README.md): completed A6000 research with benchmarks and retained negative results. Turbo changes the sampling schedule; do not advertise its speedup as a fidelity-preserving hardware gain. |
