@@ -116,6 +116,7 @@ html.painting-opened { overflow: hidden; }
 .folio-work .filter { min-height: 44px; font-size: 10px; }
 .folio-work .filter.active { background: var(--ink); color: var(--paper); }
 .folio-work .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.project-group-heading { grid-column: 1 / -1; margin: 0; padding-block: 18px 8px; color: var(--muted); font-size: 11px; letter-spacing: .08em; border-bottom: 1px solid var(--line); }
 .folio-work .project-card,
 .folio-work .project-card:not(.project-featured):last-child { display: flex; flex-direction: column; grid-column: auto; min-width: 0; padding: 0; border: 0; border-bottom: 1px solid var(--line); background: none; box-shadow: none; }
 .folio-work .project-card.pointer-lit { transform: none; box-shadow: none; z-index: auto; }
@@ -175,31 +176,27 @@ html[data-effects="off"] .silicon-visual :is(.chip, .chip-array i) { animation: 
 .folio-work .project-links a { flex: 1 1 110px; min-width: 44px; margin: 0; padding: 10px 0; }
 .folio-endnote { display: flex; justify-content: space-between; gap: 16px; margin-top: 26px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; }
 
-/* One DOM copy of each diagram; desktop places the selected one beside the index. */
-.folio-work[data-project-browser] .project-grid { position: relative; display: block; min-height: 490px; }
+/* Keep each complete study together; only the directory labels are duplicated. */
+.folio-work[data-project-browser] .project-grid { display: grid; grid-template-columns: minmax(190px, .65fr) minmax(0, 1.55fr); gap: 0 6%; min-height: 520px; }
+.project-directory { position: sticky; top: var(--project-stage-top, 88px); align-self: start; max-height: calc(100svh - var(--project-stage-top, 88px) - 24px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line) transparent; padding: 4px 8px 8px 4px; }
+.project-directory .project-group-heading { padding-block: 20px 10px; font-size: 9px; }
+.project-directory .project-group-heading:first-child { padding-top: 0; }
+.project-panels { min-width: 0; scroll-margin-top: var(--project-stage-top, 88px); }
 .folio-work[data-project-browser] .project-card,
-.folio-work[data-project-browser] .project-card:not(.project-featured):last-child { display: block; position: static; width: 44%; padding-block: 14px; transform: none; translate: none; opacity: 1; }
-.folio-work[data-project-browser] .project-card:first-child { padding-top: 0; }
-.folio-work[data-project-browser] .project-body { display: block; padding: 0; }
-.folio-work[data-project-browser] .project-number { padding-bottom: 4px; font-size: 8px; }
-.folio-work[data-project-browser] .project-card h3 { flex: 1; font-size: clamp(28px, 2.65vw, 38px); }
-.folio-work[data-project-browser] .folio-project-title { display: grid; grid-template-columns: minmax(0, 1fr) 64px; }
-.folio-work[data-project-browser] .folio-seal { text-align: right; }
-.project-select { display: grid; grid-template-columns: minmax(0, 1fr) 24px; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 0; border: 0; background: none; color: inherit; text-align: left; font: inherit; letter-spacing: inherit; }
+.folio-work[data-project-browser] .project-card:not(.project-featured):last-child { display: none; width: 100%; padding: 0; border-bottom: 0; transform: none; translate: none; opacity: 1; }
+.folio-work[data-project-browser] .project-card[data-active],
+.folio-work[data-project-browser] .project-card[data-active]:last-child { display: flex; }
+.folio-work[data-project-browser] .project-card h3 { font-size: clamp(34px, 3.4vw, 46px); }
+.project-select { display: grid; grid-template-columns: minmax(0, 1fr) 24px; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 9px 0; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--ink); text-align: left; font: 500 23px/1.2 var(--font-display); letter-spacing: -.025em; }
 .project-select::after { content: ""; grid-column: 2; justify-self: center; width: 21px; height: 21px; color: var(--muted); background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 19 19 5M5 5h14v14' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
-.project-select[aria-pressed="true"] { color: var(--accent); }
+.project-select[aria-pressed="true"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .project-select[aria-pressed="true"]::after { transform: rotate(45deg); color: var(--rust); }
-.folio-work[data-project-browser] .project-deck { margin-block: 4px 0; font-size: 12px; }
-.folio-work[data-project-browser] .project-disclosure { margin-top: 0; border-top: 0; }
-.folio-work[data-project-browser] .project-card > .project-spec { position: absolute; inset: 0 0 auto auto; display: none; width: 50%; height: 460px; padding: 30px; }
-.folio-work[data-project-browser] .project-card[data-active] > .project-spec { display: flex; }
-.folio-work[data-project-browser] .project-card > .cover-ledger { position: absolute; top: 469px; right: 0; display: none; width: 50%; margin: 0; font-size: 9px; }
-.folio-work[data-project-browser] .project-card[data-active] > .cover-ledger { display: flex; }
-.folio-work[data-project-browser] .silicon-visual { --chip-size: 205px; --orbit-size: 292px; }
-.folio-work[data-project-browser] .chip { padding: 18px; }
-.folio-work[data-project-browser] .chip-name { font-size: 34px; }
-.folio-work[data-project-browser] .chip-array { gap: 5px; margin-block: 22px; }
-.folio-work[data-project-browser] .chip-array i { height: 17px; }
+.project-select:is([data-stage="queued"], [data-stage="planned"]) { font-size: 19px; }
+.folio-work[data-project-browser] .project-deck { font-size: 14px; }
+.folio-work[data-project-browser] .project-spec { height: clamp(270px, 39svh, 380px); padding: 20px; }
+.folio-work[data-project-browser] .cover-ledger { font-size: 9px; }
+.folio-work .project-card:is([data-stage="queued"], [data-stage="planned"]) h3 { font-size: 29px; }
+.folio-work .project-notes p { font-size: 13px; }
 
 html[data-effects="on"] { scroll-snap-type: y proximity; }
 .atlas-story { position: relative; }
@@ -371,10 +368,8 @@ html[lang="zh-CN"] .folio-browse-note { font: 12px var(--font-sans); }
   .hero-index strong { font-size: 22px; }
   .hero-motto { font-size: 25px; }
   .folio-hero .hero-panel { grid-template-columns: .8fr 1.2fr; }
-  .folio-work[data-project-browser] .project-card { width: 46%; }
-  .folio-work[data-project-browser] .project-card > .project-spec { width: 49%; padding: 20px; }
-  .folio-work[data-project-browser] .project-card > .cover-ledger { width: 49%; }
-  .folio-work[data-project-browser] .project-card h3 { font-size: 28px; }
+  .folio-work[data-project-browser] .project-grid { column-gap: 4%; }
+  .project-select { font-size: 21px; }
   .about-section { gap: 40px; }
   .section-aside { flex-basis: 48%; max-width: 48%; padding-right: 172px; }
   .section .scene-aside { width: 160px; height: 128px; }
@@ -609,6 +604,9 @@ html[lang="zh-CN"] .folio-browse-note { font: 12px var(--font-sans); }
   .folio-hero h1.hero-name, html[lang="zh-CN"] .folio-hero h1.hero-name { font-size: 42px; }
   .folio-work .project-grid, .folio-work[data-project-browser] .project-grid { display: block; min-height: 0; }
   .folio-work .project-card, .folio-work[data-project-browser] .project-card { display: flex; position: relative; width: 100%; margin: 20px 0; }
+  .folio-work .project-card[hidden], .folio-work .project-group-heading[hidden] { display: flex !important; }
+  .project-directory { display: none !important; }
+  .project-group-heading { break-after: avoid; }
   .folio-work[data-project-browser] .project-body { display: contents; }
   .folio-work[data-project-browser] .project-card > .project-spec { position: relative; inset: auto; display: flex; width: 100%; height: 290px; padding: 15px; }
   .folio-work[data-project-browser] .project-card > .cover-ledger { position: static; display: flex; width: 100%; }

@@ -25,10 +25,11 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260906-sg-seal" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest?v=20260906-sg-seal">
     <script src="preferences.js?v=20260906-living-garden"></script>
-    <link rel="stylesheet" href="fonts/site-fonts.css?v=20261024-seven-families">
+    <link rel="stylesheet" href="fonts/site-fonts.css?v=20261025-project-studies">
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261013-compact-header">
-    <link rel="stylesheet" href="folio.css?v=20261019-project-families">
+    <link rel="stylesheet" href="folio.css?v=20261025-project-studies">
+    <link rel="stylesheet" href="project-motion.css?v=20261025-project-studies">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -241,8 +242,8 @@
               <dd data-en="Research papers" data-zh="论文与报告">Research papers</dd>
             </div>
             <div>
-              <dt>04</dt>
-              <dd data-en="Work groups" data-zh="作品分组">Work groups</dd>
+              <dt>12</dt>
+              <dd data-en="Project studies" data-zh="项目条目">Project studies</dd>
             </div>
           </dl>
         </aside>
@@ -457,55 +458,43 @@
         <div class="folio-toolbar">
           <p class="folio-browse-note">
             <span class="browser-instruction" data-en="Choose a study. See how it works." data-zh="选一份作品，看它如何运作。">Choose a study. See how it works.</span>
-            <span class="inline-instruction" data-en="Four studies, from systems to signals." data-zh="四份作品，从系统到信号。">Four studies, from systems to signals.</span>
+            <span class="inline-instruction" data-en="Individual families. Distinct ideas." data-zh="家族各成一章，原理各有不同。">Individual families. Distinct ideas.</span>
           </p>
           <div class="project-filters enhanced-control" role="group" aria-label="Filter projects">
             <button class="filter active" type="button" data-filter="all"
                     aria-pressed="true" data-en="All" data-zh="全部">All</button>
             <button class="filter" type="button" data-filter="systems"
-                    aria-pressed="false" data-en="AI Systems" data-zh="AI 系统">AI Systems</button>
-            <button class="filter" type="button" data-filter="hardware"
-                    aria-pressed="false" data-en="Hardware" data-zh="硬件">Hardware</button>
-            <button class="filter" type="button" data-filter="research"
-                    aria-pressed="false" data-en="Research" data-zh="研究">Research</button>
+                    aria-pressed="false" data-en="AI &amp; Tools" data-zh="AI 与工具">AI &amp; Tools</button>
+            <button class="filter" type="button" data-filter="families"
+                    aria-pressed="false" data-en="Chip Families" data-zh="芯片家族">Chip Families</button>
+            <button class="filter" type="button" data-filter="foundations"
+                    aria-pressed="false" data-en="Protocols &amp; Circuits" data-zh="协议与电路">Protocols &amp; Circuits</button>
           </div>
         </div>
 
         <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
         <p class="sr-only" id="project-preview-status" role="status" aria-live="polite"></p>
         <div class="project-grid">
-          <article class="project-card project-featured reveal" data-category="systems hardware research">
+          <p class="project-group-heading mono" data-category="systems" data-en="01 / AI &amp; ENGINEERING TOOLS" data-zh="01 / AI 与工程工具">01 / AI &amp; ENGINEERING TOOLS</p>
+          <article class="project-card project-featured reveal" data-project="vulcan" data-category="systems">
             <div class="project-number mono" data-en="P.01 / INDEPENDENT PROJECT"
                  data-zh="P.01 / 独立项目">P.01 / INDEPENDENT PROJECT</div>
-            <div class="project-spec silicon-visual" id="project-visual-1" role="group" aria-labelledby="project-title-1">
-              <div class="silicon-visual-label mono"><span data-en="ENGINEERING LOOP"
-                    data-zh="工程闭环">ENGINEERING LOOP</span><span>RTL / EVIDENCE</span></div>
-              <div class="chip-registration" aria-hidden="true">
-                <div class="registration-sheet sheet-architecture"></div>
-                <div class="registration-sheet sheet-routing"></div>
-                <svg class="registration-traces" viewBox="0 0 320 280" fill="none">
-                  <g>
-                    <path pathLength="1" d="M12 65h30l28 28h42M18 201h42l29-29h20M208 83h35l28-28h38M214 187h30l24 24h39"/>
-                    <path pathLength="1" d="M95 14v32l20 20v28M217 263v-30l-18-18v-28"/>
-                  </g>
-                  <circle cx="12" cy="65" r="3"/><circle cx="18" cy="201" r="3"/>
-                  <circle cx="309" cy="55" r="3"/><circle cx="307" cy="211" r="3"/>
-                  <circle cx="95" cy="14" r="3"/><circle cx="217" cy="263" r="3"/>
-                </svg>
-                <div class="chip-orbit">
-                  <div class="chip">
-                    <span class="chip-name">VULCAN</span>
-                    <div class="chip-array">
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                      <i></i><i></i><i></i><i></i><i></i><i></i>
-                    </div>
-                    <span class="mono" data-en="SCOPED EVIDENCE"
-                          data-zh="有界证据">SCOPED EVIDENCE</span>
-                  </div>
-                </div>
-              </div>
+            <div class="project-spec spec-workflow" id="project-visual-1" role="group" aria-labelledby="project-title-1">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <path class="study-guide" d="M16 120h328M180 20v200"/>
+                <path class="study-route" d="M86 100h49m88 0h23V80M282 116v48M248 189H57v-49"/>
+                <path class="study-panel" d="M25 50h44l17 17v73H25zM69 50v17h17"/>
+                <path class="study-line" d="M37 84h32M37 97h22M37 110h29"/>
+                <rect class="study-panel" x="135" y="54" width="88" height="92" rx="4"/>
+                <path class="study-line" d="M149 76h20v24h20V76h20M149 123h20v-23m20 23v-23h20"/>
+                <g class="study-dot"><circle cx="149" cy="76" r="3"/><circle cx="209" cy="76" r="3"/><circle cx="149" cy="123" r="3"/><circle cx="209" cy="123" r="3"/></g>
+                <path class="study-outline" d="m282 44 36 36-36 36-36-36z"/>
+                <path class="study-warm motion workflow-check" pathLength="1" d="m266 80 11 11 23-24"/>
+                <rect class="study-panel" x="248" y="164" width="68" height="50" rx="3"/>
+                <path class="study-line" d="M258 176h16v12h-16zm27 0h21M285 185h21M258 202h48"/>
+                <circle class="study-packet motion workflow-packet" r="5" cx="86" cy="100"/>
+                <path class="study-warm motion workflow-receipt" pathLength="1" d="m152 186 8 8 17-18"/>
+              </svg>
             </div>
             <div class="cover-ledger mono">
               <span data-en="INTENT → RTL → EVIDENCE" data-zh="目标 → RTL → 证据">INTENT → RTL → EVIDENCE</span>
@@ -533,13 +522,9 @@
                     Argus AI Team. It connects scoped design, RTL implementation, verification,
                     independent review and reproducible delivery.
                   </p>
-                  <p data-en="The workshop now spans seven hardware families, with 17 reported generations across ANVIL, RIVET and BILLET, plus ten component IPs. Quartus checks and Arria 10 hardware-in-the-loop testing extend the engineering workflow. Human approval and project-specific acceptance boundaries remain explicit; the layered drawing is a workflow concept, not a physical die."
-                     data-zh="工坊现已扩展为七个硬件家族，ANVIL、RIVET 与 BILLET 共 17 代设计已发布报告，另有十个基础 IP。工程流程进一步接入 Quartus 检查与 Arria 10 实板测试。人工审批与各项目的验收边界仍独立保留；叠层图是流程概念示意，不是实体芯片。">
-                    The workshop now spans seven hardware families, with 17 reported generations across
-                    ANVIL, RIVET and BILLET, plus ten component IPs. Quartus checks and Arria 10
-                    hardware-in-the-loop testing extend the engineering workflow. Human approval and
-                    project-specific acceptance boundaries remain explicit; the layered drawing is a
-                    workflow concept, not a physical die.
+                  <p data-en="Seven hardware families now include 17 reported generations across ANVIL, RIVET and BILLET, alongside ten component IPs. Quartus and Arria 10 HIL extend the workflow. The animation follows a design through review and a board receipt; it illustrates the process, not live execution or universal acceptance."
+                     data-zh="七个硬件家族中，ANVIL、RIVET 与 BILLET 共 17 代已发布报告，另有十个基础 IP。流程已接入 Quartus 与 Arria 10 实板测试。动画演示设计、审查与板测回执之间的闭环，不是实时运行，也不代表全部项目均已验收。">
+                    Seven hardware families now include 17 reported generations across ANVIL, RIVET and BILLET, alongside ten component IPs. Quartus and Arria 10 HIL extend the workflow. The animation follows a design through review and a board receipt; it illustrates the process, not live execution or universal acceptance.
                   </p>
                   <div class="project-links">
                     <a href="https://ahappend.github.io/vulcan/" target="_blank" rel="noreferrer" data-en="Vulcan portfolio" data-zh="Vulcan 作品集">Vulcan portfolio</a>
@@ -550,7 +535,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal" data-category="systems hardware research">
+          <article class="project-card reveal" data-project="ace" data-category="systems">
             <div class="project-number mono" data-en="P.02 / AI ACCELERATORS"
                  data-zh="P.02 / AI 加速器">P.02 / AI ACCELERATORS</div>
             <div class="project-spec spec-memory" id="project-visual-2" role="group" aria-labelledby="project-title-2">
@@ -598,9 +583,9 @@
               <strong data-en="DATAFLOW CONCEPT" data-zh="数据流示意">DATAFLOW CONCEPT</strong>
             </div>
             <div class="project-body">
-              <div class="folio-project-title"><h3 id="project-title-2">ACE / ANVIL</h3><span class="folio-seal mono">AI RTL</span></div>
-              <p class="project-deck" data-en="Model contracts, mapped into accelerator families."
-                 data-zh="从模型契约出发，探索加速器家族。">Model contracts, mapped into accelerator families.</p>
+              <div class="folio-project-title"><h3 id="project-title-2">ACE</h3><span class="folio-seal mono">AI RTL</span></div>
+              <p class="project-deck" data-en="Keep the context. Reuse the state."
+                 data-zh="保留上下文，复用计算状态。">Keep the context. Reuse the state.</p>
               <details class="project-disclosure">
                 <summary>
                   <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
@@ -609,7 +594,7 @@
                 </summary>
                 <div class="project-notes">
                   <div class="project-meta">
-                    <span>W4A8 / AWQ</span><span data-en="Embeddings" data-zh="嵌入计算">Embeddings</span><span>SystemVerilog</span>
+                    <span>W4A8 / G128</span><span>K/V CACHE</span><span>SystemVerilog</span>
                   </div>
               <p
                 data-en="ACE-2 has accepted two-turn, four-token-per-turn RTL simulation: 24 retained K/V layers, no prefix recomputation or fallback, and zero mismatches. ACE-3 has verified G128 projection and bounded FP16-boundary blocks; full-regression, full-model and hardware acceptance remain open."
@@ -619,28 +604,287 @@
                 no prefix recomputation or fallback, and zero mismatches. ACE-3 has verified G128 projection
                 and bounded FP16-boundary blocks; full-regression, full-model and hardware acceptance remain open.
               </p>
-              <p data-en="ANVIL E1–E3 and Q1/Q2 now publish RTL and reports. E1–E3 and Q1 have three-run, deterministic Arria 10 HIL receipts. Q3 is in development; Q4 is planned. Q1 converts binary16 storage to Q16.16 execution. Board results cover their recorded workloads, not blanket full-model acceptance."
-                 data-zh="ANVIL E1–E3 与 Q1/Q2 现已公开 RTL 和报告，E1–E3 与 Q1 另有三次结果一致的 Arria 10 实板回执。Q3 正在研发，Q4 处于规划阶段。Q1 将 binary16 存储转换为 Q16.16 执行；板测结果只覆盖记录中的负载，不等于完整模型统一验收。">
-                ANVIL E1–E3 and Q1/Q2 now publish RTL and reports. E1–E3 and Q1 have three-run,
-                deterministic Arria 10 HIL receipts. Q3 is in development; Q4 is planned. Q1 converts
-                binary16 storage to Q16.16 execution. Board results cover their recorded workloads,
-                not blanket full-model acceptance.
-              </p>
               <div class="project-links">
                 <a href="https://github.com/aHappend/ace-2" target="_blank" rel="noreferrer">ACE-2</a>
                 <a href="https://github.com/aHappend/ace-3" target="_blank" rel="noreferrer">ACE-3</a>
-                <a href="https://github.com/aHappend/anvil-e" target="_blank" rel="noreferrer">ANVIL-E</a>
-                <a href="https://github.com/aHappend/anvil-q" target="_blank" rel="noreferrer">ANVIL-Q</a>
               </div>
                 </div>
               </details>
             </div>
           </article>
 
-          <article class="project-card reveal" data-category="hardware">
-            <div class="project-number mono" data-en="P.03 / REUSABLE RTL FAMILIES"
-                 data-zh="P.03 / 可复用 RTL 家族">P.03 / REUSABLE RTL FAMILIES</div>
-            <div class="project-spec spec-fft" id="project-visual-3" role="group" aria-labelledby="project-title-3">
+          <p class="project-group-heading mono" data-category="families" data-en="02 / HARDWARE FAMILIES" data-zh="02 / 硬件家族">02 / HARDWARE FAMILIES</p>
+          <article class="project-card reveal" data-project="anvil" data-category="families">
+            <div class="project-number mono" data-en="P.03 / EMBEDDINGS &amp; INFERENCE" data-zh="P.03 / 嵌入与推理">P.03 / EMBEDDINGS &amp; INFERENCE</div>
+            <div class="project-spec spec-anvil" id="project-visual-3" role="group" aria-labelledby="project-title-3">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <path class="study-guide" d="M18 120h324M180 20v200"/>
+                <g class="study-outline"><circle cx="37" cy="53" r="9"/><circle cx="37" cy="80" r="9"/><circle cx="37" cy="107" r="9"/></g>
+                <path class="study-route" d="M48 53h28l35 27M48 80h63M48 107h28l35-27M215 80h43M89 179h42m76 0h42"/>
+                <rect class="study-panel" x="111" y="34" width="104" height="92" rx="3"/>
+                <path class="study-grid" d="M137 34v92M163 34v92M189 34v92M111 57h104M111 80h104M111 103h104"/>
+                <g class="study-fill"><rect class="motion anvil-multiply" x="115" y="38" width="18" height="15"/><rect class="motion anvil-multiply" x="141" y="61" width="18" height="15"/><rect class="motion anvil-multiply" x="167" y="84" width="18" height="15"/><rect class="motion anvil-multiply" x="193" y="107" width="18" height="15"/></g>
+                <g class="study-bar"><rect class="motion embedding-vector" x="266" y="58" width="9" height="47"/><rect class="motion embedding-vector" x="284" y="41" width="9" height="64"/><rect class="motion embedding-vector" x="302" y="70" width="9" height="35"/></g>
+                <g class="study-outline"><rect x="30" y="148" width="58" height="60" rx="3"/><path d="M30 163h58M30 178h58M30 193h58M44 148v60M59 148v60M74 148v60"/></g>
+                <g class="motion anvil-pack"><rect class="study-panel" x="132" y="158" width="74" height="42" rx="3"/><path class="study-warm" d="M144 168v22m12-22v22m12-22v22m12-22v22m12-22v22"/></g>
+                <path class="study-outline" d="M253 159h64v42h-64zM253 173h64M269 159v42M285 159v42M301 159v42"/>
+                <path class="study-warm motion anvil-decode" pathLength="1" d="M259 190h20v-12h20v-11h12"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>E / EMBEDDINGS · Q / INFERENCE</span><strong data-en="MATRIX &amp; QUANTIZATION" data-zh="矩阵与量化示意">MATRIX &amp; QUANTIZATION</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-3">ANVIL</h3><span class="folio-seal mono">E / Q</span></div>
+              <p class="project-deck" data-en="Turn representations into hardware." data-zh="让模型表征，落到硬件之中。">Turn representations into hardware.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>E1–E3 / Q1–Q4</span><span>AWQ</span><span>Arria 10</span></div>
+                  <p data-en="The E line explores embedding engines; Q explores quantized inference. E1–E3 and Q1/Q2 publish RTL and reports. Q3 is in development; Q4 is planned. The two-lane animation distinguishes vector projection from packed weights and execution; it is not a shared microarchitecture for every generation." data-zh="E 系列探索嵌入引擎，Q 系列探索量化推理。E1–E3 与 Q1/Q2 已公开 RTL 和报告；Q3 研发中，Q4 规划中。双通路动画分别呈现向量投影与权重压缩、执行，并非所有代际共用的微架构。">The E line explores embedding engines; Q explores quantized inference. E1–E3 and Q1/Q2 publish RTL and reports. Q3 is in development; Q4 is planned. The two-lane animation distinguishes vector projection from packed weights and execution; it is not a shared microarchitecture for every generation.</p>
+                  <p data-en="E1–E3 and Q1 have three-run, deterministic Arria 10 HIL receipts. Q1 converts binary16 storage to Q16.16 execution. These results cover recorded workloads, not blanket full-model acceptance; the animation is conceptual." data-zh="E1–E3 与 Q1 有三次结果一致的 Arria 10 实板回执。Q1 将 binary16 存储转换为 Q16.16 执行。结果仅覆盖记录中的负载，不等于完整模型统一验收；动画为原理示意。">E1–E3 and Q1 have three-run, deterministic Arria 10 HIL receipts. Q1 converts binary16 storage to Q16.16 execution. These results cover recorded workloads, not blanket full-model acceptance; the animation is conceptual.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/anvil-e" target="_blank" rel="noreferrer">ANVIL-E</a><a href="https://github.com/aHappend/anvil-q" target="_blank" rel="noreferrer">ANVIL-Q</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="rivet" data-category="families">
+            <div class="project-number mono" data-en="P.04 / CRYPTOGRAPHIC ENGINES" data-zh="P.04 / 密码引擎">P.04 / CRYPTOGRAPHIC ENGINES</div>
+            <div class="project-spec spec-rivet" id="project-visual-4" role="group" aria-labelledby="project-title-4">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <defs>
+                  <clipPath id="rivet-round-window"><rect x="34" y="42" width="88" height="88" rx="2"/></clipPath>
+                  <g id="rivet-byte-row"><path class="study-fill" d="M35 43h19v19H35zm22 0h19v19H57zm44 0h19v19h-19zm22 0h19v19h-19zm22 0h19v19h-19zm44 0h19v19h-19z"/><path class="study-solid-warm" d="M79 43h19v19H79zm88 0h19v19h-19z"/></g>
+                </defs>
+                <path class="study-guide" d="M18 148h324"/>
+                <rect class="study-panel" x="28" y="36" width="100" height="100" rx="4"/>
+                <g clip-path="url(#rivet-round-window)"><use class="motion rivet-row" href="#rivet-byte-row"/><g transform="translate(0 22)"><use class="motion rivet-row" style="--period:8s" href="#rivet-byte-row"/></g><g transform="translate(0 44)"><use class="motion rivet-row" style="--period:10s" href="#rivet-byte-row"/></g><g transform="translate(0 66)"><use class="motion rivet-row" style="--period:12s" href="#rivet-byte-row"/></g></g>
+                <path class="study-route" d="M133 85h30m42 0h43"/>
+                <circle class="study-outline" cx="185" cy="85" r="20"/><path class="study-warm motion rivet-round-key" d="M185 72v26m-13-13h26"/>
+                <rect class="study-panel" x="253" y="49" width="72" height="72" rx="3"/>
+                <path class="study-grid" d="M253 67h72M253 85h72M253 103h72M271 49v72M289 49v72M307 49v72"/>
+                <path class="study-fill motion rivet-cipher" d="M255 51h14v14h-14zm36 18h14v14h-14zm-18 18h14v14h-14zm36 18h14v14h-14z"/>
+                <path class="study-route" d="M34 186h285"/>
+                <g class="motion digest-fold"><path class="study-panel" d="M34 172h18v28H34zm24 0h18v28H58zm24 0h18v28H82z"/></g>
+                <path class="study-outline" d="m175 163 22 23-22 23-22-23z"/>
+                <g class="study-bar motion digest-output"><path d="M252 174h8v24h-8zm13 0h8v24h-8zm13 0h8v24h-8zm13 0h8v24h-8zm13 0h8v24h-8z"/></g>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>A / AES · H / SHA</span><strong data-en="PERMUTE &amp; FOLD" data-zh="置换与归约">PERMUTE &amp; FOLD</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-4">RIVET</h3><span class="folio-seal mono">CRYPTO</span></div>
+              <p class="project-deck" data-en="Mix the blocks. Preserve the integrity." data-zh="混合数据块，守住完整性。">Mix the blocks. Preserve the integrity.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>A1–A3 / H1–H3</span><span>AES / GCM</span><span>SHA / HMAC</span></div>
+                  <p data-en="Two related lines, one cryptographic family: A covers AES/GCM, H covers SHA/HMAC. Each has three reported generations. Its own animation contrasts round-state permutation with blocks folding into a fixed-width digest. It illustrates mechanisms, not a cryptographic certification or a cycle-accurate cipher." data-zh="两个方向，同属密码家族：A 覆盖 AES/GCM，H 覆盖 SHA/HMAC，均有三代公开报告。独立动画对照轮状态置换与数据块归约为定宽摘要的过程，属于机制示意，并非密码认证或逐周期算法演示。">Two related lines, one cryptographic family: A covers AES/GCM, H covers SHA/HMAC. Each has three reported generations. Its own animation contrasts round-state permutation with blocks folding into a fixed-width digest. It illustrates mechanisms, not a cryptographic certification or a cycle-accurate cipher.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/rivet-a" target="_blank" rel="noreferrer">RIVET-A</a><a href="https://github.com/aHappend/rivet-h" target="_blank" rel="noreferrer">RIVET-H</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="billet" data-category="families">
+            <div class="project-number mono" data-en="P.05 / SIGNAL PROCESSING" data-zh="P.05 / 信号处理">P.05 / SIGNAL PROCESSING</div>
+            <div class="project-spec spec-billet" id="project-visual-5" role="group" aria-labelledby="project-title-5">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <path class="study-guide" d="M20 78h320M20 180h320"/>
+                <path class="study-line" d="M21 63c8 0 8-34 16-34s8 34 16 34 8-34 16-34 8 34 16 34"/>
+                <path class="study-route" d="M36 78h260M111 78v65m49-65v65m49-65v65m49-65v65M111 164v16h147v-16M258 180h67"/>
+                <g class="study-panel"><rect x="98" y="65" width="26" height="26" rx="2"/><rect x="147" y="65" width="26" height="26" rx="2"/><rect x="196" y="65" width="26" height="26" rx="2"/><rect x="245" y="65" width="26" height="26" rx="2"/></g>
+                <g class="study-outline"><circle class="motion billet-tap" cx="111" cy="153" r="11"/><circle class="motion billet-tap" cx="160" cy="153" r="11"/><circle class="motion billet-tap" cx="209" cy="153" r="11"/><circle class="motion billet-tap" cx="258" cy="153" r="11"/></g>
+                <path class="study-warm" d="m106 148 10 10m0-10-10 10m49-10 10 10m0-10-10 10m49-10 10 10m0-10-10 10m49-10 10 10m0-10-10 10"/>
+                <circle class="study-packet motion billet-sample" cx="36" cy="78" r="5"/>
+                <path class="study-warm motion billet-feedback" d="M307 180v33H160v-33"/>
+                <path class="study-line motion billet-response" pathLength="1" d="M279 146c8 0 8-22 16-22s8 22 16 22 8-22 16-22"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>T / FFT · F / FIR &amp; IIR</span><strong data-en="TAPS &amp; FEEDBACK" data-zh="抽头与反馈">TAPS &amp; FEEDBACK</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-5">BILLET</h3><span class="folio-seal mono">DSP</span></div>
+              <p class="project-deck" data-en="Shape the signal, sample by sample." data-zh="逐个采样，塑造信号。">Shape the signal, sample by sample.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>T1–T3 / F1–F3</span><span>FFT / IFFT</span><span>FIR / SOS</span></div>
+                  <p data-en="T develops transform engines; F develops FIR and recursive IIR filters, with three reported generations in each line. The new filter study follows samples through delay taps, weighted accumulation and feedback. It is a mechanism sketch, separate from the standalone 64-point FFT and its routed results." data-zh="T 系列发展变换引擎，F 系列发展 FIR 与递归 IIR 滤波器，每条线均有三代报告。新的滤波示意跟随采样经过延时抽头、加权累加与反馈。它是机制草图，与独立的 64 点 FFT 项目及其布线结果分开展示。">T develops transform engines; F develops FIR and recursive IIR filters, with three reported generations in each line. The new filter study follows samples through delay taps, weighted accumulation and feedback. It is a mechanism sketch, separate from the standalone 64-point FFT and its routed results.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/billet-t" target="_blank" rel="noreferrer">BILLET-T</a><a href="https://github.com/aHappend/billet-f" target="_blank" rel="noreferrer">BILLET-F</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="swage" data-category="families" data-stage="development">
+            <div class="project-number mono" data-en="P.06 / IMAGING · IN VERIFICATION" data-zh="P.06 / 图像处理 · 验证中">P.06 / IMAGING · IN VERIFICATION</div>
+            <div class="project-spec spec-swage" id="project-visual-6" role="group" aria-labelledby="project-title-6">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <defs>
+                  <pattern id="swage-coarse-grid" width="22" height="22" patternUnits="userSpaceOnUse" x="24" y="62"><path class="study-grid" d="M22 0H0v22"/></pattern>
+                  <pattern id="swage-fine-grid" width="18" height="18" patternUnits="userSpaceOnUse" x="184" y="34"><path class="study-grid" d="M18 0H0v18"/></pattern>
+                  <linearGradient id="swage-interpolation" x1="0" x2="1" y1="0" y2="1"><stop class="pixel-cool"/><stop class="pixel-warm" offset="1"/></linearGradient>
+                </defs>
+                <rect class="study-panel" x="24" y="62" width="88" height="88"/>
+                <path class="study-fill" d="M24 150v-22h22v-22h22V84h22v44h22v22z"/>
+                <path class="study-solid-warm" d="M68 84h22v22H68z"/>
+                <rect x="24" y="62" width="88" height="88" fill="url(#swage-coarse-grid)"/>
+                <path class="study-route" d="M120 106h52m-8-7 8 7-8 7"/>
+                <rect class="study-panel" x="184" y="34" width="144" height="144"/>
+                <path d="m184 178 58-119 28 48 22-32 36 103z" fill="url(#swage-interpolation)"/>
+                <rect x="184" y="34" width="144" height="144" fill="url(#swage-fine-grid)"/>
+                <rect class="study-warm motion swage-kernel" x="24" y="62" width="44" height="44"/>
+                <path class="study-warm motion swage-scan" d="M184 34h144"/>
+                <path class="study-line" d="M24 196h88m-88-5v10m88-10v10M184 196h144m-144-5v10m144-10v10"/>
+                <circle class="study-dot motion swage-phase" cx="150" cy="196" r="5"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>S / IMAGE SCALING</span><strong data-en="SAMPLE &amp; INTERPOLATE" data-zh="采样与插值">SAMPLE &amp; INTERPOLATE</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-6">SWAGE</h3><span class="folio-seal mono">ISP</span></div>
+              <p class="project-deck" data-en="A new image, between the pixels." data-zh="在像素之间，生成新的图像。">A new image, between the pixels.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>S1 / SCALER</span><span>S2 / FILTER</span><span>S3 / ISP</span></div>
+                  <p data-en="SWAGE-S1 has public scaler RTL under verification, with nearest-neighbor and bilinear paths; S2/S3 are queued. A moving source neighborhood and destination scan show resampling between coarse and fine pixel grids. This is a scaling concept, not an accepted board result or a rendered image from the RTL." data-zh="SWAGE-S1 已公开缩放器 RTL，最近邻与双线性路径正在验证；S2/S3 排队中。移动的源像素邻域与目标扫描线展示粗细网格之间的重采样。这是缩放原理示意，并非已验收的板测结果或 RTL 实际输出图像。">SWAGE-S1 has public scaler RTL under verification, with nearest-neighbor and bilinear paths; S2/S3 are queued. A moving source neighborhood and destination scan show resampling between coarse and fine pixel grids. This is a scaling concept, not an accepted board result or a rendered image from the RTL.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/swage-s" target="_blank" rel="noreferrer">SWAGE-S</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="bellows" data-category="families" data-stage="queued">
+            <div class="project-number mono" data-en="P.07 / COMPRESSION · QUEUED" data-zh="P.07 / 压缩与解压 · 排队中">P.07 / COMPRESSION · QUEUED</div>
+            <div class="project-spec spec-bellows" id="project-visual-7" role="group" aria-labelledby="project-title-7">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <defs>
+                  <clipPath id="bellows-stream-window"><rect x="24" y="28" width="312" height="48"/></clipPath>
+                  <g id="bellows-symbols"><circle class="study-dot" cy="52" r="6"/><path class="study-solid-warm" d="m22 45 7 12H15z"/><path class="study-fill" d="m44 44 8 8-8 8-8-8z"/></g>
+                </defs>
+                <path class="study-guide" d="M24 52h312"/>
+                <g clip-path="url(#bellows-stream-window)"><g class="motion bellows-stream"><use href="#bellows-symbols" x="30"/><use href="#bellows-symbols" x="96"/><use href="#bellows-symbols" x="162"/><use href="#bellows-symbols" x="228"/><use href="#bellows-symbols" x="294"/><use href="#bellows-symbols" x="360"/></g></g>
+                <path class="study-route" d="M120 78v40m90 36h44m-8-7 8 7-8 7"/>
+                <rect class="study-panel" x="34" y="118" width="176" height="64" rx="3"/>
+                <use href="#bellows-symbols" x="54" y="98"/><use href="#bellows-symbols" x="120" y="98"/>
+                <rect class="study-warm motion bellows-match" x="43" y="134" width="62" height="32" rx="2"/>
+                <path class="study-warm motion bellows-reference" pathLength="1" d="M77 182v26h207v-24"/>
+                <rect class="study-panel" x="263" y="129" width="68" height="52" rx="3"/>
+                <path class="study-warm" d="M286 129v52"/>
+                <circle class="study-dot" cx="275" cy="154" r="4"/>
+                <path class="study-line" d="M298 146h22m-22 8h16m-16 8h19"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>L / LZ4 STREAMS</span><strong data-en="MATCH &amp; REFER BACK" data-zh="匹配与回引用">MATCH &amp; REFER BACK</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-7">BELLOWS</h3><span class="folio-seal mono" data-en="QUEUED" data-zh="排队中">QUEUED</span></div>
+              <p class="project-deck" data-en="Remember the pattern. Send less." data-zh="记住重复，让传输更少。">Remember the pattern. Send less.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>L1–L3</span><span>LZ4</span><span>FRAMING / DMA</span></div>
+                  <p data-en="A queued roadmap from LZ4 block decoding to compression and multistream framing. Repeated symbols slide into a history window, where a match becomes a compact back-reference. This illustrates the planned mechanism: the family has no accepted generation report at this snapshot, and the older standalone LZ4 IP is a separate delivery." data-zh="路线从 LZ4 块解码扩展到压缩与多流帧处理，各代目前排队中。动画让重复符号进入历史窗口，再以紧凑的回引用表达匹配内容。它演示规划中的机制；当前家族尚无已验收的代际报告，旧的独立 LZ4 IP 属于另一项交付。">A queued roadmap from LZ4 block decoding to compression and multistream framing. Repeated symbols slide into a history window, where a match becomes a compact back-reference. This illustrates the planned mechanism: the family has no accepted generation report at this snapshot, and the older standalone LZ4 IP is a separate delivery.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/bellows-l" target="_blank" rel="noreferrer">BELLOWS-L</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="crucible" data-category="families" data-stage="planned">
+            <div class="project-number mono" data-en="P.08 / GRAPHICS · PLANNED" data-zh="P.08 / 图形处理 · 规划中">P.08 / GRAPHICS · PLANNED</div>
+            <div class="project-spec spec-crucible" id="project-visual-8" role="group" aria-labelledby="project-title-8">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <defs>
+                  <clipPath id="crucible-triangle"><path d="m54 194 120-162 120 162z"/></clipPath>
+                  <clipPath id="crucible-scan-window"><rect class="motion crucible-fill" x="48" y="32" width="252" height="162"/></clipPath>
+                  <pattern id="crucible-fragments" width="18" height="18" patternUnits="userSpaceOnUse" x="48" y="32"><rect class="study-fill" x="2" y="2" width="14" height="14" rx="1"/></pattern>
+                </defs>
+                <path class="study-grid" d="M30 32h300M30 68h300M30 104h300M30 140h300M30 176h300M48 20v188M84 20v188M120 20v188M156 20v188M192 20v188M228 20v188M264 20v188M300 20v188"/>
+                <path class="study-panel" d="m54 194 120-162 120 162z"/>
+                <g clip-path="url(#crucible-triangle)"><g clip-path="url(#crucible-scan-window)"><rect x="48" y="32" width="252" height="162" fill="url(#crucible-fragments)"/></g></g>
+                <path class="study-warm motion crucible-scan" d="M36 32h288"/>
+                <g class="study-dot"><circle cx="54" cy="194" r="5"/><circle cx="174" cy="32" r="5"/><circle cx="294" cy="194" r="5"/></g>
+                <path class="study-line" d="M88 220h35m14 0h35m14 0h35m14 0h35"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>G / RASTERIZATION</span><strong data-en="TRIANGLE → FRAGMENTS" data-zh="三角形 → 片元">TRIANGLE → FRAGMENTS</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-8">CRUCIBLE</h3><span class="folio-seal mono" data-en="PLANNED" data-zh="规划中">PLANNED</span></div>
+              <p class="project-deck" data-en="Make geometry visible, one tile at a time." data-zh="逐个分块，让几何变得可见。">Make geometry visible, one tile at a time.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>G1–G3</span><span>TILES / DEPTH / TEXTURES</span></div>
+                  <p data-en="A planned graphics family progressing from triangle setup and tiled rasterization to depth and texture operations. A scan traverses the triangle and reveals covered fragments on a pixel grid. This is a rasterization study, not an implemented GPU, published generation RTL or a verified rendered frame." data-zh="规划中的图形家族，从三角形建立与分块光栅化，延伸到深度和纹理操作。扫描线穿过三角形，在像素网格上逐步显出覆盖片元。它是光栅化原理研究，不代表已实现的 GPU、已发布的代际 RTL 或经过验证的渲染帧。">A planned graphics family progressing from triangle setup and tiled rasterization to depth and texture operations. A scan traverses the triangle and reveals covered fragments on a pixel grid. This is a rasterization study, not an implemented GPU, published generation RTL or a verified rendered frame.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/crucible-g" target="_blank" rel="noreferrer">CRUCIBLE-G</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="furnace" data-category="families" data-stage="planned">
+            <div class="project-number mono" data-en="P.09 / SYSTEM INTEGRATION · PLANNED" data-zh="P.09 / 系统集成 · 规划中">P.09 / SYSTEM INTEGRATION · PLANNED</div>
+            <div class="project-spec spec-furnace" id="project-visual-9" role="group" aria-labelledby="project-title-9">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <path class="study-route" d="M60 74v46h240V74M60 168v-48m240 48v-48M180 66v108"/>
+                <g class="study-panel"><rect x="28" y="32" width="64" height="50" rx="4"/><rect x="268" y="32" width="64" height="50" rx="4"/><rect x="28" y="164" width="64" height="50" rx="4"/><rect x="268" y="164" width="64" height="50" rx="4"/><rect x="148" y="22" width="64" height="44" rx="3"/></g>
+                <path class="study-grid" d="M148 33h64M148 44h64M148 55h64"/>
+                <path class="study-line" d="M42 44h36v26H42zm12 0v26m12-26v26M42 57h36"/>
+                <path class="study-warm" d="M278 58c6-25 8 25 14 0s8 25 14 0 8 25 14 0"/>
+                <path class="study-line" d="M42 176h14v14H42zm22 0h14v14H64zm-11 20h14v8H53z"/>
+                <path class="study-warm" d="M281 176h38v27h-38zM288 176v-5h24v5m-12 10v9"/>
+                <path class="study-panel" d="m180 100 20 20-20 20-20-20z"/>
+                <circle class="study-packet motion furnace-packet" cx="180" cy="44" r="5"/>
+                <path class="study-warm motion furnace-arbitration" pathLength="1" d="M180 150v43h-60m53-50 7 7 7-7"/>
+                <path class="study-outline" d="M109 181h11v24h-11m-14-24h8v24h-8m-14-24h8v24h-8"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>X / HETEROGENEOUS SYSTEMS</span><strong data-en="ARBITRATE &amp; CONNECT" data-zh="仲裁与互连">ARBITRATE &amp; CONNECT</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-9">FURNACE</h3><span class="folio-seal mono" data-en="PLANNED" data-zh="规划中">PLANNED</span></div>
+              <p class="project-deck" data-en="Many engines. One shared conversation." data-zh="多个引擎，共享一套协作通路。">Many engines. One shared conversation.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>X1–X3</span><span>DMA / DDR4 / QoS</span></div>
+                  <p data-en="A planned integration family connecting AI, crypto, DSP, imaging and compression through shared memory and command paths. Requests take turns through a central arbiter in this topology study. Available component engines do not establish a working integrated SoC; no generation completion or board signoff is implied." data-zh="规划中的集成家族，以共享存储和命令通路连接 AI、密码、DSP、图像与压缩引擎。拓扑动画让各路请求轮流经过中央仲裁器。已有单独引擎并不等于整颗 SoC 已可运行，也不代表各代已完成或通过板测。">A planned integration family connecting AI, crypto, DSP, imaging and compression through shared memory and command paths. Requests take turns through a central arbiter in this topology study. Available component engines do not establish a working integrated SoC; no generation completion or board signoff is implied.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/furnace-x" target="_blank" rel="noreferrer">FURNACE-X</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <p class="project-group-heading mono" data-category="foundations" data-en="03 / PROTOCOLS &amp; CIRCUITS" data-zh="03 / 协议与电路">03 / PROTOCOLS &amp; CIRCUITS</p>
+          <article class="project-card reveal" data-project="sable" data-category="foundations">
+            <div class="project-number mono" data-en="P.10 / RELIABLE TRANSPORT" data-zh="P.10 / 可靠传输">P.10 / RELIABLE TRANSPORT</div>
+            <div class="project-spec spec-sable" id="project-visual-10" role="group" aria-labelledby="project-title-10">
+              <svg class="technical-study" viewBox="0 0 360 240" fill="none" aria-hidden="true">
+                <path class="study-route" d="M24 48h312M24 90h312M24 132h312M24 174h312"/>
+                <g class="study-panel"><rect x="145" y="34" width="112" height="28" rx="2"/><rect x="145" y="76" width="112" height="28" rx="2"/><rect x="145" y="118" width="112" height="28" rx="2"/><rect x="145" y="160" width="112" height="28" rx="2"/></g>
+                <path class="study-grid" d="M159 34v154M173 34v154M187 34v154M201 34v154M215 34v154M229 34v154M243 34v154"/>
+                <g class="study-dot"><circle class="motion sable-arrival" cx="36" cy="48" r="5"/><circle class="motion sable-arrival" cx="36" cy="90" r="5"/><circle class="motion sable-arrival" cx="36" cy="132" r="5"/><circle class="motion sable-arrival" cx="36" cy="174" r="5"/></g>
+                <g class="study-fill"><rect class="motion sable-window" x="149" y="38" width="10" height="20"/><rect class="motion sable-window" x="191" y="80" width="10" height="20"/><rect class="motion sable-window" x="163" y="122" width="10" height="20"/><rect class="motion sable-window" x="177" y="164" width="10" height="20"/></g>
+                <g class="study-packet"><circle class="motion sable-release" cx="274" cy="48" r="4"/><circle class="motion sable-release" cx="274" cy="90" r="4"/><circle class="motion sable-release" cx="274" cy="132" r="4"/><circle class="motion sable-release" cx="274" cy="174" r="4"/></g>
+                <path class="study-warm motion sable-ack" d="M320 189v25H42v-23m-6 6 6-6 6 6"/>
+              </svg>
+            </div>
+            <div class="cover-ledger mono"><span>4 STREAMS / 8-SLOT WINDOWS</span><strong data-en="REORDER &amp; ACKNOWLEDGE" data-zh="重排与确认">REORDER &amp; ACKNOWLEDGE</strong></div>
+            <div class="project-body">
+              <div class="folio-project-title"><h3 id="project-title-10">SABLE</h3><span class="folio-seal mono">PROTOCOL</span></div>
+              <p class="project-deck" data-en="Arrive out of order. Leave in sequence." data-zh="允许乱序到达，保证有序交付。">Arrive out of order. Leave in sequence.</p>
+              <details class="project-disclosure">
+                <summary><span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span><span class="notes-close" data-en="Close field notes" data-zh="收起研究手记">Close field notes</span><span class="disclosure-cross" aria-hidden="true"></span></summary>
+                <div class="project-notes">
+                  <div class="project-meta"><span>WINDOWS / ACK / RETRANSMIT</span><span>RTL</span></div>
+                  <p data-en="A separate reliable-message transport project with four streams, bounded reorder windows, acknowledgments and retransmission. Its animation separates staggered arrivals, buffered messages, ordered release and the ACK return path. This is a protocol concept, not a live network or physical-board execution." data-zh="独立的可靠消息传输项目，包含四路流、有界重排窗口、确认与重传。专属动画区分错时到达、消息暂存、有序释放与 ACK 返回路径。这是协议机制示意，不是实时网络或实体板卡运行。">A separate reliable-message transport project with four streams, bounded reorder windows, acknowledgments and retransmission. Its animation separates staggered arrivals, buffered messages, ordered release and the ACK return path. This is a protocol concept, not a live network or physical-board execution.</p>
+                  <div class="project-links"><a href="https://github.com/aHappend/sable" target="_blank" rel="noreferrer">SABLE</a></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-project="fft" data-category="foundations">
+            <div class="project-number mono" data-en="P.11 / DIGITAL SIGNALS"
+                 data-zh="P.11 / 数字信号">P.11 / DIGITAL SIGNALS</div>
+            <div class="project-spec spec-fft" id="project-visual-11" role="group" aria-labelledby="project-title-11">
               <svg viewBox="0 0 320 104" fill="none" aria-hidden="true">
                 <defs>
                   <clipPath id="fft-wave-window">
@@ -686,15 +930,15 @@
             </div>
             <div class="cover-ledger mono">
               <span data-en="TIME → FREQUENCY" data-zh="时域 → 频域">TIME → FREQUENCY</span>
-              <strong data-en="BILLET-T CONCEPT" data-zh="BILLET-T 概念示意">BILLET-T CONCEPT</strong>
+              <strong data-en="FFT DATAFLOW" data-zh="FFT 数据流">FFT DATAFLOW</strong>
             </div>
             <div class="project-body">
               <div class="folio-project-title">
-                <h3 id="project-title-3"><span data-en="Hardware families" data-zh="硬件家族">Hardware families</span></h3>
-                <span class="folio-seal mono">RTL / IP</span>
+                <h3 id="project-title-11">64-point FFT</h3>
+                <span class="folio-seal mono">FPGA</span>
               </div>
-              <p class="project-deck" data-en="Crypto, DSP, imaging and systems, organized by family."
-                 data-zh="密码、信号、图像与系统集成，按家族汇聚。">Crypto, DSP, imaging and systems, organized by family.</p>
+              <p class="project-deck" data-en="Fold the hardware. Unfold the spectrum."
+                 data-zh="折叠硬件结构，展开信号频谱。">Fold the hardware. Unfold the spectrum.</p>
               <details class="project-disclosure">
                 <summary>
                   <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
@@ -703,50 +947,26 @@
                 </summary>
                 <div class="project-notes">
                   <div class="project-meta">
-                    <span>AES / SHA</span><span>DSP / ISP</span><span>LZ4 / GRAPHICS / SoC</span>
+                    <span>Q1.15 / SDF</span><span>Virtex-7</span><span>NumPy</span>
                   </div>
               <p
-                data-en="RIVET A/H cover AES/GCM and SHA/HMAC; BILLET T/F cover FFT/IFFT and FIR/IIR. Each family collects successive RTL designs, specifications, verification sources and engineering reports."
-                data-zh="RIVET A/H 覆盖 AES/GCM 与 SHA/HMAC；BILLET T/F 覆盖 FFT/IFFT 与 FIR/IIR。各家族仓库汇集各代 RTL、规格、验证源码与工程报告。"
+                data-en="A standalone 64-point Q1.15 FFT combines folded streaming SDF RTL, Python/NumPy co-verification and routed Virtex-7 results. The animation connects a time-domain stream, butterfly stages and independent spectrum bins; it is a dataflow concept, not a live board measurement."
+                data-zh="独立的 64 点 Q1.15 FFT 项目结合折叠式流处理 SDF RTL、Python/NumPy 交叉验证与 Virtex-7 布线结果。动画串联时域信号、蝶形运算和独立频谱柱，是数据流示意，不是实时板测。"
               >
-                RIVET A/H cover AES/GCM and SHA/HMAC; BILLET T/F cover FFT/IFFT and FIR/IIR.
-                Each family collects successive RTL designs, specifications, verification sources
-                and engineering reports.
-              </p>
-              <p data-en="New family repositories extend into imaging, compression, graphics and system integration. SWAGE-S1 has public scaler RTL under verification; S2/S3 and BELLOWS-L are queued. CRUCIBLE-G rasterization and FURNACE-X heterogeneous SoCs are planned, not completed releases."
-                 data-zh="新增家族将方向扩展到图像、压缩、图形与系统集成。SWAGE-S1 已公开缩放器 RTL，正在验证；S2/S3 与 BELLOWS-L 处于排队阶段。CRUCIBLE-G 光栅化与 FURNACE-X 异构 SoC 目前是规划，尚非完成的交付。">
-                New family repositories extend into imaging, compression, graphics and system integration.
-                SWAGE-S1 has public scaler RTL under verification; S2/S3 and BELLOWS-L are queued.
-                CRUCIBLE-G rasterization and FURNACE-X heterogeneous SoCs are planned, not completed releases.
-              </p>
-              <p data-en="SABLE adds reliable-message transport; the Showcase holds ten component IPs. Reports, simulation and FPGA results retain separate scopes and do not establish fabricated ASICs or cryptographic certification. The frequency-domain drawing illustrates BILLET-T, not every family's architecture."
-                 data-zh="另有 SABLE 可靠消息传输与 Showcase 的十个基础 IP。报告、仿真与 FPGA 结果各有适用范围，不代表 ASIC 流片或密码安全认证。频域图对应 BILLET-T，并非所有家族共用的架构。">
-                SABLE adds reliable-message transport; the Showcase holds ten component IPs. Reports,
-                simulation and FPGA results retain separate scopes and do not establish fabricated ASICs
-                or cryptographic certification. The frequency-domain drawing illustrates BILLET-T,
-                not every family's architecture.
+                A standalone 64-point Q1.15 FFT combines folded streaming SDF RTL, Python/NumPy co-verification and routed Virtex-7 results. The animation connects a time-domain stream, butterfly stages and independent spectrum bins; it is a dataflow concept, not a live board measurement.
               </p>
               <div class="project-links">
-                <a href="https://github.com/aHappend/rivet-a" target="_blank" rel="noreferrer">RIVET-A</a>
-                <a href="https://github.com/aHappend/rivet-h" target="_blank" rel="noreferrer">RIVET-H</a>
-                <a href="https://github.com/aHappend/billet-t" target="_blank" rel="noreferrer">BILLET-T</a>
-                <a href="https://github.com/aHappend/billet-f" target="_blank" rel="noreferrer">BILLET-F</a>
-                <a href="https://github.com/aHappend/swage-s" target="_blank" rel="noreferrer">SWAGE-S</a>
-                <a href="https://github.com/aHappend/bellows-l" target="_blank" rel="noreferrer">BELLOWS-L</a>
-                <a href="https://github.com/aHappend/crucible-g" target="_blank" rel="noreferrer">CRUCIBLE-G</a>
-                <a href="https://github.com/aHappend/furnace-x" target="_blank" rel="noreferrer">FURNACE-X</a>
-                <a href="https://github.com/aHappend/sable" target="_blank" rel="noreferrer">SABLE</a>
-                <a href="https://github.com/aHappend/vulcan-showcase" target="_blank" rel="noreferrer">Showcase</a>
+                <a href="https://github.com/aHappend/64-point-fft-hardware" target="_blank" rel="noreferrer" data-en="FFT repository" data-zh="FFT 仓库">FFT repository</a>
               </div>
                 </div>
               </details>
             </div>
           </article>
 
-          <article class="project-card reveal" data-category="hardware research">
-            <div class="project-number mono" data-en="P.04 / HARDWARE FOUNDATIONS"
-                 data-zh="P.04 / 硬件实践">P.04 / HARDWARE FOUNDATIONS</div>
-            <div class="project-spec spec-analog" id="project-visual-4" role="group" aria-labelledby="project-title-4">
+          <article class="project-card reveal" data-project="analog" data-category="foundations">
+            <div class="project-number mono" data-en="P.12 / ANALOG CIRCUITS"
+                 data-zh="P.12 / 模拟电路">P.12 / ANALOG CIRCUITS</div>
+            <div class="project-spec spec-analog" id="project-visual-12" role="group" aria-labelledby="project-title-12">
               <svg viewBox="0 0 360 120" fill="none" aria-hidden="true">
                 <defs>
                   <g id="opamp-nmos-symbol">
@@ -827,11 +1047,11 @@
             </div>
             <div class="project-body">
               <div class="folio-project-title">
-                <h3 id="project-title-4"><span data-en="Hardware studies" data-zh="硬件实践">Hardware studies</span></h3>
-                <span class="folio-seal mono">FPGA / IC</span>
+                <h3 id="project-title-12"><span data-en="CMOS Op-Amp" data-zh="CMOS 运放">CMOS Op-Amp</span></h3>
+                <span class="folio-seal mono">ANALOG</span>
               </div>
-              <p class="project-deck" data-en="Digital signals and analog circuits, built from fundamentals."
-                 data-zh="从基础出发，连接数字信号与模拟电路。">Digital signals and analog circuits, built from fundamentals.</p>
+              <p class="project-deck" data-en="Two stages, one balanced feedback loop."
+                 data-zh="两级放大，在反馈中取得平衡。">Two stages, one balanced feedback loop.</p>
               <details class="project-disclosure">
                 <summary>
                   <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
@@ -840,18 +1060,15 @@
                 </summary>
                 <div class="project-notes">
                   <div class="project-meta">
-                    <span>Virtex-7</span><span>TSMC 180nm</span><span>Spectre</span>
+                    <span>TSMC 180nm</span><span>Spectre</span><span>MILLER / Rz / Cc</span>
                   </div>
               <p
-                data-en="A 64-point Q1.15 FFT combines folded streaming SDF RTL, Python/NumPy co-verification and routed Virtex-7 results. A TSMC 0.18 μm Miller-compensated CMOS op-amp adds Spectre AC/DC/transient studies of gain, bandwidth, stability, swing and power."
-                data-zh="64 点 Q1.15 FFT 结合折叠式流处理 SDF RTL、Python/NumPy 交叉验证与 Virtex-7 布线结果；TSMC 0.18 μm 米勒补偿两级 CMOS 运放通过 Spectre AC/DC/瞬态仿真研究增益、带宽、稳定性、摆幅与功耗。"
+                data-en="A TSMC 0.18 μm Miller-compensated CMOS op-amp uses Spectre AC/DC/transient studies of gain, bandwidth, stability, swing and power. Its own schematic traces the differential pair, current mirrors, second stage and Rz/Cc compensation path. These are circuit-simulation studies, not fabricated-silicon measurements."
+                data-zh="TSMC 0.18 μm 米勒补偿两级 CMOS 运放通过 Spectre AC/DC/瞬态仿真研究增益、带宽、稳定性、摆幅与功耗。独立电路图呈现差分对、电流镜、第二级与 Rz/Cc 补偿通路。这是电路仿真研究，并非流片实测。"
               >
-                A 64-point Q1.15 FFT combines folded streaming SDF RTL, Python/NumPy co-verification and
-                routed Virtex-7 results. A TSMC 0.18 μm Miller-compensated CMOS op-amp adds Spectre
-                AC/DC/transient studies of gain, bandwidth, stability, swing and power.
+                A TSMC 0.18 μm Miller-compensated CMOS op-amp uses Spectre AC/DC/transient studies of gain, bandwidth, stability, swing and power. Its own schematic traces the differential pair, current mirrors, second stage and Rz/Cc compensation path. These are circuit-simulation studies, not fabricated-silicon measurements.
               </p>
               <div class="project-links">
-                <a href="https://github.com/aHappend/64-point-fft-hardware" target="_blank" rel="noreferrer" data-en="FFT repository" data-zh="FFT 仓库">FFT repository</a>
                 <a href="https://github.com/aHappend/two-stage-cmos-op-amp" target="_blank" rel="noreferrer" data-en="Op-amp repository" data-zh="运放仓库">Op-amp repository</a>
               </div>
                 </div>
@@ -1403,6 +1620,6 @@
     <script src="scene-effects.js?v=20260906-valley-flight"></script>
     <script src="photo-deck.js?v=20261011-front-photo-first"></script>
     <script src="city-atlas.js?v=20261011-atlas-logos"></script>
-    <script src="script.js?v=20261013-compact-header"></script>
+    <script src="script.js?v=20261025-project-studies"></script>
   </body>
 </html>

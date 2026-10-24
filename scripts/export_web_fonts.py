@@ -2,6 +2,7 @@
 
 import re
 import subprocess
+import tempfile
 from hashlib import sha256
 from pathlib import Path
 from urllib.parse import urlencode
@@ -10,14 +11,48 @@ from urllib.parse import urlencode
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "fonts"
 AGENT = "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+CHINESE_CHUNK_SIZE = 600
 
 
 def download(url):
-    return subprocess.check_output([
-        "curl", "--fail", "--silent", "--show-error", "--location",
-        "--retry", "2", "--retry-all-errors", "--connect-timeout", "15",
-        "--max-time", "90", "--user-agent", AGENT, url,
-    ])
+    # A seekable output lets curl discard partial data before retrying.
+    with tempfile.TemporaryDirectory(prefix="site-font-download-") as directory:
+        output = Path(directory) / "response"
+        subprocess.run([
+            "curl", "--fail", "--silent", "--show-error", "--location",
+            "--retry", "2", "--retry-all-errors", "--connect-timeout", "15",
+            "--max-time", "90", "--user-agent", AGENT, "--output", str(output), url,
+        ], check=True)
+        return output.read_bytes()
+
+
+def chinese_characters():
+    text = "\n".join(path.read_text() for path in (
+        ROOT / "index.html", ROOT / "script.js", ROOT / "city-atlas.js",
+        ROOT / "photo-deck.js", ROOT / "places.json",
+    ))
+    return "".join(sorted({c for c in text if 0x2E80 <= ord(c) <= 0x9FFF
+                           or 0xF900 <= ord(c) <= 0xFAFF or 0xFF00 <= ord(c) <= 0xFFEF}))
+
+
+def chinese_font_blocks(characters):
+    blocks = []
+    # Large text requests can silently return the entire, unsubsetted families.
+    for start in range(0, len(characters), CHINESE_CHUNK_SIZE):
+        chunk = characters[start:start + CHINESE_CHUNK_SIZE]
+        query = urlencode([
+            ("family", "Noto Sans SC:wght@400..700"),
+            ("family", "Noto Serif SC:wght@500..700"),
+            ("display", "swap"), ("text", chunk),
+        ])
+        faces = re.findall(r"@font-face\s*\{[^}]+\}", download(
+            "https://fonts.googleapis.com/css2?" + query).decode())
+        if len(faces) != 2:
+            raise ValueError(f"Expected two Chinese font faces for chunk {start}, got {len(faces)}")
+        coverage = ",".join(f"U+{ord(character):X}" for character in chunk)
+        blocks.extend(re.sub(r"\s*unicode-range:[^;]+;", "", face).replace(
+            "}", f"  unicode-range: {coverage};\n}}") for face in faces)
+    return blocks
 
 
 def main():
@@ -28,30 +63,13 @@ def main():
     blocks = re.findall(r"/\* latin \*/\s*(@font-face\s*\{[^}]+\})", latin)
     if len(blocks) != 5:
         raise ValueError(f"Expected five Latin font faces, got {len(blocks)}")
-    text = "\n".join(path.read_text() for path in (
-        ROOT / "index.html", ROOT / "script.js", ROOT / "city-atlas.js",
-        ROOT / "photo-deck.js", ROOT / "places.json",
-    ))
-    characters = "".join(sorted({c for c in text if 0x2E80 <= ord(c) <= 0x9FFF
-                                 or 0xF900 <= ord(c) <= 0xFAFF or 0xFF00 <= ord(c) <= 0xFFEF}))
-    query = urlencode([
-        ("family", "Noto Sans SC:wght@400..700"),
-        ("family", "Noto Serif SC:wght@500..700"),
-        ("display", "swap"), ("text", characters),
-    ])
-    chinese = re.findall(r"@font-face\s*\{[^}]+\}", download(
-        "https://fonts.googleapis.com/css2?" + query).decode())
-    if len(chinese) != 2:
-        raise ValueError(f"Expected two Chinese font faces, got {len(chinese)}")
-    coverage = "U+2E80-9FFF,U+F900-FAFF,U+FF00-FFEF"
-    blocks.extend(re.sub(r"\s*unicode-range:[^;]+;", "", block).replace(
-        "}", f"  unicode-range: {coverage};\n}}") for block in chinese)
+    blocks.extend(chinese_font_blocks(chinese_characters()))
     compiled = []
     for index, block in enumerate(blocks):
         url, = re.findall(r"url\((https://[^)]+)\)", block)
         data = download(url)
-        if data[:4] != b"wOF2":
-            raise ValueError(f"Expected WOFF2 from {url}")
+        if len(data) < 48 or data[:4] != b"wOF2" or int.from_bytes(data[8:12], "big") != len(data):
+            raise ValueError(f"Expected complete WOFF2 from {url}")
         name = f"site-{index}.woff2"
         (OUTPUT / name).write_bytes(data)
         compiled.append(block.replace(url, f"{name}?v={sha256(data).hexdigest()[:12]}"))

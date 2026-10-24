@@ -363,31 +363,52 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   updates do not imply a new packaged desktop release. Public research archives
   are not necessarily open-source licensed; preserve the Mathematics rights
   notice and each project's execution and claim boundaries.
-- Selected Work has four groups: the independent Vulcan project, ACE/ANVIL
-  accelerators, hardware families, and classic FFT/op-amp hardware studies.
-  The hardware group keeps RIVET/BILLET together and links the emerging
-  SWAGE, BELLOWS, CRUCIBLE and FURNACE families with explicit development states.
-  Generations stay inside family repositories. SABLE and the
-  ten component IPs are supplementary links, not extra project cards. Link
-  public Vulcan deliveries; do not publish private CV PDFs or framework source.
+- Selected Work has twelve independent entries in three directories:
+  AI/tools (Vulcan, ACE), hardware families (ANVIL, RIVET, BILLET, SWAGE,
+  BELLOWS, CRUCIBLE, FURNACE), and protocols/circuits (SABLE, FFT, CMOS op-amp).
+  Generations stay together inside each family; unrelated families never
+  become one catch-all card. Queued/planned families have quieter directory
+  typography and explicit development states, not completion badges.
+  The ten component IPs remain linked through the Vulcan Showcase.
+  Link public deliveries; do not publish private CV PDFs or framework source.
   Vulcan is not part of Argus AI Team. Keep Argus in its separate collaboration
   and publication entries; do not place Vulcan's families in the Argus paper diagram.
   `python3 -m unittest discover -s scripts -p 'test_portfolio.py'` checks grouping,
   bilingual copy, source links and evidence boundaries.
-- The Selected Work illustrations combine the original HTML/SVG layered chip
-  with three inline technical SVGs. They use
-  seamless hover/focus loops on pointers and run while a phone touch is actively
-  pressing or passing over a card; reduced motion and print disable those
-  animations. They share a theme-aware graph-paper stage and cyan/orange
-  accents, not the same drawing. The independent Vulcan entry retains the angled chip,
-  decorative array, registration sheets, traces and scroll alignment, explicitly
-  labeled as a workflow concept. Its cell count is not a model-layer claim.
-  Keep the memory, FFT and op-amp SVGs text-free. The ACE/ANVIL group's illustration
-  is an ACE-2 K/V-reuse example, not a shared architecture for every family.
-  It shows two token streams entering an RTL compute
-  array, retained state banks, and the state-reuse return path. The FFT time
-  drawing is a BILLET-T frequency-domain concept, not a fixed 64-point family
-  specification. Its waveform is one fixed trace: a sinusoidal segment followed by a long,
+- On desktop, a categorized, keyboard-operable directory selects one complete
+  study beside it. Click or keyboard focus selects a study; scrolling or
+  moving the pointer across the directory must not change it.
+  Active labels retain ink contrast over the painting, with an underline and
+  a turned arrow rather than color alone identifying the selection.
+  Only short directory labels are copied: each diagram,
+  description and native disclosure stays together in its original article.
+  Filters apply to directory headings, choices and articles together.
+  Phone, short-window, no-JS and print layouts show the original inline
+  articles. Print restores all studies even when a screen filter is active.
+- The illustrations include nine new, purpose-specific technical SVGs:
+  Vulcan's review/board-receipt loop; ANVIL's embedding and quantized-weight
+  lanes; RIVET's round permutations and digest folding; BILLET's delay taps and
+  feedback; SWAGE's coarse/fine resampling; BELLOWS' history matches and
+  back-references; CRUCIBLE's fragment coverage; FURNACE's shared-fabric
+  arbitration; and SABLE's arrival/reorder/ACK cycle.
+  They are original homepage diagrams, not copies of the Vulcan site's forge
+  illustrations. They share only the theme-aware graph-paper surface and
+  blue/terracotta palette. Keep graphics text-free and explanations bilingual
+  in HTML. All animations illustrate mechanisms, not live execution, physical
+  layouts, cycle-accurate algorithms or acceptance of planned hardware.
+- `project-motion.css` drives the distinct diagrams. An IntersectionObserver
+  enables motion only while a diagram is at least 20% visible. Inactive
+  previews, offscreen diagrams, background tabs, effects-off, reduced motion
+  and print do not run loops. Static poses remain informative without JS.
+  CRUCIBLE reveals a stationary fragment grid through an animated clip; it
+  must not squash the pixel grid while filling the triangle.
+  Shared SVG symbol paint classes must also match inside `<use>` shadow trees:
+  ancestor-qualified selectors alone leave RIVET's rows and BELLOWS' symbols
+  invisible. Check their rendered content, not just animation registration.
+- The existing ACE K/V, FFT and op-amp drawings now belong only to their
+  matching projects. The ACE-2 example shows two token streams entering an RTL
+  compute array, retained state banks, and a state-reuse return path.
+  The standalone FFT's waveform is one fixed trace: a sinusoidal segment followed by a long,
   irregular segment. Two identical copies move right at constant speed through
   a clipped viewport; the SVG path itself never morphs, and the 216-unit tile
   offset makes the loop seamless. Spectrum bins remain independent stems
@@ -463,7 +484,11 @@ swap` and system fallbacks. No Google Fonts or GitHub avatar request is required
 to render the page. `scripts/export_web_fonts.py` downloads the existing Latin
 families and Chinese subsets covering published translations, and retains each
 family's SIL Open Font License alongside the WOFF2 files. Regenerate after adding
-Chinese copy; new glyphs still have native fallbacks. The exporter uses `curl`
+Chinese copy; new glyphs still have native fallbacks. Chinese requests are split
+into at most 600 characters, with disjoint, exact CSS Unicode ranges, so larger
+inventories do not silently receive whole-font responses. Downloads use seekable
+temporary files for retries and validate WOFF2's declared length, preventing a
+partial response from being appended to a retry. The exporter uses `curl`
 with bounded retries and normal TLS verification, and content-hashed font URLs
 invalidate cached subsets when glyph coverage changes. Chinese faces are restricted
 to CJK ranges so an English-page arrow cannot trigger a full Chinese-font download.

@@ -2,100 +2,150 @@ import re
 import unittest
 from html import unescape
 from pathlib import Path
+from xml.etree import ElementTree
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PROJECTS = (
+    ("vulcan", "Vulcan", "systems", ("vulcan-showcase",)),
+    ("ace", "ACE", "systems", ("ace-2", "ace-3")),
+    ("anvil", "ANVIL", "families", ("anvil-e", "anvil-q")),
+    ("rivet", "RIVET", "families", ("rivet-a", "rivet-h")),
+    ("billet", "BILLET", "families", ("billet-t", "billet-f")),
+    ("swage", "SWAGE", "families", ("swage-s",)),
+    ("bellows", "BELLOWS", "families", ("bellows-l",)),
+    ("crucible", "CRUCIBLE", "families", ("crucible-g",)),
+    ("furnace", "FURNACE", "families", ("furnace-x",)),
+    ("sable", "SABLE", "foundations", ("sable",)),
+    ("fft", "64-point FFT", "foundations", ("64-point-fft-hardware",)),
+    ("analog", "CMOS Op-Amp", "foundations", ("two-stage-cmos-op-amp",)),
+)
 
 
 class PortfolioTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.html = (ROOT / "index.html").read_text()
-        cls.cards = re.findall(
-            r'<article class="project-card\b.*?</article>', cls.html, re.S
-        )
+        cls.cards = re.findall(r'<article class="project-card\b.*?</article>', cls.html, re.S)
+        cls.by_project = {
+            re.search(r'data-project="([^"]+)"', card).group(1): card
+            for card in cls.cards
+        }
+        cls.motion = (ROOT / "project-motion.css").read_text()
 
-    def test_four_groups_keep_unique_visual_and_heading_ids(self):
-        self.assertEqual(len(self.cards), 4)
-        titles = ("Vulcan", "ACE / ANVIL", "Hardware families", "Hardware studies")
-        for index, (card, title) in enumerate(zip(self.cards, titles), 1):
+    def test_each_family_has_its_own_study(self):
+        self.assertEqual(len(self.cards), len(PROJECTS))
+        for index, (card, (slug, title, category, _)) in enumerate(zip(self.cards, PROJECTS), 1):
+            self.assertIn(f'data-project="{slug}"', card)
+            self.assertIn(f'data-category="{category}"', card)
             self.assertIn(title, card)
             self.assertIn(f'id="project-title-{index}"', card)
             self.assertIn(f'id="project-visual-{index}"', card)
             self.assertIn(f'aria-labelledby="project-title-{index}"', card)
-        ids = re.findall(r'\bid="([^"]+)"', self.html)
-        self.assertEqual(len(ids), len(set(ids)))
+        self.assertNotIn("ACE / ANVIL", "\n".join(self.cards))
+        self.assertNotIn('data-en="Hardware families"', "\n".join(self.cards))
+        self.assertIn('<dt>12</dt>', self.html)
+        self.assertIn('data-en="Project studies"', self.html)
 
-    def test_family_and_classic_links_stay_in_their_groups(self):
-        repositories = (
-            ("aHappend/vulcan-showcase",),
-            ("aHappend/ace-2", "aHappend/ace-3", "aHappend/anvil-e", "aHappend/anvil-q"),
-            ("aHappend/rivet-a", "aHappend/rivet-h", "aHappend/billet-t",
-             "aHappend/billet-f", "aHappend/swage-s", "aHappend/bellows-l",
-             "aHappend/crucible-g", "aHappend/furnace-x", "aHappend/sable",
-             "aHappend/vulcan-showcase"),
-            ("aHappend/64-point-fft-hardware", "aHappend/two-stage-cmos-op-amp"),
-        )
-        for card, expected in zip(self.cards, repositories):
-            links = re.findall(r'href="https://github.com/([^"]+)"', card)
-            self.assertCountEqual(links, expected)
+    def test_family_links_do_not_leak_into_unrelated_studies(self):
+        for slug, _, _, repositories in PROJECTS:
+            card = self.by_project[slug]
+            links = re.findall(r'href="https://github.com/aHappend/([^"]+)"', card)
+            self.assertCountEqual(links, repositories)
             self.assertIn('class="project-links"', card)
-        self.assertIn('href="https://ahappend.github.io/vulcan/"', self.cards[0])
+        self.assertIn('href="https://ahappend.github.io/vulcan/"', self.by_project["vulcan"])
 
-    def test_filters_match_the_new_groups(self):
-        categories = [
-            re.search(r'data-category="([^"]+)"', card).group(1).split()
-            for card in self.cards
-        ]
-        for category, expected in (("systems", 2), ("hardware", 4), ("research", 3)):
-            self.assertEqual(sum(category in group for group in categories), expected)
+    def test_categories_have_matching_headings_and_filters(self):
+        for category, count in (("systems", 2), ("families", 7), ("foundations", 3)):
+            self.assertEqual(sum(f'data-category="{category}"' in card for card in self.cards), count)
+            self.assertIn(f'data-filter="{category}"', self.html)
+            self.assertRegex(self.html, rf'class="project-group-heading mono" data-category="{category}"')
 
-    def test_bilingual_paragraphs_match_initial_english(self):
+    def test_bilingual_copy_matches_initial_english(self):
         paragraphs = re.findall(
             r'<p\b[^>]*data-en="([^"]+)"[^>]*data-zh="([^"]+)"[^>]*>(.*?)</p>',
             "\n".join(self.cards), re.S,
         )
-        self.assertEqual(len(paragraphs), 12)
+        self.assertGreaterEqual(len(paragraphs), 24)
         for english, chinese, body in paragraphs:
             self.assertEqual(" ".join(unescape(body).split()), " ".join(unescape(english).split()))
             self.assertRegex(chinese, r"[\u4e00-\u9fff]")
 
-    def test_claims_are_scoped_and_drawings_are_conceptual(self):
-        for stale in ("624", "0.0899", "62,283", "0.614"):
-            self.assertNotIn(stale, self.html)
-        for required in (
-            "full-regression, full-model and hardware acceptance remain open",
-            "Q16.16 execution", "Q3 is in development; Q4 is planned",
-            "WORKFLOW CONCEPT", "ACE-2 / K/V REUSE", "BILLET-T CONCEPT",
-            "not every family's architecture",
-        ):
-            self.assertIn(required, self.html)
-        self.assertIn('data-en="Work groups"', self.html)
+    def test_illustrations_have_unique_ids_and_resolvable_references(self):
+        ids = re.findall(r'\bid="([^"]+)"', self.html)
+        self.assertEqual(len(ids), len(set(ids)))
+        drawings = []
+        for card in self.cards:
+            svgs = re.findall(r"<svg\b.*?</svg>", card, re.S)
+            self.assertEqual(len(svgs), 1)
+            svg = ElementTree.fromstring(svgs[0])
+            self.assertEqual(svg.get("aria-hidden"), "true")
+            self.assertFalse(list(svg.iter("text")))
+            drawings.append(svgs[0])
+            for reference in re.findall(r'(?:href="#|url\(#)([a-zA-Z][\w-]*)', svgs[0]):
+                self.assertIn(reference, ids)
+        self.assertEqual(len(drawings), len(set(drawings)))
+        for owner, illustration in (("ace", "spec-memory"), ("fft", "spec-fft"), ("analog", "spec-analog")):
+            self.assertIn(illustration, self.by_project[owner])
+            self.assertEqual(sum(illustration in card for card in self.cards), 1)
+        self.assertNotIn('class="chip-registration"', self.html)
 
-    def test_october_release_and_board_scopes_are_distinct(self):
-        self.assertIn("17 reported generations", self.cards[0])
-        self.assertIn("seven hardware families", self.cards[0])
-        self.assertIn("three-run, deterministic Arria 10 HIL receipts", self.cards[1])
-        self.assertIn("not blanket full-model acceptance", self.cards[1])
-        self.assertIn("SWAGE-S1 has public scaler RTL under verification", self.cards[2])
-        self.assertIn("S2/S3 and BELLOWS-L are queued", self.cards[2])
-        self.assertIn("are planned, not completed releases", self.cards[2])
+    def test_new_studies_have_distinct_motion_mechanisms(self):
+        mechanisms = {
+            "vulcan": "workflow-circuit", "anvil": "quantized-pack",
+            "rivet": "cipher-permute", "billet": "tapped-delay",
+            "swage": "source-neighborhood", "bellows": "history-match",
+            "crucible": "fragment-coverage", "furnace": "fabric-arbitration",
+            "sable": "ordered-release",
+        }
+        for project, mechanism in mechanisms.items():
+            self.assertGreaterEqual(self.by_project[project].count('class="motion ') +
+                                    len(re.findall(r'class="[^"]+ motion ', self.by_project[project])), 2)
+            self.assertIn(f"@keyframes {mechanism}", self.motion)
+        self.assertIn('id="crucible-scan-window"', self.by_project["crucible"])
+        self.assertIn('clip-path="url(#crucible-scan-window)"', self.by_project["crucible"])
+        self.assertNotRegex(self.by_project["crucible"], r'class="motion crucible-fill"[^>]*fill="url')
+        for selector in (".study-fill", ".study-solid-warm", ".study-dot, .study-bar"):
+            self.assertRegex(self.motion, rf"(?m)^{re.escape(selector)} \{{")
+
+    def test_motion_and_directory_have_accessible_fallbacks(self):
+        javascript = (ROOT / "script.js").read_text()
+        for invariant in (
+            'window.matchMedia("print")', "projectGrid.replaceChildren(...projectNodes)",
+            'projectGroups.forEach', 'button.hidden = card.hidden',
+            'intersectionRatio >= .2', 'document.addEventListener("visibilitychange", syncProjectVisibility)',
+        ):
+            self.assertIn(invariant, javascript)
+        for boundary in ('[data-motion-paused]', ':not(.is-visible)', '[data-effects="off"]',
+                         '(prefers-reduced-motion: reduce)', '@media print'):
+            self.assertIn(boundary, self.motion)
+        self.assertNotIn('button.addEventListener("pointerenter"', javascript)
+
+    def test_report_publication_and_board_scopes_remain_distinct(self):
+        self.assertIn("17 reported generations", self.by_project["vulcan"])
+        self.assertIn("Seven hardware families", self.by_project["vulcan"])
+        self.assertIn("three-run, deterministic Arria 10 HIL receipts", self.by_project["anvil"])
+        self.assertIn("not blanket full-model acceptance", self.by_project["anvil"])
+        self.assertIn("Q16.16 execution", self.by_project["anvil"])
+        self.assertIn("Q3 is in development; Q4 is planned", self.by_project["anvil"])
+        self.assertIn("full-regression, full-model and hardware acceptance remain open", self.by_project["ace"])
+        self.assertIn("under verification", self.by_project["swage"])
+        for project, stage in (("swage", "development"), ("bellows", "queued"),
+                               ("crucible", "planned"), ("furnace", "planned")):
+            self.assertIn(f'data-stage="{stage}"', self.by_project[project])
         for unsupported in ("100% HIL", "17 verified chips", "E3/Q2 remain developmental"):
             self.assertNotIn(unsupported, self.html)
 
-    def test_vulcan_is_separate_from_argus_team_and_paper(self):
+    def test_vulcan_remains_separate_from_argus(self):
         self.assertNotIn("Vulcan / Argus", self.html)
-        self.assertIn("not part of Argus AI Team", self.cards[0])
-        self.assertIn("不属于 Argus AI Team", self.cards[0])
-        self.assertNotIn("microsoft/ArgusAgent", self.cards[0])
-        paper = re.search(
-            r'<a\b[^>]*href="https://arxiv.org/abs/2608\.05144"[^>]*>.*?</a>',
-            self.html, re.S,
-        )
+        self.assertIn("not part of Argus AI Team", self.by_project["vulcan"])
+        self.assertIn("不属于 Argus AI Team", self.by_project["vulcan"])
+        self.assertNotIn("microsoft/ArgusAgent", self.by_project["vulcan"])
+        paper = re.search(r'<a\b[^>]*href="https://arxiv.org/abs/2608\.05144"[^>]*>.*?</a>', self.html, re.S)
         self.assertIsNotNone(paper)
         self.assertIn("Argus AI Team's runtime", paper.group())
-        for independent_work in ("Vulcan", "ANVIL", "RIVET", "BILLET", "SABLE"):
-            self.assertNotIn(independent_work, paper.group())
+        for project in ("Vulcan", "ANVIL", "RIVET", "BILLET", "SABLE"):
+            self.assertNotIn(project, paper.group())
 
 
 if __name__ == "__main__":

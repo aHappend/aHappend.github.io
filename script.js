@@ -12,6 +12,14 @@ const filters = [...document.querySelectorAll(".filter")];
 const projectCards = [...document.querySelectorAll(".project-card")];
 const workSection = document.querySelector(".folio-work");
 const projectBrowser = window.matchMedia("(min-width: 901px) and (min-height: 600px)");
+const printMedia = window.matchMedia("print");
+const projectGrid = workSection.querySelector(".project-grid");
+const projectNodes = [...projectGrid.childNodes];
+const projectGroups = [...workSection.querySelectorAll(".project-group-heading")];
+const projectDirectory = document.createElement("nav");
+projectDirectory.className = "project-directory";
+const projectPanels = document.createElement("div");
+projectPanels.className = "project-panels";
 const previewStatus = document.getElementById("project-preview-status");
 const atlas = document.querySelector(".atlas-section");
 const atlasStory = atlas.closest(".atlas-story");
@@ -82,12 +90,11 @@ const projectChoices = projectCards.map((card) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "project-select";
+  button.dataset.project = card.dataset.project;
+  if (card.dataset.stage) button.dataset.stage = card.dataset.stage;
   button.setAttribute("aria-controls", visual.id);
   button.addEventListener("click", () => selectProject(card, true));
   button.addEventListener("focus", () => selectProject(card));
-  card.addEventListener("pointerenter", (event) => {
-    if (projectBrowser.matches && event.pointerType === "mouse" && finePointer.matches) selectProject(card);
-  });
   button.addEventListener("keydown", (event) => {
     const choices = projectChoices.filter((choice) => !choice.card.hidden);
     const index = choices.findIndex((choice) => choice.card === card);
@@ -127,34 +134,63 @@ function selectProject(card, announce = false, animate = true) {
   if (announce) {
     const title = card.querySelector("h3").textContent;
     previewStatus.textContent = language === "zh" ? `正在展示：${title}` : `Previewing: ${title}`;
+    if (workSection.hasAttribute("data-project-browser")
+        && projectPanels.getBoundingClientRect().top < siteHeader.offsetHeight) {
+      projectPanels.scrollIntoView({ block: "start", behavior: "instant" });
+    }
   }
   scheduleScrollUpdate();
 }
 
 function syncProjectBrowser() {
   stopPreviewAnimation();
-  workSection.toggleAttribute("data-project-browser", projectBrowser.matches);
-  projectChoices.forEach(({ heading, button }) => {
-    if (projectBrowser.matches && !heading.contains(button)) {
-      button.append(...heading.childNodes);
-      heading.append(button);
-      heading.removeAttribute("tabindex");
-    } else if (!projectBrowser.matches && heading.contains(button)) {
-      const focused = document.activeElement === button;
-      heading.replaceChildren(...button.childNodes);
-      if (focused) {
-        heading.tabIndex = -1;
-        heading.focus({ preventScroll: true });
-      }
+  const browsing = projectBrowser.matches && !printMedia.matches;
+  const focused = projectChoices.find(({ button }) => document.activeElement === button);
+  workSection.toggleAttribute("data-project-browser", browsing);
+  if (browsing) {
+    projectDirectory.replaceChildren();
+    projectNodes.forEach((node) => {
+      if (projectGroups.includes(node)) projectDirectory.append(node);
+      const choice = projectChoices.find(({ card }) => card === node);
+      if (!choice) return;
+      choice.button.replaceChildren(...[...choice.heading.childNodes].map((child) => child.cloneNode(true)));
+      projectDirectory.append(choice.button);
+      projectPanels.append(choice.card);
+    });
+    projectGrid.replaceChildren(projectDirectory, projectPanels);
+    if (focused) focused.button.focus({ preventScroll: true });
+  } else {
+    projectGrid.replaceChildren(...projectNodes);
+    if (focused) {
+      focused.heading.tabIndex = -1;
+      focused.heading.focus({ preventScroll: true });
     }
-  });
+  }
   selectProject(selectedProject.hidden ? projectCards.find((card) => !card.hidden) : selectedProject, false, false);
 }
 
 projectBrowser.addEventListener("change", syncProjectBrowser);
+printMedia.addEventListener("change", syncProjectBrowser);
 reducedMotion.addEventListener("change", stopPreviewAnimation);
 
+const projectHeaderObserver = new ResizeObserver(() => {
+  workSection.style.setProperty("--project-stage-top", `${siteHeader.offsetHeight + 24}px`);
+});
+projectHeaderObserver.observe(siteHeader);
+const projectMotionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
+    target.classList.toggle("is-visible", isIntersecting && intersectionRatio >= .2);
+  });
+}, { threshold: [0, .2] });
+projectChoices.forEach(({ visual }) => projectMotionObserver.observe(visual));
+function syncProjectVisibility() {
+  workSection.toggleAttribute("data-motion-paused", document.hidden);
+}
+document.addEventListener("visibilitychange", syncProjectVisibility);
+syncProjectVisibility();
+
 function updateControlLabels() {
+  projectDirectory.setAttribute("aria-label", language === "zh" ? "项目目录" : "Project directory");
   cityAtlas.updateLabels();
   const chinese = language === "zh";
   const dark = root.dataset.theme === "dark";
@@ -464,6 +500,10 @@ filters.forEach((filter) => {
     projectCards.forEach((card) => {
       card.hidden = selectedFilter !== "all" && !card.dataset.category.split(" ").includes(selectedFilter);
     });
+    projectGroups.forEach((group) => {
+      group.hidden = selectedFilter !== "all" && group.dataset.category !== selectedFilter;
+    });
+    projectChoices.forEach(({ card, button }) => { button.hidden = card.hidden; });
     selectProject(selectedProject.hidden ? projectCards.find((card) => !card.hidden) : selectedProject);
     if (!reducedMotion.matches && !projectBrowser.matches) {
       filterAnimations = projectCards.filter((card) => !card.hidden).map((card, index) =>
