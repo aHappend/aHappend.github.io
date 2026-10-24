@@ -3,7 +3,7 @@ import {test} from "node:test";
 import {readFile} from "node:fs/promises";
 import {studies, aesRound, aesSubstitute, hexBytes, sha256Block, fir, bilinear,
   lz4Sequences, encodeLz4, decodeLz4, triangleSample, roundRobinStudy, reorderStudy,
-  halfToQ16, multiplyQ16} from "../project-study-models.js";
+  halfToQ16, multiplyQ16, stepWave} from "../project-study-models.js";
 
 const hex = (values, width = 2) => values.map((value) => value.toString(16).padStart(width, "0")).join("");
 
@@ -114,4 +114,62 @@ test("nine wide scenes use the tested models and share a bounded, visible-only r
   const runtime = await readFile(new URL("../project-studies.js", import.meta.url), "utf8");
   for (const boundary of ["document.hidden", 'dataset.effects === "on"', "reduced.matches", "printing.matches", "scene.visible", "cancelAnimationFrame"])
     assert(runtime.includes(boundary));
+});
+
+test("adder trees terminate on the actual source and destination circles", async () => {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const attr = (markup, name) => Number(markup.match(new RegExp(`\\b${name}="([^"]+)"`))[1]);
+  for (const project of ["anvil", "swage"]) {
+    const svg = html.match(new RegExp(`<svg[^>]*data-study="${project}"[\\s\\S]*?</svg>`))[0];
+    const circles = [...svg.matchAll(/<circle\b[^>]*>/g)].map(([tag]) => ({
+      x: attr(tag, "cx"), y: attr(tag, "cy"), r: attr(tag, "r"),
+    }));
+    const adders = [...svg.matchAll(/<g data-adder="">([\s\S]*?)<\/g>/g)];
+    assert.equal(adders.length, 3);
+    for (const [, group] of adders) {
+      const target = group.match(/<circle\b[^>]*>/)[0];
+      const inputs = [...group.matchAll(/d="M([\d.]+) ([\d.]+)H[\d.]+V([\d.]+)H([\d.]+)" data-sum-input/g)];
+      assert.equal(inputs.length, 2);
+      for (const [, sx, sy, ey, ex] of inputs) {
+        assert(circles.some(({x, y, r}) => Math.abs(x + r - Number(sx)) < .001 && y === Number(sy)));
+        assert(Math.abs(Math.hypot(Number(ex) - attr(target, "cx"), Number(ey) - attr(target, "cy"))
+          - attr(target, "r")) < .001);
+      }
+    }
+  }
+});
+
+test("SABLE symbols, receive cells and packet routes share all four lane centerlines", async () => {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const attr = (markup, name) => Number(markup.match(new RegExp(`\\b${name}="([^"]+)"`))[1]);
+  for (let lane = 0; lane < 4; lane++) {
+    const y = 35 + lane * 53;
+    assert(html.includes(`d="M162 ${y}H232" data-lane="${lane}"`));
+    const grid = html.match(new RegExp(`<g data-grid="window-${lane}"[^>]*>`))[0];
+    assert.equal(attr(grid, "data-y") + attr(grid, "data-size") / 2, y);
+    for (const name of ["arrival", "release"]) {
+      const strip = html.match(new RegExp(`<g data-symbols="${name}-${lane}"[^>]*>`))[0];
+      assert.equal(attr(strip, "data-y") + 15 / 2, y);
+    }
+  }
+});
+
+test("signed FIR sample bars stay clear of their delay registers for every sample", async () => {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const bars = html.match(/<g data-bars="taps"[^>]*>/)[0];
+  const y = Number(bars.match(/data-y="([^"]+)"/)[1]);
+  const gain = Number(bars.match(/data-gain="([^"]+)"/)[1]);
+  for (const value of studies.billet.signal) {
+    assert(y - Math.max(value, 0) * gain > 2);
+    assert(y - Math.min(value, 0) * gain < 50, "At least four units before the register top at 54.");
+  }
+});
+
+test("bus timing uses the same sixteen-cycle page as the arbitration state", () => {
+  assert.equal(stepWave([0, 1, 0], 10, 30, 5), "M10 30h5H15V18h5H20V30h5");
+  for (const cycle of [5, 6, 13, 14, 15, 24, 25, 35]) {
+    const start = Math.floor(cycle / 16) * 16;
+    const window = studies.furnace.frames.slice(start, start + 16);
+    assert.equal(window[cycle % 16].ready, false);
+  }
 });

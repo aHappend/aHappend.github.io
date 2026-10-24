@@ -1,4 +1,4 @@
-import {studies, clamp, gridPaths, triangleSample, encodeLz4} from "./project-study-models.js?v=20261025-engineering";
+import {studies, clamp, gridPaths, stepWave, triangleSample, encodeLz4} from "./project-study-models.js?v=20261025-alignment";
 
 const contexts = new WeakMap();
 const bits = (value, count) => Array.from({length: count}, (_, i) => (value >>> (count - i - 1)) & 1);
@@ -54,7 +54,9 @@ const renderers = {
     const sample = Math.min(15, Math.floor(t * 16));
     c.cursor("source", {y: 68 + Math.floor(t * 7) * 13});
     c.cursor("timing", {transform: `translate(${361 + t * 112 - 400} 0)`});
-    c.cursor("fabric", {x: 542 + sample % 4 * 10, y: 80 + Math.floor(sample / 4) * 10});
+    const fabric = c.find('[data-grid="fabric"]').dataset;
+    c.cursor("fabric", {x: +fabric.x + 1 + sample % 4 * +fabric.size,
+      y: +fabric.y + 1 + Math.floor(sample / 4) * +fabric.size});
     attributes(c.find('[data-register="rtl"]'), {opacity: c.model.valid[Math.max(0, sample - 1)] ? .95 : .15});
     for (let i = 0; i < 4; i++) attributes(c.find(`[data-check="${i}"]`), {opacity: t * 4 >= i ? 1 : .12});
   },
@@ -65,7 +67,8 @@ const renderers = {
     const vectorIndex = Math.floor(t * 4);
     c.bars("output", c.model.outputs[vectorIndex].map((value, i) =>
       i <= row ? value : vectorIndex ? c.model.outputs[vectorIndex - 1][i] : 0));
-    c.cursor("matrix", {y: 24 + row * 17});
+    const matrix = c.find('[data-grid="matrix"]').dataset;
+    c.cursor("matrix", {y: +matrix.y + row * +matrix.size});
     const word = Math.floor(t * 4), pair = Math.floor(word / 2) * 2;
     c.cursor("storage-word", {transform: `translate(${word % 2 * 96} 0)`});
     c.grid("packed", c.model.halfwords.slice(pair, pair + 2).flatMap((value) => bits(value, 16)));
@@ -75,12 +78,16 @@ const renderers = {
   },
   rivet(c, t) {
     const stage = Math.min(3, Math.floor(t * 4)), progress = t * 4 - stage;
-    c.cursor("aes", {x: 13 + Math.min(4, Math.floor(t * 5)) * 127});
+    const source = c.find(`[data-grid="aes-${stage}"]`).dataset;
+    const destination = c.find(`[data-grid="aes-${stage + 1}"]`).dataset;
+    c.cursor("aes", {x: +(progress >= .5 ? destination.x : source.x) - 3});
     for (let i = 0; i < 16; i++) {
       const row = i % 4, column = Math.floor(i / 4);
       const target = stage === 1 ? (column - row + 4) % 4 : column;
-      const x0 = 20 + stage * 127 + column * 17, x1 = 20 + (stage + 1) * 127 + target * 17;
-      const y = stage === 2 ? 24 + row * 17 + (49.5 - (24 + row * 17)) * Math.sin(progress * Math.PI) : 24 + row * 17;
+      const x0 = +source.x + (column + .5) * +source.size - 4;
+      const x1 = +destination.x + (target + .5) * +destination.size - 4;
+      const rowY = +source.y + (row + .5) * +source.size - 4;
+      const y = stage === 2 ? rowY + (+source.y + 2 * +source.size - 4 - rowY) * Math.sin(progress * Math.PI) : rowY;
       attributes(c.find(`[data-byte="${i}"]`), {x: x0 + (x1 - x0) * progress, y,
         opacity: progress < .08 || progress > .92 ? 0 : .9});
     }
@@ -114,10 +121,13 @@ const renderers = {
     const start = sequence.start - sequence.literals.length;
     c.cursor("literal", {x: 19 + start * 16, width: Math.max(1, sequence.literals.length * 16),
       opacity: sequence.literals.length ? 1 : 0});
-    c.cursor("match", {x: 19 + sequence.from * 16, width: Math.min(sequence.offset, sequence.length) * 16 + 2,
+    c.cursor("match", {x: 19 + sequence.from * 16, width: Math.min(sequence.offset, sequence.length) * 16,
       opacity: sequence.length ? 1 : 0});
+    const history = c.find('[data-symbols="history"]').dataset, message = c.find('[data-symbols="message"]').dataset;
+    const from = +history.x + sequence.from * +history.step + (+history.step - 2) / 2;
+    const to = +message.x + sequence.start * +message.step + (+message.step - 2) / 2;
     attributes(c.find('[data-reference="match"]'), {opacity: sequence.length ? 1 : 0,
-      d: `M${27 + sequence.from * 16} 92V69H${27 + sequence.start * 16}V44`});
+      d: `M${to} ${+message.y + 15}V69H${from}V${history.y}m-4-5 4 5 4-5`});
     c.grid("token", bits((Math.min(sequence.literals.length, 15) << 4) | (sequence.length ? Math.min(sequence.length - 4, 15) : 0), 8));
     c.grid("offset", bits(sequence.offset, 16));
     c.symbols("history", sequence.start);
@@ -152,29 +162,33 @@ const renderers = {
     });
     c.grid("priority", Array.from({length: 16}, (_, i) =>
       i % 4 === (Math.floor(i / 4) + state.priority) % 4 ? 1 : 0));
-    attributes(c.find('[data-route="grant"]'), {d: state.grant === undefined ? "" :
-      `M108 ${44 + state.grant * 44}h246L386 108h44`, opacity: state.ready ? 1 : .4});
+    const route = state.grant === undefined ? null : c.find(`[data-transfer="${state.grant}"]`);
+    attributes(c.find('[data-route="grant"]'), {d: route?.getAttribute("d") ?? "", opacity: state.ready ? 1 : .4});
     c.grid("held", bits(state.value ?? 0, 16));
     c.grid("memory", Array.from({length: 64}, (_, i) => state.memory[i] ? (state.memory[i].lane + 1) / 4 : 0));
     attributes(c.find("[data-ready]"), {class: state.ready ? "study-dot" : "study-solid-warm"});
+    const timingStart = Math.floor(tick / 16) * 16, timing = c.model.frames.slice(timingStart, timingStart + 16);
+    attributes(c.find('[data-timing="valid"]'), {d: stepWave(timing.map((frame) => frame.grant !== undefined), 426, 37, 12)});
+    attributes(c.find('[data-timing="ready"]'), {d: stepWave(timing.map((frame) => frame.ready), 426, 63, 12)});
     c.cursor("bus-clock", {transform: `translate(${(tick % 16) * 12} 0)`});
-    const progress = tick % 1;
-    const x = state.ready ? 108 + progress * 322 : 435;
-    const y = state.ready && x < 354 ? 44 + state.grant * 44
-      : state.ready && x < 386 ? (44 + state.grant * 44) + (108 - (44 + state.grant * 44)) * (x - 354) / 32 : 108;
-    c.cursor("beat", {x: x - 4, y: y - 4, opacity: state.grant === undefined ? 0 : 1});
+    const held = c.find('[data-grid="held"]').dataset;
+    const point = state.ready && route ? route.getPointAtLength((tick % 1) * route.getTotalLength())
+      : {x: +held.x + 2 * +held.size, y: +held.y + 2 * +held.size};
+    c.cursor("beat", {x: point.x - 4, y: point.y - 4, opacity: route ? 1 : 0});
   },
   sable(c, t) {
     c.model.streams.forEach((frames, lane) => {
       const time = clamp(t * 10 - lane * .45, 0, 8), step = Math.min(7, Math.floor(time)), fraction = time - step;
       const state = frames[Math.min(8, step + (fraction >= .65 ? 1 : 0))];
-      const y = 35 + lane * 53;
+      const route = c.find(`[data-lane="${lane}"]`), routeLength = route.getTotalLength();
+      const point = route.getPointAtLength(9 + (routeLength - 18) * Math.min(1, fraction / .65));
+      const window = c.find(`[data-grid="window-${lane}"]`).dataset;
       c.grid(`window-${lane}`, state.slots);
       c.grid(`ack-${lane}`, state.slots);
       c.grid(`packet-${lane}`, bits(frames[step + 1].incoming, 3));
-      attributes(c.find(`[data-arrival="${lane}"]`), {transform: `translate(${180 + 52 * Math.min(1, fraction / .65)} ${y + 4})`,
+      attributes(c.find(`[data-arrival="${lane}"]`), {transform: `translate(${point.x} ${point.y})`,
         opacity: t * 10 >= lane * .45 && fraction < .65 && time < 8 ? 1 : 0});
-      attributes(c.find(`[data-ack="${lane}"]`), {d: `M${233 + state.base * 22} ${y + 17}l-4 6h8z`});
+      attributes(c.find(`[data-ack="${lane}"]`), {d: `M${+window.x + state.base * +window.size} ${point.y + 19}l-4 6h8z`});
       c.symbols(`release-${lane}`, state.delivered.length);
       c.cursor(`sable-source-${lane}`, {x: 19 + step * 18});
     });

@@ -266,3 +266,6 @@ export function gridPaths(values, columns, x, y, size, scale = 1) {
 export function wavePath(values, x, y, width, amplitude) {
   return values.map((value, i) => `${i ? "L" : "M"}${(x + i / (values.length - 1) * width).toFixed(2)} ${(y - value * amplitude).toFixed(2)}`).join("");
 }
+
+export const stepWave = (values, x, y, spacing = 7) => values.map((value, i) =>
+  `${i ? "H" : "M"}${x + i * spacing}${i ? "V" : " "}${y - value * 12}h${spacing}`).join("");

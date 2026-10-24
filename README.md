@@ -412,6 +412,12 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Check real rendered pixels and causal state changes, not just animation names.
   In particular, queue fills must paint above their frames; FIR products enter
   an adder chain, not a shorted output bus; raster cells remain stationary.
+  Arithmetic branches are generated from the circle ports rather than
+  separately estimated endpoints. SABLE's packet glyphs and receive cells
+  share each lane's centerline. Moving bus beats and receive packets sample
+  their actual SVG routes; back-reference arrowheads move with their paths.
+  Keep signed sample bars clear of register frames, and page FURNACE's timing
+  traces with the same model cycle as its grant and ready state.
 - `node scripts/build_project_studies.mjs` regenerates the nine inline SVGs
   while leaving their articles and the three reference drawings untouched.
   The generated markup is an informative no-JS fallback, not a blank canvas.
@@ -419,7 +425,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   detect stale output. `node --test scripts/test_project_studies.mjs` checks
   FIPS AES intermediates, the SHA-256 `abc` digest, FIR/IIR responses, bilinear
   weights, LZ4 round trips, barycentric coverage, grant stability and ordered
-  release. These checks validate the illustrative models, not project signoff.
+  release, exact adder-port alignment, lane centers and signed-bar clearance.
+  These checks validate the illustrative models, not project signoff.
 - The existing ACE K/V, FFT and op-amp drawings now belong only to their
   matching projects. The ACE-2 example shows two token streams entering an RTL
   compute array, retained state banks, and a state-reuse return path.
