@@ -364,8 +364,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   are not necessarily open-source licensed; preserve the Mathematics rights
   notice and each project's execution and claim boundaries.
 - Selected Work has four groups: the independent Vulcan project, ACE/ANVIL
-  accelerators, RIVET/BILLET reusable RTL families, and classic FFT/op-amp
-  hardware studies. Generations stay inside family repositories. SABLE and the
+  accelerators, hardware families, and classic FFT/op-amp hardware studies.
+  The hardware group keeps RIVET/BILLET together and links the emerging
+  SWAGE, BELLOWS, CRUCIBLE and FURNACE families with explicit development states.
+  Generations stay inside family repositories. SABLE and the
   ten component IPs are supplementary links, not extra project cards. Link
   public Vulcan deliveries; do not publish private CV PDFs or framework source.
   Vulcan is not part of Argus AI Team. Keep Argus in its separate collaboration
@@ -471,7 +473,8 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
 
 ## Public project source review
 
-Portfolio families and ACE boundaries refreshed: **2026-10-19**. Unchanged
+Portfolio families and FPGA publication records refreshed: **2026-10-24**.
+ACE boundaries retain the **2026-10-19** review. Unchanged
 ecosystem entries retain the **2026-10-11** source review. These are public-source checks, not fresh
 executions of the upstream experiments. Dated checkpoints describe their
 publication state, not a live campaign. Keep both languages, Selected Work,
@@ -484,12 +487,21 @@ the ecosystem grid, and the research evidence labels consistent.
 | Argus-Pi | [Downstream README](https://github.com/Argus-AiTeam/Argus-Pi/blob/ba9947aba37934ee01025b18a0f90817cc1b5cf2/README.md): source preview, selective PDF/notebook reading, and explicit execution/retry status; not a separately published package or a replacement orchestrator. |
 | ACE-3 | [Current public boundary](https://github.com/aHappend/ace-3/blob/87f050d97beb560f0bd56e542c28331a9cf7a1a1/README.md): G128 projection and bounded FP16-boundary blocks; October repairs/V10 adapter are development evidence. Full-regression, full-model and hardware acceptance remain open. Retire the earlier full-cascade/624-tensor headline. |
 | ACE-2 | [Accepted persistent result](https://github.com/aHappend/ace-2/blob/9fe36b70c041de4b9ce8fcaec944df7370ecdd1f/docs/results/PERSISTENT_CONVERSATION_20260926.md): two turns, four tokens per turn, 24 retained K/V layers, zero mismatches and no fallback. Three-turn work remains diagnostic; current public acceptance does not include PPA or deployed hardware. |
-| ANVIL | [E1](https://github.com/aHappend/anvil-e/tree/084785982f6a3b89ae4bf01bf75e69823c5edfbf), [E2/E3](https://github.com/aHappend/anvil-e/tree/9f761095a965184b9acf19be4e5a7d23c376baf5), [Q1](https://github.com/aHappend/anvil-q/tree/6ef0519b46443cb89b32534640587ea78a38fdc3) and [Q2](https://github.com/aHappend/anvil-q/tree/4083fa49eb98b83f8271d7777b99092b73e337a8): E1/E2 and Q1 packages are published; official-weight comparisons are bounded remapped slices. Q1 uses Q16.16 execution after binary16 conversion. E3/Q2 remain developmental. |
-| Reusable families | [RIVET-A](https://github.com/aHappend/rivet-a/tree/32c06b9f7471d46796a03d11e896a55b9f93c5ff), [RIVET-H](https://github.com/aHappend/rivet-h/tree/aaf2633c3d211092df08fa78e93da15bf695ba0f), [BILLET-T](https://github.com/aHappend/billet-t/tree/4cb761b31b58b951be7f2d65fd7358dc55c61951) and [BILLET-F](https://github.com/aHappend/billet-f/tree/c33749912cf0402b8ff6bfabf89698da31addb2d): grouped crypto/DSP RTL/report packages, not fabricated chips or security certification. [SABLE](https://github.com/aHappend/sable/tree/84b66a4a2f824d0a7f37e383f1444e836a124a0e) is a separate protocol system. |
+| ANVIL | [E1-E3](https://github.com/aHappend/anvil-e/tree/e238ee162c62cf3d2438f59dbecd664eeaea7779) and [Q1/Q2](https://github.com/aHappend/anvil-q/tree/80fe75c5c7b0d6797ba0800f9fac865cd6fcf93b) publish RTL and reports. E1's `phase2_official_weights/evidence/verification/board-hil.json`, E2/E3's `.vulcan/evidence/post-hil-e*/board-hil.json`, and Q1's `.vulcan/evidence/post-hil-q1/board-hil.json` each retain three passing deterministic runs and the corresponding board-role identity. This is recorded-workload HIL, not blanket full-model acceptance. Q3 is in development and Q4 planned. Q1 uses Q16.16 execution after binary16 conversion. |
+| Reusable families | [RIVET-A](https://github.com/aHappend/rivet-a/tree/9c6c953553d38ffc1e4a6f05bf243d4c854c8381), [RIVET-H](https://github.com/aHappend/rivet-h/tree/251599b8285e2455db8a2796ac50680b37e944a0), [BILLET-T](https://github.com/aHappend/billet-t/tree/0661f2f26ddbe3394a2d2378cab623afdcd5c654) and [BILLET-F](https://github.com/aHappend/billet-f/tree/51884e590e87ddde12e8f94a6066bf83a3ac5a03) have three reported generations each. Together with ANVIL this makes 17 reported generations, not a verified count of physical chips. [SABLE](https://github.com/aHappend/sable/tree/f3ade7072ddc997e0f1a253dd196c9ec9286fb59) remains a separate protocol system. |
+| Emerging families | [SWAGE-S](https://github.com/aHappend/swage-s/tree/625756718219975445067860c1537fb40b9b57f3): S1 RTL under verification, S2/S3 queued. [BELLOWS-L](https://github.com/aHappend/bellows-l/tree/d696d3059407d79c460d8bc8070bd4498e44c2c8): queued. [CRUCIBLE-G](https://github.com/aHappend/crucible-g/tree/9ea6fde5c001d7cc5885f48c62d849450ce82b92) and [FURNACE-X](https://github.com/aHappend/furnace-x/tree/9019ca2579b77dbdc3820cda9f3762a673260d6f): planned. Their template HIL/STA badges are not completion evidence. |
 | Mathematics | [Archive README](https://github.com/Argus-AiTeam/argus-mathematics/blob/ed18d951259173d930e2ba83a1fc35ab0d933900/README.md): 17 public result packages with claim-specific limitations. Original materials are **All Rights Reserved**, not open-source licensed; link and summarize facts rather than reproduce reports. |
 | Hilbert XVI | [Observatory](https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory/tree/bde56cd1eeb19467de5fba820bbc55adb464b9a8): bilingual records, not a claimed complete solution or proof that historical processes are still running. |
 | MiniMax-H3 Desktop | [Published campaign](https://github.com/Argus-AiTeam/minimax-h3-desktop/blob/bd7eb21278cf10e11a4ee63de4a514c8bcc8df9f/README.md): completed A6000 research with benchmarks and retained negative results. Turbo changes the sampling schedule; do not advertise its speedup as a fidelity-preserving hardware gain. |
 | MiniMax-H3 Mac / ComfyUI | [Mac evidence](https://github.com/Argus-AiTeam/minimax-h3-mac/blob/3fcc9f8c557cf353400b1acf737b985e524a509f/README.md) is for an M4 Pro with 24 GB unified memory. [ComfyUI](https://github.com/Argus-AiTeam/ComfyUI-MiniMax-H3-MLX/blob/ab1756d571ebb14fed3168354dae42966a04348b/README.md) registers four MLX nodes; prepared Registry metadata is not proof of a Registry release. |
+
+The October 24 audit found conflicting upstream presentation metrics. For example,
+RIVET-A3's pinned whitepaper Markdown says 34.40 MHz at 25 MHz while its root
+README says 185.60 MHz; BILLET-F3's whitepaper says 86.77 MHz with negative
+setup slack while its root README says 118.40 MHz. Some new-family badges claim
+passed HIL although their generation tables say scheduled. Do not propagate a
+blanket `100 MHz+`, full-model, or all-project hardware-signoff claim. Count
+published report sets separately and use project-specific raw board receipts.
 
 The grid remains nine team repositories plus two Argus source channels.
 The organization profile repository is not a separate project.

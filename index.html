@@ -25,7 +25,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260906-sg-seal" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest?v=20260906-sg-seal">
     <script src="preferences.js?v=20260906-living-garden"></script>
-    <link rel="stylesheet" href="fonts/site-fonts.css?v=20261019-independent-vulcan">
+    <link rel="stylesheet" href="fonts/site-fonts.css?v=20261024-seven-families">
     <link rel="preload" as="image" type="image/svg+xml" href="art/botanical-still-life.svg">
     <link rel="stylesheet" href="styles.css?v=20261013-compact-header">
     <link rel="stylesheet" href="folio.css?v=20261019-project-families">
@@ -513,8 +513,8 @@
             </div>
             <div class="project-body">
               <div class="folio-project-title"><h3 id="project-title-1">Vulcan</h3><span class="folio-seal mono">SYSTEM</span></div>
-              <p class="project-deck" data-en="From intent to RTL, with evidence at every gate."
-                 data-zh="从目标到 RTL，让每道关口都有证据。">From intent to RTL, with evidence at every gate.</p>
+              <p class="project-deck" data-en="From RTL to FPGA, with traceable evidence."
+                 data-zh="从 RTL 到 FPGA，让工程成果有据可循。">From RTL to FPGA, with traceable evidence.</p>
               <details class="project-disclosure">
                 <summary>
                   <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
@@ -525,7 +525,7 @@
                   <div class="project-meta">
                     <span data-en="Persistent state" data-zh="持久状态">Persistent state</span>
                     <span data-en="Independent review" data-zh="独立审查">Independent review</span>
-                    <span>RTL</span>
+                    <span>RTL / FPGA</span>
                   </div>
                   <p data-en="Vulcan is an independent AI-native hardware engineering project, not part of Argus AI Team. It connects scoped design, RTL implementation, verification, independent review and reproducible delivery."
                      data-zh="Vulcan 是独立的 AI 原生硬件工程项目，不属于 Argus AI Team。它串联范围定义、RTL 实现、验证、独立审查与可复现交付。">
@@ -533,10 +533,13 @@
                     Argus AI Team. It connects scoped design, RTL implementation, verification,
                     independent review and reproducible delivery.
                   </p>
-                  <p data-en="Human-defined objectives and approval gates remain explicit. Public packages retain their own evidence boundaries; the layered drawing is a workflow concept, not a physical die."
-                     data-zh="目标与审批门控由人定义，公开交付包各自保留验收边界。叠层图是工程流程概念示意，不是实体芯片。">
-                    Human-defined objectives and approval gates remain explicit. Public packages retain
-                    their own evidence boundaries; the layered drawing is a workflow concept, not a physical die.
+                  <p data-en="The workshop now spans seven hardware families, with 17 reported generations across ANVIL, RIVET and BILLET, plus ten component IPs. Quartus checks and Arria 10 hardware-in-the-loop testing extend the engineering workflow. Human approval and project-specific acceptance boundaries remain explicit; the layered drawing is a workflow concept, not a physical die."
+                     data-zh="工坊现已扩展为七个硬件家族，ANVIL、RIVET 与 BILLET 共 17 代设计已发布报告，另有十个基础 IP。工程流程进一步接入 Quartus 检查与 Arria 10 实板测试。人工审批与各项目的验收边界仍独立保留；叠层图是流程概念示意，不是实体芯片。">
+                    The workshop now spans seven hardware families, with 17 reported generations across
+                    ANVIL, RIVET and BILLET, plus ten component IPs. Quartus checks and Arria 10
+                    hardware-in-the-loop testing extend the engineering workflow. Human approval and
+                    project-specific acceptance boundaries remain explicit; the layered drawing is a
+                    workflow concept, not a physical die.
                   </p>
                   <div class="project-links">
                     <a href="https://ahappend.github.io/vulcan/" target="_blank" rel="noreferrer" data-en="Vulcan portfolio" data-zh="Vulcan 作品集">Vulcan portfolio</a>
@@ -616,11 +619,12 @@
                 no prefix recomputation or fallback, and zero mismatches. ACE-3 has verified G128 projection
                 and bounded FP16-boundary blocks; full-regression, full-model and hardware acceptance remain open.
               </p>
-              <p data-en="ANVIL E1/E2 and Q1 publish embedding and AWQ inference packages. Official-weight comparisons cover bounded remapped slices, not full target models; Q1 converts binary16 storage to Q16.16 execution. E3/Q2 remain developmental. These are RTL results, not measured chips."
-                 data-zh="ANVIL E1/E2 与 Q1 已发布嵌入和 AWQ 推理交付包。官方权重对照限定于重映射切片，不等于完整目标模型；Q1 将 binary16 存储转换为 Q16.16 执行。E3/Q2 仍在研发，RTL 结果不等于芯片实测。">
-                ANVIL E1/E2 and Q1 publish embedding and AWQ inference packages. Official-weight comparisons
-                cover bounded remapped slices, not full target models; Q1 converts binary16 storage to Q16.16
-                execution. E3/Q2 remain developmental. These are RTL results, not measured chips.
+              <p data-en="ANVIL E1–E3 and Q1/Q2 now publish RTL and reports. E1–E3 and Q1 have three-run, deterministic Arria 10 HIL receipts. Q3 is in development; Q4 is planned. Q1 converts binary16 storage to Q16.16 execution. Board results cover their recorded workloads, not blanket full-model acceptance."
+                 data-zh="ANVIL E1–E3 与 Q1/Q2 现已公开 RTL 和报告，E1–E3 与 Q1 另有三次结果一致的 Arria 10 实板回执。Q3 正在研发，Q4 处于规划阶段。Q1 将 binary16 存储转换为 Q16.16 执行；板测结果只覆盖记录中的负载，不等于完整模型统一验收。">
+                ANVIL E1–E3 and Q1/Q2 now publish RTL and reports. E1–E3 and Q1 have three-run,
+                deterministic Arria 10 HIL receipts. Q3 is in development; Q4 is planned. Q1 converts
+                binary16 storage to Q16.16 execution. Board results cover their recorded workloads,
+                not blanket full-model acceptance.
               </p>
               <div class="project-links">
                 <a href="https://github.com/aHappend/ace-2" target="_blank" rel="noreferrer">ACE-2</a>
@@ -686,11 +690,11 @@
             </div>
             <div class="project-body">
               <div class="folio-project-title">
-                <h3 id="project-title-3">RIVET / BILLET</h3>
+                <h3 id="project-title-3"><span data-en="Hardware families" data-zh="硬件家族">Hardware families</span></h3>
                 <span class="folio-seal mono">RTL / IP</span>
               </div>
-              <p class="project-deck" data-en="Crypto and signal processing, organized by family."
-                 data-zh="密码与信号处理，按家族汇聚。">Crypto and signal processing, organized by family.</p>
+              <p class="project-deck" data-en="Crypto, DSP, imaging and systems, organized by family."
+                 data-zh="密码、信号、图像与系统集成，按家族汇聚。">Crypto, DSP, imaging and systems, organized by family.</p>
               <details class="project-disclosure">
                 <summary>
                   <span class="notes-open" data-en="Open field notes" data-zh="展开研究手记">Open field notes</span>
@@ -699,7 +703,7 @@
                 </summary>
                 <div class="project-notes">
                   <div class="project-meta">
-                    <span>AES / SHA</span><span>FFT / FIR / IIR</span><span>SystemVerilog</span>
+                    <span>AES / SHA</span><span>DSP / ISP</span><span>LZ4 / GRAPHICS / SoC</span>
                   </div>
               <p
                 data-en="RIVET A/H cover AES/GCM and SHA/HMAC; BILLET T/F cover FFT/IFFT and FIR/IIR. Each family collects successive RTL designs, specifications, verification sources and engineering reports."
@@ -709,17 +713,28 @@
                 Each family collects successive RTL designs, specifications, verification sources
                 and engineering reports.
               </p>
-              <p data-en="SABLE adds reliable-message transport; the Showcase holds ten component IPs. Acceptance is scoped simulation/generic synthesis, not silicon or cryptographic certification. The frequency-domain drawing illustrates BILLET-T, not every family's architecture."
-                 data-zh="另有 SABLE 可靠消息传输与 Showcase 的十个基础 IP。验收限定于仿真和通用综合，不代表芯片实测或密码安全认证。频域图示例对应 BILLET-T，并非所有家族共用的架构。">
-                SABLE adds reliable-message transport; the Showcase holds ten component IPs. Acceptance is
-                scoped simulation/generic synthesis, not silicon or cryptographic certification. The
-                frequency-domain drawing illustrates BILLET-T, not every family's architecture.
+              <p data-en="New family repositories extend into imaging, compression, graphics and system integration. SWAGE-S1 has public scaler RTL under verification; S2/S3 and BELLOWS-L are queued. CRUCIBLE-G rasterization and FURNACE-X heterogeneous SoCs are planned, not completed releases."
+                 data-zh="新增家族将方向扩展到图像、压缩、图形与系统集成。SWAGE-S1 已公开缩放器 RTL，正在验证；S2/S3 与 BELLOWS-L 处于排队阶段。CRUCIBLE-G 光栅化与 FURNACE-X 异构 SoC 目前是规划，尚非完成的交付。">
+                New family repositories extend into imaging, compression, graphics and system integration.
+                SWAGE-S1 has public scaler RTL under verification; S2/S3 and BELLOWS-L are queued.
+                CRUCIBLE-G rasterization and FURNACE-X heterogeneous SoCs are planned, not completed releases.
+              </p>
+              <p data-en="SABLE adds reliable-message transport; the Showcase holds ten component IPs. Reports, simulation and FPGA results retain separate scopes and do not establish fabricated ASICs or cryptographic certification. The frequency-domain drawing illustrates BILLET-T, not every family's architecture."
+                 data-zh="另有 SABLE 可靠消息传输与 Showcase 的十个基础 IP。报告、仿真与 FPGA 结果各有适用范围，不代表 ASIC 流片或密码安全认证。频域图对应 BILLET-T，并非所有家族共用的架构。">
+                SABLE adds reliable-message transport; the Showcase holds ten component IPs. Reports,
+                simulation and FPGA results retain separate scopes and do not establish fabricated ASICs
+                or cryptographic certification. The frequency-domain drawing illustrates BILLET-T,
+                not every family's architecture.
               </p>
               <div class="project-links">
                 <a href="https://github.com/aHappend/rivet-a" target="_blank" rel="noreferrer">RIVET-A</a>
                 <a href="https://github.com/aHappend/rivet-h" target="_blank" rel="noreferrer">RIVET-H</a>
                 <a href="https://github.com/aHappend/billet-t" target="_blank" rel="noreferrer">BILLET-T</a>
                 <a href="https://github.com/aHappend/billet-f" target="_blank" rel="noreferrer">BILLET-F</a>
+                <a href="https://github.com/aHappend/swage-s" target="_blank" rel="noreferrer">SWAGE-S</a>
+                <a href="https://github.com/aHappend/bellows-l" target="_blank" rel="noreferrer">BELLOWS-L</a>
+                <a href="https://github.com/aHappend/crucible-g" target="_blank" rel="noreferrer">CRUCIBLE-G</a>
+                <a href="https://github.com/aHappend/furnace-x" target="_blank" rel="noreferrer">FURNACE-X</a>
                 <a href="https://github.com/aHappend/sable" target="_blank" rel="noreferrer">SABLE</a>
                 <a href="https://github.com/aHappend/vulcan-showcase" target="_blank" rel="noreferrer">Showcase</a>
               </div>
