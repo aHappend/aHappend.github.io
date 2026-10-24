@@ -385,26 +385,41 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Filters apply to directory headings, choices and articles together.
   Phone, short-window, no-JS and print layouts show the original inline
   articles. Print restores all studies even when a screen filter is active.
-- The illustrations include nine new, purpose-specific technical SVGs:
-  Vulcan's review/board-receipt loop; ANVIL's embedding and quantized-weight
-  lanes; RIVET's round permutations and digest folding; BILLET's delay taps and
-  feedback; SWAGE's coarse/fine resampling; BELLOWS' history matches and
-  back-references; CRUCIBLE's fragment coverage; FURNACE's shared-fabric
-  arbitration; and SABLE's arrival/reorder/ACK cycle.
+- The nine newer studies use the FFT and CMOS course diagrams as the reference
+  for engineering detail, wide composition and meaningful signal motion:
+  Vulcan's source/datapath/timing/fabric pipeline; ANVIL's matrix products,
+  binary16 storage to signed Q16.16 conversion and accumulation (not native
+  FP16 arithmetic); RIVET's AES round stages and SHA-256
+  schedule/compression registers; BILLET's FIR multiply-add chain and recursive
+  IIR path; SWAGE's bilinear weights and raster; BELLOWS' literal/match tokens,
+  overlapping back-references and reconstruction; CRUCIBLE's pixel-center edge
+  tests and depth-interpolated fragments; FURNACE's round-robin grants and held
+  payload under backpressure; and SABLE's four real reorder-window examples.
   They are original homepage diagrams, not copies of the Vulcan site's forge
   illustrations. They share only the theme-aware graph-paper surface and
   blue/terracotta palette. Keep graphics text-free and explanations bilingual
-  in HTML. All animations illustrate mechanisms, not live execution, physical
-  layouts, cycle-accurate algorithms or acceptance of planned hardware.
-- `project-motion.css` drives the distinct diagrams. An IntersectionObserver
-  enables motion only while a diagram is at least 20% visible. Inactive
+  in HTML. Fixed teaching vectors illustrate the mechanisms; these are not
+  repository RTL traces, live board measurements, physical layouts,
+  cycle-accurate implementations or acceptance of planned hardware.
+- `project-study-models.js` contains deterministic numeric/ordering models.
+  `project-studies.js` renders their changing states rather than making unrelated
+  blocks pulse. It shares the existing 20%-visible observer via `studyvisibility`
+  and uses one demand-driven frame loop, capped at 30 painted frames/second.
+  Inactive
   previews, offscreen diagrams, background tabs, effects-off, reduced motion
-  and print do not run loops. Static poses remain informative without JS.
-  CRUCIBLE reveals a stationary fragment grid through an animated clip; it
-  must not squash the pixel grid while filling the triangle.
-  Shared SVG symbol paint classes must also match inside `<use>` shadow trees:
-  ancestor-qualified selectors alone leave RIVET's rows and BELLOWS' symbols
-  invisible. Check their rendered content, not just animation registration.
+  and print do not run loops. `project-motion.css` preserves the original
+  ACE/FFT/op-amp CSS animations and the shared theme-aware stroke treatment.
+  Check real rendered pixels and causal state changes, not just animation names.
+  In particular, queue fills must paint above their frames; FIR products enter
+  an adder chain, not a shorted output bus; raster cells remain stationary.
+- `node scripts/build_project_studies.mjs` regenerates the nine inline SVGs
+  while leaving their articles and the three reference drawings untouched.
+  The generated markup is an informative no-JS fallback, not a blank canvas.
+  Run the generator after changing a model or drawing, and use `--check` to
+  detect stale output. `node --test scripts/test_project_studies.mjs` checks
+  FIPS AES intermediates, the SHA-256 `abc` digest, FIR/IIR responses, bilinear
+  weights, LZ4 round trips, barycentric coverage, grant stability and ordered
+  release. These checks validate the illustrative models, not project signoff.
 - The existing ACE K/V, FFT and op-amp drawings now belong only to their
   matching projects. The ACE-2 example shows two token streams entering an RTL
   compute array, retained state banks, and a state-reuse return path.

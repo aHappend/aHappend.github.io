@@ -9,17 +9,15 @@
 .study-fill { fill: var(--accent); fill-opacity: .45; stroke: none; }
 .study-solid-warm { fill: var(--rust); stroke: none; }
 .study-dot, .study-bar { fill: var(--accent); stroke: none; }
-.technical-study .study-packet { fill: var(--rust); stroke: var(--surface); stroke-width: 1.5; }
-.technical-study .motion { transform-box: fill-box; transform-origin: center; }
-.technical-study :is(.workflow-packet, .furnace-packet) { transform-box: view-box; }
-.technical-study :is(.workflow-check, .workflow-receipt, .anvil-decode, .billet-response, .bellows-reference, .furnace-arbitration) { stroke-dasharray: 1; }
-.technical-study .embedding-vector { transform-origin: center bottom; }
-.technical-study .anvil-pack { transform-origin: left center; }
-.technical-study .digest-fold { transform-origin: left center; }
-.technical-study .crucible-fill { transform-origin: center top; }
-.technical-study :is(.billet-feedback, .sable-ack) { stroke-dasharray: 6 6; }
-.pixel-cool { stop-color: var(--accent); stop-opacity: .7; }
-.pixel-warm { stop-color: var(--rust); stop-opacity: .45; }
+.engineering-study :is(path, rect, circle) { vector-effect: non-scaling-stroke; }
+.engineering-study :is(.study-line, .study-outline, .study-panel, .study-route, .study-warm) { stroke-width: 1.7; }
+.engineering-study .study-route { opacity: .8; }
+.engineering-study .study-grid { stroke-width: .7; }
+.engineering-study .study-focus { fill: none; stroke: var(--rust); stroke-width: 1.8; }
+.engineering-study .study-highlight { fill: var(--rust); fill-opacity: .18; stroke: none; }
+.engineering-study .study-tone { fill: var(--accent); fill-opacity: var(--tone); stroke: none; }
+.engineering-study .study-feedback { fill: none; stroke: var(--rust); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.engineering-study .study-active-route { fill: none; stroke: var(--accent); stroke-width: 2.2; }
 
 /* No hidden, background-tab, disabled-effects, or reduced-motion loops. */
 .folio-work[data-motion-paused] .project-spec *,
@@ -27,51 +25,6 @@
 html[data-effects="off"] .folio-work .project-spec * { animation: none !important; }
 
 @media (prefers-reduced-motion: no-preference) {
-  html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible .motion {
-    animation: var(--study-motion) var(--period, 6s) var(--study-easing, linear) var(--delay, 0s) infinite;
-  }
-  .workflow-packet { --study-motion: workflow-circuit; --period: 9s; }
-  .workflow-check { --study-motion: review-gate; --period: 9s; }
-  .workflow-receipt { --study-motion: board-receipt; --period: 9s; }
-  .anvil-multiply { --study-motion: matrix-accumulate; --period: 4s; }
-  .anvil-multiply:nth-child(2) { --delay: -.5s; }
-  .anvil-multiply:nth-child(3) { --delay: -1s; }
-  .anvil-multiply:nth-child(4) { --delay: -1.5s; }
-  .embedding-vector { --study-motion: embedding-project; --period: 4s; --study-easing: ease-in-out; }
-  .embedding-vector:nth-child(2) { --delay: -.7s; }
-  .embedding-vector:nth-child(3) { --delay: -1.4s; }
-  .anvil-pack { --study-motion: quantized-pack; --period: 7s; --study-easing: ease-in-out; }
-  .anvil-decode { --study-motion: quantized-execute; --period: 7s; }
-  .rivet-row { --study-motion: cipher-permute; }
-  .rivet-round-key { --study-motion: round-key; --period: 6s; }
-  .rivet-cipher { --study-motion: matrix-accumulate; --period: 6s; --delay: -3s; }
-  .digest-fold { --study-motion: hash-fold; --period: 6s; }
-  .digest-output { --study-motion: digest-latch; --period: 6s; }
-  .billet-sample { --study-motion: tapped-delay; --period: 5s; }
-  .billet-tap { --study-motion: tap-accumulate; --period: 5s; }
-  .billet-tap:nth-child(2) { --delay: -1.25s; }
-  .billet-tap:nth-child(3) { --delay: -2.5s; }
-  .billet-tap:nth-child(4) { --delay: -3.75s; }
-  .billet-feedback { --study-motion: project-flow-reverse; --period: 3s; }
-  .billet-response { --study-motion: filter-response; --period: 5s; }
-  .swage-kernel { --study-motion: source-neighborhood; --period: 8s; --study-easing: steps(2, end); }
-  .swage-scan { --study-motion: destination-scan; --period: 8s; --study-easing: steps(8, end); }
-  .swage-phase { --study-motion: interpolation-phase; --period: 8s; }
-  .bellows-stream { --study-motion: literal-stream; --period: 6s; }
-  .bellows-match { --study-motion: history-match; --period: 6s; --study-easing: steps(1, end); }
-  .bellows-reference { --study-motion: back-reference; --period: 6s; }
-  .crucible-fill { --study-motion: fragment-coverage; --period: 7s; --study-easing: steps(9, end); }
-  .crucible-scan { --study-motion: raster-scan; --period: 7s; --study-easing: steps(9, end); }
-  .furnace-packet { --study-motion: fabric-arbitration; --period: 12s; }
-  .furnace-arbitration { --study-motion: command-queue; --period: 12s; }
-  .sable-arrival { --study-motion: message-arrive; --period: 6s; }
-  .sable-window { --study-motion: reorder-hold; --period: 6s; }
-  .sable-release { --study-motion: ordered-release; --period: 6s; }
-  :is(.sable-arrival, .sable-window, .sable-release):nth-child(2) { --delay: -1.5s; }
-  :is(.sable-arrival, .sable-window, .sable-release):nth-child(3) { --delay: -3s; }
-  :is(.sable-arrival, .sable-window, .sable-release):nth-child(4) { --delay: -4.5s; }
-  .sable-ack { --study-motion: project-flow-reverse; --period: 3s; }
-
   html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible :is(.memory-packet, .memory-core-cell, .memory-stack circle, .opamp-node, .fft-network circle) { animation: project-pulse 2.4s ease-in-out infinite; }
   html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible :is(.memory-turn path, .memory-transfer, .memory-output, .fft-arrow, .fft-network path, .opamp-signal) { stroke-dasharray: 6 6; animation: project-flow 2s linear infinite; }
   html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible :is(.memory-reuse, .opamp-feedback) { stroke-dasharray: 6 6; animation: project-flow-reverse 2.4s linear infinite; }
@@ -79,58 +32,6 @@ html[data-effects="off"] .folio-work .project-spec * { animation: none !importan
   html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible .fft-wave-track { animation: fft-wave-travel 9s linear infinite; }
   html[data-effects="on"] .folio-work:not([data-motion-paused]) .project-spec.is-visible .fft-bin { animation: fft-bin-loop 9s cubic-bezier(.45, 0, .55, 1) infinite; }
 }
-
-@keyframes workflow-circuit {
-  0%, 8% { transform: translate(0, 0); opacity: 1; }
-  25% { transform: translate(92px, 0); }
-  31% { transform: translate(160px, 0); }
-  35% { transform: translate(160px, -20px); }
-  40%, 48% { transform: translate(196px, -20px); }
-  62% { transform: translate(196px, 89px); }
-  80% { transform: translate(-29px, 89px); opacity: 1; }
-  92%, 100% { transform: translate(-29px, 0); opacity: 0; }
-}
-@keyframes review-gate { 0%, 32% { stroke-dashoffset: 1; } 48%, 86% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
-@keyframes board-receipt { 0%, 58% { stroke-dashoffset: 1; } 75%, 90% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
-@keyframes matrix-accumulate { 0%, 100% { opacity: .25; } 35%, 65% { opacity: 1; } }
-@keyframes embedding-project { 0%, 100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
-@keyframes quantized-pack { 0%, 12%, 100% { transform: scaleX(1); } 45%, 78% { transform: scaleX(.55); } }
-@keyframes quantized-execute { 0%, 35% { stroke-dashoffset: 1; } 75%, 100% { stroke-dashoffset: 0; } }
-@keyframes cipher-permute { to { transform: translateX(-88px); } }
-@keyframes round-key { 0%, 100% { opacity: .35; } 30%, 55% { opacity: 1; } }
-@keyframes hash-fold { 0%, 12% { transform: translateX(0) scaleX(1); opacity: 1; } 55% { transform: translateX(118px) scaleX(.25); opacity: 1; } 68%, 100% { transform: translateX(118px) scaleX(.25); opacity: 0; } }
-@keyframes digest-latch { 0%, 45%, 100% { opacity: .2; } 60%, 85% { opacity: 1; } }
-@keyframes tapped-delay { 0% { transform: translateX(0); opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(260px); opacity: 0; } }
-@keyframes tap-accumulate { 0%, 100% { fill: var(--surface); } 35%, 55% { fill: var(--rust); } }
-@keyframes filter-response { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes source-neighborhood { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(44px, 0); } 50% { transform: translate(44px, 44px); } 75% { transform: translate(0, 44px); } }
-@keyframes destination-scan { 0% { transform: translateY(0); } 90%, 100% { transform: translateY(144px); } }
-@keyframes interpolation-phase { 0%, 100% { transform: scale(.6); } 50% { transform: scale(1.4); } }
-@keyframes literal-stream { to { transform: translateX(-66px); } }
-@keyframes history-match { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(66px); } }
-@keyframes back-reference { 0%, 35% { stroke-dashoffset: 1; } 75%, 100% { stroke-dashoffset: 0; } }
-@keyframes fragment-coverage { 0% { transform: scaleY(0); } 85%, 100% { transform: scaleY(1); } }
-@keyframes raster-scan { 0% { transform: translateY(0); } 85%, 100% { transform: translateY(162px); } }
-@keyframes fabric-arbitration {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(0, 76px); }
-  20% { transform: translate(-120px, 76px); }
-  25% { transform: translate(-120px, 14px); }
-  35% { transform: translate(-120px, 76px); }
-  45% { transform: translate(120px, 76px); }
-  50% { transform: translate(120px, 14px); }
-  60% { transform: translate(120px, 76px); }
-  65% { transform: translate(120px, 145px); }
-  75% { transform: translate(120px, 76px); }
-  85% { transform: translate(-120px, 76px); }
-  90% { transform: translate(-120px, 145px); }
-  95% { transform: translate(-120px, 76px); }
-  98% { transform: translate(0, 76px); }
-}
-@keyframes command-queue { 0%, 20% { stroke-dashoffset: 1; } 45%, 90% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
-@keyframes message-arrive { 0% { transform: translateX(0); opacity: 0; } 8% { opacity: 1; } 42% { transform: translateX(116px); opacity: 1; } 48%, 100% { transform: translateX(116px); opacity: 0; } }
-@keyframes reorder-hold { 0%, 35%, 85%, 100% { opacity: .15; } 45%, 65% { opacity: 1; } }
-@keyframes ordered-release { 0%, 60% { transform: translateX(0); opacity: 0; } 66% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(56px); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   .folio-work .project-spec * { animation: none !important; }

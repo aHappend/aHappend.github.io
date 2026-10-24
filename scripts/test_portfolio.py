@@ -92,19 +92,17 @@ class PortfolioTest(unittest.TestCase):
 
     def test_new_studies_have_distinct_motion_mechanisms(self):
         mechanisms = {
-            "vulcan": "workflow-circuit", "anvil": "quantized-pack",
-            "rivet": "cipher-permute", "billet": "tapped-delay",
-            "swage": "source-neighborhood", "bellows": "history-match",
-            "crucible": "fragment-coverage", "furnace": "fabric-arbitration",
-            "sable": "ordered-release",
+            "vulcan": 'data-cursor="timing"', "anvil": 'data-grid="accumulator"',
+            "rivet": 'data-grid="sha-7"', "billet": 'data-wave="iir"',
+            "swage": 'data-grid="scaled"', "bellows": 'data-symbols="decoded"',
+            "crucible": 'data-coverage=""', "furnace": 'data-grid="priority"',
+            "sable": 'data-grid="ack-3"',
         }
         for project, mechanism in mechanisms.items():
-            self.assertGreaterEqual(self.by_project[project].count('class="motion ') +
-                                    len(re.findall(r'class="[^"]+ motion ', self.by_project[project])), 2)
-            self.assertIn(f"@keyframes {mechanism}", self.motion)
-        self.assertIn('id="crucible-scan-window"', self.by_project["crucible"])
-        self.assertIn('clip-path="url(#crucible-scan-window)"', self.by_project["crucible"])
-        self.assertNotRegex(self.by_project["crucible"], r'class="motion crucible-fill"[^>]*fill="url')
+            self.assertIn(f'data-study="{project}" viewBox="0 0 640 240"', self.by_project[project])
+            self.assertIn(mechanism, self.by_project[project])
+            self.assertGreaterEqual(self.by_project[project].count("<path"), 20)
+        self.assertNotIn("scaleY", self.by_project["crucible"])
         for selector in (".study-fill", ".study-solid-warm", ".study-dot, .study-bar"):
             self.assertRegex(self.motion, rf"(?m)^{re.escape(selector)} \{{")
 
@@ -120,6 +118,8 @@ class PortfolioTest(unittest.TestCase):
                          '(prefers-reduced-motion: reduce)', '@media print'):
             self.assertIn(boundary, self.motion)
         self.assertNotIn('button.addEventListener("pointerenter"', javascript)
+        self.assertIn('target.dispatchEvent(new Event("studyvisibility"))', javascript)
+        self.assertRegex(self.html, r'<script type="module" src="project-studies\.js\?v=')
 
     def test_report_publication_and_board_scopes_remain_distinct(self):
         self.assertIn("17 reported generations", self.by_project["vulcan"])

@@ -180,6 +180,7 @@ projectHeaderObserver.observe(siteHeader);
 const projectMotionObserver = new IntersectionObserver((entries) => {
   entries.forEach(({ target, isIntersecting, intersectionRatio }) => {
     target.classList.toggle("is-visible", isIntersecting && intersectionRatio >= .2);
+    target.dispatchEvent(new Event("studyvisibility"));
   });
 }, { threshold: [0, .2] });
 projectChoices.forEach(({ visual }) => projectMotionObserver.observe(visual));
