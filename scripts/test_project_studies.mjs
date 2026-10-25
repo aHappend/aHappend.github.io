@@ -3,7 +3,7 @@ import {test} from "node:test";
 import {readFile} from "node:fs/promises";
 import {studies, aesRound, aesSubstitute, hexBytes, sha256Block, fir, bilinear,
   lz4Sequences, encodeLz4, decodeLz4, triangleSample, roundRobinStudy, reorderStudy,
-  halfToQ16, multiplyQ16, stepWave} from "../project-study-models.js";
+  halfToQ16, multiplyQ16, stepWave, aesStageFrame} from "../project-study-models.js";
 
 const hex = (values, width = 2) => values.map((value) => value.toString(16).padStart(width, "0")).join("");
 
@@ -15,6 +15,19 @@ test("AES uses the FIPS-197 first-round intermediate states, including column-ma
   assert.equal(hex(states[2]), "6353e08c0960e104cd70b751bacad0e7");
   assert.equal(hex(states[3]), "5f72641557f5bc92f7be3b291db9f91a");
   assert.equal(hex(states[4]), "89d810e8855ace682d1843d8cb128fe4");
+});
+
+test("AES reveals bytes, rows and columns within their destination state", () => {
+  for (let stage = 0; stage < 4; stage++) {
+    const {active, values} = aesStageFrame(studies.rivet.aes, (stage + .4) / 4);
+    assert.equal(active.filter(Boolean).length, stage === 1 || stage === 2 ? 4 : 1);
+    const indices = active.flatMap((on, i) => on ? [i] : []);
+    if (stage === 1) assert(indices.every((i) => i % 4 === indices[0] % 4));
+    if (stage === 2) assert(indices.every((i) => Math.floor(i / 4) === Math.floor(indices[0] / 4)));
+    assert(indices.every((i) => values[i] === studies.rivet.aes[stage + 1][i]));
+    assert.deepEqual(aesStageFrame(studies.rivet.aes, (stage + .999) / 4).values, studies.rivet.aes[stage + 1]);
+  }
+  for (const phase of [-1, 1, NaN]) assert.throws(() => aesStageFrame(studies.rivet.aes, phase), /phase/);
 });
 
 test("SHA-256 schedule, 64 compression rounds and feed-forward produce the abc digest", () => {
@@ -144,12 +157,38 @@ test("SABLE symbols, receive cells and packet routes share all four lane centerl
   const attr = (markup, name) => Number(markup.match(new RegExp(`\\b${name}="([^"]+)"`))[1]);
   for (let lane = 0; lane < 4; lane++) {
     const y = 35 + lane * 53;
-    assert(html.includes(`d="M162 ${y}H232" data-lane="${lane}"`));
+    assert(html.includes(`d="M178 ${y}H236" data-lane="${lane}"`));
     const grid = html.match(new RegExp(`<g data-grid="window-${lane}"[^>]*>`))[0];
     assert.equal(attr(grid, "data-y") + attr(grid, "data-size") / 2, y);
     for (const name of ["arrival", "release"]) {
       const strip = html.match(new RegExp(`<g data-symbols="${name}-${lane}"[^>]*>`))[0];
       assert.equal(attr(strip, "data-y") + 15 / 2, y);
+      assert.equal(attr(strip, "data-step"), attr(grid, "data-size"));
+    }
+  }
+});
+
+test("conversion, interpolation, encoding and bus stages share their flow centerlines", async () => {
+  const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const attr = (markup, name) => Number(markup.match(new RegExp(`\\b${name}="([^"]+)"`))[1]);
+  for (const [project, names, y] of [
+    ["anvil", ["storage", "conversion", "accumulator"], 168],
+    ["swage", ["source", "scaled"], 96],
+    ["bellows", ["token", "offset"], 166],
+    ["furnace", ["held", "memory"], 108],
+  ]) {
+    const svg = html.match(new RegExp(`<svg[^>]*data-study="${project}"[\\s\\S]*?</svg>`))[0];
+    for (const name of names) {
+      const box = svg.match(new RegExp(`<rect\\b[^>]*data-box="${name}"[^>]*>`))[0];
+      assert.equal(attr(box, "y") + attr(box, "height") / 2, y, `${project}/${name}`);
+    }
+    if (project === "bellows") {
+      for (const name of names) {
+        const bits = svg.match(new RegExp(`<g data-grid="${name}"[^>]*>`))[0];
+        assert.equal(attr(bits, "data-y") + attr(bits, "data-size") / 2, y);
+      }
+      const encoded = svg.match(/<g data-symbols="encoded"[^>]*>/)[0];
+      assert.equal(attr(encoded, "data-y") + 7.5, y);
     }
   }
 });

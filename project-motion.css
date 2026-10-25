@@ -9,15 +9,23 @@
 .study-fill { fill: var(--accent); fill-opacity: .45; stroke: none; }
 .study-solid-warm { fill: var(--rust); stroke: none; }
 .study-dot, .study-bar { fill: var(--accent); stroke: none; }
+.folio-work .project-spec:has(> .engineering-study) {
+  container-type: inline-size;
+  background: color-mix(in srgb, var(--surface) 96%, var(--accent) 4%);
+}
+.folio-work .project-spec:has(> .engineering-study)::before { opacity: .12; }
+.engineering-study { --study-stroke: clamp(.85px, .19cqw, 1.5px); }
 .engineering-study :is(path, rect, circle) { vector-effect: non-scaling-stroke; }
-.engineering-study :is(.study-line, .study-outline, .study-panel, .study-route, .study-warm) { stroke-width: 1.7; }
-.engineering-study .study-route { opacity: .8; }
-.engineering-study .study-grid { stroke-width: .7; }
-.engineering-study .study-focus { fill: none; stroke: var(--rust); stroke-width: 1.8; }
+.engineering-study :is(.study-line, .study-outline, .study-panel, .study-route, .study-warm) { stroke-width: var(--study-stroke); }
+.engineering-study .study-route { opacity: .78; }
+.engineering-study .study-grid { stroke-width: calc(var(--study-stroke) * .48); opacity: .32; }
+.engineering-study .study-guide { stroke-width: calc(var(--study-stroke) * .48); }
+.engineering-study .study-focus { fill: none; stroke: var(--rust); stroke-width: calc(var(--study-stroke) * 1.08); }
+.engineering-study .study-cell-focus { fill: none; stroke: var(--rust); stroke-width: calc(var(--study-stroke) * .75); }
 .engineering-study .study-highlight { fill: var(--rust); fill-opacity: .18; stroke: none; }
 .engineering-study .study-tone { fill: var(--accent); fill-opacity: var(--tone); stroke: none; }
-.engineering-study .study-feedback { fill: none; stroke: var(--rust); stroke-width: 1.2; stroke-dasharray: 4 4; }
-.engineering-study .study-active-route { fill: none; stroke: var(--accent); stroke-width: 2.2; }
+.engineering-study .study-feedback { fill: none; stroke: var(--rust); stroke-width: calc(var(--study-stroke) * .8); stroke-dasharray: 3 4; }
+.engineering-study .study-active-route { fill: none; stroke: var(--accent); stroke-width: calc(var(--study-stroke) * 1.4); }
 
 /* No hidden, background-tab, disabled-effects, or reduced-motion loops. */
 .folio-work[data-motion-paused] .project-spec *,

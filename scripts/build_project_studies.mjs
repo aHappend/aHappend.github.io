@@ -38,21 +38,19 @@ const scenes = {};
 
 scenes.vulcan = frame([
   path("M142 12v216M336 12v216M494 12v216", "study-guide"),
-  path("M16 42h84l20 20v122H16zM100 42v20h20", "study-panel"),
+  path("M16 42h84l20 20v120H16zM100 42v20h20", "study-panel"),
   ...[0, 1, 2, 3, 4, 5, 6].map((i) => path(`M${28 + i % 3 * 8} ${72 + i * 13}h${[54, 38, 62, 46, 30, 54, 40][i]}`,
     i === 3 ? "study-warm" : "study-line")),
   rect(24, 101, 88, 9, "study-highlight", 'data-cursor="source"'),
-  arrow(122, 112, 30),
+  arrow(120, 112, 30), rect(150, 42, 178, 140),
   path("M166 71l16 10v62l-16 10z", "study-panel"),
-  path("M152 90h14m-14 42h14M174 161v-13M182 112h27M233 112h22M283 112h40"),
+  path("M152 90h14m-14 42h14M174 161v-13M182 112h27M233 112h22M283 112h45"),
   add(221, 112), rect(255, 91, 28, 42),
-  path("m255 116 5 5-5 5M269 91V65H174v11M294 112v75H221v-63", "study-route"),
+  path("m255 116 5 5-5 5M269 91V65H174v11M294 112v56H221v-44", "study-route"),
   rect(211, 55, 27, 18), path("M215 61h19m-19 6h12", "study-grid"),
-  path("M155 195h174M155 200h174", "study-grid"),
-  ...[166, 199, 221, 269, 294].map((x) => circle(x, 200, 2, "study-dot")),
   rect(259, 98, 20, 8, "study-dot", 'data-register="rtl"'),
-  arrow(324, 112, 20),
-  rect(351, 42, 132, 137),
+  arrow(328, 112, 23),
+  rect(351, 42, 132, 140),
   path("M359 70h116M359 102h116M359 134h116M359 166h116", "study-grid"),
   path(stepWave(studies.vulcan.clock, 361, 71), "study-line"),
   path(stepWave(studies.vulcan.valid, 361, 104), "study-line"),
@@ -60,64 +58,68 @@ scenes.vulcan = frame([
   path(stepWave(studies.vulcan.valid.map((_, i, a) => i ? a[i - 1] : 0), 361, 167), "study-line"),
   path("M400 49v124", "study-focus", 'data-cursor="timing"'),
   ...[0, 1, 2, 3].map((i) => path(`m${368 + i * 28} 191 4 4 8-10`, "study-warm", `data-check="${i}"`)),
-  arrow(484, 112, 17),
-  rect(509, 45, 115, 135), rect(538, 76, 48, 48),
+  arrow(483, 112, 26),
+  rect(509, 42, 115, 140), rect(538, 76, 48, 48),
   ...[0, 1, 2, 3, 4, 5].map((i) => path(`M${542 + i * 8} 69v7m0 48v7M531 ${80 + i * 8}h7m48 0h7`, "study-grid")),
   grid("fabric", Array.from({length: 16}, (_, i) => i % 5 ? .25 : .9), 4, 542, 80, 10),
   path("M518 58h14v12h-14zM602 58h12v12h-12zM516 143h46v23h-46z", "study-line"),
   path("M518 100h13M593 101h18v39h-39v26M526 131v12M557 124v19", "study-route"),
   ...[0, 1, 2, 3].map((i) => rect(572 + i * 12, 151, 7, 15, "study-panel")),
-  path("M565 180v34H68v-30", "study-route"),
-  path("m74 190-6-6-6 6M328 208v12M318 214h20", "study-warm"),
+  path("M565 182v32H68v-32", "study-route"),
+  path("m74 188-6-6-6 6", "study-warm"),
   rect(543, 81, 8, 8, "study-solid-warm", 'data-cursor="fabric"'),
 ], "vulcan");
 
 scenes.anvil = frame([
   path("M12 126h616", "study-guide"),
-  ...[0, 1, 2, 3].map((i) => path(`M30 ${34 + i * 22}h79M75 ${28 + i * 22}v16`, "study-grid")),
-  bars("input", studies.anvil.vectors[0], 75, 31, 22, 12),
-  arrow(119, 70, 40),
+  ...[0, 1, 2, 3].map((i) => path(`M30 ${27 + i * 22}h79M75 ${19 + i * 22}v16`, "study-grid")),
+  bars("input", studies.anvil.vectors[0], 75, 23, 22, 12),
+  arrow(119, 60, 56),
   rect(175, 22, 76, 76),
   grid("matrix", studies.anvil.matrix.flat().map(Math.abs), 4, 179, 26, 17, 3),
   path(studies.anvil.matrix.flat().map((value, i) => value < 0
     ? `M${183 + i % 4 * 17} ${34 + Math.floor(i / 4) * 17}h7` : "").join(""), "study-warm"),
   rect(178, 26, 70, 17, "study-focus", 'data-cursor="matrix"'),
-  path("M251 60h28M279 29v69", "study-route"),
-  ...[0, 1, 2, 3].map((i) => path(`M279 ${29 + i * 23}h17`, "study-route")),
-  ...[0, 1, 2, 3].map((i) => multiply(306, 29 + i * 23)),
-  sumPair(415, 40, [[316, 29], [316, 52]], 395),
-  sumPair(415, 86, [[316, 75], [316, 98]], 395),
-  sumPair(465, 63, [[427, 40], [427, 86]], 445),
-  bars("products", [2, -2, 0, 3], 347, 25, 23, 4),
-  path("M477 63h11", "study-route"), rect(488, 42, 26, 44),
-  path("m488 66 6 5-6 5M514 63h13", "study-line"),
-  bars("output", studies.anvil.outputs[0], 565, 27, 22, 6),
-  ...[0, 1, 2, 3].map((i) => path(`M529 ${31 + i * 22}h91M565 ${25 + i * 22}v16`, "study-grid")),
-  grid("packed", studies.anvil.halfwords.slice(0, 2).flatMap((value) => bits(value, 16)), 32, 19, 165, 6),
-  path("M19 162v-5h96v5M19 174v5h96v-5", "study-warm", 'data-cursor="storage-word"'),
-  path("M25 162v12M55 162v12M121 162v12M151 162v12", "study-warm"),
-  path("M211 168h41v-7h22", "study-route"),
-  rect(274, 143, 68, 36),
-  grid("extended", bits(studies.anvil.fixed[0], 32), 8, 276, 145, 8),
-  path("M276 161h64", "study-grid"),
-  arrow(342, 161, 51), multiply(403, 161),
-  path("M403 151v-14h-27M413 161h30", "study-route"),
-  add(455, 161), rect(484, 142, 28, 38), arrow(467, 161, 17),
-  grid("accumulator", bits(studies.anvil.fixedProducts[0], 32), 8, 486, 155, 3),
-  path("m484 163 5 5-5 5M512 161h14v43h-71v-31", "study-route"),
-  path("M541 196h86M584 137v69", "study-grid"),
-  bars("quantized", studies.anvil.fixedProducts.map((value) => value / 65536), 541, 196, 22, 16, true),
-  path("M20 219h192M276 219h64M387 219h126M541 219h86", "study-grid"),
+  path("M251 60h28M279 27v66", "study-route"),
+  ...[0, 1, 2, 3].map((i) => path(`M279 ${27 + i * 22}h17`, "study-route")),
+  ...[0, 1, 2, 3].map((i) => multiply(306, 27 + i * 22)),
+  sumPair(415, 38, [[316, 27], [316, 49]], 395),
+  sumPair(415, 82, [[316, 71], [316, 93]], 395),
+  sumPair(465, 60, [[427, 38], [427, 82]], 445),
+  bars("products", [2, -2, 0, 3], 347, 23, 22, 4),
+  path("M477 60h11", "study-route"), rect(488, 38, 26, 44),
+  path("m488 64 6 5-6 5M514 60h15", "study-line"),
+  bars("output", studies.anvil.outputs[0], 565, 23, 22, 6),
+  ...[0, 1, 2, 3].map((i) => path(`M529 ${27 + i * 22}h91M565 ${19 + i * 22}v16`, "study-grid")),
+  rect(24, 144, 136, 48, "study-panel", 'data-box="storage"'),
+  grid("packed", bits(studies.anvil.halfwords[0], 16), 16, 28, 160, 8),
+  path("M36 152v24M76 152v24", "study-warm"),
+  ...[0, 1, 2, 3].map((i) => rect(56 + i * 24, 200, 16, 3, "study-fill")),
+  rect(56, 200, 16, 3, "study-solid-warm", 'data-cursor="storage-word"'),
+  arrow(160, 168, 46), rect(206, 144, 96, 48, "study-panel", 'data-box="conversion"'),
+  grid("extended", bits(studies.anvil.fixed[0], 32), 8, 214, 148, 10),
+  path("M214 168h80", "study-grid"),
+  arrow(302, 168, 50), multiply(362, 168),
+  rect(334, 132, 42, 20), grid("activation", bytes(98304), 4, 338, 138, 8, 255),
+  path("M362 152v6M372 168h48", "study-route"),
+  add(432, 168), arrow(444, 168, 34),
+  rect(478, 148, 40, 40, "study-panel", 'data-box="accumulator"'),
+  grid("accumulator", bytes(studies.anvil.fixedProducts[0]), 2, 482, 152, 16, 255),
+  path("M518 168h10v46h-96v-34", "study-feedback"),
+  path("M540 190h80M540 144v64", "study-grid"),
+  bars("quantized", studies.anvil.fixedProducts.map((value) => value / 65536), 546, 190, 20, 14, true),
 ], "anvil");
 
 scenes.rivet = frame([
   path("M12 113h616", "study-guide"),
   ...studies.rivet.aes.map((state, i) => rect(15 + i * 127, 19, 70, 70)
     + grid(`aes-${i}`, columnOrder(state), 4, 16 + i * 127, 20, 17, 255)
-    + (i < 4 ? arrow(85 + i * 127, 54, 57) : "")),
+    + (i < 4 ? path(`M${85 + i * 127} 54h57`, "study-route", `data-aes-link="${i}"`)
+      + path(`m${137 + i * 127} 50 5 4-5 4`, "study-route") : "")),
   rect(13, 17, 74, 74, "study-focus", 'data-cursor="aes"'),
-  ...Array.from({length: 16}, (_, i) => rect(20.5 + i % 4 * 17, 24.5 + Math.floor(i / 4) * 17,
-    8, 8, "study-solid-warm", `data-byte="${i}"`)),
+  ...Array.from({length: 16}, (_, i) => rect(17.5 + i % 4 * 17, 21.5 + Math.floor(i / 4) * 17,
+    14, 14, "study-cell-focus", `data-byte="${i}" opacity="0"`)),
+  circle(113, 54, 2.5, "study-solid-warm", 'data-cursor="aes-transfer"'),
   grid("round-key", [0xd6, 0xaa, 0x74, 0xfd, 0xd2, 0xaf, 0x72, 0xfa, 0xda, 0xa6, 0x78, 0xf1, 0xd6, 0xab, 0x76, 0xfe], 8, 464, 94, 7, 255),
   circle(487, 54, 7, "study-panel"), path("M482 54h10m-5-5v10M500 94V76h-13V61", "study-warm"),
   grid("schedule", studies.rivet.sha.words.map((word) => word >>> 24), 16, 16, 141, 8, 255),
@@ -137,16 +139,16 @@ scenes.rivet = frame([
 ], "rivet");
 
 const waveDefs = ["input", "fir", "iir"].map((name, i) =>
-  `<clipPath id="billet-${name}-window">${rect(i ? 512 : 14, i === 2 ? 147 : 24, 112, 86)}</clipPath>`).join("");
+  `<clipPath id="billet-${name}-window">${rect(i ? 512 : 14, i === 2 ? 139 : 24, 112, 86)}</clipPath>`).join("");
 const wave = (name, values, x, y, width, amplitude) =>
   `<g clip-path="url(#billet-${name}-window)"><g data-wave="${name}">`
   + path(wavePath([...values, ...values, values[0]], x, y, width * 2, amplitude),
     name === "iir" ? "study-warm" : "study-line") + "</g></g>";
 const staticTaps = studies.billet.coefficients.map((_, i) => studies.billet.signal[(112 - i + 128) % 128]);
 scenes.billet = frame([
-  path("M14 68h113M14 31v75M512 67h112M512 192h112", "study-grid"),
+  path("M14 68h113M14 31v75M512 67h112M512 181h112", "study-grid"),
   wave("input", studies.billet.signal, 14, 68, 128, 32),
-  path("M126 68h42M128 68v127h75", "study-route"),
+  path("M126 68h42M128 68v113h75", "study-route"),
   ...[0, 1, 2, 3, 4].map((i) => rect(168 + i * 55, 54, 27, 28)
     + path(`m${168 + i * 55} 69 4 4-4 4${i < 4 ? `M${195 + i * 55} 68h28` : ""}M${181 + i * 55} 82v28`, "study-line")
     + multiply(181 + i * 55, 120)
@@ -160,33 +162,35 @@ scenes.billet = frame([
   path("M409 147h41M478 147h16V67h18", "study-route"),
   rect(450, 133, 28, 28), path("m450 148 4 4-4 4"),
   wave("fir", studies.billet.filtered, 512, 67, 128, 42),
-  multiply(213, 195), path("M223 195h81", "study-route"), add(316, 195),
-  path("M328 195h58M414 195h80v-3h18", "study-route"), rect(386, 180, 28, 30),
-  path("m386 195 4 4-4 4M428 195v31h-65m-20 0h-63v-19h36", "study-feedback"),
-  multiply(353, 226),
-  grid("iir-feed", [1, 0, 0, 0], 4, 201, 170, 6),
-  grid("iir-feedback", [1, 1, 1, 0], 4, 341, 204, 6),
-  wave("iir", studies.billet.recursive, 512, 192, 128, 32),
+  multiply(213, 181), path("M223 181h81", "study-route"), add(316, 181),
+  path("M328 181h58M414 181h98", "study-route"), rect(386, 166, 28, 30),
+  path("m386 183 4 4-4 4M428 181v33h-65m-20 0h-63v-21h36", "study-feedback"),
+  multiply(353, 214),
+  grid("iir-feed", [1, 0, 0, 0], 4, 201, 158, 6),
+  grid("iir-feedback", [1, 1, 1, 0], 4, 341, 196, 6),
+  wave("iir", studies.billet.recursive, 512, 181, 128, 32),
 ], "billet", waveDefs);
 
 const staticPixel = studies.swage.scaled[85];
 scenes.swage = frame([
-  rect(17, 29, 98, 98), grid("source", studies.swage.pixels, 8, 18, 30, 12),
-  rect(42, 54, 24, 24, "study-focus", 'data-cursor="kernel"'),
-  ...[0, 1, 2, 3].map((i) => path(`M115 ${44 + i * 26}h100`, "study-route")
-    + multiply(225, 44 + i * 26)),
-  bars("weights", staticPixel.weights, 164, 34, 26, 40),
-  sumPair(312, 57, [[235, 44], [235, 70]], 280),
-  sumPair(312, 109, [[235, 96], [235, 122]], 280),
-  sumPair(383, 106, [[324, 57], [324, 109]], 350),
-  arrow(395, 106, 74), rect(469, 33, 146, 146),
-  grid("scaled", studies.swage.scaled.map((sample) => sample.value), 16, 470, 34, 9),
-  rect(515, 79, 9, 9, "study-focus", 'data-cursor="pixel"'),
-  path("M470 97h144", "study-warm", 'data-cursor="scan" transform="translate(0 -18)"'),
-  grid("neighbors", staticPixel.neighbors, 2, 154, 167, 24),
-  path("M18 170h96M18 165v10M114 165v10M66 166v8M225 167h198M225 203h198", "study-grid"),
-  bars("contributions", staticPixel.neighbors.map((value, i) => value * staticPixel.weights[i]), 232, 200, 47, 82, true),
-  path("M470 208h144m-144-4v8m144-8v8", "study-grid"),
+  rect(17, 47, 98, 98, "study-panel", 'data-box="source"'),
+  grid("source", studies.swage.pixels, 8, 18, 48, 12),
+  rect(42, 72, 24, 24, "study-focus", 'data-cursor="kernel"'),
+  ...[0, 1, 2, 3].map((i) => path(`M115 ${54 + i * 28}h100`, "study-route")
+    + multiply(225, 54 + i * 28)),
+  bars("weights", staticPixel.weights, 164, 44, 28, 40),
+  sumPair(312, 68, [[235, 54], [235, 82]], 280),
+  sumPair(312, 124, [[235, 110], [235, 138]], 280),
+  sumPair(383, 96, [[324, 68], [324, 124]], 350),
+  arrow(395, 96, 74), rect(469, 23, 146, 146, "study-panel", 'data-box="scaled"'),
+  grid("scaled", studies.swage.scaled.map((sample) => sample.value), 16, 470, 24, 9),
+  rect(515, 69, 9, 9, "study-focus", 'data-cursor="pixel"'),
+  path("M618 73.5h6", "study-warm", 'data-cursor="scan"'),
+  path("M66 145v53h86", "study-route"),
+  rect(152, 178, 40, 40), grid("neighbors", staticPixel.neighbors, 2, 154, 180, 18),
+  arrow(192, 198, 33),
+  path("M225 174h198M225 216h198", "study-grid"),
+  bars("contributions", staticPixel.neighbors.map((value, i) => value * staticPixel.weights[i]), 232, 216, 47, 42, true),
 ], "swage");
 
 const symbolStrip = (name, values, x, y, step = 18) => `<g data-symbols="${name}" data-x="${x}" data-y="${y}" data-step="${step}">`
@@ -195,21 +199,19 @@ const symbolStrip = (name, values, x, y, step = 18) => `<g data-symbols="${name}
       2, 3, "study-dot") : "").join("") + "</g>").join("") + "</g>";
 scenes.bellows = frame([
   symbolStrip("message", studies.bellows.message, 20, 25, 16),
-  path("M20 48h592M20 92h592", "study-grid"),
   rect(19, 22, 64, 21, "study-focus", 'data-cursor="literal"'),
   symbolStrip("history", studies.bellows.message, 20, 97, 16),
   rect(19, 94, 64, 21, "study-focus", 'data-cursor="match"'),
   path("M91 40V69H27V97m-4-5 4 5 4-5", "study-warm", 'data-reference="match"'),
   path("M20 135h592", "study-guide"),
-  rect(19, 152, 98, 29),
-  grid("token", bits(0x48, 8), 8, 20, 154, 12), path("M68 150v33", "study-warm"),
-  arrow(120, 166, 32), rect(163, 152, 130, 21),
-  grid("offset", bits(4, 16), 16, 164, 154, 8),
-  path("M164 182h128m-128-4v8m128-8v8", "study-grid"),
-  arrow(299, 166, 23),
-  symbolStrip("encoded", studies.bellows.encoded, 326, 154, 16),
-  symbolStrip("decoded", studies.bellows.message, 20, 213, 16),
-  path("M596 161.5h15V198H27v15m-4-5 4 5 4-5", "study-feedback"),
+  rect(19, 150, 98, 32, "study-panel", 'data-box="token"'),
+  grid("token", bits(0x48, 8), 8, 20, 160, 12), path("M68 150v32", "study-warm"),
+  arrow(117, 166, 46), rect(163, 154, 130, 24, "study-panel", 'data-box="offset"'),
+  grid("offset", bits(4, 16), 16, 164, 162, 8),
+  arrow(293, 166, 33),
+  symbolStrip("encoded", studies.bellows.encoded, 326, 158.5, 16),
+  symbolStrip("decoded", studies.bellows.message, 20, 207, 16),
+  path("M596 166h15V192H27v15m-4-5 4 5 4-5", "study-feedback"),
 ], "bellows");
 
 const coverage = [];
@@ -225,65 +227,65 @@ scenes.crucible = frame([
   ...[[46, 36], [214, 64], [102, 176]].map(([x, y]) => circle(x, y, 3, "study-dot")),
   rect(101, 91, 14, 14, "study-focus", 'data-cursor="fragment"'),
   path("M108 93v-10m-5 5h10", "study-warm", 'data-cursor="sample"'),
-  ...[0, 1, 2].map((i) => path(`M280 ${44 + i * 48}h102M323 ${28 + i * 48}v32`, "study-grid")
-    + rect(379, 38 + i * 48, 12, 12, "study-dot", `data-edge="${i}"`)),
-  bars("edges", [40, 30, 42], 323, 40, 48, .45),
-  path("M392 44h12v34h11M392 92h23M392 140h12v-30h11", "study-route"),
-  path("M415 68h19a26 26 0 0 1 0 52h-19z", "study-panel"),
-  arrow(460, 94, 26), rect(486, 79, 27, 30), path("m486 96 4 4-4 4"),
-  arrow(513, 94, 26), rect(539, 33, 77, 133),
-  grid("fragments", Array.from({length: 32}, (_, i) => i / 32), 4, 545, 40, 16),
-  path("M20 225h220", "study-grid"),
-  path("M240 225v-21h360v-38", "study-route"),
-  path("m596 171 4-5 4 5", "study-route"),
+  ...[0, 1, 2].map((i) => path(`M280 ${48 + i * 58}h102M323 ${32 + i * 58}v32`, "study-grid")
+    + rect(379, 42 + i * 58, 12, 12, "study-dot", `data-edge="${i}"`)),
+  bars("edges", [40, 30, 42], 323, 44, 58, .45),
+  path("M391 48h13v42h11M391 106h24M391 164h13v-42h11", "study-route"),
+  path("M415 80h19a26 26 0 0 1 0 52h-19z", "study-panel"),
+  arrow(460, 106, 26), rect(486, 91, 27, 30), path("m486 108 4 4-4 4"),
+  arrow(513, 106, 26), rect(539, 40, 77, 132),
+  grid("fragments", Array.from({length: 32}, (_, i) => i / 32), 4, 545, 42, 16),
+  path("M20 220h220", "study-grid"),
+  path("M240 220v-16h360v-32", "study-route"),
+  path("m596 177 4-5 4 5", "study-route"),
   ...Array.from({length: 8}, (_, i) => rect(327 + i * 32, 193, 24, 22, "study-panel")),
-  bars("depth", [.2, .8, .4, .65], 20, 225, 57, 25, true),
+  bars("depth", [.2, .8, .4, .65], 20, 220, 57, 25, true),
 ], "crucible");
 
 scenes.furnace = frame([
   ...[0, 1, 2, 3].map((lane) =>
-    rect(18, 30 + lane * 44, 90, 26)
-    + grid(`queue-${lane}`, [1, .6, .2, 0], 4, 20, 32 + lane * 44, 22)
-    + path(`M108 ${44 + lane * 44}h240`, "study-route")
-    + rect(139, 38 + lane * 44, 12, 12, "study-dot", `data-request="${lane}"`)
-    + path(`M${118 + lane * 14} ${44 + lane * 44}V${237 - lane * 2}H${202 + lane * 10}V227`, "study-grid")),
-  path("M348 18l44 34v112l-44 38z", "study-panel"),
-  ...[0, 1, 2, 3].map((i) => path(`M348 ${44 + i * 44}L392 108`, "study-grid")),
-  path("M108 44H348L392 108H431", "study-active-route", 'data-route="grant"'),
-  rect(195, 185, 42, 42), grid("priority", Array.from({length: 16}, (_, i) => i % 5 ? .08 : .7), 4, 196, 186, 10),
-  path("M237 206h133v-23", "study-warm"),
-  arrow(392, 108, 39), rect(431, 88, 39, 40),
-  grid("held", bits(0, 16), 4, 435, 92, 8),
-  arrow(470, 108, 41), rect(511, 79, 100, 100),
-  grid("memory", Array.from({length: 64}, (_, i) => i < 24 ? (i % 4 + 1) / 4 : 0), 8, 513, 81, 12),
-  path("M610 179v26H450v-77", "study-feedback"),
-  rect(476, 199, 12, 12, "study-dot", 'data-ready=""'),
-  path("M424 36h194M424 62h194", "study-grid"),
-  path(stepWave(studies.furnace.frames.slice(0, 16).map((state) => state.grant !== undefined), 426, 37, 12),
-    "study-line", 'data-timing="valid"'),
-  path(stepWave(studies.furnace.frames.slice(0, 16).map((state) => state.ready), 426, 63, 12),
-    "study-warm", 'data-timing="ready"'),
-  path("M426 21v47", "study-focus", 'data-cursor="bus-clock"'),
-  rect(426, 104, 8, 8, "study-solid-warm", 'data-cursor="beat"'),
+    rect(24, 46 + lane * 32, 104, 28)
+    + grid(`queue-${lane}`, [1, .6, .2, 0], 4, 28, 48 + lane * 32, 24)
+    + path(`M128 ${60 + lane * 32}h164`, "study-route")
+    + rect(145, 56 + lane * 32, 8, 8, "study-dot", `data-request="${lane}"`)
+    + path(`M${164 + lane * 12} ${60 + lane * 32}V${185 + lane * 10}H208`, "study-grid")),
+  path("M292 44l48 32v64l-48 32z", "study-panel"),
+  ...[0, 1, 2, 3].map((i) => path(`M292 ${60 + i * 32}L340 108`, "study-grid")),
+  path("M128 60H292L340 108H392", "study-active-route", 'data-route="grant"'),
+  rect(208, 178, 42, 42), grid("priority", Array.from({length: 16}, (_, i) => i % 5 ? .08 : .7), 4, 209, 179, 10),
+  path("M250 199h8v-25h58v-18", "study-warm", 'data-control="priority"'),
+  arrow(340, 108, 52), rect(392, 88, 40, 40, "study-panel", 'data-box="held"'),
+  grid("held", bits(0, 16), 4, 396, 92, 8),
+  arrow(432, 108, 56), rect(488, 47, 122, 122, "study-panel", 'data-box="memory"'),
+  grid("memory", Array.from({length: 64}, (_, i) => i < 24 ? (i % 4 + 1) / 4 : 0), 8, 489, 48, 15),
+  path("M549 169v37h-73v-66h-64v-12", "study-feedback"),
+  rect(501, 200, 12, 12, "study-dot", 'data-ready=""'),
+  path("M270 196h192M270 222h192", "study-grid"),
+  path(stepWave(studies.furnace.frames.slice(0, 16).map((state) => state.grant !== undefined), 270, 196, 12),
+    "study-line", 'data-timing="valid" data-x="270" data-y="196" data-step="12"'),
+  path(stepWave(studies.furnace.frames.slice(0, 16).map((state) => state.ready), 270, 222, 12),
+    "study-warm", 'data-timing="ready" data-x="270" data-y="222" data-step="12"'),
+  path("M270 180v46", "study-focus", 'data-cursor="bus-clock"'),
+  rect(408, 104, 8, 8, "study-solid-warm", 'data-cursor="beat"'),
 ], "furnace", [0, 1, 2, 3].map((lane) =>
-  path(`M108 ${44 + lane * 44}H348L392 108H431`, "study-route", `data-transfer="${lane}"`)).join(""));
+  path(`M128 ${60 + lane * 32}H292L340 108H392`, "study-route", `data-transfer="${lane}"`)).join(""));
 
 scenes.sable = frame([
   ...[0, 1, 2, 3].map((lane) => {
     const y = 35 + lane * 53, order = studies.sable.streams[lane].slice(1).map((state) => state.incoming);
-    return symbolStrip(`arrival-${lane}`, order, 20, y - 7.5, 18)
-      + path(`M162 ${y}H232`, "study-route", `data-lane="${lane}"`)
-      + path(`m227 ${y - 4} 5 4-5 4`, "study-route")
-      + rect(232, y - 15, 178, 30)
-      + grid(`window-${lane}`, studies.sable.streams[lane][4].slots, 8, 233, y - 11, 22)
-      + arrow(410, y, 45)
-      + symbolStrip(`release-${lane}`, [0, 1, 2, 3, 4, 5, 6, 7], 455, y - 7.5, 20)
+    return symbolStrip(`arrival-${lane}`, order, 20, y - 7.5, 20)
+      + path(`M178 ${y}H236`, "study-route", `data-lane="${lane}"`)
+      + path(`m231 ${y - 4} 5 4-5 4`, "study-route")
+      + rect(236, y - 12, 168, 24)
+      + grid(`window-${lane}`, studies.sable.streams[lane][4].slots, 8, 240, y - 10, 20)
+      + arrow(404, y, 52)
+      + symbolStrip(`release-${lane}`, [0, 1, 2, 3, 4, 5, 6, 7], 456, y - 7.5, 20)
       + `<g data-arrival="${lane}" transform="translate(197 ${y})" opacity="0">${rect(-9, -7.5, 18, 15)}`
       + grid(`packet-${lane}`, bits(order[4], 3), 3, -6, -2, 4) + "</g>"
-      + rect(19 + 3 * 18, y - 9.5, 18, 19, "study-focus", `data-cursor="sable-source-${lane}"`)
-      + path(`M${233 + studies.sable.streams[lane][4].base * 22} ${y + 19}l-4 6h8z`, "study-solid-warm", `data-ack="${lane}"`)
-      + path(`M410 ${y + 22}H184v-9m-4 4 4-4 4 4`, "study-feedback")
-      + grid(`ack-${lane}`, studies.sable.streams[lane][4].slots, 8, 455, y + 19, 6);
+      + rect(19 + 3 * 20, y - 9.5, 20, 19, "study-focus", `data-cursor="sable-source-${lane}"`)
+      + path(`M${240 + studies.sable.streams[lane][4].base * 20} ${y + 19}l-4 6h8z`, "study-solid-warm", `data-ack="${lane}"`)
+      + path(`M404 ${y + 12}v10H169V${y + 7.5}m-4 5 4-5 4 5`, "study-feedback")
+      + grid(`ack-${lane}`, studies.sable.streams[lane][4].slots, 8, 456, y + 19, 6);
   }),
 ], "sable");
 

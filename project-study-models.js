@@ -32,6 +32,19 @@ export function aesRound(input, key) {
   return [input, substitute, shift, mix, mix.map((value, i) => value ^ key[i])];
 }
 
+export function aesStageFrame(states, phase) {
+  if (!Number.isFinite(phase) || phase < 0 || phase >= 1) throw new RangeError("AES study phase must be in [0, 1).");
+  const stage = Math.floor(phase * 4), progress = phase * 4 - stage;
+  const groups = stage === 1 || stage === 2 ? 4 : 16;
+  const current = Math.min(groups - 1, Math.floor(progress * groups));
+  const group = (i) => stage === 1 ? i % 4 : stage === 2 ? Math.floor(i / 4) : i;
+  return {
+    stage, progress,
+    values: states[stage + 1].map((value, i) => group(i) <= current ? value : states[stage][i]),
+    active: states[stage].map((_, i) => group(i) === current),
+  };
+}
+
 const rotate = (value, bits) => (value >>> bits) | (value << (32 - bits));
 const primes = [];
 for (let value = 2; primes.length < 64; value++) {

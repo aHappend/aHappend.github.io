@@ -418,6 +418,16 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   their actual SVG routes; back-reference arrowheads move with their paths.
   Keep signed sample bars clear of register frames, and page FURNACE's timing
   traces with the same model cycle as its grant and ready state.
+  Main stages share a flow centerline, including differently sized image
+  grids and encoding fields. ANVIL shows one readable binary16 word at a time
+  and the accumulator as four bytes. AES updates bytes, rows or columns inside
+  the destination matrix; its activity outlines never travel over other cells
+  or collapse into a pile between panels. Only the small link marker travels.
+  FURNACE separates arbitration wiring from the timing plot, and SABLE uses a
+  common slot pitch with ACK returns attached to the receive/sender boundaries.
+  Engineering plates have quieter graph paper and container-scaled strokes
+  (0.85--1.5 CSS pixels), rather than heavy desktop line widths on phones.
+  These paint changes do not apply to the ACE, FFT or op-amp reference drawings.
 - `node scripts/build_project_studies.mjs` regenerates the nine inline SVGs
   while leaving their articles and the three reference drawings untouched.
   The generated markup is an informative no-JS fallback, not a blank canvas.
@@ -425,7 +435,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   detect stale output. `node --test scripts/test_project_studies.mjs` checks
   FIPS AES intermediates, the SHA-256 `abc` digest, FIR/IIR responses, bilinear
   weights, LZ4 round trips, barycentric coverage, grant stability and ordered
-  release, exact adder-port alignment, lane centers and signed-bar clearance.
+  release, AES reveal groups, exact adder-port alignment, stage/lane centers
+  and signed-bar clearance.
   These checks validate the illustrative models, not project signoff.
 - The existing ACE K/V, FFT and op-amp drawings now belong only to their
   matching projects. The ACE-2 example shows two token streams entering an RTL
