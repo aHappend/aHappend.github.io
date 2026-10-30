@@ -1,4 +1,4 @@
-import {studies, clamp, gridPaths, stepWave, triangleSample, encodeLz4, aesStageFrame} from "./project-study-models.js?v=20261025-refinement";
+import {studies, clamp, gridPaths, stepWave, triangleSample, encodeLz4, aesStageFrame} from "./project-study-models.js?v=20261031-hammer";
 
 const contexts = new WeakMap();
 const bits = (value, count) => Array.from({length: count}, (_, i) => (value >>> (count - i - 1)) & 1);
@@ -183,6 +183,24 @@ const renderers = {
     const point = state.ready && route ? route.getPointAtLength((tick % 1) * route.getTotalLength())
       : {x: +held.x + 2 * +held.size, y: +held.y + 2 * +held.size};
     c.cursor("beat", {x: point.x - 4, y: point.y - 4, opacity: route ? 1 : 0});
+  },
+  hammer(c, t) {
+    const tick = t * c.model.frames.length, state = c.model.frames[Math.floor(tick)];
+    state.stages.forEach((instruction, stage) => {
+      c.grid(`instruction-${stage}`, bits(instruction === null ? 0 : instruction + 1, 4));
+      attributes(c.find(`[data-stage-valid="${stage}"]`), {opacity: instruction === null ? .08 : .9});
+    });
+    c.grid("registers", state.registers.slice(1).flatMap((value) => bits(value, 8)));
+    c.grid("execute", bits(state.executeValue ?? 0, 16));
+    c.grid("writeback", bits(state.writebackValue ?? 0, 16));
+    c.symbols("retired", state.retired.length);
+    c.cursor("pipeline-clock", {x: 20 + tick * 15});
+    attributes(c.find("[data-load-stall]"), {opacity: state.stall ? 1 : .08});
+    for (const stage of [3, 4])
+      attributes(c.find(`[data-forward="${stage}"]`), {opacity: state.forwards.includes(stage) ? 1 : .12});
+    const route = state.forwards.length ? c.find(`[data-forward="${state.forwards[0]}"]`) : null;
+    const point = route ? route.getPointAtLength((tick % 1) * route.getTotalLength()) : {x: 320, y: 120};
+    c.cursor("forward-value", {cx: point.x, cy: point.y, opacity: route ? 1 : 0});
   },
   sable(c, t) {
     c.model.streams.forEach((frames, lane) => {

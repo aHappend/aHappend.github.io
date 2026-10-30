@@ -180,6 +180,54 @@ export function triangleSample(vertices, x, y) {
     depth: weights.reduce((sum, value, i) => sum + value * [.2, .8, .4][i], 0)};
 }
 
+function pipelineStudy() {
+  const program = [
+    {write: 1, reads: [], alu: () => 4},
+    {write: 2, reads: [1, 1], alu: (a, b) => a + b},
+    {write: 3, reads: [2], load: true, alu: (a) => a},
+    {write: 4, reads: [3, 2], alu: (a, b) => a + b},
+    {write: 5, reads: [4, 1], alu: (a, b) => a ^ b},
+  ];
+  const words = new Map([[8, 9]]), values = Array(5).fill(null), addresses = [];
+  const registers = Array(6).fill(0), retired = [], frames = [];
+  let stages = [0, null, null, null, null], next = 1;
+  while (retired.length < program.length) {
+    const [fetch, decode, execute, memory, writeback] = stages;
+    if (writeback !== null) {
+      registers[program[writeback].write] = values[writeback];
+      retired.push(writeback);
+    }
+    if (memory !== null && program[memory].load) {
+      if (!words.has(addresses[memory])) throw new Error("Unmapped pipeline-study load.");
+      values[memory] = words.get(addresses[memory]);
+    }
+    const forwards = new Set();
+    const read = (register) => {
+      const source = [3, 4].find((stage) => stages[stage] !== null
+        && program[stages[stage]].write === register
+        && (!program[stages[stage]].load || stage === 4));
+      if (source === undefined) return registers[register];
+      forwards.add(source);
+      return values[stages[source]];
+    };
+    let executeValue = null;
+    if (execute !== null) {
+      const instruction = program[execute];
+      executeValue = instruction.alu(...instruction.reads.map(read));
+      if (instruction.load) addresses[execute] = executeValue;
+      else values[execute] = executeValue;
+    }
+    const stall = decode !== null && execute !== null && !!program[execute].load
+      && program[decode].reads.includes(program[execute].write);
+    frames.push({cycle: frames.length, stages: [...stages], stall, forwards: [...forwards],
+      registers: [...registers], retired: [...retired], executeValue,
+      writebackValue: writeback === null ? null : values[writeback]});
+    stages = stall ? [fetch, decode, null, execute, memory]
+      : [next < program.length ? next++ : null, fetch, decode, execute, memory];
+  }
+  return frames;
+}
+
 export function roundRobinStudy(cycles = 40) {
   const queues = [[0, 1], [16, 17], [32, 33], [48, 49]];
   const nextValues = [2, 18, 34, 50], memory = [], frames = [];
@@ -262,6 +310,7 @@ export const studies = {
   bellows: {duration: 14, message, sequences, encoded: encodeLz4(sequences)},
   crucible: {duration: 14, vertices: [[2, 1], [14, 3], [6, 11]]},
   furnace: {duration: 14, frames: roundRobinStudy()},
+  hammer: {duration: 12, frames: pipelineStudy()},
   sable: {duration: 14, streams: [[2, 0, 3, 1, 5, 7, 4, 6], [1, 3, 0, 2, 6, 4, 7, 5],
     [3, 1, 0, 2, 7, 5, 4, 6], [0, 2, 4, 1, 6, 3, 7, 5]].map(reorderStudy)},
 };

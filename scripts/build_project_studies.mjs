@@ -289,6 +289,41 @@ scenes.sable = frame([
   }),
 ], "sable");
 
+const pipeline = studies.hammer.frames, pipelinePreview = pipeline[4];
+scenes.hammer = frame([
+  ...pipelinePreview.stages.map((instruction, stage) => {
+    const x = 20 + stage * 124;
+    return rect(x, 30, 104, 82) + grid(`instruction-${stage}`, bits(instruction + 1, 4), 4, x + 32, 40, 10)
+      + path(`M${x + 8} 56h88`, "study-grid")
+      + rect(x + 6, 34, 4, 16, "study-solid-warm", `data-stage-valid="${stage}"`)
+      + (stage < 4 ? arrow(x + 104, 84, 20) : "");
+  }),
+  rect(30, 70, 24, 28), path("M34 79h16m-16 8h10M54 84h17"),
+  rect(71, 65, 40, 38), path("M77 73h28m-28 8h20m-20 8h28m-28 8h16", "study-grid"),
+  rect(156, 65, 50, 38),
+  ...[0, 1, 2, 3].map((i) => path(`M162 ${72 + i * 8}h38`, "study-grid")),
+  path("M216 65l15 9v20l-15 9zM206 75h10m-10 18h10M231 84h17", "study-route"),
+  path("m284 65 15 8v8l-15 8v14l48-13V78l-48-13z", "study-panel"),
+  path("M290 78h8m-4-4v8M332 84h26", "study-route"),
+  rect(404, 65, 80, 38), grid("memory-word", bits(9, 8), 8, 408, 76, 9),
+  rect(530, 65, 72, 38),
+  ...[0, 1, 2].map((i) => path(`M536 ${74 + i * 10}h59`, "study-grid")),
+  path("M196 30V12H72v18m-4-5 4 5 4-5", "study-warm", 'data-load-stall=""'),
+  path("M444 112v12H320v-12m-4 5 4-5 4 5", "study-warm", 'data-forward="3"'),
+  path("M568 112v24H304v-24m-4 5 4-5 4 5", "study-warm", 'data-forward="4" opacity=".12"'),
+  circle(444, 124, 3, "study-solid-warm", 'data-cursor="forward-value"'),
+  path("M12 144h616M220 151v78M454 151v78", "study-guide"),
+  grid("schedule", Array.from({length: 5}, (_, instruction) =>
+    pipeline.map((state) => state.stages.indexOf(instruction) + 1)).flat(), pipeline.length, 20, 151, 15, 5),
+  rect(80, 151, 15, 75, "study-focus", 'data-cursor="pipeline-clock"'),
+  rect(256, 154, 176, 26), grid("execute", bits(pipelinePreview.executeValue, 16), 16, 264, 159, 10),
+  rect(256, 195, 176, 26), grid("writeback", bits(pipelinePreview.writebackValue, 16), 16, 264, 200, 10),
+  path("M244 166h12m-12 42h12M432 208h10v-42h-10", "study-route"),
+  grid("registers", pipelinePreview.registers.slice(1).flatMap((value) => bits(value, 8)), 8, 480, 151, 12),
+  `<g data-symbols="retired">${Array.from({length: 5}, (_, i) =>
+    path(`m597 ${157 + i * 12} 4 4 8-8`, "study-warm", `opacity="${i ? .1 : 1}"`)).join("")}</g>`,
+], "hammer");
+
 const file = new URL("../index.html", import.meta.url);
 const original = await readFile(file, "utf8");
 let updated = original;
@@ -299,8 +334,8 @@ for (const [project, svg] of Object.entries(scenes)) {
 }
 if (process.argv.includes("--check")) {
   if (original !== updated) throw new Error("Project SVGs are stale. Run node scripts/build_project_studies.mjs.");
-  console.log("Nine engineering-study SVGs match their generator.");
+  console.log("Ten engineering-study SVGs match their generator.");
 } else {
   await writeFile(file, updated);
-  console.log("Generated nine detailed project studies; reference course diagrams are unchanged.");
+  console.log("Generated ten detailed project studies; reference course diagrams are unchanged.");
 }

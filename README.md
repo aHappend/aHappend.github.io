@@ -363,9 +363,9 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   updates do not imply a new packaged desktop release. Public research archives
   are not necessarily open-source licensed; preserve the Mathematics rights
   notice and each project's execution and claim boundaries.
-- Selected Work has twelve independent entries in three directories:
+- Selected Work has thirteen independent entries in three directories:
   AI/tools (Vulcan, ACE), hardware families (ANVIL, RIVET, BILLET, SWAGE,
-  BELLOWS, CRUCIBLE, FURNACE), and protocols/circuits (SABLE, FFT, CMOS op-amp).
+  BELLOWS, CRUCIBLE, FURNACE, HAMMER), and protocols/circuits (SABLE, FFT, CMOS op-amp).
   Generations stay together inside each family; unrelated families never
   become one catch-all card. Queued/planned families have quieter directory
   typography and explicit development states, not completion badges.
@@ -385,7 +385,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Filters apply to directory headings, choices and articles together.
   Phone, short-window, no-JS and print layouts show the original inline
   articles. Print restores all studies even when a screen filter is active.
-- The nine newer studies use the FFT and CMOS course diagrams as the reference
+- The ten newer studies use the FFT and CMOS course diagrams as the reference
   for engineering detail, wide composition and meaningful signal motion:
   Vulcan's source/datapath/timing/fabric pipeline; ANVIL's matrix products,
   binary16 storage to signed Q16.16 conversion and accumulation (not native
@@ -394,7 +394,8 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   IIR path; SWAGE's bilinear weights and raster; BELLOWS' literal/match tokens,
   overlapping back-references and reconstruction; CRUCIBLE's pixel-center edge
   tests and depth-interpolated fragments; FURNACE's round-robin grants and held
-  payload under backpressure; and SABLE's four real reorder-window examples.
+  payload under backpressure; HAMMER's five-stage pipeline, operand forwarding,
+  load-use bubble and ordered retirement; and SABLE's four real reorder-window examples.
   They are original homepage diagrams, not copies of the Vulcan site's forge
   illustrations. They share only the theme-aware graph-paper surface and
   blue/terracotta palette. Keep graphics text-free and explanations bilingual
@@ -428,7 +429,7 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   Engineering plates have quieter graph paper and container-scaled strokes
   (0.85--1.5 CSS pixels), rather than heavy desktop line widths on phones.
   These paint changes do not apply to the ACE, FFT or op-amp reference drawings.
-- `node scripts/build_project_studies.mjs` regenerates the nine inline SVGs
+- `node scripts/build_project_studies.mjs` regenerates the ten inline SVGs
   while leaving their articles and the three reference drawings untouched.
   The generated markup is an informative no-JS fallback, not a blank canvas.
   Run the generator after changing a model or drawing, and use `--check` to
@@ -436,7 +437,10 @@ Open `http://127.0.0.1:8767`. There is no build step or package dependency.
   FIPS AES intermediates, the SHA-256 `abc` digest, FIR/IIR responses, bilinear
   weights, LZ4 round trips, barycentric coverage, grant stability and ordered
   release, AES reveal groups, exact adder-port alignment, stage/lane centers
-  and signed-bar clearance.
+  and signed-bar clearance. The fixed HAMMER program produces registers
+  4, 8, 9, 17 and 21, forwards MEM/WB results and inserts one load-use stall.
+  Its stage occupancy and retirement are a teaching model, not an upstream
+  HAMMER trace or CPU performance measurement.
   These checks validate the illustrative models, not project signoff.
 - The existing ACE K/V, FFT and op-amp drawings now belong only to their
   matching projects. The ACE-2 example shows two token streams entering an RTL
@@ -531,7 +535,7 @@ Reduced-motion preferences disable entrance/filter animation and pointer effects
 
 ## Public project source review
 
-Portfolio families and FPGA publication records refreshed: **2026-10-24**.
+Portfolio families and FPGA publication records refreshed: **2026-10-31**.
 ACE boundaries retain the **2026-10-19** review. Unchanged
 ecosystem entries retain the **2026-10-11** source review. These are public-source checks, not fresh
 executions of the upstream experiments. Dated checkpoints describe their
@@ -545,9 +549,13 @@ the ecosystem grid, and the research evidence labels consistent.
 | Argus-Pi | [Downstream README](https://github.com/Argus-AiTeam/Argus-Pi/blob/ba9947aba37934ee01025b18a0f90817cc1b5cf2/README.md): source preview, selective PDF/notebook reading, and explicit execution/retry status; not a separately published package or a replacement orchestrator. |
 | ACE-3 | [Current public boundary](https://github.com/aHappend/ace-3/blob/87f050d97beb560f0bd56e542c28331a9cf7a1a1/README.md): G128 projection and bounded FP16-boundary blocks; October repairs/V10 adapter are development evidence. Full-regression, full-model and hardware acceptance remain open. Retire the earlier full-cascade/624-tensor headline. |
 | ACE-2 | [Accepted persistent result](https://github.com/aHappend/ace-2/blob/9fe36b70c041de4b9ce8fcaec944df7370ecdd1f/docs/results/PERSISTENT_CONVERSATION_20260926.md): two turns, four tokens per turn, 24 retained K/V layers, zero mismatches and no fallback. Three-turn work remains diagnostic; current public acceptance does not include PPA or deployed hardware. |
-| ANVIL | [E1-E3](https://github.com/aHappend/anvil-e/tree/e238ee162c62cf3d2438f59dbecd664eeaea7779) and [Q1/Q2](https://github.com/aHappend/anvil-q/tree/80fe75c5c7b0d6797ba0800f9fac865cd6fcf93b) publish RTL and reports. E1's `phase2_official_weights/evidence/verification/board-hil.json`, E2/E3's `.vulcan/evidence/post-hil-e*/board-hil.json`, and Q1's `.vulcan/evidence/post-hil-q1/board-hil.json` each retain three passing deterministic runs and the corresponding board-role identity. This is recorded-workload HIL, not blanket full-model acceptance. Q3 is in development and Q4 planned. Q1 uses Q16.16 execution after binary16 conversion. |
+| ANVIL | [E1-E3](https://github.com/aHappend/anvil-e/tree/e238ee162c62cf3d2438f59dbecd664eeaea7779) and [Q1/Q2](https://github.com/aHappend/anvil-q/tree/271ac89722b9c32f8724ccd2dc56ef6d67ae9d78) publish RTL and reports. E1's `phase2_official_weights/evidence/verification/board-hil.json`, E2/E3's `.vulcan/evidence/post-hil-e*/board-hil.json`, and Q1's `.vulcan/evidence/post-hil-q1/board-hil.json` each retain three passing deterministic runs and the corresponding board-role identity. This is recorded-workload HIL, not blanket full-model acceptance. Q3 is in development and Q4 planned. Original Q1 uses Q16.16 execution after binary16 conversion; separate native FP16/BF16, high-throughput and DDR4 Edge variants remain under verification. |
 | Reusable families | [RIVET-A](https://github.com/aHappend/rivet-a/tree/9c6c953553d38ffc1e4a6f05bf243d4c854c8381), [RIVET-H](https://github.com/aHappend/rivet-h/tree/251599b8285e2455db8a2796ac50680b37e944a0), [BILLET-T](https://github.com/aHappend/billet-t/tree/0661f2f26ddbe3394a2d2378cab623afdcd5c654) and [BILLET-F](https://github.com/aHappend/billet-f/tree/51884e590e87ddde12e8f94a6066bf83a3ac5a03) have three reported generations each. Together with ANVIL this makes 17 reported generations, not a verified count of physical chips. [SABLE](https://github.com/aHappend/sable/tree/f3ade7072ddc997e0f1a253dd196c9ec9286fb59) remains a separate protocol system. |
-| Emerging families | [SWAGE-S](https://github.com/aHappend/swage-s/tree/625756718219975445067860c1537fb40b9b57f3): S1 RTL under verification, S2/S3 queued. [BELLOWS-L](https://github.com/aHappend/bellows-l/tree/d696d3059407d79c460d8bc8070bd4498e44c2c8): queued. [CRUCIBLE-G](https://github.com/aHappend/crucible-g/tree/9ea6fde5c001d7cc5885f48c62d849450ce82b92) and [FURNACE-X](https://github.com/aHappend/furnace-x/tree/9019ca2579b77dbdc3820cda9f3762a673260d6f): planned. Their template HIL/STA badges are not completion evidence. |
+| SWAGE | [SWAGE-S](https://github.com/aHappend/swage-s/tree/2989572d2f933d94549dee536265f246e14609a4): S1 publishes RTL, functional exports and Quartus timing artifacts; verification remains scoped, S2/S3 queued. Its board record is explicitly connectivity-probe-only, not an image workload. |
+| BELLOWS | [L1-L3](https://github.com/aHappend/bellows-l/tree/5e8b52cb6ca85127d03d94099e09b741b1c5ec42) and [N1-N3](https://github.com/aHappend/bellows-n/tree/fa46090072bb8967600b62634c0ff40bd6d524d5) have published RTL. L3 uses descriptor-framed raw LZ4, not standard LZ4 Frame format. Networking moved from the former FURNACE-X naming; do not count that migration as another delivery. The homepage model illustrates LZ4 only. |
+| CRUCIBLE | [G1/G2](https://github.com/aHappend/crucible-g/tree/97706c593c7a02ae3123cc5d4d415a7c931f4099) have published RTL; G2 verification is ongoing and G3 queued. G2 adds strict-LESS depth, early-Z and perspective-correct attributes, **not a texture sampler**. |
+| FURNACE | [Current X1-X3](https://github.com/aHappend/furnace-x/tree/59c86f6313fc9d3f841e2c88cdd7df036a33e974) are heterogeneous integration RTL, not the old networking series. X3 adds RV64IM control, firmware scheduling and a six-client DDR interface. Published integration does not establish a working board system or combined throughput; the four-client homepage model is illustrative. |
+| HAMMER | [V1-V4](https://github.com/aHappend/hammer-v/tree/a53fa94948d545af6b919dca040e80aad5e08b6a): V1 is RV64IM; V2/V3 are RV64IMA, not RV32I or RV64IMAC. V1-V3 publish functional receipts and 100 MHz post-fit STA on Arria 10 **virtual-pin** builds. Board records are `L3_BRIDGE_CONNECTIVITY_PROBE_ONLY`, not CPU workloads. V4 publishes software/boot integration and firmware/FDT tests, not demonstrated Linux boot. |
 | Mathematics | [Archive README](https://github.com/Argus-AiTeam/argus-mathematics/blob/ed18d951259173d930e2ba83a1fc35ab0d933900/README.md): 17 public result packages with claim-specific limitations. Original materials are **All Rights Reserved**, not open-source licensed; link and summarize facts rather than reproduce reports. |
 | Hilbert XVI | [Observatory](https://github.com/Argus-AiTeam/Hilbert16-Dual-Argus-Observatory/tree/bde56cd1eeb19467de5fba820bbc55adb464b9a8): bilingual records, not a claimed complete solution or proof that historical processes are still running. |
 | MiniMax-H3 Desktop | [Published campaign](https://github.com/Argus-AiTeam/minimax-h3-desktop/blob/bd7eb21278cf10e11a4ee63de4a514c8bcc8df9f/README.md): completed A6000 research with benchmarks and retained negative results. Turbo changes the sampling schedule; do not advertise its speedup as a fidelity-preserving hardware gain. |
@@ -560,6 +568,14 @@ setup slack while its root README says 118.40 MHz. Some new-family badges claim
 passed HIL although their generation tables say scheduled. Do not propagate a
 blanket `100 MHz+`, full-model, or all-project hardware-signoff claim. Count
 published report sets separately and use project-specific raw board receipts.
+
+The October 31 HAMMER audit distinguishes simulation, timing, bridge connectivity,
+hardware workloads and OS boot. V2's atomic/cache/privileged/sensitivity exports
+contain no detailed receipts; V3's system export has 13 preliminary receipts but
+omits the integrated-configuration and final system receipts named in stdout.
+These publication gaps do not prove failure, but prevent a complete public audit.
+V4's retained log covers real-firmware/FDT handling, not a Linux kernel plus
+userspace boot. Do not copy upstream aggregate PASS labels as full acceptance.
 
 The grid remains nine team repositories plus two Argus source channels.
 The organization profile repository is not a separate project.

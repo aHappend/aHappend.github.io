@@ -7,6 +7,23 @@ import {studies, aesRound, aesSubstitute, hexBytes, sha256Block, fir, bilinear,
 
 const hex = (values, width = 2) => values.map((value) => value.toString(16).padStart(width, "0")).join("");
 
+test("the CPU study forwards dependencies, stalls a load-use pair and retires in order", () => {
+  const frames = studies.hammer.frames;
+  assert.deepEqual(frames.at(-1).retired, [0, 1, 2, 3, 4]);
+  assert.deepEqual(frames.at(-1).registers, [0, 4, 8, 9, 17, 21]);
+  const stalls = frames.filter((frame) => frame.stall);
+  assert.equal(stalls.length, 1);
+  const stalled = stalls[0], next = frames[stalled.cycle + 1];
+  assert.deepEqual(next.stages.slice(0, 3), [...stalled.stages.slice(0, 2), null]);
+  assert.equal(next.stages[3], stalled.stages[2]);
+  assert(frames.find((frame) => frame.stages[2] === 1).forwards.includes(3));
+  assert(frames.find((frame) => frame.stages[2] === 3).forwards.includes(4));
+  frames.forEach((frame) => {
+    const occupied = frame.stages.filter((instruction) => instruction !== null);
+    assert.equal(new Set(occupied).size, occupied.length);
+  });
+});
+
 test("AES uses the FIPS-197 first-round intermediate states, including column-major ShiftRows", () => {
   assert.equal(aesSubstitute(0), 0x63);
   const states = aesRound(hexBytes("00102030405060708090a0b0c0d0e0f0"),
@@ -121,7 +138,7 @@ test("four receiver windows release only contiguous prefixes and ACK holes accur
   assert.throws(() => reorderStudy([1, 1]), /distinct/);
 });
 
-test("nine wide scenes use the tested models and share a bounded, visible-only renderer", async () => {
+test("ten wide scenes use the tested models and share a bounded, visible-only renderer", async () => {
   const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
   for (const project of Object.keys(studies)) assert(html.includes(`data-study="${project}" viewBox="0 0 640 240"`));
   const runtime = await readFile(new URL("../project-studies.js", import.meta.url), "utf8");

@@ -13,9 +13,10 @@ PROJECTS = (
     ("rivet", "RIVET", "families", ("rivet-a", "rivet-h")),
     ("billet", "BILLET", "families", ("billet-t", "billet-f")),
     ("swage", "SWAGE", "families", ("swage-s",)),
-    ("bellows", "BELLOWS", "families", ("bellows-l",)),
+    ("bellows", "BELLOWS", "families", ("bellows-l", "bellows-n")),
     ("crucible", "CRUCIBLE", "families", ("crucible-g",)),
     ("furnace", "FURNACE", "families", ("furnace-x",)),
+    ("hammer", "HAMMER", "families", ("hammer-v",)),
     ("sable", "SABLE", "foundations", ("sable",)),
     ("fft", "64-point FFT", "foundations", ("64-point-fft-hardware",)),
     ("analog", "CMOS Op-Amp", "foundations", ("two-stage-cmos-op-amp",)),
@@ -44,7 +45,7 @@ class PortfolioTest(unittest.TestCase):
             self.assertIn(f'aria-labelledby="project-title-{index}"', card)
         self.assertNotIn("ACE / ANVIL", "\n".join(self.cards))
         self.assertNotIn('data-en="Hardware families"', "\n".join(self.cards))
-        self.assertIn('<dt>12</dt>', self.html)
+        self.assertIn('<dt>13</dt>', self.html)
         self.assertIn('data-en="Project studies"', self.html)
 
     def test_family_links_do_not_leak_into_unrelated_studies(self):
@@ -56,7 +57,7 @@ class PortfolioTest(unittest.TestCase):
         self.assertIn('href="https://ahappend.github.io/vulcan/"', self.by_project["vulcan"])
 
     def test_categories_have_matching_headings_and_filters(self):
-        for category, count in (("systems", 2), ("families", 7), ("foundations", 3)):
+        for category, count in (("systems", 2), ("families", 8), ("foundations", 3)):
             self.assertEqual(sum(f'data-category="{category}"' in card for card in self.cards), count)
             self.assertIn(f'data-filter="{category}"', self.html)
             self.assertRegex(self.html, rf'class="project-group-heading mono" data-category="{category}"')
@@ -96,6 +97,7 @@ class PortfolioTest(unittest.TestCase):
             "rivet": 'data-grid="sha-7"', "billet": 'data-wave="iir"',
             "swage": 'data-grid="scaled"', "bellows": 'data-symbols="decoded"',
             "crucible": 'data-coverage=""', "furnace": 'data-grid="priority"',
+            "hammer": 'data-cursor="pipeline-clock"',
             "sable": 'data-grid="ack-3"',
         }
         for project, mechanism in mechanisms.items():
@@ -122,16 +124,24 @@ class PortfolioTest(unittest.TestCase):
         self.assertRegex(self.html, r'<script type="module" src="project-studies\.js\?v=')
 
     def test_report_publication_and_board_scopes_remain_distinct(self):
-        self.assertIn("17 reported generations", self.by_project["vulcan"])
-        self.assertIn("Seven hardware families", self.by_project["vulcan"])
+        self.assertIn("Eight hardware families", self.by_project["vulcan"])
+        self.assertIn("distinct evidence levels", self.by_project["vulcan"])
+        self.assertIn("100 MHz post-fit STA", self.by_project["hammer"])
+        self.assertIn("not CPU-workload acceptance", self.by_project["hammer"])
+        self.assertIn("not a complete Linux boot", self.by_project["hammer"])
+        self.assertIn("not an extra delivery", self.by_project["bellows"])
+        self.assertIn("has no texture sampler", self.by_project["crucible"])
         self.assertIn("three-run, deterministic Arria 10 HIL receipts", self.by_project["anvil"])
-        self.assertIn("not blanket full-model acceptance", self.by_project["anvil"])
+        self.assertIn("not full-model acceptance", self.by_project["anvil"])
+        self.assertIn("FP16/BF16, high-throughput and DDR4 Edge variants remain under verification",
+                      self.by_project["anvil"])
         self.assertIn("Q16.16 execution", self.by_project["anvil"])
         self.assertIn("Q3 is in development; Q4 is planned", self.by_project["anvil"])
         self.assertIn("full-regression, full-model and hardware acceptance remain open", self.by_project["ace"])
         self.assertIn("under verification", self.by_project["swage"])
-        for project, stage in (("swage", "development"), ("bellows", "queued"),
-                               ("crucible", "planned"), ("furnace", "planned")):
+        for project, stage in (("swage", "development"), ("bellows", "published"),
+                               ("crucible", "development"), ("furnace", "development"),
+                               ("hammer", "development")):
             self.assertIn(f'data-stage="{stage}"', self.by_project[project])
         for unsupported in ("100% HIL", "17 verified chips", "E3/Q2 remain developmental"):
             self.assertNotIn(unsupported, self.html)
